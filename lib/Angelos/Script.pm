@@ -1,6 +1,6 @@
 package Angelos::Script;
 use Moose;
-with 'MooseX::Getopt';
+with 'MooseX::Getopt', 'Angelos::Config';
 no Moose;
 
 sub run {
