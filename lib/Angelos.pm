@@ -64,7 +64,6 @@ sub setup {
     $engine->dispatcher->add_rule($_) for $self->setup_dispatch_rules;
 }
 
-# move to Angelos::Engine
 sub load_modules {
     my ($self) = @_;
     Angelos::Loader->new->load( conf => $self->conf );

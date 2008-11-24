@@ -23,35 +23,27 @@ has 'dispatcher' => (
     builder => 'build_dispathcer',
 );
 
-has 'views' => (
-    is   => 'rw',
-    lazy => 1,
-    builder => 'build_views',
-);
-
-has 'conf' => (
-    is => 'rw',
-);
+has 'conf' => ( is => 'rw', );
 
 has 'root' => (
-    is          => 'rw',
-    isa         => Dir,
-    required    => 1,
-    coerce      => 1,
-    default     => sub { Path::Class::Dir->new('root')->absolute },
+    is       => 'rw',
+    isa      => Dir,
+    required => 1,
+    coerce   => 1,
+    default  => sub { Path::Class::Dir->new('root')->absolute },
 );
 
 has 'host' => (
-    is          => 'rw',
-    isa         => 'Str',
-    default     => 0,
+    is      => 'rw',
+    isa     => 'Str',
+    default => 0,
 );
 
 has 'port' => (
-    is          => 'rw',
-    isa         => 'Int',
-    default     => 10070,
-    required    => 1,
+    is       => 'rw',
+    isa      => 'Int',
+    default  => 10070,
+    required => 1,
 );
 
 has 'engine' => (
@@ -59,6 +51,24 @@ has 'engine' => (
     is          => 'rw',
     isa         => 'Str',
     default     => 'ServerSimple',
+);
+
+has 'views' => (
+    is      => 'rw',
+    lazy    => 1,
+    builder => 'build_views',
+);
+
+has 'models' => (
+    is      => 'rw',
+    lazy    => 1,
+    builder => 'build_models',
+);
+
+has 'controllers' => (
+    is      => 'rw',
+    lazy    => 1,
+    builder => 'build_controllers',
 );
 
 no Moose;
@@ -80,9 +90,21 @@ sub build_dispathcer {
 }
 
 sub build_views {
-    my $self = shift;
+    my $self  = shift;
     my $views = Angelos::Loader->new->load_views;
     $views;
+}
+
+sub build_models {
+    my $self   = shift;
+    my $models = Angelos::Loader->new->load_models;
+    $models;
+}
+
+sub build_controllers {
+    my $self        = shift;
+    my $controllers = Angelos::Loader->new->load_controllers;
+    $controllers;
 }
 
 sub handle_request {
@@ -112,6 +134,16 @@ sub handle_request {
 sub view {
     my ( $self, $view ) = @_;
     $self->views->{$view};
+}
+
+sub model {
+    my ( $self, $model ) = @_;
+    $self->models->{$model};
+}
+
+sub controller {
+    my ( $self, $controller ) = @_;
+    $self->controllers->{$controller};
 }
 
 __PACKAGE__->meta->make_immutable;
