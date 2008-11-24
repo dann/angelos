@@ -67,7 +67,7 @@ sub setup {
 # move to Angelos::Engine
 sub load_modules {
     my ($self) = @_;
-    Angelos::Loader->new->load( conf => $$self->conf );
+    Angelos::Loader->new->load( conf => $self->conf );
 }
 
 sub setup_dispatch_rules {
