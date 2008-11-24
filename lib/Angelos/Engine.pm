@@ -4,6 +4,8 @@ use HTTP::Engine;
 use HTTP::Engine::Response;
 use Angelos::Dispatcher;
 use Angelos::Context;
+use Angelos::Loader;
+use MooseX::Types::Path::Class qw(File Dir);
 
 has 'conf' => ( is => 'rw', );
 
@@ -24,6 +26,39 @@ has 'dispatcher' => (
 has 'views' => (
     is   => 'rw',
     lazy => 1,
+    builder => 'build_views',
+);
+
+has 'conf' => (
+    is => 'rw',
+);
+
+has 'root' => (
+    is          => 'rw',
+    isa         => Dir,
+    required    => 1,
+    coerce      => 1,
+    default     => sub { Path::Class::Dir->new('root')->absolute },
+);
+
+has 'host' => (
+    is          => 'rw',
+    isa         => 'Str',
+    default     => 0,
+);
+
+has 'port' => (
+    is          => 'rw',
+    isa         => 'Int',
+    default     => 10070,
+    required    => 1,
+);
+
+has 'engine' => (
+    cmd_aliases => 'h',
+    is          => 'rw',
+    isa         => 'Str',
+    default     => 'ServerSimple',
 );
 
 no Moose;
@@ -32,7 +67,7 @@ sub build_engine {
     my $self = shift;
     return HTTP::Engine->new(
         interface => {
-            module          => 'ServerSimple',
+            module          => $self->engine,
             args            => $self->conf,
             request_handler => sub { $self->handle_request(@_) },
         },
@@ -42,6 +77,12 @@ sub build_engine {
 sub build_dispathcer {
     my $self = shift;
     return Angelos::Dispatcher->new;
+}
+
+sub build_views {
+    my $self = shift;
+    my $views = Angelos::Loader->new->load_views;
+    $views;
 }
 
 sub handle_request {
