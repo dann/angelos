@@ -1,4 +1,4 @@
-package Angelos::CLI::Command;
+package Angelos::Script::CLI::Command;
 use Moose;
 extends qw(MooseX::App::Cmd::Command);
 
