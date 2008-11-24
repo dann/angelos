@@ -2,11 +2,12 @@ package Angelos::View;
 use Moose;
 use Angelos::View::Engine::TT;
 
-with qw(MooseX::Object::Pluggable Angelos::Component);
+with 'MooseX::Object::Pluggable', 'Angelos::Component';
 
 has 'engine' => (
     isa     => 'Angelos::View::Engine',
     default => sub {
+        # FIXME
         Angelos::View::Engine::TT->new;
     }
 );
