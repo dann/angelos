@@ -5,8 +5,7 @@ our $VERSION = '0.01';
 use Carp;
 use Moose;
 use MooseX::Types::Path::Class qw(File Dir);
-use Angelos::Engine;
-use Angelos::Loader;
+use Angelos::Server;
 use Angelos::Utils;
 
 has 'conf' => ( is => 'rw', );
@@ -41,36 +40,36 @@ has 'server' => (
 sub BUILD {
     my $self   = shift;
     my $exit   = sub { CORE::die('caught signal') };
-    my $engine = $self->setup;
+    my $server = $self->setup;
     eval {
         local $SIG{INT}  = $exit;
         local $SIG{QUIT} = $exit;
         local $SIG{TERM} = $exit;
-        $engine->run;
+        $server->run;
     };
 }
 
 sub setup {
     my $self   = shift;
-    my $engine = Angelos::Engine->new(
+    my $server = Angelos::Server->new(
         root   => $self->root,
         host   => $self->host,
         port   => $self->port,
         server => $self->server,
         conf   => $self->conf,
     );
-    $self->_setup_dispatch_rules($engine);
-    $engine;
+    $self->_setup_dispatch_rules($server);
+    $server;
 }
 
 sub _setup_dispatch_rules {
-    my ( $self, $engine ) = @_;
+    my ( $self, $server ) = @_;
     return [] unless $self->build_dispatch_rules;
-    $engine->dispatcher->add_rule($_) for @{ $self->build_dispatch_rules };
+    $server->dispatcher->add_rule($_) for @{ $self->build_dispatch_rules };
 }
 
 sub build_dispatch_rules {
-    Carp::croak('Method "build_dispatch_rules" not implemented by subclass')
+    Carp::croak('Method "build_dispatch_rules" not implemented by subclass');
 }
 
 __PACKAGE__->meta->make_immutable;

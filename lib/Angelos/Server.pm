@@ -1,11 +1,12 @@
-package Angelos::Engine;
+package Angelos::Server;
 use Moose;
+use MooseX::Types::Path::Class qw(File Dir);
 use HTTP::Engine;
 use HTTP::Engine::Response;
 use Angelos::Dispatcher;
 use Angelos::Context;
-use Angelos::Loader;
-use MooseX::Types::Path::Class qw(File Dir);
+use Angelos::Component::Loader;
+use Angelos::Utils;
 
 has 'engine' => (
     is      => 'rw',
@@ -21,14 +22,18 @@ has 'dispatcher' => (
     builder => 'build_dispathcer',
 );
 
-has 'conf' => ( is => 'rw', );
+has 'component_manager' => (
+    is      => 'rw',
+    lazy    => 1,
+    builder => 'build_component_manager',
+);
 
 has 'root' => (
     is       => 'rw',
     isa      => Dir,
     required => 1,
     coerce   => 1,
-    default  => sub { Path::Class::Dir->new('root')->absolute },
+    default  => sub { Angelos::Utils->path_to('root')->absolute },
 );
 
 has 'host' => (
@@ -45,28 +50,9 @@ has 'port' => (
 );
 
 has 'server' => (
-    cmd_aliases => 'h',
     is          => 'rw',
     isa         => 'Str',
     default     => 'ServerSimple',
-);
-
-has 'views' => (
-    is      => 'rw',
-    lazy    => 1,
-    builder => 'build_views',
-);
-
-has 'models' => (
-    is      => 'rw',
-    lazy    => 1,
-    builder => 'build_models',
-);
-
-has 'controllers' => (
-    is      => 'rw',
-    lazy    => 1,
-    builder => 'build_controllers',
 );
 
 no Moose;
@@ -92,23 +78,12 @@ sub build_dispathcer {
     return Angelos::Dispatcher->new;
 }
 
-sub build_views {
-    my $self  = shift;
-    my $views = Angelos::Loader->new->load_views;
-    $views;
+sub build_component_manager {
+    my $self = shift;
+    return Angelos::Component::Manager->new; 
 }
 
-sub build_models {
-    my $self   = shift;
-    my $models = Angelos::Loader->new->load_models;
-    $models;
-}
 
-sub build_controllers {
-    my $self        = shift;
-    my $controllers = Angelos::Loader->new->load_controllers;
-    $controllers;
-}
 
 sub handle_request {
     my ( $self, $req ) = @_;
@@ -140,20 +115,17 @@ sub handle_request {
 
 sub view {
     my ( $self, $view ) = @_;
-    # FIXME resolve component name 
-    $self->views->{$view};
+    $self->component_manager->view($view);
 }
 
 sub model {
     my ( $self, $model ) = @_;
-    # FIXME resolve component name 
-    $self->models->{$model};
+    $self->component_manager->model($model);
 }
 
 sub controller {
     my ( $self, $controller ) = @_;
-    # FIXME resolve component name 
-    $self->controllers->{$controller};
+    $self->component_manager->controller($controller);
 }
 
 __PACKAGE__->meta->make_immutable;

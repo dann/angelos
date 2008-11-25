@@ -1,4 +1,4 @@
-package Angelos::Loader;
+package Angelos::Component::Loader;
 use Moose;
 use Module::Pluggable::Object;
 
