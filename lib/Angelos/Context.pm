@@ -24,7 +24,7 @@ sub req {
     $self->request;
 }
 
-sub response {
+sub res {
     my $self = shift;
     $self->response;
 }
