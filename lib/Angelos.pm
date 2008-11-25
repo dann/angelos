@@ -2,7 +2,7 @@ package Angelos;
 use strict;
 use warnings;
 our $VERSION = '0.01';
-
+use Carp;
 use Moose;
 use MooseX::Types::Path::Class qw(File Dir);
 use Angelos::Engine;
@@ -70,8 +70,7 @@ sub _setup_dispatch_rules {
 }
 
 sub build_dispatch_rules {
-    warn 'Implement me!';
-    0;
+    Carp::croak('Method "build_dispatch_rules" not implemented by subclass')
 }
 
 __PACKAGE__->meta->make_immutable;

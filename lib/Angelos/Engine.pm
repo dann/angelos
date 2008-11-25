@@ -140,16 +140,19 @@ sub handle_request {
 
 sub view {
     my ( $self, $view ) = @_;
+    # FIXME resolve component name 
     $self->views->{$view};
 }
 
 sub model {
     my ( $self, $model ) = @_;
+    # FIXME resolve component name 
     $self->models->{$model};
 }
 
 sub controller {
     my ( $self, $controller ) = @_;
+    # FIXME resolve component name 
     $self->controllers->{$controller};
 }
 

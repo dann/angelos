@@ -6,8 +6,6 @@ use Pod::Usage;
 use Path::Class;
 use Angelos::Utils;
 
-with 'Angelos::Config';
-
 extends 'Angelos::Script';
 
 has 'root' => (

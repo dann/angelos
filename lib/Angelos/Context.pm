@@ -29,8 +29,8 @@ sub res {
     $self->response;
 }
 
+# need to consider
 sub log {
-
 }
 
 # hmm. which class should this method have?
