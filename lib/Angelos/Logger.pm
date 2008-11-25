@@ -10,12 +10,11 @@ install_sub(
     {   as   => 'log',
         into => $caller,
         code => sub {
-            my ( $self, $args ) = @_;
+            my ( $self, $message, $level ) = @_;
             my $logger = Angelos::Logger::Factory->create;
-            my $level   = $args->{level} || 'debug';
-            my $message = $args->{message};
+            $level = $level || 'debug';
             eval { $logger->$level($message); };
-        }
+            }
     }
 );
 
