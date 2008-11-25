@@ -20,6 +20,7 @@ has 'res' => (
 no Moose;
 
 sub log {
+    
 }
 
 # hmm. which class should this method have?
