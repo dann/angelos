@@ -7,8 +7,6 @@ use Angelos::Context;
 use Angelos::Loader;
 use MooseX::Types::Path::Class qw(File Dir);
 
-has 'conf' => ( is => 'rw', );
-
 has 'engine' => (
     is      => 'rw',
     isa     => 'HTTP::Engine',
@@ -42,11 +40,11 @@ has 'host' => (
 has 'port' => (
     is       => 'rw',
     isa      => 'Int',
-    default  => 10070,
+    default  => 3000,
     required => 1,
 );
 
-has 'engine' => (
+has 'server' => (
     cmd_aliases => 'h',
     is          => 'rw',
     isa         => 'Str',
@@ -75,10 +73,15 @@ no Moose;
 
 sub build_engine {
     my $self = shift;
+
     return HTTP::Engine->new(
         interface => {
-            module          => $self->engine,
-            args            => $self->conf,
+            module => $self->server,
+            args   => {
+                host   => $self->host,
+                port   => $self->port,
+                root   => $self->root,
+            },
             request_handler => sub { $self->handle_request(@_) },
         },
     );

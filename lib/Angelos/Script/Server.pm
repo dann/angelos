@@ -4,6 +4,7 @@ use MooseX::Types::Path::Class qw(File Dir);
 use Angelos;
 use Pod::Usage;
 use Path::Class;
+use Angelos::Utils;
 
 with 'Angelos::Config';
 
@@ -16,7 +17,7 @@ has 'root' => (
     isa         => Dir,
     required    => 1,
     coerce      => 1,
-    default     => sub { Path::Class::Dir->new('root')->absolute },
+    default     => sub { Angelos::Utils->path_to('root')->absolute },
 );
 
 has 'host' => (
@@ -27,9 +28,9 @@ has 'host' => (
     default     => 0,
 );
 
-has 'engine' => (
+has 'server' => (
     traits      => ['Getopt'],
-    cmd_aliases => 'e',
+    cmd_aliases => 's',
     is          => 'rw',
     isa         => 'Str',
     default     => 'ServerSimple',
@@ -40,7 +41,7 @@ has 'port' => (
     cmd_aliases => 'p',
     is          => 'rw',
     isa         => 'Int',
-    default     => 10070,
+    default     => 3000,
     required    => 1,
 );
 
@@ -66,7 +67,7 @@ sub run {
         host   => $self->host,
         port   => $self->port,
         root   => $self->root,
-        engine => $self->engine,
+        server => $self->server,
     );
 }
 

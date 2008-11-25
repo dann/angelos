@@ -7,6 +7,7 @@ use Moose;
 use MooseX::Types::Path::Class qw(File Dir);
 use Angelos::Engine;
 use Angelos::Loader;
+use Angelos::Utils;
 
 has 'conf' => ( is => 'rw', );
 
@@ -15,7 +16,7 @@ has 'root' => (
     isa      => Dir,
     required => 1,
     coerce   => 1,
-    default  => sub { Path::Class::Dir->new('root')->absolute },
+    default  => sub { Angelos::Utils->path_to('root')->absolute },
 );
 
 has 'host' => (
@@ -31,17 +32,15 @@ has 'port' => (
     required => 1,
 );
 
-has 'engine' => (
-    traits      => ['Getopt'],
-    cmd_aliases => 'h',
-    is          => 'rw',
-    isa         => 'Str',
-    default     => 'ServerSimple',
+has 'server' => (
+    is      => 'rw',
+    isa     => 'Str',
+    default => 'ServerSimple',
 );
 
 sub BUILD {
-    my ($self) = @_;
-    my $exit = sub { CORE::die('caught signal') };
+    my $self   = shift;
+    my $exit   = sub { CORE::die('caught signal') };
     my $engine = $self->setup;
     eval {
         local $SIG{INT}  = $exit;
@@ -52,21 +51,27 @@ sub BUILD {
 }
 
 sub setup {
-    my ($self) = @_;
-    my $dispatch_rules= $self->setup_dispatch_rules;
-
+    my $self   = shift;
     my $engine = Angelos::Engine->new(
         root   => $self->root,
         host   => $self->host,
         port   => $self->port,
-        engine => $self->engine,
+        server => $self->server,
         conf   => $self->conf,
     );
-    $engine->dispatcher->add_rule($_) for @{$dispatch_rules};
+    $self->_setup_dispatch_rules($engine);
+    $engine;
 }
 
-sub setup_dispatch_rules {
-    die 'Implement me!';
+sub _setup_dispatch_rules {
+    my ( $self, $engine ) = @_;
+    return [] unless $self->build_dispatch_rules;
+    $engine->dispatcher->add_rule($_) for @{ $self->build_dispatch_rules };
+}
+
+sub build_dispatch_rules {
+    warn 'Implement me!';
+    0;
 }
 
 __PACKAGE__->meta->make_immutable;
@@ -84,7 +89,7 @@ Angelos -
   use Moose;
   extends 'Angelos'
 
-  sub setup_dispatch_rules {
+  sub build_dispatch_rules {
   }
 
 =head1 DESCRIPTION
