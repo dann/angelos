@@ -1,5 +1,6 @@
 package Angelos::Script;
 use Moose;
+use Carp;
 with 'MooseX::Getopt', 'Angelos::Config';
 no Moose;
 
