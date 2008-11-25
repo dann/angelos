@@ -11,7 +11,7 @@ install_sub(
         into => $caller,
         code => sub {
             my ( $self, $args ) = @_;
-            my $logger = Angelos::Loggger::Factory->create;
+            my $logger = Angelos::Logger::Factory->create;
             my $level   = $args->{level} || 'debug';
             my $message = $args->{message};
             eval { $logger->$level($message); };
