@@ -112,7 +112,11 @@ sub handle_request {
 
     my $path = $req->path;
     my $res  = HTTP::Engine::Response->new;
-    my $c = Angelos::Context->new( req => $req, res => $res, app => $self );
+    my $c    = Angelos::Context->new(
+        request  => $req,
+        response => $res,
+        app      => $self
+    );
 
     my $dispatch = $self->dispatcher->dispatch($path);
     unless ( $dispatch->has_matches ) {

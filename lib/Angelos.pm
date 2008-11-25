@@ -53,7 +53,8 @@ sub BUILD {
 
 sub setup {
     my ($self) = @_;
-    $self->load_modules;
+    my $dispatch_rules= $self->setup_dispatch_rules;
+
     my $engine = Angelos::Engine->new(
         root   => $self->root,
         host   => $self->host,
@@ -61,12 +62,7 @@ sub setup {
         engine => $self->engine,
         conf   => $self->conf,
     );
-    $engine->dispatcher->add_rule($_) for $self->setup_dispatch_rules;
-}
-
-sub load_modules {
-    my ($self) = @_;
-    Angelos::Loader->new->load( conf => $self->conf );
+    $engine->dispatcher->add_rule($_) for @{$dispatch_rules};
 }
 
 sub setup_dispatch_rules {

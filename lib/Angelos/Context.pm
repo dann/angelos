@@ -7,20 +7,30 @@ has 'app' => (
     required => 1
 );
 
-has 'req' => (
+has 'request' => (
     is       => 'rw',
     required => 1
 );
 
-has 'res' => (
+has 'response' => (
     is       => 'rw',
     required => 1
 );
 
 no Moose;
 
+sub req {
+    my $self = shift;
+    $self->request;
+}
+
+sub response {
+    my $self = shift;
+    $self->response;
+}
+
 sub log {
-    
+
 }
 
 # hmm. which class should this method have?
