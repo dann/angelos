@@ -7,7 +7,6 @@ use Angelos::Dispatcher;
 use Angelos::Context;
 use Angelos::Component::Loader;
 use Angelos::Utils;
-use Angelos::Component::Resolver;
 
 has 'engine' => (
     is      => 'rw',

@@ -16,6 +16,7 @@ has 'rules' => (
     is        => 'ro',
     isa       => 'ArrayRef',
     default   => sub { [] },
+    provides  => { 'push' => 'add_rule', }
 );
 
 has 'default_rules' => (
@@ -23,6 +24,7 @@ has 'default_rules' => (
     is        => 'ro',
     isa       => 'ArrayRef',
     default   => sub { [] },
+    provides  => { 'push' => 'add_default_rule', }
 );
 
 no Moose;
@@ -33,8 +35,7 @@ sub BUILD {
 }
 
 sub setup_rules {
-    my $self       = shift;
-    my $controller = $self->controller;
+    my $self = shift;
     $self->dispatcher->add_rule($_) for @{ $self->default_rules };
     $self->dispatcher->add_rule($_) for @{ $self->rules };
 }

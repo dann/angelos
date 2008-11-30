@@ -57,7 +57,7 @@ sub home {
 sub path_to {
     my ( $class, @path ) = @_;
     my $path = dir( Angelos::Utils->home, @path );
-    if ( -d $path ) {
+    if ( $path->is_dir ) {
         return $path;
     }
     else {

@@ -6,6 +6,7 @@ use Angelos::Utils;
 sub create {
     my $class  = shift;
     # FIXME to customize with config
+    # FIXME
     my $config = Log::Dispatch::Configurator::YAML->new(
         Angelos::Utils->path_to( 'conf', 'log.yaml' ) );
     Log::Dispatch::Config->configure($config);

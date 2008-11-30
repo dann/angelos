@@ -38,6 +38,11 @@ has 'server' => (
     default => 'ServerSimple',
 );
 
+has 'server_instance' => (
+    is      => 'rw',
+#    handles => [ 'controller', 'view' . 'model' ],
+);
+
 sub BUILD {
     my $self   = shift;
     my $exit   = sub { CORE::die('caught signal') };
@@ -59,18 +64,20 @@ sub setup {
         server => $self->server,
         conf   => $self->conf,
     );
-    $self->setup_dispatcher($server);
+    $self->server_instance($server);
     $self->setup_components($server);
+
+    $self->setup_dispatcher($server);
     $server;
 }
 
 sub setup_components {
-    my ($self, $server) = @_;
-    $server->component_loader->load_components(ref $self);
+    my ( $self, $server ) = @_;
+    $server->component_loader->load_components( ref $self );
 }
 
 sub setup_dispatcher {
-    my ($self, $server);
+    my ( $self, $server ) = @_;
     $self->_setup_dispatch_rules($server);
 }
 
@@ -82,6 +89,11 @@ sub _setup_dispatch_rules {
 
 sub build_dispatch_rules {
     Carp::croak('Method "build_dispatch_rules" not implemented by subclass');
+}
+
+sub controller {
+    my ($self, $short_controller_name) = @_;
+    $self->server_instance->controller($short_controller_name);
 }
 
 __PACKAGE__->meta->make_immutable;

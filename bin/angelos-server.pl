@@ -14,13 +14,16 @@ Angelos Server - Angelos web server
 
 =head1 SYNOPSIS
 
-  remedie-server.pl --port=PORT --host=HOST
+  angelos-server.pl --port=PORT --host=HOST --app=APP_CLASS_NAME
 
   --port PORT
     specifies the port number it listens to. Default: 10010
 
   --host HOST
     specifies the host address it binds to (e.g. 127.0.0.1). Default to any address.
+
+  --app APP_CLASS_NAME 
+    specifies the application class name. ex) MyApp 
 
 =head1 AUTHOR
 

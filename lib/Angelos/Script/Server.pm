@@ -5,8 +5,17 @@ use Angelos;
 use Pod::Usage;
 use Path::Class;
 use Angelos::Utils;
+use UNIVERSAL::require;
 
 extends 'Angelos::Script';
+
+has 'app' => (
+    traits      => ['Getopt'],
+    cmd_aliases => 'a',
+    is          => 'rw',
+    isa         => 'Str',
+    required    => 1,
+);
 
 has 'root' => (
     traits      => ['Getopt'],
@@ -61,7 +70,9 @@ sub run {
             -exitval => 1,
         );
     }
-    Angelos->new(
+
+    $self->app->require;
+    $self->app->new(
         host   => $self->host,
         port   => $self->port,
         root   => $self->root,
