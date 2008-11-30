@@ -29,17 +29,6 @@ has 'default_rules' => (
 
 no Moose;
 
-sub BUILD {
-    my $self = shift;
-    $self->setup_rules;
-}
-
-sub setup_rules {
-    my $self = shift;
-    $self->dispatcher->add_rule($_) for @{ $self->default_rules };
-    $self->dispatcher->add_rule($_) for @{ $self->rules };
-}
-
 __PACKAGE__->meta->make_immutable;
 
 1;

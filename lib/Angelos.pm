@@ -64,9 +64,10 @@ sub setup {
         server => $self->server,
         conf   => $self->conf,
     );
+    # FIXME move to default
     $self->server_instance($server);
-    $self->setup_components($server);
 
+    $self->setup_components($server);
     $self->setup_dispatcher($server);
     $server;
 }
@@ -83,8 +84,9 @@ sub setup_dispatcher {
 
 sub _setup_dispatch_rules {
     my ( $self, $server ) = @_;
-    return [] unless $self->build_dispatch_rules;
-    $server->dispatcher->add_rule($_) for @{ $self->build_dispatch_rules };
+#    return [] unless @{$self->build_dispatch_rules};
+    my $rules = $self->build_dispatch_rules;
+    $server->dispatcher->add_rule($_) for @{ $rules };
 }
 
 sub build_dispatch_rules {

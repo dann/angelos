@@ -1,4 +1,5 @@
 package Angelos::Server;
+use Angelos::Logger;
 use Moose;
 use MooseX::Types::Path::Class qw(File Dir);
 use HTTP::Engine;
@@ -7,6 +8,7 @@ use Angelos::Dispatcher;
 use Angelos::Context;
 use Angelos::Component::Loader;
 use Angelos::Utils;
+use Data::Dumper;
 
 has 'engine' => (
     is      => 'rw',
@@ -81,7 +83,6 @@ sub build_dispathcer {
 
 sub handle_request {
     my ( $self, $req ) = @_;
-
     my $path = $req->path;
     my $res  = HTTP::Engine::Response->new;
     my $c    = Angelos::Context->new(
@@ -89,8 +90,13 @@ sub handle_request {
         response => $res,
         app      => $self
     );
-
     my $dispatch = $self->dispatcher->dispatch($path);
+
+    # debugging
+    warn 'path='  . $path;
+    warn Dumper $self->dispatcher->rules;
+    # hmm ...
+
     unless ( $dispatch->has_matches ) {
         $c->res->status(404);
         $c->res->body("404 Not Found");
@@ -110,7 +116,6 @@ sub handle_request {
 sub model {
     my ( $self, $short_model_name ) = @_;
     $self->component_loader->search_model($short_model_name);
-    # FIXME: from component loader
 }
 
 sub view {

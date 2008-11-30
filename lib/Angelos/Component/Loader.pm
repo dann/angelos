@@ -22,7 +22,6 @@ no Moose;
 
 sub load_components {
     my ( $self, $class ) = @_;
-warn $class . ' load_components';
 
     my @paths   = qw( ::Controller ::C ::Model ::M ::View ::V );
     my $locator = Module::Pluggable::Object->new(

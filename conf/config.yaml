@@ -1,0 +1,34 @@
+---
+global:
+
+components:
+  view:
+    - module: 
+      config:
+  controller: 
+    - module: 
+      config:
+  model:
+   - module:
+      config: 
+    - module:
+      config: 
+
+plugins:
+  view:
+    - module:
+      config: 
+    - module:
+      config: 
+  controller:
+    - module:
+      config: 
+    - module:
+      config: 
+  context:
+    - module:
+      config: 
+    - module:
+      config: 
+
+

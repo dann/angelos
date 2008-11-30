@@ -1,0 +1,17 @@
+dispatchers:
+  - screen
+ 
+screen:
+  class: Log::Dispatch::Colorful
+  min_level: debug
+  stderr: 1
+  format: '[%d] [%p] %m at %F line %L%n'
+  color:
+    info:
+      text: green
+    debug:
+      text: red
+      background: white
+    error:
+      text: yellow
+      background: red
