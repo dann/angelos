@@ -38,13 +38,6 @@ has 'server' => (
     default => 'ServerSimple',
 );
 
-has 'component_loader' => (
-    is => 'rw',
-    default => sub {
-        Angelos::Component::Loader->new;
-    }
-);
-
 sub BUILD {
     my $self   = shift;
     my $exit   = sub { CORE::die('caught signal') };
@@ -67,13 +60,13 @@ sub setup {
         conf   => $self->conf,
     );
     $self->setup_dispatcher($server);
-    $self->setup_components;
+    $self->setup_components($server);
     $server;
 }
 
 sub setup_components {
-    my $self = shift;
-    $self->component_loader->load_components(ref $self);
+    my ($self, $server) = @_;
+    $server->component_loader->load_components(ref $self);
 }
 
 sub setup_dispatcher {

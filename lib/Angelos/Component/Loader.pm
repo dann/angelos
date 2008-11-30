@@ -11,7 +11,7 @@ has 'components' => (
     metaclass => 'Collection::Hash',
     is        => 'ro',
     isa       => 'HashRef',
-    provides   => {
+    provides  => {
         'set' => 'set_component',
         'get' => 'get_component',
     },
@@ -74,6 +74,30 @@ sub load_component {
     ) unless blessed($instance);
 
     return $instance;
+}
+
+sub search_component {
+    my ( $self, $name ) = @_;
+
+    foreach my $component ( keys %{ $self->components } ) {
+        return $self->get_component($component) if $component =~ /$name/i;
+    }
+    return undef;
+}
+
+sub search_model {
+    my ( $self, $short_model_name ) = @_;
+    $self->search_component( 'Model::' . $short_model_name );
+}
+
+sub search_controller {
+    my ( $self, $short_model_name ) = @_;
+    $self->search_component( 'Controller::' . $short_model_name );
+}
+
+sub search_view {
+    my ( $self, $short_model_name ) = @_;
+    $self->search_component( 'View::' . $short_model_name );
 }
 
 __PACKAGE__->meta->make_immutable;

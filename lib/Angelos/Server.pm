@@ -7,6 +7,7 @@ use Angelos::Dispatcher;
 use Angelos::Context;
 use Angelos::Component::Loader;
 use Angelos::Utils;
+use Angelos::Component::Resolver;
 
 has 'engine' => (
     is      => 'rw',
@@ -47,6 +48,13 @@ has 'server' => (
     is      => 'rw',
     isa     => 'Str',
     default => 'ServerSimple',
+);
+
+has 'component_loader' => (
+    is => 'rw',
+    default => sub {
+        Angelos::Component::Loader->new;
+    }
 );
 
 no Moose;
@@ -100,22 +108,20 @@ sub handle_request {
     return $c->res;
 }
 
-sub view {
-    my ( $self, $view ) = @_;
-
+sub model {
+    my ( $self, $short_model_name ) = @_;
+    $self->component_loader->search_model($short_model_name);
     # FIXME: from component loader
 }
 
-sub model {
-    my ( $self, $model ) = @_;
-
-    # FIXME: from component loader
+sub view {
+    my ( $self,  $short_view_name ) = @_;
+    $self->component_loader->search_view($short_view_name);
 }
 
 sub controller {
-    my ( $self, $controller ) = @_;
-
-    # FIXME: from component loader
+    my ( $self,  $short_controller_name ) = @_;
+    $self->component_loader->search_controller($short_controller_name);
 }
 
 __PACKAGE__->meta->make_immutable;
