@@ -93,7 +93,7 @@ sub handle_request {
     my $dispatch = $self->dispatcher->dispatch($path);
 
     # debugging
-    warn 'path='  . $path;
+    log('path='  . $path);
     warn Dumper $self->dispatcher->rules;
     # hmm ...
 

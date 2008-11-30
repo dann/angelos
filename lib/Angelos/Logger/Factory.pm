@@ -2,6 +2,7 @@ package Angelos::Logger::Factory;
 use Log::Dispatch::Config;
 use Log::Dispatch::Configurator::YAML;
 use Angelos::Utils;
+use Data::Dumper;
 
 sub create {
     my $class  = shift;

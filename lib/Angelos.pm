@@ -111,7 +111,7 @@ Angelos -
 
   package MyApp;
   use Moose;
-  extends 'Angelos'
+  extends 'Angelos';
 
   sub build_dispatch_rules {
   }
