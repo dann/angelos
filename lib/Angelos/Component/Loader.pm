@@ -1,50 +1,79 @@
 package Angelos::Component::Loader;
 use Moose;
 use Module::Pluggable::Object;
+use Angelos::Utils;
+use Class::MOP;
+use MooseX::AttributeHelpers;
+use Devel::InnerPackage;
+use Angelos::Exception;
+
+has 'components' => (
+    metaclass => 'Collection::Hash',
+    is        => 'ro',
+    isa       => 'HashRef',
+    provides   => {
+        'set' => 'set_component',
+        'get' => 'get_component',
+    },
+    default => sub { +{} },
+);
 
 no Moose;
 
-# need this method?
-sub load {
-}
+sub load_components {
+    my ( $self, $class ) = @_;
+    my @paths   = qw( ::Controller ::C ::Model ::M ::View ::V );
+    my $locator = Module::Pluggable::Object->new(
+        search_path => [ map { s/^(?=::)/$class/; $_; } @paths ], );
 
-sub load_controllers {
-    my $self = shift;
-    $self->_load_controllers('View');
-}
+    my @comps = sort { length $a <=> length $b } $locator->plugins;
+    my %comps = map { $_ => 1 } @comps;
 
-sub load_views {
-    my $self = shift;
-    $self->_load_components('View');
-}
+    for my $component (@comps) {
 
-sub load_models {
-    my $self = shift;
-    $self->_load_components('Model');
-}
+        # We pass ignore_loaded here so that overlay files for (e.g.)
+        # Model::DBI::Schema sub-classes are loaded - if it's in @comps
+        # we know M::P::O found a file on disk so this is safe
 
-sub _load_components {
-    my ( $self, $component_type ) = @_;
+        Angelos::Utils::ensure_class_loaded( $component,
+            { ignore_loaded => 1 } );
+        Class::MOP::load_class($component);
 
-    # FIXME later
-    my $search_path = '' . $component_type . '';
-    $self->_load_modules($search_path);
-}
+        my $module  = $self->load_component($component);
+        my %modules = (
+            $component => $module,
+            map { $_ => $self->load_component($_) }
+                grep { not exists $comps{$_} }
+                Devel::InnerPackage::list_packages($component)
+        );
 
-sub _load_modules {
-    my ( $self, $search_path ) = @_;
-    my $loader = Module::Pluggable::Object->new(
-        search_path => [ $search_path, ],
-        require     => 1,
-    );
-
-    my $components = [];
-    for my $component ( $loader->plugins ) {
-
-        # FIXME pass configuration like plagger
-        push @{$components}, $component->new();
+        for my $key ( keys %modules ) {
+            $self->set_component( $key, $modules{$key} );
+        }
     }
-    $components;
+    $self->components;
+}
+
+sub load_component {
+    my ( $self, $component ) = @_;
+
+    my $suffix = Angelos::Utils::class2classsuffix($component);
+
+    # FIXME: config loader
+    my $config = {};
+    my $instance = eval { $component->new( %{$config} || {} ) };
+
+    if ( my $error = $@ ) {
+        chomp $error;
+        Angelos::Exception->throw( message =>
+                qq/Couldn't instantiate component "$component", "$error"/ );
+    }
+
+    Angelos::Exception->throw( message =>
+            qq/Couldn't instantiate component "$component", "COMPONENT() didn't return an object-like value"/
+    ) unless blessed($instance);
+
+    return $instance;
 }
 
 __PACKAGE__->meta->make_immutable;

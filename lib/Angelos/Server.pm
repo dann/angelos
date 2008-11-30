@@ -22,12 +22,6 @@ has 'dispatcher' => (
     builder => 'build_dispathcer',
 );
 
-has 'component_manager' => (
-    is      => 'rw',
-    lazy    => 1,
-    builder => 'build_component_manager',
-);
-
 has 'root' => (
     is       => 'rw',
     isa      => Dir,
@@ -50,9 +44,9 @@ has 'port' => (
 );
 
 has 'server' => (
-    is          => 'rw',
-    isa         => 'Str',
-    default     => 'ServerSimple',
+    is      => 'rw',
+    isa     => 'Str',
+    default => 'ServerSimple',
 );
 
 no Moose;
@@ -64,9 +58,9 @@ sub build_engine {
         interface => {
             module => $self->server,
             args   => {
-                host   => $self->host,
-                port   => $self->port,
-                root   => $self->root,
+                host => $self->host,
+                port => $self->port,
+                root => $self->root,
             },
             request_handler => sub { $self->handle_request(@_) },
         },
@@ -77,13 +71,6 @@ sub build_dispathcer {
     my $self = shift;
     return Angelos::Dispatcher->new;
 }
-
-sub build_component_manager {
-    my $self = shift;
-    return Angelos::Component::Manager->new; 
-}
-
-
 
 sub handle_request {
     my ( $self, $req ) = @_;
@@ -115,17 +102,20 @@ sub handle_request {
 
 sub view {
     my ( $self, $view ) = @_;
-    $self->component_manager->view($view);
+
+    # FIXME: from component loader
 }
 
 sub model {
     my ( $self, $model ) = @_;
-    $self->component_manager->model($model);
+
+    # FIXME: from component loader
 }
 
 sub controller {
     my ( $self, $controller ) = @_;
-    $self->component_manager->controller($controller);
+
+    # FIXME: from component loader
 }
 
 __PACKAGE__->meta->make_immutable;

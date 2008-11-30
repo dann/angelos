@@ -2,11 +2,12 @@ package Angelos;
 use strict;
 use warnings;
 our $VERSION = '0.01';
-use Carp;
+use Carp ();
 use Moose;
 use MooseX::Types::Path::Class qw(File Dir);
 use Angelos::Server;
 use Angelos::Utils;
+use Angelos::Component::Loader;
 
 has 'conf' => ( is => 'rw', );
 
@@ -37,6 +38,13 @@ has 'server' => (
     default => 'ServerSimple',
 );
 
+has 'component_loader' => (
+    is => 'rw',
+    default => sub {
+        Angelos::Component::Loader->new;
+    }
+);
+
 sub BUILD {
     my $self   = shift;
     my $exit   = sub { CORE::die('caught signal') };
@@ -58,8 +66,19 @@ sub setup {
         server => $self->server,
         conf   => $self->conf,
     );
-    $self->_setup_dispatch_rules($server);
+    $self->setup_dispatcher($server);
+    $self->setup_components;
     $server;
+}
+
+sub setup_components {
+    my $self = shift;
+    $self->component_loader->load_components(ref $self);
+}
+
+sub setup_dispatcher {
+    my ($self, $server);
+    $self->_setup_dispatch_rules($server);
 }
 
 sub _setup_dispatch_rules {
