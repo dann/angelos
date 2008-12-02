@@ -89,6 +89,7 @@ sub setup_dispatcher {
 sub _setup_dispatch_rules {
     my ( $self, ) = @_;
     my $routes = $self->build_routes;
+    # FIXME
     $self->server_instance->dispatcher->dispatcher->dispatcher->routes($routes);
 }
 
@@ -114,13 +115,11 @@ __END__
 Angelos -
 
 =head1 SYNOPSIS
+Edit conf/routes.yaml to make dispatch rules and create an application class like below.
 
   package MyApp;
   use Moose;
   extends 'Angelos';
-
-  sub build_routes {
-  }
 
 =head1 DESCRIPTION
 
