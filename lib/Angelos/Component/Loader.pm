@@ -92,13 +92,13 @@ sub search_model {
 }
 
 sub search_controller {
-    my ( $self, $short_model_name ) = @_;
-    $self->search_component( 'Controller::' . $short_model_name );
+    my ( $self, $short_controller_name ) = @_;
+    $self->search_component( 'Controller::' . $short_controller_name );
 }
 
 sub search_view {
-    my ( $self, $short_model_name ) = @_;
-    $self->search_component( 'View::' . $short_model_name );
+    my ( $self, $short_view_name ) = @_;
+    $self->search_component( 'View::' . $short_view_name );
 }
 
 __PACKAGE__->meta->make_immutable;

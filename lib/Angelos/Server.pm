@@ -8,7 +8,6 @@ use Angelos::Dispatcher;
 use Angelos::Context;
 use Angelos::Component::Loader;
 use Angelos::Utils;
-use Data::Dumper;
 
 has 'engine' => (
     is      => 'rw',
@@ -78,6 +77,8 @@ sub build_engine {
 
 sub build_dispathcer {
     my $self = shift;
+
+    # Dispatcher
     return Angelos::Dispatcher->new;
 }
 
@@ -90,12 +91,7 @@ sub handle_request {
         response => $res,
         app      => $self
     );
-    my $dispatch = $self->dispatcher->dispatch($path);
-
-    # debugging
-    log('path='  . $path);
-    warn Dumper $self->dispatcher->rules;
-    # hmm ...
+    my $dispatch = $self->dispatcher->dispatch($req);
 
     unless ( $dispatch->has_matches ) {
         $c->res->status(404);
@@ -105,6 +101,7 @@ sub handle_request {
     eval { $dispatch->run($c); };
 
     if ($@) {
+        warn $@;
         $c->res->status(500);
         $c->res->body("Internal Server Error");
         return $c->res;

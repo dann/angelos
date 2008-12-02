@@ -4,7 +4,7 @@ use Angelos::Logger;
 extends 'Angelos::Controller';
 
 sub index {
-    log('index');
+    print "index\n";
 }
 
 sub hello_world {

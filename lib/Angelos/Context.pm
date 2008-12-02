@@ -43,6 +43,11 @@ sub render {
     return $self->app->view($view)->render($options);
 }
 
+sub controller {
+    my ($self, $controller) = @_;
+    $self->app->controller($controller);
+}
+
 __PACKAGE__->meta->make_immutable;
 
 1;

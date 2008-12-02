@@ -1,30 +1,14 @@
 package Angelos::Dispatcher;
 use Moose;
 use MooseX::AttributeHelpers;
-use Path::Dispatcher;
+use Angelos::Dispatcher::Routes;
 
 has 'dispatcher' => (
     is      => 'ro',
-    handles => [ 'dispatch', 'run' ],
+    handles => [ 'dispatch', 'run', 'add_route'],
     default => sub {
-        Path::Dispatcher->new;
+        Angelos::Dispatcher::Routes->new;
     }
-);
-
-has 'rules' => (
-    metaclass => 'Collection::Array',
-    is        => 'ro',
-    isa       => 'ArrayRef',
-    default   => sub { [] },
-    provides  => { 'push' => 'add_rule', }
-);
-
-has 'default_rules' => (
-    metaclass => 'Collection::Array',
-    is        => 'ro',
-    isa       => 'ArrayRef',
-    default   => sub { [] },
-    provides  => { 'push' => 'add_default_rule', }
 );
 
 no Moose;

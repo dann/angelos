@@ -8,6 +8,8 @@ use MooseX::Types::Path::Class qw(File Dir);
 use Angelos::Server;
 use Angelos::Utils;
 use Angelos::Component::Loader;
+use YAML;
+use Angelos::Dispatcher::Routes::Builder;
 
 has 'conf' => ( is => 'rw', );
 
@@ -39,8 +41,9 @@ has 'server' => (
 );
 
 has 'server_instance' => (
-    is      => 'rw',
-#    handles => [ 'controller', 'view' . 'model' ],
+    is => 'rw',
+
+    #    handles => [ 'controller', 'view' . 'model' ],
 );
 
 sub BUILD {
@@ -64,6 +67,7 @@ sub setup {
         server => $self->server,
         conf   => $self->conf,
     );
+
     # FIXME move to default
     $self->server_instance($server);
 
@@ -83,18 +87,20 @@ sub setup_dispatcher {
 }
 
 sub _setup_dispatch_rules {
-    my ( $self, $server ) = @_;
-#    return [] unless @{$self->build_dispatch_rules};
-    my $rules = $self->build_dispatch_rules;
-    $server->dispatcher->add_rule($_) for @{ $rules };
+    my ( $self, ) = @_;
+    my $routes = $self->build_routes;
+    $self->server_instance->dispatcher->dispatcher->dispatcher->routes($routes);
 }
 
-sub build_dispatch_rules {
-    Carp::croak('Method "build_dispatch_rules" not implemented by subclass');
+sub build_routes {
+    my $self = shift;
+    my $routes_conf
+        = YAML::LoadFile( Angelos::Utils->path_to( 'conf', 'routes.yaml' ) );
+    Angelos::Dispatcher::Routes::Builder->new->build(ref $self, $routes_conf);
 }
 
 sub controller {
-    my ($self, $short_controller_name) = @_;
+    my ( $self, $short_controller_name ) = @_;
     $self->server_instance->controller($short_controller_name);
 }
 
@@ -113,7 +119,7 @@ Angelos -
   use Moose;
   extends 'Angelos';
 
-  sub build_dispatch_rules {
+  sub build_routes {
   }
 
 =head1 DESCRIPTION

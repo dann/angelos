@@ -15,7 +15,7 @@ BEGIN { use_ok 'Angelos::Component::Loader' }
 {
     my $loader = Angelos::Component::Loader->new;
     $loader->load_components('TestApp::Web');
-    my $controller = $loader->search_controller('Basic');
-    is ref $controller, 'TestApp::Web::Controller::Basic';
+    my $controller = $loader->search_controller('Root');
+    is ref $controller, 'TestApp::Web::Controller::Root';
 }
 
