@@ -1,0 +1,5 @@
+---
+- type: connect
+  path: /
+  controller: Root
+  action: index

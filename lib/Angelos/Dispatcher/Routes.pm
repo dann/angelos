@@ -15,7 +15,6 @@ no Moose;
 
 sub dispatch {
     my ( $self, $req ) = @_;
-    warn $req->path;
     my $match
         = $self->dispatcher->match( $req->path, { method => $req->method } );
     my $dispatch
