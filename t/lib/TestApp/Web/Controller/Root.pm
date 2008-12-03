@@ -4,7 +4,8 @@ use Angelos::Logger;
 extends 'Angelos::Controller';
 
 sub index {
-    print "index\n";
+    my ($self, $c, $params) = @_;
+    $c->render('index.tt', +{});
 }
 
 sub hello_world {

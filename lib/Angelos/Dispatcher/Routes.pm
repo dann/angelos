@@ -9,6 +9,7 @@ has 'dispatcher' => (
     default => sub {
         HTTP::Router->new;
     },
+    handles => [qw(add_route)],
 );
 
 no Moose;

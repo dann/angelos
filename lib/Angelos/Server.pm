@@ -21,6 +21,7 @@ has 'dispatcher' => (
     is      => 'rw',
     lazy    => 1,
     builder => 'build_dispathcer',
+    handles => [qw(add_route)],
 );
 
 has 'root' => (

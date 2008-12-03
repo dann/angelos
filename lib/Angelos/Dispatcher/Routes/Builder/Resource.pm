@@ -22,7 +22,7 @@ sub _build_index_route {
     my $args = {};
     $args->{controller} = camelize( $route->{controller} );
     $args->{action}     = 'index';
-    $args->{conditions} = { metdhod => 'GET' };
+    $args->{conditions} = { method => ['GET'] };
     $self->build_route( $path => $args );
 }
 
@@ -32,7 +32,7 @@ sub _build_create_route {
     my $args = {};
     $args->{controller} = camelize( $route->{controller} );
     $args->{action}     = 'create';
-    $args->{conditions} = { metdhod => 'POST' };
+    $args->{conditions} = { method => ['POST'] };
     $self->build_route( $path => $args );
 }
 
@@ -42,7 +42,7 @@ sub _build_new_route {
     my $args = {};
     $args->{controller} = camelize( $route->{controller} );
     $args->{action}     = 'new';
-    $args->{conditions} = { metdhod => 'POST' };
+    $args->{conditions} = { method => ['POST'] };
     $self->build_route( $path => $args );
 }
 
@@ -52,7 +52,7 @@ sub _build_edit_route {
     my $args = {};
     $args->{controller} = camelize( $route->{controller} );
     $args->{action}     = 'edit';
-    $args->{conditions} = { metdhod => 'GET' };
+    $args->{conditions} = { method => ['GET'] };
     $self->build_route( $path => $args );
 }
 
@@ -62,7 +62,7 @@ sub _build_show_route {
     my $args = {};
     $args->{controller} = camelize( $route->{controller} );
     $args->{action}     = 'show';
-    $args->{conditions} = { metdhod => 'GET' };
+    $args->{conditions} = { method => ['GET'] };
     $self->build_route( $path => $args );
 }
 
@@ -72,7 +72,7 @@ sub _build_update_route {
     my $args = {};
     $args->{controller} = camelize( $route->{controller} );
     $args->{action}     = 'update';
-    $args->{conditions} = { metdhod => ['PUT'] };
+    $args->{conditions} = { method => ['PUT'] };
     $self->build_route( $path => $args );
 }
 
@@ -82,7 +82,7 @@ sub _build_destroy_route {
     my $args = {};
     $args->{controller} = camelize( $route->{controller} );
     $args->{action}     = 'destroy';
-    $args->{conditions} = { metdhod => ['DELETE'] };
+    $args->{conditions} = { method => ['DELETE'] };
     $self->build_route( $path => $args );
 }
 

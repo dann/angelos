@@ -10,6 +10,7 @@ use Angelos::Utils;
 use Angelos::Component::Loader;
 use YAML;
 use Angelos::Dispatcher::Routes::Builder;
+use Angelos::Debug::Routes;
 
 has 'conf' => ( is => 'rw', );
 
@@ -89,15 +90,16 @@ sub setup_dispatcher {
 sub _setup_dispatch_rules {
     my ( $self, ) = @_;
     my $routes = $self->build_routes;
-    # FIXME
-    $self->server_instance->dispatcher->dispatcher->dispatcher->routes($routes);
+    $self->server_instance->add_route($_) for @{$routes};
 }
 
 sub build_routes {
     my $self = shift;
     my $routes_conf
         = YAML::LoadFile( Angelos::Utils->path_to( 'conf', 'routes.yaml' ) );
-    Angelos::Dispatcher::Routes::Builder->new->build(ref $self, $routes_conf);
+    my $routes = Angelos::Dispatcher::Routes::Builder->new->build(ref $self, $routes_conf);
+    print Angelos::Debug::Routes->show_dispatch_table($routes);
+    $routes;
 }
 
 sub controller {

@@ -29,7 +29,7 @@ sub res {
     $self->response;
 }
 
-# need to consider
+# need to consider this method should alive in context class
 sub log {
 }
 
@@ -38,9 +38,9 @@ sub session {
 }
 
 sub render {
-    my ( $self, $options ) = @_;
-    my $view = $options->{view} || 'TT';
-    return $self->app->view($view)->render($options);
+    my ( $self, $template, $params) = @_;
+    my $view = $params->{view} || 'TT';
+    return $self->app->view($view)->render($self->app, $template, $params);
 }
 
 sub controller {

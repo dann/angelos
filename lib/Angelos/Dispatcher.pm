@@ -5,7 +5,7 @@ use Angelos::Dispatcher::Routes;
 
 has 'dispatcher' => (
     is      => 'ro',
-    handles => [ 'dispatch', 'run', 'add_route'],
+    handles => [ 'dispatch', 'run', 'add_route' ],
     default => sub {
         Angelos::Dispatcher::Routes->new;
     }
