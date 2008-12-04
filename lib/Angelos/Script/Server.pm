@@ -77,7 +77,7 @@ sub run {
         port   => $self->port,
         root   => $self->root,
         server => $self->server,
-    );
+    )->run;
 }
 
 __PACKAGE__->meta->make_immutable;

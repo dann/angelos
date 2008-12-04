@@ -3,6 +3,12 @@ use Text::SimpleTable;
 
 sub show_dispatch_table {
     my ( $class, $routes ) = @_;
+    $report = $class->_make_dispatch_table_report($routes);
+    print $report . "\n";
+}
+
+sub _make_dispatch_table_report {
+    my ( $class, $routes ) = @_;
     my $t = Text::SimpleTable->new(
         [ 35, 'path' ],
         [ 10, 'method' ],
@@ -17,9 +23,9 @@ sub show_dispatch_table {
             $route->params->{action}
         );
     }
-    my $header = '<< Dispatch Table >>' . "\n";
+    my $header = 'Dispatch Table:' . "\n";
     my $table = $t->draw;
-    $header . $table;
+    $header . $table . "\n";
 }
 
 1;

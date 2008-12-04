@@ -10,7 +10,7 @@ use Angelos::Utils;
 use Angelos::Component::Loader;
 use YAML;
 use Angelos::Dispatcher::Routes::Builder;
-use Angelos::Debug::Routes;
+use Angelos::Debug;
 
 has 'conf' => ( is => 'rw', );
 
@@ -43,19 +43,23 @@ has 'server' => (
 
 has 'server_instance' => (
     is => 'rw',
-
-    #    handles => [ 'controller', 'view' . 'model' ],
+    handles => ['controller'],
 );
 
 sub BUILD {
-    my $self   = shift;
-    my $exit   = sub { CORE::die('caught signal') };
+    my $self = shift;
+
     my $server = $self->setup;
+}
+
+sub run {
+    my $self = shift;
+    my $exit = sub { CORE::die('caught signal') };
     eval {
         local $SIG{INT}  = $exit;
         local $SIG{QUIT} = $exit;
         local $SIG{TERM} = $exit;
-        $server->run;
+        $self->server_instance->run;
     };
 }
 
@@ -79,7 +83,9 @@ sub setup {
 
 sub setup_components {
     my ( $self, $server ) = @_;
-    $server->component_loader->load_components( ref $self );
+    my $components = $server->component_loader->load_components( ref $self );
+    Angelos::Debug->show_components($components) if Angelos::Debug->is_debug_mode;
+    $components;
 }
 
 sub setup_dispatcher {
@@ -97,14 +103,10 @@ sub build_routes {
     my $self = shift;
     my $routes_conf
         = YAML::LoadFile( Angelos::Utils->path_to( 'conf', 'routes.yaml' ) );
-    my $routes = Angelos::Dispatcher::Routes::Builder->new->build(ref $self, $routes_conf);
-    print Angelos::Debug::Routes->show_dispatch_table($routes);
+    my $routes = Angelos::Dispatcher::Routes::Builder->new->build( ref $self,
+        $routes_conf );
+    Angelos::Debug->show_dispatch_table($routes) if Angelos::Debug->is_debug_mode;
     $routes;
-}
-
-sub controller {
-    my ( $self, $short_controller_name ) = @_;
-    $self->server_instance->controller($short_controller_name);
 }
 
 __PACKAGE__->meta->make_immutable;
@@ -122,6 +124,9 @@ Edit conf/routes.yaml to make dispatch rules and create an application class lik
   package MyApp;
   use Moose;
   extends 'Angelos';
+
+  use MyApp;
+  MyApp->new->run;
 
 =head1 DESCRIPTION
 
