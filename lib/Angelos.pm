@@ -43,7 +43,7 @@ has 'server' => (
 );
 
 has 'server_instance' => (
-    is => 'rw',
+    is      => 'rw',
     handles => ['controller'],
 );
 
@@ -77,25 +77,40 @@ sub setup {
     # FIXME move to default
     $self->server_instance($server);
 
-    $self->setup_components($server);
-    $self->setup_dispatcher($server);
+    $self->setup_logger;
+    $self->setup_home;
+    $self->setup_components;
+    $self->setup_dispatcher;
     $server;
 }
 
+sub setup_home {
+    my $self = shift;
+}
+
+sub setup_logger {
+    my $self = shift;
+
+    # $self->server_instance->logger->path();
+}
+
 sub setup_components {
-    my ( $self, $server ) = @_;
-    my $components = $server->component_loader->load_components( ref $self );
-    Angelos::Debug->show_components($components) if Angelos::Debug->is_debug_mode;
+    my $self = shift;
+    my $components
+        = $self->server_instance->component_loader->load_components(
+        ref $self );
+    Angelos::Debug->show_components($components)
+        if Angelos::Debug->is_debug_mode;
     $components;
 }
 
 sub setup_dispatcher {
-    my ( $self, $server ) = @_;
-    $self->_setup_dispatch_rules($server);
+    my $self = shift;
+    $self->_setup_dispatch_rules;
 }
 
 sub _setup_dispatch_rules {
-    my ( $self, ) = @_;
+    my $self   = shift;
     my $routes = $self->build_routes;
     $self->server_instance->add_route($_) for @{$routes};
 }
@@ -106,7 +121,8 @@ sub build_routes {
         = YAML::LoadFile( Angelos::Home->path_to( 'conf', 'routes.yaml' ) );
     my $routes = Angelos::Dispatcher::Routes::Builder->new->build( ref $self,
         $routes_conf );
-    Angelos::Debug->show_dispatch_table($routes) if Angelos::Debug->is_debug_mode;
+    Angelos::Debug->show_dispatch_table($routes)
+        if Angelos::Debug->is_debug_mode;
     $routes;
 }
 

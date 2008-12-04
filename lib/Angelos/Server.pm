@@ -8,6 +8,7 @@ use Angelos::Dispatcher;
 use Angelos::Context;
 use Angelos::Component::Loader;
 use Angelos::Home;
+use Angelos::Logger;
 
 has 'engine' => (
     is      => 'rw',
@@ -21,7 +22,7 @@ has 'dispatcher' => (
     is      => 'rw',
     lazy    => 1,
     builder => 'build_dispathcer',
-    handles => [qw(add_route)],
+    handles => [qw(add_route uri_for)],
 );
 
 has 'root' => (
@@ -55,6 +56,13 @@ has 'component_loader' => (
     is => 'rw',
     default => sub {
         Angelos::Component::Loader->new;
+    }
+);
+
+has 'logger' => (
+    is => 'rw',
+    default => sub {
+        Angelos::Logger->new;
     }
 );
 

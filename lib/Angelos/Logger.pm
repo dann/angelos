@@ -1,23 +1,30 @@
 package Angelos::Logger;
-use strict;
-use warnings;
-use Sub::Install qw( install_sub );
-use Angelos::Logger::Factory;
+use Moose;
 
-my $caller = caller;
+has 'path' => (
+    is => 'rw',
+    default => sub {
+        my $self = shift;
+        Angelos::Home->path_to('log', $self->mode . ".log");
+    },
+);
 
-install_sub(
-    {   as   => 'log',
-        into => $caller,
-        code => sub {
-            # FIXME message and level aren't passed... wtf
-            my ( $self, $message, $level ) = @_;
-            my $logger = Angelos::Logger::Factory->create;
-            $level = $level || 'debug';
-            warn $message;
-            eval { $logger->$level($message); };
-            }
+has 'mode' => (
+    is => 'rw',
+    default => sub {
+        'debug';
     }
 );
+
+no Moose;
+
+sub log {
+    my ( $self, $message, $level ) = @_;
+    my $logger = Angelos::Logger::Factory->create;
+    $level = $level || 'debug';
+    eval { $logger->$level($message); };
+}
+
+__PACKAGE__->meta->make_immutable;
 
 1;

@@ -1,5 +1,6 @@
 package Angelos::View::Engine;
 use Moose;
+use Carp();
 
 has 'engine' => (
     is      => 'rw',
@@ -11,7 +12,7 @@ no Moose;
 
 sub render {
     my ( $self, $template, $stash, $args ) = @_;
-    die 'Implement me';
+    Carp::croak('sub class must implement this method!!!');
 }
 
 __PACKAGE__->meta->make_immutable;
