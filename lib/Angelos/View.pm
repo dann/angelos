@@ -1,6 +1,7 @@
 package Angelos::View;
 use Moose;
 use Angelos::Home;
+use Angelos::MIMETypes;
 
 with 'Angelos::Component';
 
@@ -9,7 +10,12 @@ has 'engine' => (
     isa => 'Angelos::View::Engine',
 );
 
-has 'types' => ( is => 'rw', );
+has 'types' => (
+    is      => 'rw',
+    default => sub {
+        Angelos::MIMETypes->new;
+    }
+);
 
 has 'format' => (
     is      => 'rw',
@@ -80,7 +86,7 @@ sub _build_response {
     my $type = $self->_format($c);
 
     unless ( $c->res->content_type ) {
-        my $ct      = $self->type;
+        my $ct      = $self->_content_type( $c->stash->{format} );
         my $charset = 'utf-8';
         $c->response->content_type("$ct; charset=$charset");
     }
@@ -105,9 +111,9 @@ sub _template_path {
     $c->stash->{template_path};
 }
 
-sub _format {
-    my ( $self, $c ) = @_;
-    $self->types->type( $c->stash->{format} ) || 'text/plain';
+sub _content_type {
+    my ( $self, $format ) = @_;
+    $self->types->mime_type_of($format) || 'text/plain';
 }
 
 __PACKAGE__->meta->make_immutable;
