@@ -25,43 +25,51 @@ has 'root' => (
     },
 );
 
+# FIXME config
+
 no Moose;
 
 sub render {
     my ( $self, $c, $args ) = @_;
-    my $format   = $c->stash->{format};
-    my $template = $c->stash->{template};
+    my $template      = $self->_template($c);
+    my $template_path = $self->_template_path($c);
+    return undef unless $template || $template_path;
 
-    #FIXME
-    my $template_path = $c->stash->{template_path};
-    return undef unless $format || $template || $template_path;
-
-    my $stash = { %{ $c->stash } };
-    $c->stash->{C} = $self->context;
-    $c->stash->{base} ||= $c->req->base;
-
-    my $output = $self->do_render( $c, $template, $stash, $args );
+    $self->_build_stash($c);
+    my $vars   = $self->_build_template_vars( $c, $args );
+    my $output = $self->_do_render( $c,           $vars );
     return undef unless $output;
 
     $self->_build_response( $c, $output );
-
     return 1;
 }
 
-sub _do_render {
-    my ( $self, $c, $template, $stash, $args ) = @_;
-    my $output = eval {
-        $self->engine->render_template(
-            template => $template,
-            stash    => $stash,
-            args     => $args
-        );
+sub _build_template_vars {
+    my ( $self, $c, $args ) = @_;
+    my $vars = {
+        ( ref $args eq 'HASH' ? %$args : %{ $c->stash() } ),
+        $self->_template_vars($c)
     };
-    if ($@) {
-        my $error = "Couldn't render template '$template': $@";
-        $c->log( error => $error );
-    }
+}
 
+sub _template_vars {
+    my ( $self, $c ) = @_;
+    (   c    => $c,
+        base => $c->req->base,
+        name => $c->config->{name}
+    );
+}
+
+sub _build_stash {
+    my ( $self, $c ) = @_;
+    $c->stash->{C} = $self->context;
+    $c->stash->{base} ||= $c->req->base;
+}
+
+sub _do_render {
+    my ( $self, $c, $vars ) = @_;
+    my $output = $self->engine->render( $c, $vars );
+    $output;
 }
 
 sub _build_response {
@@ -69,7 +77,7 @@ sub _build_response {
 
     $c->res->code(200) unless $c->res->code;
     $c->res->body($output);
-    my $type = $self->types->type( $c->stash->{format} ) || 'text/plain';
+    my $type = $self->_format($c);
 
     unless ( $c->res->content_type ) {
         my $ct      = $self->type;
@@ -77,6 +85,29 @@ sub _build_response {
         $c->response->content_type("$ct; charset=$charset");
     }
     $c->res;
+}
+
+sub _template {
+    my ( $self, $c ) = @_;
+    my $template = $c->stash->{template}
+        || $c->action . $self->config->{TEMPLATE_EXTENSION};
+    $template;
+}
+
+sub _template_path {
+    my ( $self, $c ) = @_;
+    my $template      = $c->stash->{template};
+    my $template_path = $c->stash->{template_path};
+    if ( $template && !$template_path ) {
+        my $path = file( $self->root, $template );
+        $c->stash->{template_path} = $path;
+    }
+    $c->stash->{template_path};
+}
+
+sub _format {
+    my ( $self, $c ) = @_;
+    $self->types->type( $c->stash->{format} ) || 'text/plain';
 }
 
 __PACKAGE__->meta->make_immutable;

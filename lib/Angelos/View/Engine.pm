@@ -11,7 +11,7 @@ has 'engine' => (
 no Moose;
 
 sub render {
-    my ( $self, $template, $stash, $args ) = @_;
+    my ( $self, $c, $vars ) = @_;
     Carp::croak('sub class must implement this method!!!');
 }
 

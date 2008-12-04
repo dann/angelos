@@ -10,10 +10,16 @@ sub build_engine {
     Template->new( INCLUDE_PATH => $self->{INCLUDE_PATH} );
 }
 
-sub render_template {
-    my ( $self, $template, $stash, $args ) = @_;
-    $self->engine->render( $template, $stash, \my $out )
-        or die $self->engine->error;
+sub render {
+    my ( $self, $c, $vars ) = @_;
+    $self->engine->process( $c->stash->{template}, $vars, \my $out );
+    if ( $self->engine->error ) {
+        my $error
+            = "Couldn't render template "
+            . $c->stash->{template} . ": "
+            . $self->engine->error;
+        $c->log( error => $error );
+    }
     $out;
 }
 
