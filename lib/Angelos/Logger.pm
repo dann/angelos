@@ -30,7 +30,7 @@ has 'mode' => (
 has 'logger' => (
     is      => 'rw',
     default => sub {
-        shift->create;
+        shift->_create;
     }
 );
 
@@ -38,12 +38,11 @@ no Moose;
 
 sub log {
     my ( $self, $message, $level ) = @_;
-    my $logger = Angelos::Logger::Factory->create;
     $level = $level || 'debug';
-    eval { $logger->$level($message); };
+    eval { $self->logger->$level($message); };
 }
 
-sub create {
+sub _create {
     my $self = shift;
     my $config = Log::Dispatch::Configurator::YAML->new( $self->conf_path );
     Log::Dispatch::Config->configure($config);
