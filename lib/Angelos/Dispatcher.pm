@@ -1,17 +1,25 @@
 package Angelos::Dispatcher;
 use Moose;
-use MooseX::AttributeHelpers;
-use Angelos::Dispatcher::Routes;
+use HTTP::Router;
+use Angelos::Dispatcher::Dispatch;
 
 has 'dispatcher' => (
     is      => 'ro',
-    handles => [ 'dispatch', 'run', 'add_route' ],
     default => sub {
-        Angelos::Dispatcher::Routes->new;
-    }
+        HTTP::Router->new;
+    },
+    handles => [qw(add_route)],
 );
 
 no Moose;
+
+sub dispatch {
+    my ( $self, $req ) = @_;
+    my $match
+        = $self->dispatcher->match( $req->path, { method => $req->method } );
+    my $dispatch = Angelos::Dispatcher::Dispatch->new( match => $match );
+    return $dispatch;
+}
 
 __PACKAGE__->meta->make_immutable;
 

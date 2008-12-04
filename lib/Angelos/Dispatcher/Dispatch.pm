@@ -1,4 +1,4 @@
-package Angelos::Dispatcher::Dispatch::Routes;
+package Angelos::Dispatcher::Dispatch;
 use Moose;
 
 has 'match' => (
