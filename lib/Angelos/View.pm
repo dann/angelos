@@ -1,7 +1,7 @@
 package Angelos::View;
 use Moose;
 use Angelos::View::Engine::TT;
-use Angelos::Utils;
+use Angelos::Home;
 
 with 'Angelos::Component';
 
@@ -24,7 +24,7 @@ has 'CONTENT_TYPE' => (
 has 'INCLUDE_PATH' => (
     is      => 'rw',
     default => sub {
-        [ Angelos::Utils->path_to('root') ];
+        [ Angelos::Home->path_to('root') ];
     },
 );
 

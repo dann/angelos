@@ -4,7 +4,7 @@ use MooseX::Types::Path::Class qw(File Dir);
 use Angelos;
 use Pod::Usage;
 use Path::Class;
-use Angelos::Utils;
+use Angelos::Home;
 use UNIVERSAL::require;
 
 extends 'Angelos::Script';
@@ -24,7 +24,7 @@ has 'root' => (
     isa         => Dir,
     required    => 1,
     coerce      => 1,
-    default     => sub { Angelos::Utils->path_to('root')->absolute },
+    default     => sub { Angelos::Home->path_to('root')->absolute },
 );
 
 has 'host' => (

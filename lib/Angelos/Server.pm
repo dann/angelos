@@ -7,7 +7,7 @@ use HTTP::Engine::Response;
 use Angelos::Dispatcher;
 use Angelos::Context;
 use Angelos::Component::Loader;
-use Angelos::Utils;
+use Angelos::Home;
 
 has 'engine' => (
     is      => 'rw',
@@ -29,7 +29,7 @@ has 'root' => (
     isa      => Dir,
     required => 1,
     coerce   => 1,
-    default  => sub { Angelos::Utils->path_to('root')->absolute },
+    default  => sub { Angelos::Home->path_to('root')->absolute },
 );
 
 has 'host' => (
