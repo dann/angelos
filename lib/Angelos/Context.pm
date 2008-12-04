@@ -36,6 +36,9 @@ sub render {
     return $self->app->view($view)->render( $self->app, $template, $params );
 }
 
+sub error {
+}
+
 __PACKAGE__->meta->make_immutable;
 
 1;

@@ -4,6 +4,8 @@ use HTTP::Router::Route;
 use Angelos::Dispatcher::Routes::Builder::Resource;
 use Angelos::Dispatcher::Routes::Builder::Connect;
 
+no Moose;
+
 sub build {
     my ( $self, $appclass, $routes_conf ) = @_;
     my $routes = [];
@@ -30,5 +32,7 @@ sub build {
     }
     $routes;
 }
+
+__PACKAGE__->meta->make_immutable;
 
 1;

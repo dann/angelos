@@ -15,7 +15,10 @@ sub run {
     my $action     = $match->params->{action};
     my $params     = $match->params;
     my $instance   = $c->controller($controller);
-    $instance->$action( $c, $params );
+    eval { $instance->$action( $c, $params ); };
+    if ($@) {
+        $c->error($@);
+    }
 }
 
 sub has_matches {
