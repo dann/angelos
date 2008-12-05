@@ -71,8 +71,8 @@ sub setup {
     # FIXME move to default
     $self->server_instance($server);
 
-    $self->setup_logger;
     $self->setup_home;
+    $self->setup_logger;
     $self->setup_components;
     $self->setup_dispatcher;
     $server;
@@ -80,6 +80,11 @@ sub setup {
 
 sub setup_home {
     my $self = shift;
+    my $home;
+    if ( my $env = Angelos::Utils::env_value( ref $self, 'HOME' ) ) {
+        $home = $env;
+    }
+    $home ||= Angelos::Home->detect;
 }
 
 sub setup_logger {

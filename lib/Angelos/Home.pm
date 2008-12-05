@@ -1,4 +1,5 @@
 package Angelos::Home;
+use Angelos::Utils;
 use Path::Class qw(dir file);
 
 sub detect {

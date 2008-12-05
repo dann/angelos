@@ -2,6 +2,7 @@ package Angelos::View;
 use Mouse;
 use Angelos::Home;
 use Angelos::MIMETypes;
+use Path::Class qw(file dir);
 use Carp ();
 
 with 'Angelos::Component';
@@ -71,7 +72,6 @@ sub _template_vars {
     my ( $self, $c ) = @_;
     (   c    => $c,
         base => $c->req->base,
-        name => $c->config->{name}
     );
 }
 
@@ -84,6 +84,9 @@ sub _build_stash {
 sub _do_render {
     my ( $self, $c, $vars ) = @_;
     my $output = eval { $self->_render( $c, $vars ); };
+    if($@) {
+
+    }
     $output;
 }
 
@@ -109,6 +112,7 @@ sub _build_response {
 
 sub _template {
     my ( $self, $c ) = @_;
+    # FIXME action
     my $template = $c->stash->{template}
         || $c->action . $self->TEMPLATE_EXTENSION;
     $template;

@@ -67,4 +67,25 @@ sub ensure_class_loaded {
     return 1;
 }
 
+sub env_value {
+    my ( $class, $key ) = @_;
+
+    $key = uc($key);
+    my @prefixes = ( class2env($class), 'CATALYST' );
+
+    for my $prefix (@prefixes) {
+        if ( defined( my $value = $ENV{"${prefix}_${key}"} ) ) {
+            return $value;
+        }
+    }
+
+    return;
+}
+
+sub class2env {
+    my $class = shift || '';
+    $class =~ s/::/_/g;
+    return uc($class);
+}
+
 1;

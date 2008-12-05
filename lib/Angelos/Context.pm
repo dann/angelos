@@ -1,6 +1,7 @@
 package Angelos::Context;
 use Mouse;
 use Carp ();
+use Angelos::Logger;
 
 has 'app' => (
     is       => 'rw',

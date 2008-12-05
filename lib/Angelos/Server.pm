@@ -50,6 +50,11 @@ has 'component_loader' => (
     is      => 'rw',
     default => sub {
         Angelos::Component::Loader->new;
+    },
+    handles => {
+        'controller' => 'search_controller',
+        'model'      => 'search_model',
+        'view'       => 'search_view',
     }
 );
 
@@ -57,7 +62,8 @@ has 'logger' => (
     is      => 'rw',
     default => sub {
         Angelos::Logger->new;
-    }
+    },
+    handles => [qw(log)],
 );
 
 no Mouse;
@@ -109,21 +115,6 @@ sub handle_request {
     }
 
     return $c->res;
-}
-
-sub model {
-    my ( $self, $short_model_name ) = @_;
-    $self->component_loader->search_model($short_model_name);
-}
-
-sub view {
-    my ( $self, $short_view_name ) = @_;
-    $self->component_loader->search_view($short_view_name);
-}
-
-sub controller {
-    my ( $self, $short_controller_name ) = @_;
-    $self->component_loader->search_controller($short_controller_name);
 }
 
 __PACKAGE__->meta->make_immutable;

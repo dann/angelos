@@ -5,8 +5,8 @@ extends 'Angelos::Controller';
 
 sub index {
     my ($self, $c, $params) = @_;
-    $c->view('TT')->render('index', +{});
+    $c->stash->{template} = 'index';
+    warn $c->view('TT')->render(+{});
 }
-
 
 1;
