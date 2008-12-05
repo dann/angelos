@@ -4,6 +4,20 @@ use HTTP::Router::Route;
 use Angelos::Dispatcher::Routes::Builder::Resource;
 use Angelos::Dispatcher::Routes::Builder::Connect;
 
+has 'connect_builder' => (
+    is      => 'rw',
+    default => sub {
+        Angelos::Dispatcher::Routes::Builder::Connect->new;
+    }
+);
+
+has 'resource_builder' => (
+    is      => 'rw',
+    default => sub {
+        Angelos::Dispatcher::Routes::Builder::Resource->new;
+    }
+);
+
 no Mouse;
 
 sub build {
@@ -11,20 +25,10 @@ sub build {
     my $routes = [];
     foreach my $route ( @{$routes_conf} ) {
         if ( $route->{type} eq 'connect' ) {
-            push @{$routes},
-                Angelos::Dispatcher::Routes::Builder::Connect->new->build(
-                $route);
+            push @{$routes}, $self->connect_builder->build($route);
         }
         elsif ( $route->{type} eq 'resource' ) {
-            foreach my $resource_route (
-                @{ Angelos::Dispatcher::Routes::Builder::Resource->new->build(
-                        $route)
-                }
-                )
-            {
-                push @{$routes}, $resource_route;
-            }
-
+            push @{$routes}, @{ $self->resource_builder->build($route) };
         }
         elsif ( $route->{type} eq 'resources' ) {
             die 'NotSupported';
