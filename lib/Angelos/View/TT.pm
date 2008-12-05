@@ -1,4 +1,4 @@
-package Angelos::View::Engine::TT;
+package Angelos::View::TT;
 use Mouse;
 use Template;
 use Angelos::Home;
@@ -17,7 +17,7 @@ has 'CONTENT_TYPE' => ( +default => 'text/html' );
 
 no Mouse;
 
-sub render {
+sub _render {
     my ( $self, $c, $vars ) = @_;
     $self->engine->process( $c->stash->{template} . $self->TEMPLATE_EXTENSION,
         $vars, \my $out );

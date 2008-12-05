@@ -6,6 +6,10 @@ use Carp ();
 
 with 'Angelos::Component';
 
+has 'context' => (
+   is      => 'rw',
+);
+
 has 'types' => (
     is      => 'rw',
     default => sub {
@@ -40,7 +44,8 @@ has 'TEMPLATE_EXTENSION' => (
 no Mouse;
 
 sub render {
-    my ( $self, $c, $args ) = @_;
+    my ( $self, $args ) = @_;
+    my $c = $self->context;
     my $template      = $self->_template($c);
     my $template_path = $self->_template_path($c);
     return undef unless $template || $template_path;

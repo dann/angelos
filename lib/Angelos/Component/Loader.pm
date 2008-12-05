@@ -2,7 +2,6 @@ package Angelos::Component::Loader;
 use Mouse;
 use Module::Pluggable::Object;
 use Angelos::Utils;
-use Class::MOP;
 use Devel::InnerPackage;
 use Angelos::Exception;
 use Scalar::Util;
@@ -32,7 +31,6 @@ sub load_components {
 
         Angelos::Utils::ensure_class_loaded( $component,
             { ignore_loaded => 1 } );
-        Class::MOP::load_class($component);
 
         my $module  = $self->load_component($component);
         my %modules = (

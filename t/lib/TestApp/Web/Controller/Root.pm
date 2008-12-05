@@ -5,11 +5,8 @@ extends 'Angelos::Controller';
 
 sub index {
     my ($self, $c, $params) = @_;
-    $c->render('index.tt', +{});
+    $c->view('TT')->render('index', +{});
 }
 
-sub hello_world {
-    return 'hello world';
-}
 
 1;

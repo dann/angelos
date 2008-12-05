@@ -1,10 +1,9 @@
 package Angelos::Utils;
 use strict;
 use warnings;
-use Carp;
+use Carp ();
 use Path::Class;
 use Class::Inspector;
-use Class::MOP;
 
 # steal from Catalyst
 sub class2appclass {
@@ -36,13 +35,13 @@ sub ensure_class_loaded {
     my $class = shift;
     my $opts  = shift;
 
-    croak "Malformed class Name $class"
+    Carp::croak "Malformed class Name $class"
         if $class =~ m/(?:\b\:\b|\:{3,})/;
 
-    croak "Malformed class Name $class"
+    Carp::croak "Malformed class Name $class"
         if $class =~ m/[^\w:]/;
 
-    croak
+    Carp::croak
         "ensure_class_loaded should be given a classname, not a filename ($class)"
         if $class =~ m/\.pm$/;
 

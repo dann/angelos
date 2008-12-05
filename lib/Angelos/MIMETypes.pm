@@ -1,4 +1,4 @@
-package Angelos::View::MIMETypes;
+package Angelos::MIMETypes;
 use Mouse;
 use MIME::Types;
 use MIME::Type;

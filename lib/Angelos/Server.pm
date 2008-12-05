@@ -47,14 +47,14 @@ has 'server' => (
 );
 
 has 'component_loader' => (
-    is => 'rw',
+    is      => 'rw',
     default => sub {
         Angelos::Component::Loader->new;
     }
 );
 
 has 'logger' => (
-    is => 'rw',
+    is      => 'rw',
     default => sub {
         Angelos::Logger->new;
     }
@@ -80,8 +80,6 @@ sub build_engine {
 
 sub build_dispathcer {
     my $self = shift;
-
-    # Dispatcher
     return Angelos::Dispatcher->new;
 }
 
@@ -119,12 +117,12 @@ sub model {
 }
 
 sub view {
-    my ( $self,  $short_view_name ) = @_;
+    my ( $self, $short_view_name ) = @_;
     $self->component_loader->search_view($short_view_name);
 }
 
 sub controller {
-    my ( $self,  $short_controller_name ) = @_;
+    my ( $self, $short_controller_name ) = @_;
     $self->component_loader->search_controller($short_controller_name);
 }
 

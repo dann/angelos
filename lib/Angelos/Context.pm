@@ -1,5 +1,6 @@
 package Angelos::Context;
 use Mouse;
+use Carp ();
 
 has 'app' => (
     is       => 'rw',
@@ -17,6 +18,13 @@ has 'response' => (
     required => 1
 );
 
+has 'stash' => (
+    is      => 'rw',
+    default => sub {
+        +{};
+    }
+);
+
 no Mouse;
 
 sub req {
@@ -29,10 +37,13 @@ sub res {
     $self->response;
 }
 
-sub render {
-    my ( $self, $template, $params ) = @_;
-    my $view = $params->{view} || 'TT';
-    return $self->app->view($view)->render( $self->app, $template, $params );
+sub view {
+    my ( $self, $view ) = @_;
+    $view ||= 'TT';
+    my $v = $self->app->view($view);
+    Carp::croak "view $view doesn't exist" unless $v;
+    $v->context($self);
+    $v;
 }
 
 sub error {
