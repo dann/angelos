@@ -2,13 +2,9 @@ package Angelos::View;
 use Mouse;
 use Angelos::Home;
 use Angelos::MIMETypes;
+use Carp ();
 
 with 'Angelos::Component';
-
-has 'engine' => (
-    is  => 'rw',
-    isa => 'Angelos::View::Engine',
-);
 
 has 'types' => (
     is      => 'rw',
@@ -31,7 +27,15 @@ has 'root' => (
     },
 );
 
-# FIXME config
+has 'CONTENT_TYPE' => (
+    is       => 'rw',
+    default => 'text/html',
+);
+
+has 'TEMPLATE_EXTENSION' => (
+    is       => 'rw',
+    required => 1,
+);
 
 no Mouse;
 
@@ -74,8 +78,12 @@ sub _build_stash {
 
 sub _do_render {
     my ( $self, $c, $vars ) = @_;
-    my $output = $self->engine->render( $c, $vars );
+    my $output = eval { $self->_render( $c, $vars ); };
     $output;
+}
+
+sub _render {
+    Carp::croak('Implement me!');
 }
 
 sub _build_response {
@@ -86,7 +94,8 @@ sub _build_response {
     my $type = $self->_format($c);
 
     unless ( $c->res->content_type ) {
-        my $ct      = $self->_content_type( $c->stash->{format} );
+        my $ct = $self->CONTENT_TYPE
+            || $self->_content_type( $c->stash->{format} );
         my $charset = 'utf-8';
         $c->response->content_type("$ct; charset=$charset");
     }
@@ -96,7 +105,7 @@ sub _build_response {
 sub _template {
     my ( $self, $c ) = @_;
     my $template = $c->stash->{template}
-        || $c->action . $self->config->{TEMPLATE_EXTENSION};
+        || $c->action . $self->TEMPLATE_EXTENSION;
     $template;
 }
 
