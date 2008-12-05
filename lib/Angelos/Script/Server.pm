@@ -1,6 +1,5 @@
 package Angelos::Script::Server;
-use Moose;
-use MooseX::Types::Path::Class qw(File Dir);
+use Mouse;
 use Angelos;
 use Pod::Usage;
 use Path::Class;
@@ -10,57 +9,38 @@ use UNIVERSAL::require;
 extends 'Angelos::Script';
 
 has 'app' => (
-    traits      => ['Getopt'],
-    cmd_aliases => 'a',
     is          => 'rw',
-    isa         => 'Str',
     required    => 1,
 );
 
 has 'root' => (
-    traits      => ['Getopt'],
-    cmd_aliases => 'r',
     is          => 'rw',
-    isa         => Dir,
     required    => 1,
-    coerce      => 1,
     default     => sub { Angelos::Home->path_to('root')->absolute },
 );
 
 has 'host' => (
-    traits      => ['Getopt'],
-    cmd_aliases => 'h',
     is          => 'rw',
-    isa         => 'Str',
     default     => 0,
 );
 
 has 'server' => (
-    traits      => ['Getopt'],
-    cmd_aliases => 's',
     is          => 'rw',
-    isa         => 'Str',
     default     => 'ServerSimple',
 );
 
 has 'port' => (
-    traits      => ['Getopt'],
-    cmd_aliases => 'p',
     is          => 'rw',
-    isa         => 'Int',
     default     => 3000,
     required    => 1,
 );
 
 has 'help' => (
-    traits      => ['Getopt'],
-    cmd_aliases => 'h',
     is          => 'rw',
-    isa         => 'Bool',
     default     => 0
 );
 
-no Moose;
+no Mouse;
 
 sub run {
     my $self = shift;

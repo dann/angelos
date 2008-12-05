@@ -1,9 +1,8 @@
 package Angelos::Controller;
 
-use Moose;
-with 'MooseX::Object::Pluggable', 'Angelos::Component';
+use Mouse;
 
-no Moose;
+no Mouse;
 
 __PACKAGE__->meta->make_immutable;
 

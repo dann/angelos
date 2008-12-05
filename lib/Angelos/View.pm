@@ -1,5 +1,5 @@
 package Angelos::View;
-use Moose;
+use Mouse;
 use Angelos::Home;
 use Angelos::MIMETypes;
 
@@ -33,7 +33,7 @@ has 'root' => (
 
 # FIXME config
 
-no Moose;
+no Mouse;
 
 sub render {
     my ( $self, $c, $args ) = @_;

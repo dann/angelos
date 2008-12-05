@@ -1,10 +1,10 @@
 package Angelos::Dispatcher::Routes::Builder;
-use Moose;
+use Mouse;
 use HTTP::Router::Route;
 use Angelos::Dispatcher::Routes::Builder::Resource;
 use Angelos::Dispatcher::Routes::Builder::Connect;
 
-no Moose;
+no Mouse;
 
 sub build {
     my ( $self, $appclass, $routes_conf ) = @_;

@@ -1,5 +1,5 @@
 package Angelos::Dispatcher::Routes::Builder::Resource;
-use Moose;
+use Mouse;
 use String::CamelCase qw(camelize);
 extends 'Angelos::Dispatcher::Routes::Builder::Base';
 

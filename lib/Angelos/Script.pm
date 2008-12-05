@@ -1,8 +1,8 @@
 package Angelos::Script;
-use Moose;
+use Mouse;
 use Carp;
-with 'MooseX::Getopt', 'Angelos::Config';
-no Moose;
+#with 'MooseX::Getopt', 'Angelos::Config';
+no Mouse;
 
 sub run {
     Carp::croak('Method "run" not implemented by subclass')

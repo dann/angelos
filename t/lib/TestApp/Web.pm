@@ -1,5 +1,5 @@
 package TestApp::Web;
-use Moose;
+use Mouse;
 use Path::Dispatcher::Rule::Tokens;
 use Path::Dispatcher::Rule::Regex;
 extends 'Angelos';

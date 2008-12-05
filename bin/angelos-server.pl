@@ -4,7 +4,8 @@ use warnings;
 use FindBin::libs;
 use Angelos::Script::Server;
 
-Angelos::Script::Server->new_with_options->run();
+# FIXME
+Angelos::Script::Server->new( app => 'TestApp::Web' )->run();
 
 __END__
 

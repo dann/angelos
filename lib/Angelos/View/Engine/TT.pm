@@ -1,9 +1,9 @@
 package Angelos::View::Engine::TT;
-use Moose;
+use Mouse;
 use Template;
 extends 'Angelos::View::Engine';
 
-no Moose;
+no Mouse;
 
 sub build_engine {
     my $self = shift;

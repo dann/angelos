@@ -1,8 +1,8 @@
 package Angelos::Script::CLI;
-use Moose;
+use Mouse;
 extends qw(MooseX::App::Cmd);
 
-no Moose;
+no Mouse;
 
 sub plugin_search_path {
     my $class = shift;

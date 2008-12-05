@@ -1,5 +1,5 @@
 package Angelos::View::MIMETypes;
-use Moose;
+use Mouse;
 use MIME::Types;
 use MIME::Type;
 
@@ -17,7 +17,7 @@ has 'types' => (
     }
 );
 
-no Moose;
+no Mouse;
 
 sub mime_type_of {
     my ( $self, $ext ) = @_;

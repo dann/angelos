@@ -1,6 +1,5 @@
 package Angelos::Context;
-use Moose;
-with 'MooseX::Object::Pluggable';
+use Mouse;
 
 has 'app' => (
     is       => 'rw',
@@ -18,7 +17,7 @@ has 'response' => (
     required => 1
 );
 
-no Moose;
+no Mouse;
 
 sub req {
     my $self = shift;

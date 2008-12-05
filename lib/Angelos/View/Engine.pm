@@ -1,5 +1,5 @@
 package Angelos::View::Engine;
-use Moose;
+use Mouse;
 use Carp();
 
 has 'engine' => (
@@ -8,7 +8,7 @@ has 'engine' => (
     builder => 'build_engine',
 );
 
-no Moose;
+no Mouse;
 
 sub render {
     my ( $self, $c, $vars ) = @_;

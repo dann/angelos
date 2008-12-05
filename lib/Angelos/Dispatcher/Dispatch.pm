@@ -1,12 +1,12 @@
 package Angelos::Dispatcher::Dispatch;
-use Moose;
+use Mouse;
 
 has 'match' => (
     is       => 'rw',
     required => 1,
 );
 
-no Moose;
+no Mouse;
 
 sub run {
     my ( $self, $c ) = @_;

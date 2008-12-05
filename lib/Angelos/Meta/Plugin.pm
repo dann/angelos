@@ -1,6 +1,6 @@
 package Angelos::Meta::Plugin;
-use Moose;
-extends 'Moose::Meta::Role';
+use Mouse;
+extends 'Mouse::Meta::Role';
 
 before 'apply' => sub {
     my ( $self, $other ) = @_;

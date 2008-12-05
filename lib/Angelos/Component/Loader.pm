@@ -1,24 +1,18 @@
 package Angelos::Component::Loader;
-use Moose;
+use Mouse;
 use Module::Pluggable::Object;
 use Angelos::Utils;
 use Class::MOP;
-use MooseX::AttributeHelpers;
 use Devel::InnerPackage;
 use Angelos::Exception;
+use Scalar::Util;
 
 has 'components' => (
-    metaclass => 'Collection::Hash',
-    is        => 'ro',
-    isa       => 'HashRef',
-    provides  => {
-        'set' => 'set_component',
-        'get' => 'get_component',
-    },
+    is      => 'rw',
     default => sub { +{} },
 );
 
-no Moose;
+no Mouse;
 
 sub load_components {
     my ( $self, $class ) = @_;
@@ -55,6 +49,16 @@ sub load_components {
     $self->components;
 }
 
+sub set_component {
+    my ( $self, $key, $component ) = @_;
+    $self->components->{$key} = $component;
+}
+
+sub get_component {
+    my ( $self, $key ) = @_;
+    $self->components->{$key};
+}
+
 sub load_component {
     my ( $self, $component ) = @_;
 
@@ -72,7 +76,7 @@ sub load_component {
 
     Angelos::Exception->throw( message =>
             qq/Couldn't instantiate component "$component", "COMPONENT() didn't return an object-like value"/
-    ) unless blessed($instance);
+    ) unless Scalar::Util::blessed($instance);
 
     return $instance;
 }

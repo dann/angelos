@@ -6,6 +6,7 @@ use Path::Class;
 use Class::Inspector;
 use Class::MOP;
 
+# steal from Catalyst
 sub class2appclass {
     my $class = shift || '';
     my $appname = '';

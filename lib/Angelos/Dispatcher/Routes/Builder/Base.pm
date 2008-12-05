@@ -1,5 +1,5 @@
 package Angelos::Dispatcher::Routes::Builder::Base;
-use Moose;
+use Mouse;
 
 sub build_route {
     my ( $self, $path, $args ) = @_;

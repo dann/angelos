@@ -1,5 +1,5 @@
 package Angelos::Dispatcher;
-use Moose;
+use Mouse;
 use HTTP::Router;
 use Angelos::Dispatcher::Dispatch;
 
@@ -11,7 +11,7 @@ has 'dispatcher' => (
     handles => [qw(add_route)],
 );
 
-no Moose;
+no Mouse;
 
 sub dispatch {
     my ( $self, $req ) = @_;

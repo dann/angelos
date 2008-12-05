@@ -1,5 +1,5 @@
 package Angelos::Logger;
-use Moose;
+use Mouse;
 use Log::Dispatch::Config;
 use Log::Dispatch::Configurator::YAML;
 use Angelos::Home;
@@ -8,7 +8,9 @@ has 'path' => (
     is      => 'rw',
     default => sub {
         my $self = shift;
-        Angelos::Home->path_to( 'log', $self->mode . ".log" );
+
+        #FIXME debug
+        Angelos::Home->path_to( 'log', "debug.log" );
     },
 );
 
@@ -17,7 +19,6 @@ has 'conf_path' => (
     default => sub {
         Angelos::Home->path_to( 'conf', 'log.yaml' );
     },
-
 );
 
 has 'mode' => (
@@ -30,11 +31,11 @@ has 'mode' => (
 has 'logger' => (
     is      => 'rw',
     default => sub {
-        shift->_create;
+        shift->_create
     }
 );
 
-no Moose;
+no Mouse;
 
 sub log {
     my ( $self, $message, $level ) = @_;
@@ -43,10 +44,11 @@ sub log {
 }
 
 sub _create {
-    my $self = shift;
+    my $self   = shift;
     my $config = Log::Dispatch::Configurator::YAML->new( $self->conf_path );
     Log::Dispatch::Config->configure($config);
     Log::Dispatch::Config->instance();
+
 }
 
 __PACKAGE__->meta->make_immutable;

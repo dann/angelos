@@ -1,7 +1,6 @@
 package Angelos::Server;
 use Angelos::Logger;
-use Moose;
-use MooseX::Types::Path::Class qw(File Dir);
+use Mouse;
 use HTTP::Engine;
 use HTTP::Engine::Response;
 use Angelos::Dispatcher;
@@ -27,28 +26,23 @@ has 'dispatcher' => (
 
 has 'root' => (
     is       => 'rw',
-    isa      => Dir,
     required => 1,
-    coerce   => 1,
     default  => sub { Angelos::Home->path_to('root')->absolute },
 );
 
 has 'host' => (
     is      => 'rw',
-    isa     => 'Str',
     default => 0,
 );
 
 has 'port' => (
     is       => 'rw',
-    isa      => 'Int',
     default  => 3000,
     required => 1,
 );
 
 has 'server' => (
     is      => 'rw',
-    isa     => 'Str',
     default => 'ServerSimple',
 );
 
@@ -66,7 +60,7 @@ has 'logger' => (
     }
 );
 
-no Moose;
+no Mouse;
 
 sub build_engine {
     my $self = shift;

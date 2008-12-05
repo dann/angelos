@@ -1,5 +1,5 @@
 package TestApp::Web::Controller::BookStore;
-use Moose;
+use Mouse;
 
 sub list_books {
     my ($self, $c) = @_;

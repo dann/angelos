@@ -1,7 +1,7 @@
 package Angelos::Component;
 use strict;
 use warnings;
-use Moose::Role;
+use Mouse::Role;
 
 with 'Angelos::Config';
 

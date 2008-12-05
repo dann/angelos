@@ -1,5 +1,5 @@
 package TestApp::Web::Controller::Root;
-use Moose;
+use Mouse;
 use Angelos::Logger;
 extends 'Angelos::Controller';
 

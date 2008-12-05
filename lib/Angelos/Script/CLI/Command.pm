@@ -1,10 +1,10 @@
 package Angelos::Script::CLI::Command;
-use Moose;
+use Mouse;
 extends qw(MooseX::App::Cmd::Command);
 
 with 'Angelos::Config';
 
-no Moose;
+no Mouse;
 __PACKAGE__->meta->make_immutable;
 
 1;

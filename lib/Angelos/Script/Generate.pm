@@ -1,8 +1,8 @@
 package Angelos::Script::Generate;
-use Moose;
+use Mouse;
 use Module::Setup;
 extends 'Angelos::Script';
-no Moose;
+no Mouse;
 
 sub run {
     # FIXME fix later
