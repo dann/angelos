@@ -15,6 +15,11 @@ sub run {
     my $action     = $match->params->{action};
     my $params     = $match->params;
     my $instance   = $c->controller($controller);
+
+    # FIXME: move to the view?
+    # which class should have match information?  Should we refer it from the view?
+    $c->stash->{template} = join '/', split(/-/, $controller), $action;
+
     $instance->$action( $c, $params );
 }
 

@@ -1,7 +1,6 @@
 use strict;
 use Test::More tests => 3;
 use Data::Dumper;
-use Perl6::Say;
 
 BEGIN { use_ok 'Angelos::Component::Loader' }
 

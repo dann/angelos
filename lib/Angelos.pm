@@ -11,6 +11,7 @@ use Angelos::Component::Loader;
 use YAML;
 use Angelos::Dispatcher::Routes::Builder;
 use Angelos::Debug;
+use Angelos::Debug::MemoryUsage;
 
 has 'conf' => ( is => 'rw', );
 
@@ -49,7 +50,8 @@ sub BUILD {
 
 sub run {
     my $self = shift;
-    my $exit = sub { CORE::die('caught signal') };
+    my $exit = sub { 
+        CORE::die('caught signal') };
     eval {
         local $SIG{INT}  = $exit;
         local $SIG{QUIT} = $exit;
@@ -84,7 +86,10 @@ sub setup_home {
     if ( my $env = Angelos::Utils::env_value( ref $self, 'HOME' ) ) {
         $home = $env;
     }
-    $home ||= Angelos::Home->detect;
+    $home ||= Angelos::Home->detect(ref $self);
+
+    warn $home;
+    #__PACKAGE__->config->{home} = $home;
 }
 
 sub setup_logger {

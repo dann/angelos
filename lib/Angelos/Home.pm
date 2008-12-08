@@ -2,6 +2,7 @@ package Angelos::Home;
 use Angelos::Utils;
 use Path::Class qw(dir file);
 
+# FIXME pass Application class
 sub detect {
     my $class = shift;
     ( my $file = "$class.pm" ) =~ s{::}{/}g;
@@ -18,7 +19,7 @@ sub detect {
             $home = $home->parent while $home =~ /b?lib$/;
 
             # only return the dir if it has a Makefile.PL or Build.PL
-            if ( -f $home->file("Makefile.PL") or -f $home->file("Build.PL") )
+            if ( -f $home->file("Makefile.PL") or -f $home->file("Build.PL"))
             {
 
                 # clean up relative path:
@@ -52,12 +53,12 @@ sub detect {
 
 sub path_to {
     my ( $class, @path ) = @_;
-    my $path = dir( Angelos::Home->detect, @path );
+    my $path = dir( Angelos::Home->detect , @path );
     if ( $path->is_dir ) {
         return $path;
     }
     else {
-        return file( Angelos::Home->detect, @path );
+        return file( Angelos::Home->detect , @path );
     }
 }
 
