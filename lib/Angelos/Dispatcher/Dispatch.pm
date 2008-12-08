@@ -1,31 +1,26 @@
 package Angelos::Dispatcher::Dispatch;
 use Mouse;
-
-has 'match' => (
-    is       => 'rw',
-    required => 1,
-);
+extends 'Request::Dispatcher::Dispatch';
 
 no Mouse;
 
-sub run {
-    my ( $self, $c ) = @_;
-    my $match      = $self->match;
-    my $controller = $match->params->{controller};
-    my $action     = $match->params->{action};
-    my $params     = $match->params;
-    my $instance   = $c->controller($controller);
-
-    # FIXME: move to the view?
-    # which class should have match information?  Should we refer it from the view?
-    $c->stash->{template} = join '/', split(/-/, $controller), $action;
-
-    $instance->$action( $c, $params );
+sub find_controller_instance {
+    my ( $self, $args ) = @_;
+    my $controller = delete $args->{controller};
+    my $c          = @{ $args->{args} }[0];
+    $c->controller($controller);
 }
 
-sub has_matches {
-    my $self = shift;
-    $self->match ? 1 : 0;
+sub execute_action {
+    my ( $self, $args ) = @_;
+    my $controller = $args->{controller};
+    my $action     = $args->{action};
+    my $params     = $args->{params};
+    my $context    = @{ $args->{args} }[0];
+    eval { $controller->$action($context, $params); };
+    if ($@) {
+        Carp::croak "can't execute $action method: " . $@;
+    }
 }
 
 __PACKAGE__->meta->make_immutable;
