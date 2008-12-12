@@ -8,10 +8,8 @@ use Angelos::Server;
 use Angelos::Utils;
 use Angelos::Home;
 use Angelos::Component::Loader;
-use YAML;
 use Angelos::Dispatcher::Routes::Builder;
-use Angelos::Debug;
-use Angelos::Debug::MemoryUsage;
+use YAML;
 
 has 'conf' => ( is => 'rw', );
 
@@ -101,6 +99,7 @@ sub setup_components {
     my $components
         = $self->server_instance->component_loader->load_components(
         ref $self );
+    require Angelos::Debug;
     Angelos::Debug->show_components($components)
         if Angelos::Debug->is_debug_mode;
     $components;
@@ -119,10 +118,12 @@ sub _setup_dispatch_rules {
 
 sub build_routes {
     my $self = shift;
+    # TODO config loader
     my $routes_conf
         = YAML::LoadFile( Angelos::Home->path_to( 'conf', 'routes.yaml' ) );
     my $routes = Angelos::Dispatcher::Routes::Builder->new->build( ref $self,
         $routes_conf );
+    require Angelos::Debug;
     Angelos::Debug->show_dispatch_table($routes)
         if Angelos::Debug->is_debug_mode;
     $routes;

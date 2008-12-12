@@ -1,21 +1,12 @@
 package Angelos::Dispatcher::Routes::Builder;
 use Mouse;
-use HTTP::Router::Route;
-use Angelos::Dispatcher::Routes::Builder::Resource;
-use Angelos::Dispatcher::Routes::Builder::Connect;
+use HTTP::Router::Builder;
 
-has 'connect_builder' => (
+has 'builder' => (
     is      => 'rw',
     default => sub {
-        Angelos::Dispatcher::Routes::Builder::Connect->new;
-    }
-);
-
-has 'resource_builder' => (
-    is      => 'rw',
-    default => sub {
-        Angelos::Dispatcher::Routes::Builder::Resource->new;
-    }
+        HTTP::Router::Builder->new;
+    },
 );
 
 no Mouse;
@@ -25,16 +16,44 @@ sub build {
     my $routes = [];
     foreach my $route ( @{$routes_conf} ) {
         if ( $route->{type} eq 'connect' ) {
-            push @{$routes}, $self->connect_builder->build($route);
+            push @{$routes}, $self->_build_connect($route);
         }
         elsif ( $route->{type} eq 'resource' ) {
-            push @{$routes}, @{ $self->resource_builder->build($route) };
+            my $args = {};
+            push @{$routes}, @{ $self->_build_resource($route) };
         }
         elsif ( $route->{type} eq 'resources' ) {
-            die 'NotSupported';
+            my $args = {};
+            push @{$routes}, @{ $self->_build_resources($route) };
         }
     }
     $routes;
+}
+
+sub _build_connect {
+    my ( $self, $route ) = @_;
+    my $args = {};
+    $args->{action}       = delete $route->{action};
+    $args->{controller}   = delete $route->{controller};
+    $args->{conditions}   = delete $route->{conditions} || {};
+    $args->{requirements} = delete $route->{requirements} || {};
+    $self->builder->build_connect( $route->{path}, $args );
+}
+
+sub _build_resource {
+    my ( $self, $route ) = @_;
+    my $args = {};
+
+    # FIXME
+    $self->builder->build_resource( $route->{controller}, $args );
+}
+
+sub _build_resources {
+    my ( $self, $route ) = @_;
+    my $args = {};
+
+    # FIXME
+    $self->builder->build_resources( $route->{controller}, $args );
 }
 
 __PACKAGE__->meta->make_immutable;
