@@ -1,5 +1,6 @@
 package Angelos::Dispatcher::Routes::Builder;
 use Mouse;
+use Angelos::Config;
 use HTTP::Router::Builder;
 
 has 'builder' => (
@@ -11,8 +12,13 @@ has 'builder' => (
 
 no Mouse;
 
+sub build_from_config {
+    my $self = shift;
+    $self->build( Angelos::Config->routes );
+}
+
 sub build {
-    my ( $self, $appclass, $routes_conf ) = @_;
+    my ( $self, $routes_conf ) = @_;
     my $routes = [];
     foreach my $route ( @{$routes_conf} ) {
         if ( $route->{type} eq 'connect' ) {

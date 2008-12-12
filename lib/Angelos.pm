@@ -9,7 +9,7 @@ use Angelos::Utils;
 use Angelos::Home;
 use Angelos::Component::Loader;
 use Angelos::Dispatcher::Routes::Builder;
-use YAML;
+use Angelos::Config;
 
 has 'conf' => ( is => 'rw', );
 
@@ -48,8 +48,9 @@ sub BUILD {
 
 sub run {
     my $self = shift;
-    my $exit = sub { 
-        CORE::die('caught signal') };
+    my $exit = sub {
+        CORE::die('caught signal');
+    };
     eval {
         local $SIG{INT}  = $exit;
         local $SIG{QUIT} = $exit;
@@ -84,7 +85,8 @@ sub setup_home {
     if ( my $env = Angelos::Utils::env_value( ref $self, 'HOME' ) ) {
         $home = $env;
     }
-    $home ||= Angelos::Home->detect(ref $self);
+    $home ||= Angelos::Home->detect( ref $self );
+
     #__PACKAGE__->config->{home} = $home;
 }
 
@@ -118,11 +120,7 @@ sub _setup_dispatch_rules {
 
 sub build_routes {
     my $self = shift;
-    # TODO config loader
-    my $routes_conf
-        = YAML::LoadFile( Angelos::Home->path_to( 'conf', 'routes.yaml' ) );
-    my $routes = Angelos::Dispatcher::Routes::Builder->new->build( ref $self,
-        $routes_conf );
+    my $routes = Angelos::Dispatcher::Routes::Builder->new->build_from_config;
     require Angelos::Debug;
     Angelos::Debug->show_dispatch_table($routes)
         if Angelos::Debug->is_debug_mode;
