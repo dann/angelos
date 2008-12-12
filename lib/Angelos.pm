@@ -16,7 +16,8 @@ has 'conf' => ( is => 'rw', );
 has 'root' => (
     is       => 'rw',
     required => 1,
-    default  => sub { Angelos::Home->path_to('root')->absolute },
+    lazy     => 1,
+    builder  => 'build_root',
 );
 
 has 'host' => (
@@ -60,6 +61,15 @@ sub run {
 }
 
 sub setup {
+    my $self = shift;
+    $self->setup_home;
+    $self->setup_server;
+    $self->setup_logger;
+    $self->setup_components;
+    $self->setup_dispatcher;
+}
+
+sub setup_server {
     my $self   = shift;
     my $server = Angelos::Server->new(
         root   => $self->root,
@@ -71,11 +81,6 @@ sub setup {
 
     # FIXME move to default
     $self->server_instance($server);
-
-    $self->setup_home;
-    $self->setup_logger;
-    $self->setup_components;
-    $self->setup_dispatcher;
     $server;
 }
 
@@ -83,16 +88,17 @@ sub setup_home {
     my $self = shift;
     my $home;
     if ( my $env = Angelos::Utils::env_value( ref $self, 'HOME' ) ) {
-        $home = $env;
+        $home ||= Angelos::Home->home($env);
     }
-    $home ||= Angelos::Home->detect( ref $self );
-
-    #__PACKAGE__->config->{home} = $home;
+    my $appclass = ref $self;
+    $home = Angelos::Home->home($appclass);
+    $home;
 }
 
 sub setup_logger {
     my $self = shift;
 
+    # FIXME
     # $self->server_instance->logger->path();
 }
 
@@ -119,12 +125,16 @@ sub _setup_dispatch_rules {
 }
 
 sub build_routes {
-    my $self = shift;
+    my $self   = shift;
     my $routes = Angelos::Dispatcher::Routes::Builder->new->build_from_config;
     require Angelos::Debug;
     Angelos::Debug->show_dispatch_table($routes)
         if Angelos::Debug->is_debug_mode;
     $routes;
+}
+
+sub build_root {
+    Angelos::Home->path_to('root')->absolute;
 }
 
 __PACKAGE__->meta->make_immutable;

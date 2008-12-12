@@ -13,12 +13,6 @@ has 'app' => (
     required    => 1,
 );
 
-has 'root' => (
-    is          => 'rw',
-    required    => 1,
-    default     => sub { Angelos::Home->path_to('root')->absolute },
-);
-
 has 'host' => (
     is          => 'rw',
     default     => 0,
@@ -55,7 +49,7 @@ sub run {
     $self->app->new(
         host   => $self->host,
         port   => $self->port,
-        root   => $self->root,
+#        root   => $self->root,
         server => $self->server,
     )->run;
 }

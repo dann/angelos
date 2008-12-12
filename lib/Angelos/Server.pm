@@ -60,9 +60,6 @@ has 'component_loader' => (
 
 has 'logger' => (
     is      => 'rw',
-    default => sub {
-        Angelos::Logger->new;
-    },
     handles => [qw(log)],
 );
 

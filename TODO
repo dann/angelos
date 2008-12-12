@@ -1,0 +1,17 @@
+- setup home
+
+controller
+ -- begin   
+ -- end
+ - context
+ -- forward
+ -- detach
+
+view
+ -- auto render based on action
+ --- how should we get action?
+
+config loader
+
+plugin system 
+  - Class::Trigger?

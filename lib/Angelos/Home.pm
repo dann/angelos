@@ -2,14 +2,28 @@ package Angelos::Home;
 use Angelos::Utils;
 use Path::Class qw(dir file);
 
-# FIXME pass Application class
-sub detect {
-    my $class = shift;
-    ( my $file = "$class.pm" ) =~ s{::}{/}g;
+our $HOME;
+
+sub home {
+    my ( $class, $app ) = @_;
+    if ($HOME) {
+        return $HOME;
+    }
+
+    if ( $ENV{ANGELOS_HOME} ) {
+        $HOME ||= dir( $ENV{ANGELOS_HOME} )->absolute->cleanup;
+        return $HOME if -d $HOME;
+    }
+    $HOME ||= $class->_detect_home($app);
+    $HOME;
+}
+
+# FIXME
+sub _detect_home {
+    my ( $class, $clazz ) = @_;
+    ( my $file = "$clazz.pm" ) =~ s{::}{/}g;
     if ( my $inc_entry = $INC{$file} ) {
         {
-
-            # look for an uninstalled Nanto app
 
             # find the @INC entry in which $file was found
             ( my $path = $inc_entry ) =~ s/$file$//;
@@ -19,7 +33,7 @@ sub detect {
             $home = $home->parent while $home =~ /b?lib$/;
 
             # only return the dir if it has a Makefile.PL or Build.PL
-            if ( -f $home->file("Makefile.PL") or -f $home->file("Build.PL"))
+            if ( -f $home->file("Makefile.PL") or -f $home->file("Build.PL") )
             {
 
                 # clean up relative path:
@@ -39,7 +53,7 @@ sub detect {
             # look for an installed Catalyst app
 
             # trim the .pm off the thing ( Foo/Bar.pm -> Foo/Bar/ )
-            ( my $path = $inc_entry ) =~ s/¥.pm$//;
+            ( my $path = $inc_entry ) =~ s/\.pm$//;
             my $home = dir($path)->absolute->cleanup;
 
             # return if if it's a valid directory
@@ -53,12 +67,12 @@ sub detect {
 
 sub path_to {
     my ( $class, @path ) = @_;
-    my $path = dir( Angelos::Home->detect , @path );
+    my $path = dir( Angelos::Home->home, @path );
     if ( $path->is_dir ) {
         return $path;
     }
     else {
-        return file( Angelos::Home->detect , @path );
+        return file( Angelos::Home->home, @path );
     }
 }
 
