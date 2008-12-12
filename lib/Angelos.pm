@@ -87,8 +87,6 @@ sub setup_home {
         $home = $env;
     }
     $home ||= Angelos::Home->detect(ref $self);
-
-    warn $home;
     #__PACKAGE__->config->{home} = $home;
 }
 

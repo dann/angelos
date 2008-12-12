@@ -6,16 +6,20 @@ extends 'Angelos::View';
 
 has 'engine' => (
     is      => 'rw',
-    default => sub {
-        my $self = shift;
-        Template->new( INCLUDE_PATH => $self->root );
-    }
+    lazy    => 1,
+    builder => 'build_engine',
+ 
 );
 
 has 'TEMPLATE_EXTENSION' => ( +default => '.tt' );
 has 'CONTENT_TYPE' => ( +default => 'text/html' );
 
 no Mouse;
+
+sub build_engine {
+    my $self = shift;
+    Template->new( INCLUDE_PATH => $self->root );
+}
 
 sub _render {
     my ( $self, $c, $vars ) = @_;

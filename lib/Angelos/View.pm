@@ -84,9 +84,6 @@ sub _build_stash {
 sub _do_render {
     my ( $self, $c, $vars ) = @_;
     my $output = eval { $self->_render( $c, $vars ); };
-    if($@) {
-
-    }
     $output;
 }
 
@@ -99,7 +96,6 @@ sub _build_response {
 
     $c->res->code(200) unless $c->res->code;
     $c->res->body($output);
-    my $type = $self->_format($c);
 
     unless ( $c->res->content_type ) {
         my $ct = $self->CONTENT_TYPE

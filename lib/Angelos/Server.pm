@@ -108,7 +108,6 @@ sub handle_request {
     eval { $dispatch->run($c); };
 
     if ($@) {
-        warn $@;
         $c->res->status(500);
         $c->res->body("Internal Server Error");
         return $c->res;
