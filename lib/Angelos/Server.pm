@@ -8,6 +8,7 @@ use Angelos::Context;
 use Angelos::Component::Loader;
 use Angelos::Home;
 use Angelos::Logger;
+use Angelos::RequestHandler::Builder;
 
 has 'engine' => (
     is      => 'rw',
@@ -68,6 +69,9 @@ no Mouse;
 sub build_engine {
     my $self = shift;
 
+    my $request_handler = Angelos::RequestHandler::Builder->build(
+        sub { my $req = shift; $self->handle_request($req) } );
+
     return HTTP::Engine->new(
         interface => {
             module => $self->server,
@@ -76,7 +80,7 @@ sub build_engine {
                 port => $self->port,
                 root => $self->root,
             },
-            request_handler => sub { $self->handle_request(@_) },
+            request_handler => $request_handler,
         },
     );
 }
