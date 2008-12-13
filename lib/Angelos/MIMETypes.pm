@@ -14,7 +14,7 @@ has 'types' => (
             )
         );
         $mimetypes;
-    }
+    },
 );
 
 no Mouse;

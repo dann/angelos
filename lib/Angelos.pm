@@ -10,6 +10,7 @@ use Angelos::Home;
 use Angelos::Component::Loader;
 use Angelos::Dispatcher::Routes::Builder;
 use Angelos::Config;
+use Angelos::Logger;
 
 has 'conf' => ( is => 'rw', );
 
@@ -78,8 +79,6 @@ sub setup_server {
         server => $self->server,
         conf   => $self->conf,
     );
-
-    # FIXME move to default
     $self->server_instance($server);
     $server;
 }
@@ -97,9 +96,7 @@ sub setup_home {
 
 sub setup_logger {
     my $self = shift;
-
-    # FIXME
-    # $self->server_instance->logger->path();
+    $self->server_instance->logger( Angelos::Logger->new );
 }
 
 sub setup_components {
