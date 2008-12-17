@@ -54,9 +54,9 @@ sub run {
         CORE::die('caught signal');
     };
     eval {
-        local $SIG{INT}  = $exit;
+#        local $SIG{INT}  = $exit;
         local $SIG{QUIT} = $exit;
-        local $SIG{TERM} = $exit;
+#        local $SIG{TERM} = $exit;
         $self->server_instance->run;
     };
 }

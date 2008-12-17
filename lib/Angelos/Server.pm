@@ -108,11 +108,12 @@ sub handle_request {
     }
     eval { $dispatch->run($c); };
 
-    if ($@) {
-        $c->res->status(500);
-        $c->res->body("Internal Server Error");
-        return $c->res;
-    }
+    # TODO: check body to enable middleware like debug screen
+    #if (my $err = $@ ) {
+    #    $c->res->status(500);
+    #    $c->res->body("Internal Server Error:" . $err) unless $c->res->body;
+    #    return $c->res;
+    #}
 
     return $c->res;
 }

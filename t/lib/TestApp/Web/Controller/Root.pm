@@ -1,12 +1,14 @@
 package TestApp::Web::Controller::Root;
 use Mouse;
 use Angelos::Logger;
+use Carp ();
 extends 'Angelos::Controller';
 
 sub index {
     my ($self, $c, $params) = @_;
+    Carp::confess 'ooooooooooooops';
     $c->stash->{template} = 'index';
-    $c->res->body('hello world');
+    $c->res->body('こんにちは');
 }
 
 sub view {

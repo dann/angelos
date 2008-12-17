@@ -1,0 +1,18 @@
+--- !ditz.rubyforge.org,2008-03-06/project 
+name: angelos
+version: "0.5"
+components: 
+- !ditz.rubyforge.org,2008-03-06/component 
+  name: angelos
+- !ditz.rubyforge.org,2008-03-06/component 
+  name: controller
+- !ditz.rubyforge.org,2008-03-06/component 
+  name: model
+- !ditz.rubyforge.org,2008-03-06/component 
+  name: configloader
+- !ditz.rubyforge.org,2008-03-06/component 
+  name: router
+- !ditz.rubyforge.org,2008-03-06/component 
+  name: dispatcher
+releases: []
+

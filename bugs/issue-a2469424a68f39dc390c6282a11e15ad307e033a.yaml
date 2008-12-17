@@ -1,0 +1,18 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: Controller Plugin system
+desc: use MouseX::Plaggerize as controllers plugin system
+type: :feature
+component: controller
+release: 
+reporter: dann <techmemo@gmail.com>
+status: :unstarted
+disposition: 
+creation_time: 2008-12-17 00:16:14.944355 Z
+references: []
+
+id: a2469424a68f39dc390c6282a11e15ad307e033a
+log_events: 
+- - 2008-12-17 00:16:19.606724 Z
+  - dann <techmemo@gmail.com>
+  - created
+  - ""

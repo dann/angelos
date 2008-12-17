@@ -1,3 +1,5 @@
 ---
 middlewares:
+  - HTTPx::Middleware::DebugScreen
+
 

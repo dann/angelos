@@ -15,6 +15,7 @@ sub _build_request_handler {
     my ( $class, $application_request_handler, $middlewares ) = @_;
     my $request_handler = $application_request_handler;
     for my $middleware ( @{$middlewares} ) {
+        warn $middleware;
         $middleware->require or die $@;
         $request_handler = $middleware->wrap($request_handler);
     }
