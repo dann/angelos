@@ -18,9 +18,9 @@ sub build_from_config {
 }
 
 sub build {
-    my ( $self, $routes_conf ) = @_;
+    my ( $self, @routes_conf ) = @_;
     my $routes = [];
-    foreach my $route ( @{$routes_conf} ) {
+    foreach my $route (@routes_conf) {
         if ( $route->{type} eq 'connect' ) {
             push @{$routes}, $self->_build_connect($route);
         }

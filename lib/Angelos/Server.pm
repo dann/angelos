@@ -76,6 +76,7 @@ sub build_engine {
     };
 
     if ( my $err = $@ ) {
+        warn $err;
         Carp::croak $err;
     }
 

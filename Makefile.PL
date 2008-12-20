@@ -16,6 +16,7 @@ requires 'YAML';
 requires 'Devel::InnerPackage';
 requires 'Class::Inspector';
 requires 'Module::Setup';
+requires 'Kwalify';
 
 build_requires 'Test::More';
 

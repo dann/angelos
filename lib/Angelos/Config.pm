@@ -1,11 +1,13 @@
 package Angelos::Config;
 use Angelos::Home;
-use YAML;
+use Angelos::Config::Loader;
 
-# TODO: cache config?
 sub config {
+    my $class = shift;
     my $conf
-        = YAML::LoadFile( Angelos::Home->path_to( 'conf', 'config.yaml' ) );
+        = Angelos::Config::Loader->load(
+        Angelos::Home->path_to( 'conf', 'config.yaml' ),
+        $class->config_schema );
     $conf;
 }
 
@@ -16,15 +18,17 @@ sub logger_conf_path {
 sub controller_plugins {
     my $class   = shift;
     my $plugins = $class->config->{plugins};
-    return [] unless $plugins;
+    unless ($plugins) {
+        return wantarray ? () : [];
+    }
     $plugins = $plugins->{controller} || [];
     return wantarray ? @{$plugins} : $plugins;
 }
 
 sub routes {
-    my $routes
-        = YAML::LoadFile( Angelos::Home->path_to( 'conf', 'routes.yaml' ) );
-    $routes;
+    my $routes = Angelos::Config::Loader->load(
+        Angelos::Home->path_to( 'conf', 'routes.yaml' ) );
+    return wantarray ? @{$routes} : $routes;
 }
 
 sub middlewares {
@@ -32,17 +36,107 @@ sub middlewares {
     return $class->config->{middlewares} || [];
 }
 
-# TODO: Kwalify
-sub validate_logger_config {
+sub config_schema {
+    my $schema = {
+        type => 'map',
 
-}
-
-sub validate_main_config {
-
-}
-
-sub validate_routes_config {
-
+        mapping => {
+            components => {
+                type    => 'map',
+                mapping => {
+                    model => {
+                        type     => 'seq',
+                        sequence => [
+                            {   type    => 'map',
+                                mapping => {
+                                    module =>
+                                        { type => 'str', required => 1, },
+                                    config => { type => 'any', },
+                                },
+                            },
+                        ],
+                    },
+                    controller => {
+                        type     => 'seq',
+                        sequence => [
+                            {   type    => 'map',
+                                mapping => {
+                                    module =>
+                                        { type => 'str', required => 1, },
+                                    config => { type => 'any', },
+                                },
+                            },
+                        ],
+                    },
+                    view => {
+                        type     => 'seq',
+                        sequence => [
+                            {   type    => 'map',
+                                mapping => {
+                                    module =>
+                                        { type => 'str', required => 1, },
+                                    config => { type => 'any', },
+                                },
+                            },
+                        ],
+                    },
+                }
+            },
+            plugins => {
+                type    => 'map',
+                mapping => {
+                    model => {
+                        type     => 'seq',
+                        sequence => [
+                            {   type    => 'map',
+                                mapping => {
+                                    module =>
+                                        { type => 'str', required => 1, },
+                                    config => { type => 'any', },
+                                },
+                            },
+                        ],
+                    },
+                    controller => {
+                        type     => 'seq',
+                        sequence => [
+                            {   type    => 'map',
+                                mapping => {
+                                    module =>
+                                        { type => 'str', required => 1, },
+                                    config => { type => 'any', },
+                                },
+                            },
+                        ],
+                    },
+                    view => {
+                        type     => 'seq',
+                        sequence => [
+                            {   type    => 'map',
+                                mapping => {
+                                    module =>
+                                        { type => 'str', required => 1, },
+                                    config => { type => 'any', },
+                                },
+                            },
+                        ],
+                    },
+                }
+            },
+            middlewares => {
+                type     => 'seq',
+                sequence => [
+                    {   type    => 'map',
+                        mapping => {
+                            module => { type => 'str', required => 1, },
+                            config => { type => 'any', },
+                        },
+                    },
+                ],
+            },
+        },
+    };
+    $schema;
 }
 
 1;

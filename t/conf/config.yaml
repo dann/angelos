@@ -1,5 +1,7 @@
 ---
-global:
+components:
+  controller:
+    - module: A
 
 plugins:
   controller:
