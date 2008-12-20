@@ -11,5 +11,4 @@ has '_plugin_app_ns' => (
 
 no Mouse;
 
-
 1;

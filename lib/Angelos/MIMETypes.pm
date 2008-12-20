@@ -6,14 +6,7 @@ use MIME::Type;
 has 'types' => (
     is      => 'rw',
     default => sub {
-        my $mimetypes = MIME::Types->new;
-        $mimetypes->addType(
-            MIME::Type->new(
-                type       => 'video/x-matroska',
-                extensions => ['mkv']
-            )
-        );
-        $mimetypes;
+        MIME::Types->new;
     },
 );
 
@@ -25,6 +18,16 @@ sub mime_type_of {
         $ext = ( $ext->path =~ /\.(\w+)$/ )[0];
     }
     $self->types->mimeTypeOf($ext);
+}
+
+sub add_type {
+    my ( $self, $type, $extensions ) = @_;
+    $self->types->add_type(
+        MIME::Type->new(
+            type      => $type,
+            extension => $extensions,
+        )
+    );
 }
 
 __PACKAGE__->meta->make_immutable;
