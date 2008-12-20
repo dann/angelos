@@ -19,6 +19,7 @@ requires 'Module::Setup';
 
 build_requires 'Test::More';
 
+author_tests('xt');
 use_test_base;
 auto_include;
 WriteAll;

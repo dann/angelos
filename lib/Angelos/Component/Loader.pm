@@ -5,6 +5,7 @@ use Angelos::Utils;
 use Devel::InnerPackage;
 use Angelos::Exception;
 use Scalar::Util;
+use Angelos::Config;
 
 has 'components' => (
     is      => 'rw',
@@ -32,8 +33,8 @@ sub load_components {
         Angelos::Utils::ensure_class_loaded( $component,
             { ignore_loaded => 1 } );
 
-        my $module  = $self->load_component($component);
-        $self->_install_plugins($module);
+        my $module = $self->load_component($component);
+        # $self->_install_plugins_to($module);
         my %modules = (
             $component => $module,
             map { $_ => $self->load_component($_) }
@@ -48,30 +49,31 @@ sub load_components {
     $self->components;
 }
 
-sub _install_plugins {
-    my ($self, $component) = @_;
-    if($component =~ /Controller/i) {
-        warn $component;
+sub _install_plugins_to {
+    my ( $self, $component ) = @_;
+    if ( $component =~ /Controller/i ) {
         $self->_load_controller_plugins($component);
-    } elsif($component =~ /Model/i) {
+    }
+    elsif ( $component =~ /Model/i ) {
         $self->_load_model_pluigns($component);
-    } elsif($component =~ /View/i) {
+    }
+    elsif ( $component =~ /View/i ) {
         $self->_load_view_plugins($component);
     }
 }
 
 sub _load_controller_plugins {
-    my ($self, $component) = @_;
-    my @plugins = ('Dumper');
-    $component->load_plugin($_) for @plugins;
+    my ( $self, $component ) = @_;
+    $component->load_plugin( $_->{module} )
+        for Angelos::Config->controller_plugins;
 }
 
 sub _load_model_pluigns {
-
+    my ( $self, $component ) = @_;
 }
 
 sub _load_view_plugins {
-
+    my ( $self, $component ) = @_;
 }
 
 sub set_component {

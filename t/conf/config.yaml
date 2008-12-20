@@ -1,5 +1,10 @@
 ---
-middlewares:
-#  - HTTPx::Middleware::DebugScreen
+global:
 
+plugins:
+  controller:
+    - module: Dumper
+
+middlewares:
+  - module: HTTPx::Middleware::DebugScreen
 

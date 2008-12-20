@@ -9,6 +9,7 @@ use Angelos::Component::Loader;
 use Angelos::Home;
 use Angelos::Logger;
 use Angelos::RequestHandler::Builder;
+use Carp ();
 
 has 'engine' => (
     is      => 'rw',
@@ -69,8 +70,14 @@ no Mouse;
 sub build_engine {
     my $self = shift;
 
-    my $request_handler = Angelos::RequestHandler::Builder->build(
-        sub { my $req = shift; $self->handle_request($req) } );
+    my $request_handler = eval {
+        Angelos::RequestHandler::Builder->build(
+            sub { my $req = shift; $self->handle_request($req) } );
+    };
+
+    if ( my $err = $@ ) {
+        Carp::croak $err;
+    }
 
     return HTTP::Engine->new(
         interface => {
@@ -109,11 +116,11 @@ sub handle_request {
     eval { $dispatch->run($c); };
 
     # TODO: check body to enable middleware like debug screen
-    #if (my $err = $@ ) {
-    #    $c->res->status(500);
-    #    $c->res->body("Internal Server Error:" . $err) unless $c->res->body;
-    #    return $c->res;
-    #}
+    if ( my $err = $@ ) {
+        $c->res->status(500);
+        $c->res->body( "Internal Server Error:" . $err ) unless $c->res->body;
+        return $c->res;
+    }
 
     return $c->res;
 }

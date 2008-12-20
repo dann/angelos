@@ -1,0 +1,18 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: "Controller\xE3\x81\xAEHookpoint\xE3\x81\xAE\xE5\xAE\x9A\xE7\xBE\xA9"
+desc: ""
+type: :task
+component: dispatcher
+release: 
+reporter: dann <techmemo@gmail.com>
+status: :unstarted
+disposition: 
+creation_time: 2008-12-20 08:14:08.774241 Z
+references: []
+
+id: 4f233e66f66a4160ce9f991d1103bb4673301c81
+log_events: 
+- - 2008-12-20 08:14:10.006579 Z
+  - dann <techmemo@gmail.com>
+  - created
+  - ""

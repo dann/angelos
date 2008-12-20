@@ -8,9 +8,10 @@ use Angelos::Debug::MemoryUsage;
 # FIXME
 Angelos::Debug::MemoryUsage->reset;
 Angelos::Script::Server->new( app => 'TestApp::Web' )->run();
-END {
-    Angelos::Debug::MemoryUsage->show;
-}
+
+#END {
+#    Angelos::Debug::MemoryUsage->show;
+#}
 
 __END__
 

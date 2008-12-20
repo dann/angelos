@@ -1,0 +1,18 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: remove Path::Class dependency
+desc: Path::Class use lot memory, so It should be removed from framework
+type: :task
+component: configloader
+release: 
+reporter: dann <techmemo@gmail.com>
+status: :unstarted
+disposition: 
+creation_time: 2008-12-20 08:07:33.824914 Z
+references: []
+
+id: d62fe5f01a1dec2e8672e39ff39c1df6baaf1dd7
+log_events: 
+- - 2008-12-20 08:07:39.004733 Z
+  - dann <techmemo@gmail.com>
+  - created
+  - ""
