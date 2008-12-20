@@ -2,7 +2,6 @@ package Angelos::Config::Loader;
 use YAML ();
 use Storable;
 use Encode;
-use Angelos::Config::Loader;
 
 our $HasKwalify;
 eval {
@@ -10,18 +9,17 @@ eval {
     $HasKwalify++;
 };
 
-# TODO: cache config
 sub load {
     my ( $class, $stuff, $schema ) = @_;
 
-    my $config =$class->_make_config($stuff);
+    my $config = $class->_make_config($stuff);
     $class->_validate_config_if_nessesary( $config, $schema );
 
     return $config;
 }
 
 sub _make_config {
-    my ($class, $stuff) = @_;
+    my ( $class, $stuff ) = @_;
     if ( ref $stuff && ref $stuff eq 'HASH' ) {
         $config = Storable::dclone($stuff);
     }
@@ -47,4 +45,5 @@ sub _validate_config_if_nessesary {
     }
 
 }
+
 1;
