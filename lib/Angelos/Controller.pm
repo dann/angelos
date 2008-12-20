@@ -1,9 +1,15 @@
 package Angelos::Controller;
 
 use Mouse;
+with 'Angelos::Role::Pluggable';
+
+has '_plugin_app_ns' => (
+    +default => sub {
+        'Angelos::Controller';
+    }
+);
 
 no Mouse;
 
-__PACKAGE__->meta->make_immutable;
 
 1;

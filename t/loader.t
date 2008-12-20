@@ -1,6 +1,7 @@
 use strict;
 use Test::More tests => 3;
 use Data::Dumper;
+use lib 't/lib';
 
 BEGIN { use_ok 'Angelos::Component::Loader' }
 
