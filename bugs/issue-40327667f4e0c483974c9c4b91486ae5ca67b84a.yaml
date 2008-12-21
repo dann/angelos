@@ -1,0 +1,18 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: HTTPx::Middleware::DebugScreen
+desc: ""
+type: :task
+component: middleware
+release: 
+reporter: dann <techmemo@gmail.com>
+status: :unstarted
+disposition: 
+creation_time: 2008-12-21 07:42:23.146639 Z
+references: []
+
+id: 40327667f4e0c483974c9c4b91486ae5ca67b84a
+log_events: 
+- - 2008-12-21 07:42:24.523686 Z
+  - dann <techmemo@gmail.com>
+  - created
+  - ""

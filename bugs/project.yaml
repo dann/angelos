@@ -14,5 +14,8 @@ components:
   name: router
 - !ditz.rubyforge.org,2008-03-06/component 
   name: dispatcher
+- !ditz.rubyforge.org,2008-03-06/component 
+  name: middleware 
+
 releases: []
 
