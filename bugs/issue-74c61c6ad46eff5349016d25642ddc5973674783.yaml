@@ -1,0 +1,18 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: "Module::Setup\xE3\x81\xA7\xE5\xA4\x89\xE6\x95\xB0\xE5\x90\x8D\xE3\x81\xAE\xE3\x83\x87\xE3\x82\xA3\xE3\x83\xAC\xE3\x82\xAF\xE3\x83\x88\xE3\x83\xAA\xE6\x89\xB1\xE3\x81\x86\xE6\x96\xB9\xE6\xB3\x95"
+desc: ""
+type: :task
+component: angelos
+release: 
+reporter: dann <techmemo@gmail.com>
+status: :unstarted
+disposition: 
+creation_time: 2008-12-21 09:03:40.047827 Z
+references: []
+
+id: 74c61c6ad46eff5349016d25642ddc5973674783
+log_events: 
+- - 2008-12-21 09:03:41.647796 Z
+  - dann <techmemo@gmail.com>
+  - created
+  - ""

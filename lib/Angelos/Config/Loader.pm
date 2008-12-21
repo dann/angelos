@@ -2,18 +2,13 @@ package Angelos::Config::Loader;
 use YAML ();
 use Storable;
 use Encode;
-
-our $HasKwalify;
-eval {
-    require Kwalify;
-    $HasKwalify++;
-};
+use Angelos::Config::Validator;
 
 sub load {
     my ( $class, $stuff, $schema ) = @_;
 
     my $config = $class->_make_config($stuff);
-    $class->_validate_config_if_nessesary( $config, $schema );
+    Angelos::Config::Validator->validate_config( $config, $schema );
 
     return $config;
 }
@@ -31,19 +26,6 @@ sub _make_config {
     $config;
 }
 
-sub _validate_config_if_nessesary {
-    my ( $class, $config, $schema ) = @_;
-    if ( $HasKwalify && $schema ) {
-        my $res = Kwalify::validate( $schema, $config );
-        unless ( $res == 1 ) {
-            die "config.yaml validation error : $res";
-        }
-    }
-    else {
-        warn "Kwalify is not installed. Skipping the config validation."
-            if $^W;
-    }
 
-}
 
 1;
