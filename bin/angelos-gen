@@ -1,0 +1,11 @@
+#!/usr/bin/env perl
+use strict;
+use warnings;
+#use Carp::Always;
+use Angelos::Script::Generate;
+
+my $flavor_type= $ARGV[0];
+my $module = $ARGV[1];
+warn $module;
+Angelos::Script::Generate->run($flavor_type, $module);
+

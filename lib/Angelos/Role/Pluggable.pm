@@ -8,7 +8,7 @@ our $VERSION = '0.0008';
 
 =head1 NAME
 
-    MooseX::Object::Pluggable - Make your classes pluggable
+   Angelos::Role::Pluggable - Make your classes pluggable
 
 =head1 SYNOPSIS
 

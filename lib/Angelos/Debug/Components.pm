@@ -4,7 +4,7 @@ use Text::SimpleTable;
 sub show_components {
     my ( $class, $components ) = @_;
     my $report = $class->_make_components_report($components);
-    print $report;
+    print $report . "\n";
 }
 
 sub _make_components_report {

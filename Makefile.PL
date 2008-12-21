@@ -20,6 +20,8 @@ requires 'Kwalify';
 
 build_requires 'Test::More';
 
+install_script 'bin/angelos-gen';
+
 author_tests('xt');
 use_test_base;
 auto_include;
