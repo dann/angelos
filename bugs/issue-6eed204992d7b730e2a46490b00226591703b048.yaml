@@ -1,0 +1,18 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: forward
+desc: ""
+type: :task
+component: controller
+release: 
+reporter: dann <techmemo@gmail.com>
+status: :unstarted
+disposition: 
+creation_time: 2008-12-22 18:16:32.527421 Z
+references: []
+
+id: 6eed204992d7b730e2a46490b00226591703b048
+log_events: 
+- - 2008-12-22 18:16:33.815318 Z
+  - dann <techmemo@gmail.com>
+  - created
+  - ""

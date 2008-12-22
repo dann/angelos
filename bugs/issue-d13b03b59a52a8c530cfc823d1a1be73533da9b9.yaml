@@ -1,0 +1,18 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: redirect
+desc: ""
+type: :task
+component: controller
+release: 
+reporter: dann <techmemo@gmail.com>
+status: :unstarted
+disposition: 
+creation_time: 2008-12-22 18:16:55.920802 Z
+references: []
+
+id: d13b03b59a52a8c530cfc823d1a1be73533da9b9
+log_events: 
+- - 2008-12-22 18:16:57.234023 Z
+  - dann <techmemo@gmail.com>
+  - created
+  - ""
