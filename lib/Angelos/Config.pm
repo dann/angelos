@@ -26,6 +26,16 @@ sub controller_plugins {
     return wantarray ? @{$plugins} : $plugins;
 }
 
+sub view_plugins {
+    my $class   = shift;
+    my $plugins = $class->config->{plugins};
+    unless ($plugins) {
+        return wantarray ? () : [];
+    }
+    $plugins = $plugins->{view} || [];
+    return wantarray ? @{$plugins} : $plugins;
+}
+
 sub routes {
     my $routes = Angelos::Config::Loader->load(
         Angelos::Home->path_to( 'conf', 'routes.yaml' ) );

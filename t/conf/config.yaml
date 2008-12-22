@@ -3,9 +3,9 @@ components:
   controller:
     - module: A
 
-plugins:
-  controller:
-    - module: Dumper
+#plugins:
+#  controller:
+#    - module: Dumper
 
 middlewares:
   - module: HTTPx::Middleware::DebugScreen

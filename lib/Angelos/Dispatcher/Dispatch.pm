@@ -17,7 +17,7 @@ sub execute_action {
     my $action     = $args->{action};
     my $params     = $args->{params};
     my $context    = @{ $args->{args} }[0];
-    eval { $controller->$action($context, $params); };
+    eval { $controller->do_action($context, $action, $params); };
     if ($@) {
         Carp::croak "can't execute $action method: " . $@;
     }

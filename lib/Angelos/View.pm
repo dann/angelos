@@ -5,11 +5,9 @@ use Angelos::MIMETypes;
 use Path::Class qw(file dir);
 use Carp ();
 
-with 'Angelos::Component';
+with( 'Angelos::Component', 'MouseX::Plaggerize', );
 
-has 'context' => (
-   is      => 'rw',
-);
+has 'context' => ( is => 'rw', );
 
 has 'types' => (
     is      => 'rw',
@@ -33,7 +31,7 @@ has 'root' => (
 );
 
 has 'CONTENT_TYPE' => (
-    is       => 'rw',
+    is      => 'rw',
     default => 'text/html',
 );
 
@@ -42,11 +40,25 @@ has 'TEMPLATE_EXTENSION' => (
     required => 1,
 );
 
+around 'new' => sub {
+    my ( $next, $class, @args ) = @_;
+    my $instance = $next->( $class, @args );
+    $instance->run_hook('AFTER_INIT');
+    $instance;
+};
+
+around 'render' => sub {
+    my ( $next, $self, $args ) = @_;
+    my $result = $self->$next($args);
+    $self->run_hook( 'AFTER_RENDER', $self->context );
+    return $result;
+};
+
 no Mouse;
 
 sub render {
     my ( $self, $args ) = @_;
-    my $c = $self->context;
+    my $c             = $self->context;
     my $template      = $self->_template($c);
     my $template_path = $self->_template_path($c);
     return undef unless $template || $template_path;
@@ -108,6 +120,7 @@ sub _build_response {
 
 sub _template {
     my ( $self, $c ) = @_;
+
     # FIXME action
     my $template = $c->stash->{template}
         || $c->action . $self->TEMPLATE_EXTENSION;

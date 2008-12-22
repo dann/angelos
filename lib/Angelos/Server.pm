@@ -11,6 +11,8 @@ use Angelos::Logger;
 use Angelos::RequestHandler::Builder;
 use Carp ();
 
+with( 'MouseX::Plaggerize', );
+
 has 'engine' => (
     is      => 'rw',
     isa     => 'HTTP::Engine',
@@ -65,6 +67,13 @@ has 'logger' => (
     handles => [qw(log)],
 );
 
+around 'new' => sub {
+    my ( $next, $class, @args ) = @_;
+    my $instance = $next->( $class, @args );
+    $instance->run_hook('AFTER_INIT');
+    return $instance;
+};
+
 no Mouse;
 
 sub build_engine {
@@ -76,6 +85,8 @@ sub build_engine {
     };
 
     if ( my $err = $@ ) {
+
+        # FIXME
         warn $err;
         Carp::croak $err;
     }
@@ -114,16 +125,21 @@ sub handle_request {
         $c->res->body("404 Not Found");
         return $c->res;
     }
-    eval { $dispatch->run($c); };
 
-    # TODO: check body to enable middleware like debug screen
-    if ( my $err = $@ ) {
-        $c->res->status(500);
-        $c->res->body( "Internal Server Error:" . $err ) unless $c->res->body;
-        return $c->res;
-    }
+    eval {
+        $self->run_hook( 'BEFORE_DISPATCH', $c );
+        $dispatch->run($c);
+        $self->run_hook( 'AFTER_DISPATCH', $c );
+    };
 
+    $self->handle_exception( $c, $@ ) if $@;
     return $c->res;
+}
+
+sub handle_exception {
+    my ( $self, $c, $error ) = @_;
+    $c->res->status(500);
+    $c->res->body( "Internal Server Error:" . $error ) unless $c->res->body;
 }
 
 __PACKAGE__->meta->make_immutable;

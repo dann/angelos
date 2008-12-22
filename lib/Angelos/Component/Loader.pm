@@ -54,11 +54,9 @@ sub _install_plugins_to {
     if ( $component =~ /Controller/i ) {
         $component->load_plugin( $_->{module} )
             for Angelos::Config->controller_plugins;
-    }
-    elsif ( $component =~ /Model/i ) {
-    }
-    elsif ( $component =~ /View/i ) {
-
+    } elsif ( $component =~ /View/i ) {
+        $component->load_plugin( $_->{module} )
+            for Angelos::Config->view_plugins;
     }
 }
 
