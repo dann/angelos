@@ -1,0 +1,18 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: FillInForm architecture
+desc: fillinform plugin should be controller mixin or plugin?
+type: :task
+component: controller
+release: 
+reporter: dann <techmemo@gmail.com>
+status: :unstarted
+disposition: 
+creation_time: 2008-12-22 18:14:50.737391 Z
+references: []
+
+id: 504a9b8b31f6b851e518ca7e555a55a76aae4e45
+log_events: 
+- - 2008-12-22 18:14:52.442537 Z
+  - dann <techmemo@gmail.com>
+  - created
+  - ""

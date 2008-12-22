@@ -1,0 +1,18 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: authentication architecture
+desc: merb like authentication system
+type: :task
+component: controller
+release: 
+reporter: dann <techmemo@gmail.com>
+status: :unstarted
+disposition: 
+creation_time: 2008-12-22 18:15:34.083764 Z
+references: []
+
+id: 1c4ea236e468e2ce66e23867c9e8dcd52b6fd91c
+log_events: 
+- - 2008-12-22 18:15:34.724765 Z
+  - dann <techmemo@gmail.com>
+  - created
+  - ""
