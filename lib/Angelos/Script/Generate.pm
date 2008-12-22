@@ -16,6 +16,7 @@ sub run {
         module       => $module,
         plugins      => $plugins,
         flavor_class => $flavor_class,
+        direct       => 1,
     };
     my $argv = [$module];
     my $pmsetup = Module::Setup->new( options => $options, argv => $argv );
