@@ -1,0 +1,18 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: remove MooseX::App::Cmd dependency
+desc: ""
+type: :task
+component: angelos
+release: 
+reporter: dann <techmemo@gmail.com>
+status: :unstarted
+disposition: 
+creation_time: 2008-12-22 18:37:33.014234 Z
+references: []
+
+id: f3f3ab02498feef0e3bf600e05f32f4d66f7cc94
+log_events: 
+- - 2008-12-22 18:37:35.063256 Z
+  - dann <techmemo@gmail.com>
+  - created
+  - ""
