@@ -1,8 +1,8 @@
+
 package Angelos::Script::Generate::Flavor::App;
 use strict;
 use warnings;
 use base 'Module::Setup::Flavor';
-
 1;
 
 =head1
@@ -106,13 +106,13 @@ template: |
 file: conf/config.yaml
 template: |+
   ---
-  #components:
-  #  controller:
-  #    - module: A
-  
-  plugins:
+  components:
     controller:
-      - module: Dumper
+      - module: Root 
+  
+  #plugins:
+  #  controller:
+  #    - module: Dumper
   
   #middlewares:
   #  - module: HTTPx::Middleware::DebugScreen
@@ -235,12 +235,18 @@ dir: lib/____var-module_path-var____/View
 file: lib/____var-module_path-var____/Controller/Root.pm
 template: |
   package [% module %]::Controller::Root;
+  use Mouse;
+  extends 'Angelos::Controller';
+  
+  no Mouse;
   
   sub index {
-      my ($c, $params) = @_;
-      $c->response->code(200);
-      $c->response->body("Hello World");
+      my ($self, $c, $params) = @_;
+      $c->res->code(200);
+      $c->res->body("Hello World");
   }
+  
+  __PACKAGE__->meta->make_immutable;
   
   1;
 ---

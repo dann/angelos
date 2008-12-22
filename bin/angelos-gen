@@ -2,10 +2,41 @@
 use strict;
 use warnings;
 #use Carp::Always;
+use Pod::Usage;
 use Angelos::Script::Generate;
 
-my $flavor_type= $ARGV[0];
-my $module = $ARGV[1];
-warn $module;
-Angelos::Script::Generate->run($flavor_type, $module);
+main();
 
+sub main {
+    pod2usage(1) unless @ARGV ==2;
+
+    my $flavor_type= $ARGV[0];
+    my $module = $ARGV[1];
+    Angelos::Script::Generate->run($flavor_type, $module);
+}
+
+=head1 NAME
+
+angelos-gen - a simple helper to generate skeltons based on flavor 
+
+=head1 SYNOPSIS
+
+  $ angelos-gen <flavor_type> MyApp
+
+  flator types are "app"
+
+=head1 DESCRIPTION
+
+
+=head1 AUTHOR
+
+Takatoshi KitanoE<lt>techmemo {at} gmail.comE<gt>
+
+=head1 SEE ALSO
+
+=head1 LICENSE
+
+This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself.
+
+=cut
