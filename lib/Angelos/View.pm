@@ -49,6 +49,7 @@ around 'new' => sub {
 
 around 'render' => sub {
     my ( $next, $self, $args ) = @_;
+    $self->run_hook( 'BEFORE_RENDER', $self->context );
     my $result = $self->$next($args);
     $self->run_hook( 'AFTER_RENDER', $self->context );
     return $result;

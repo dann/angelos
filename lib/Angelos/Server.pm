@@ -77,20 +77,8 @@ around 'new' => sub {
 no Mouse;
 
 sub build_engine {
-    my $self = shift;
-
-    my $request_handler = eval {
-        Angelos::RequestHandler::Builder->build(
-            sub { my $req = shift; $self->handle_request($req) } );
-    };
-
-    if ( my $err = $@ ) {
-
-        # FIXME
-        warn $err;
-        Carp::croak $err;
-    }
-
+    my $self            = shift;
+    my $request_handler = $self->_build_request_handler;
     return HTTP::Engine->new(
         interface => {
             module => $self->server,
@@ -102,6 +90,22 @@ sub build_engine {
             request_handler => $request_handler,
         },
     );
+}
+
+sub _build_request_handler {
+    my $self            = shift;
+    my $request_handler = eval {
+        Angelos::RequestHandler::Builder->build(
+            sub { my $req = shift; $self->handle_request($req) } );
+    };
+
+    if ( my $err = $@ ) {
+
+        # FIXME warn error if error occurs in builder.
+        warn $err;
+        Carp::croak $err;
+    }
+    $request_handler;
 }
 
 sub build_dispathcer {
@@ -118,22 +122,27 @@ sub handle_request {
         response => $res,
         app      => $self
     );
-    my $dispatch = $self->dispatcher->dispatch($req);
 
+    eval {
+        $self->run_hook( 'BEFORE_DISPATCH', $c );
+        $self->dispatch( $c, $req );
+        $self->run_hook( 'AFTER_DISPATCH', $c );
+    };
+    $self->handle_exception( $c, $@ ) if $@;
+    return $c->res;
+
+}
+
+sub dispatch {
+    my ( $self, $c, $req ) = @_;
+    my $dispatch = $self->dispatcher->dispatch($req);
     unless ( $dispatch->has_matches ) {
         $c->res->status(404);
         $c->res->body("404 Not Found");
         return $c->res;
     }
-
-    eval {
-        $self->run_hook( 'BEFORE_DISPATCH', $c );
-        $dispatch->run($c);
-        $self->run_hook( 'AFTER_DISPATCH', $c );
-    };
-
-    $self->handle_exception( $c, $@ ) if $@;
-    return $c->res;
+    $dispatch->run($c);
+    $c->res;
 }
 
 sub handle_exception {
