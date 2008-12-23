@@ -1,0 +1,18 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: Need context plugin or mixin?
+desc: ""
+type: :task
+component: angelos
+release: 
+reporter: dann <techmemo@gmail.com>
+status: :unstarted
+disposition: 
+creation_time: 2008-12-22 18:42:11.865555 Z
+references: []
+
+id: c48f1238205f2e4bc334b773424aca9a9687249c
+log_events: 
+- - 2008-12-22 18:42:12.945605 Z
+  - dann <techmemo@gmail.com>
+  - created
+  - ""

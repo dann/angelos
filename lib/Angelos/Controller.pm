@@ -1,34 +1,78 @@
 package Angelos::Controller;
-
 use Mouse;
-with( 'Angelos::Component', 'MouseX::Plaggerize', );
+use Carp ();
 
-has '_plugin_app_ns' => (
-    +default => sub {
-        'Angelos::Controller';
+with( 'Angelos::Component', );
+
+has 'before_filters' => (
+    is         => 'rw',
+    required   => 1,
+    isa        => 'ArrayRef',
+    auto_deref => 1,
+    default    => sub {
+        [];
     }
 );
 
-around 'new' => sub {
-    my ( $next, $class, @args ) = @_;
-    my $instance = $next->( $class, @args );
-    $instance->run_hook('AFTER_INIT');
-    $instance;
-};
-
-around 'do_action' => sub {
-    my ( $next, $self, @args ) = @_;
-    $self->run_hook('BEFORE_ACTION', @args);
-    my $result = $self->$next(@args);
-    $self->run_hook('AFTER_ACTION', @args);
-    return $result;
-};
-
-sub do_action {
-    my ($self, $context, $action, $params) = @_;
-    $self->$action($context, $params);
-}
+has 'after_filters' => (
+    is         => 'rw',
+    required   => 1,
+    isa        => 'ArrayRef',
+    auto_deref => 1,
+    default    => sub {
+        [];
+    }
+);
 
 no Mouse;
+
+sub _execute_before_filters {
+    my ( $self, $context, $action, $params ) = @_;
+    foreach my $before_filter ( $self->before_filters ) {
+        my $method = $before_filter->{name};
+        unless ( exists $before_filter->{except}
+            && $action eq $before_filter->{except} )
+        {
+            Carp::croak "$method doesn't exist"
+                unless __PACKAGE__->meta->has_method($method);
+            $self->$method( $context, $action, $params );
+        }
+    }
+}
+
+sub _execute_after_filters {
+    my ( $self, $context, $action, $params ) = @_;
+    foreach my $after_filter ( $self->after_filters ) {
+        my $method = $after_filter->{name};
+        unless ( exists $after_filter->{except}
+            && $action eq $after_filter->{except} )
+        {
+            Carp::croak "$method doesn't exist"
+                unless __PACKAGE__->meta->has_method($method);
+            $self->$method->( $context, $action, $params );
+        }
+    }
+}
+
+sub add_before_filter {
+    my ( $self, $filter ) = @_;
+    Carp::croak "name key is required" unless $filter->{name};
+    push @{ $self->before_filters }, $filter;
+}
+
+sub add_after_filter {
+    my ( $self, $filter ) = @_;
+    Carp::croak "name key is required" unless $filter->{name};
+    push @{ $self->after_filters }, $filter;
+}
+
+sub _do_action {
+    my ( $self, $context, $action, $params ) = @_;
+    $self->_execute_before_filters( $context, $action, $params );
+    $self->$action( $context, $params );
+    $self->_execute_after_filters( $context, $action, $params );
+}
+
+__PACKAGE__->meta->make_immutable;
 
 1;

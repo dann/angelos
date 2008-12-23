@@ -1,0 +1,19 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: i18n plugin
+desc: i18n plugin should be context plugin
+type: :task
+component: angelos
+release: 
+reporter: dann <techmemo@gmail.com>
+status: :unstarted
+disposition: 
+creation_time: 2008-12-22 19:45:15.026038 Z
+references: []
+
+id: db509e5dae14f2486c7a593b29592f1c7802960c
+log_events: 
+- - 2008-12-22 19:45:16.079087 Z
+  - dann <techmemo@gmail.com>
+  - created
+  - ""
+git_branch: 
