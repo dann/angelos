@@ -42,7 +42,6 @@ has 'port' => (
 
 has 'server' => (
     is      => 'rw',
-    default => 'ServerSimple',
 );
 
 has 'server_instance' => (
@@ -102,11 +101,23 @@ sub setup_server {
         root   => $self->root,
         host   => $self->host,
         port   => $self->port,
-        server => $self->server,
+        server => $self->_server,
         conf   => $self->conf,
     );
     $self->server_instance($server);
     $server;
+}
+
+sub _server {
+    my $self = shift;
+    return $self->server if $self->server;
+
+    if($ENV{MOD_PERL}) {
+        $self->server('ModPerl');
+    } else {
+        $self->server('ServerSimple');
+    }
+    $self->server;
 }
 
 sub setup_logger {
