@@ -8,7 +8,6 @@ has 'before_filters' => (
     is         => 'rw',
     required   => 1,
     isa        => 'ArrayRef',
-    auto_deref => 1,
     default    => sub {
         [];
     }
@@ -18,7 +17,6 @@ has 'after_filters' => (
     is         => 'rw',
     required   => 1,
     isa        => 'ArrayRef',
-    auto_deref => 1,
     default    => sub {
         [];
     }
@@ -26,26 +24,12 @@ has 'after_filters' => (
 
 no Mouse;
 
-sub _execute_before_filters {
-    my ( $self, $context, $action, $params ) = @_;
-    foreach my $before_filter ( $self->before_filters ) {
-        my $method = $before_filter->{name};
-        unless ( exists $before_filter->{except}
-            && $action eq $before_filter->{except} )
-        {
-            Carp::croak "$method doesn't exist"
-                unless __PACKAGE__->meta->has_method($method);
-            $self->$method( $context, $action, $params );
-        }
-    }
-}
-
-sub _execute_after_filters {
-    my ( $self, $context, $action, $params ) = @_;
-    foreach my $after_filter ( $self->after_filters ) {
-        my $method = $after_filter->{name};
-        unless ( exists $after_filter->{except}
-            && $action eq $after_filter->{except} )
+sub _execute_filters {
+    my ( $self, $filters, $context, $action, $params ) = @_;
+    foreach my $filter ( @{$filters} ) {
+        my $method = $filter->{name};
+        unless ( exists $filter->{except}
+            && $action eq $filter->{except} )
         {
             Carp::croak "$method doesn't exist"
                 unless __PACKAGE__->meta->has_method($method);
@@ -68,9 +52,11 @@ sub add_after_filter {
 
 sub _do_action {
     my ( $self, $context, $action, $params ) = @_;
-    $self->_execute_before_filters( $context, $action, $params );
+    $self->_execute_filters( $self->before_filters,
+        $context, $action, $params );
     $self->$action( $context, $params );
-    $self->_execute_after_filters( $context, $action, $params );
+    $self->_execute_filters( $self->after_filters,
+        $context, $action, $params );
 }
 
 __PACKAGE__->meta->make_immutable;

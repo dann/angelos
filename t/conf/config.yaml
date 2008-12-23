@@ -7,6 +7,6 @@ components:
 #  controller:
 #    - module: Dumper
 
-middlewares:
-  - module: HTTPx::Middleware::DebugScreen
+#middlewares:
+#  - module: HTTPx::Middleware::DebugScreen
 
