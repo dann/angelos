@@ -1,4 +1,6 @@
 package Angelos::Debug::MemoryUsage;
+use Mouse::Role;
+
 use Devel::MemUsed;
 our $memused = Devel::MemUsed->new;
 

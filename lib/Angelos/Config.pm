@@ -36,6 +36,23 @@ sub view_plugins {
     return wantarray ? @{$plugins} : $plugins;
 }
 
+sub debug_plugins {
+    my $class   = shift;
+    my $plugins;
+    if($ENV{ANGELOS_DEBUG}) {
+        $plugins = ['Components', 'Routes'];
+        return wantarray ? @{$plugins} : $plugins;
+    }
+
+    $plugins = $class->config->{plugins};
+    unless ($plugins) {
+        return wantarray ? () : [];
+    }
+    $plugins = $plugins->{debug} || [];
+   warn $_ for @{$plugins};
+    return wantarray ? @{$plugins} : $plugins;
+}
+
 sub routes {
     my $routes = Angelos::Config::Loader->load(
         Angelos::Home->path_to( 'conf', 'routes.yaml' ) );

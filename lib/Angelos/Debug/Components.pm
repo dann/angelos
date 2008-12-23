@@ -1,13 +1,21 @@
 package Angelos::Debug::Components;
+use Mouse::Role;
 use Text::SimpleTable;
 
-sub show_components {
+around 'setup_components' => sub {
+    my ( $next, $self ) = @_;
+    my $components = $self->$next();
+    Angelos::Debug::Components->__show_components($components);
+    return $components;
+};
+
+sub __show_components {
     my ( $class, $components ) = @_;
-    my $report = $class->_make_components_report($components);
+    my $report = $class->__make_components_report($components);
     print $report . "\n";
 }
 
-sub _make_components_report {
+sub __make_components_report {
     my ( $class, $components ) = @_;
     my $t = Text::SimpleTable->new( [ 63, 'Class' ] );
     for my $comp ( sort keys %{$components} ) {

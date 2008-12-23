@@ -12,6 +12,14 @@ use Angelos::Dispatcher::Routes::Builder;
 use Angelos::Config;
 use Angelos::Logger;
 
+#with 'Angelos::Role::Pluggable';
+
+#has '_plugin_ns' => (
+#    +default => sub {
+#        'Debug';
+#    }
+#);
+
 has 'conf' => ( is => 'rw', );
 
 has 'root' => (
@@ -42,9 +50,10 @@ has 'server_instance' => (
     handles => ['controller'],
 );
 
+no Mouse;
+
 sub BUILD {
     my $self = shift;
-
     my $server = $self->setup;
 }
 
@@ -53,21 +62,38 @@ sub run {
     my $exit = sub {
         CORE::die('caught signal');
     };
-    eval {
+#    eval {
 #        local $SIG{INT}  = $exit;
-        local $SIG{QUIT} = $exit;
+#        local $SIG{QUIT} = $exit;
 #        local $SIG{TERM} = $exit;
         $self->server_instance->run;
-    };
+#    };
 }
 
 sub setup {
     my $self = shift;
     $self->setup_home;
+    $self->setup_debug_plugins;
     $self->setup_server;
     $self->setup_logger;
     $self->setup_components;
     $self->setup_dispatcher;
+}
+
+sub setup_debug_plugins {
+    my $self = shift;
+#    $self->load_plugin($_) for Angelos::Config->debug_plugins;
+}
+
+sub setup_home {
+    my $self = shift;
+    my $home;
+    if ( my $env = Angelos::Utils::env_value( ref $self, 'HOME' ) ) {
+        $home ||= Angelos::Home->home($env);
+    }
+    my $appclass = ref $self;
+    $home = Angelos::Home->home($appclass);
+    $home;
 }
 
 sub setup_server {
@@ -83,17 +109,6 @@ sub setup_server {
     $server;
 }
 
-sub setup_home {
-    my $self = shift;
-    my $home;
-    if ( my $env = Angelos::Utils::env_value( ref $self, 'HOME' ) ) {
-        $home ||= Angelos::Home->home($env);
-    }
-    my $appclass = ref $self;
-    $home = Angelos::Home->home($appclass);
-    $home;
-}
-
 sub setup_logger {
     my $self = shift;
     $self->server_instance->logger( Angelos::Logger->new );
@@ -104,9 +119,6 @@ sub setup_components {
     my $components
         = $self->server_instance->component_loader->load_components(
         ref $self );
-    require Angelos::Debug;
-    Angelos::Debug->show_components($components)
-        if Angelos::Debug->is_debug_mode;
     $components;
 }
 
@@ -124,14 +136,15 @@ sub _setup_dispatch_rules {
 sub build_routes {
     my $self   = shift;
     my $routes = Angelos::Dispatcher::Routes::Builder->new->build_from_config;
-    require Angelos::Debug;
-    Angelos::Debug->show_dispatch_table($routes)
-        if Angelos::Debug->is_debug_mode;
     $routes;
 }
 
 sub build_root {
     Angelos::Home->path_to('root')->absolute;
+}
+
+sub is_debug {
+    $ENV{ANGELOS_DEBUG} ? 1 : 0;
 }
 
 __PACKAGE__->meta->make_immutable;
@@ -144,7 +157,7 @@ __END__
 Angelos -
 
 =head1 SYNOPSIS
-Edit conf/routes.yaml to make dispatch rules and create an application class like below.
+
 
   package MyApp;
   use Mouse;
@@ -152,6 +165,8 @@ Edit conf/routes.yaml to make dispatch rules and create an application class lik
 
   use MyApp;
   MyApp->new->run;
+
+Edit conf/routes.yaml to make dispatch rules and create an application class like below.
 
 =head1 DESCRIPTION
 

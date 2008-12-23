@@ -1,13 +1,21 @@
 package Angelos::Debug::Routes;
 use Text::SimpleTable;
+use Mouse::Role;
 
-sub show_dispatch_table {
+around 'build_routes' => sub {
+    my ( $next, $self ) = @_;
+    my $routes = $self->$next();
+    Angelos::Debug::Routes->__show_dispatch_table($routes);
+    return $routes;
+};
+
+sub __show_dispatch_table {
     my ( $class, $routes ) = @_;
-    $report = $class->_make_dispatch_table_report($routes);
+    my $report = $class->__make_dispatch_table_report($routes);
     print $report . "\n";
 }
 
-sub _make_dispatch_table_report {
+sub __make_dispatch_table_report {
     my ( $class, $routes ) = @_;
     my $t = Text::SimpleTable->new(
         [ 35, 'path' ],
@@ -24,7 +32,7 @@ sub _make_dispatch_table_report {
         );
     }
     my $header = 'Dispatch Table:' . "\n";
-    my $table = $t->draw;
+    my $table  = $t->draw;
     $header . $table . "\n";
 }
 

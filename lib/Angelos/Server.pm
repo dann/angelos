@@ -98,7 +98,6 @@ sub _build_request_handler {
         Angelos::RequestHandler::Builder->build(
             sub { my $req = shift; $self->handle_request($req) } );
     };
-
     if ( my $err = $@ ) {
 
         # FIXME warn error if error occurs in builder.
