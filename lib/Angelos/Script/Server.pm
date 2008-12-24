@@ -46,12 +46,14 @@ sub run {
     }
 
     $self->app->require;
-    $self->app->new(
+    my $app = $self->app->new(
         host   => $self->host,
         port   => $self->port,
 #        root   => $self->root,
         server => $self->server,
-    )->run;
+    );
+    $app->setup; 
+    $app->run;
 }
 
 __PACKAGE__->meta->make_immutable;

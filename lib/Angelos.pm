@@ -51,22 +51,14 @@ has 'server_instance' => (
 
 no Mouse;
 
-sub BUILD {
-    my $self = shift;
-    my $server = $self->setup;
-}
+#sub BUILD {
+#    my $self = shift;
+#    my $server = $self->setup;
+#}
 
 sub run {
     my $self = shift;
-    my $exit = sub {
-        CORE::die('caught signal');
-    };
-#    eval {
-#        local $SIG{INT}  = $exit;
-#        local $SIG{QUIT} = $exit;
-#        local $SIG{TERM} = $exit;
-        $self->server_instance->run;
-#    };
+    $self->server_instance->run;
 }
 
 sub setup {
@@ -152,6 +144,11 @@ sub build_routes {
 
 sub build_root {
     Angelos::Home->path_to('root')->absolute;
+}
+
+sub engine {
+    my $self = shift;
+    $self->server_instance->engine;
 }
 
 sub is_debug {
