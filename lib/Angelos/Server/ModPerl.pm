@@ -16,7 +16,7 @@ sub create_engine {
 }
 
 sub _load_app_class {
-    my $app_class = $ENV{ANGELOS_BASECLASS};
+    my $app_class = $ENV{ANGELOS_APP_CLASS};
     Mouse::load_class($app_class);
 }
 
@@ -25,5 +25,41 @@ sub _setup_home {
 }
 
 __PACKAGE__->meta->make_immutable;
+
+__END__
+
+=head1 NAME
+
+ Angelos::Server::ModPerl-
+
+=head1 SYNOPSIS
+
+  <VirtualHost 127.0.0.1:8080>
+      ServerName hoge.example.com:8080
+      DocumentRoot "/var/www/myapp"
+
+      <Location />
+          SetHandler modperl
+          PerlSetEnv ANGELOS_APP_CLASS MyApp
+          PerlResponseHandler Angelos::Server::ModPerl
+          PerlSwitches -Mlib=/var/www/myapp/lib
+      </Location>
+  </VirtualHost>
+
+=head1 DESCRIPTION
+
+
+=head1 AUTHOR
+
+Takatoshi Kitano E<lt>kitano.tk@gmail.comE<gt>
+
+=head1 SEE ALSO
+
+=head1 LICENSE
+
+This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself.
+
+=cut
 
 1;
