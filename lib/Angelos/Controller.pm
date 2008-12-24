@@ -24,7 +24,7 @@ has 'after_filters' => (
 
 no Mouse;
 
-sub _execute_filters {
+sub _call_filters {
     my ( $self, $filters, $context, $action, $params ) = @_;
     foreach my $filter ( @{$filters} ) {
         my $method = $filter->{name};
@@ -52,10 +52,10 @@ sub add_after_filter {
 
 sub _do_action {
     my ( $self, $context, $action, $params ) = @_;
-    $self->_execute_filters( $self->before_filters,
+    $self->_call_filters( $self->before_filters,
         $context, $action, $params );
     $self->$action( $context, $params );
-    $self->_execute_filters( $self->after_filters,
+    $self->_call_filters( $self->after_filters,
         $context, $action, $params );
 }
 

@@ -3,13 +3,16 @@ use Angelos::Home;
 use Angelos::Config::Loader;
 use Angelos::Config::Schema;
 
+our $CONFIG;
+
 sub config {
     my $class = shift;
-    my $conf
-        = Angelos::Config::Loader->load(
+    return $CONFIG if $CONFIG;
+
+    my $CONFIG ||= Angelos::Config::Loader->load(
         Angelos::Home->path_to( 'conf', 'config.yaml' ),
         Angelos::Config::Schema->config );
-    $conf;
+    $CONFIG;
 }
 
 sub logger_conf_path {

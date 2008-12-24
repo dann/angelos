@@ -26,6 +26,4 @@ sub _make_config {
     $config;
 }
 
-
-
 1;

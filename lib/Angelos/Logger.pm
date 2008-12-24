@@ -20,6 +20,8 @@ has 'logger' => (
 
 no Mouse;
 
+our $LOGGER;
+
 sub log {
     my ( $self, $message, $level ) = @_;
     $level = $level || 'debug';
@@ -28,10 +30,12 @@ sub log {
 
 sub _create {
     my $self   = shift;
+    return $LOGGER if $LOGGER;
+
     my $config = Log::Dispatch::Configurator::YAML->new( Angelos::Config->logger_conf_path );
     Log::Dispatch::Config->configure($config);
-    Log::Dispatch::Config->instance();
-
+    $LOGGER ||= Log::Dispatch::Config->instance();
+    $LOGGER;
 }
 
 __PACKAGE__->meta->make_immutable;
