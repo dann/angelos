@@ -1,0 +1,18 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: form validator
+desc: ""
+type: :feature
+component: controller
+release: 
+reporter: dann <techmemo@gmail.com>
+status: :unstarted
+disposition: 
+creation_time: 2008-12-24 16:35:26.308876 Z
+references: []
+
+id: ea1cda3ffca0d4664e1c08950ef8ead0eb975f50
+log_events: 
+- - 2008-12-24 16:35:27.813664 Z
+  - dann <techmemo@gmail.com>
+  - created
+  - ""

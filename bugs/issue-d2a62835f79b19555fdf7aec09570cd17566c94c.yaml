@@ -1,18 +1,18 @@
 --- !ditz.rubyforge.org,2008-03-06/issue 
-title: i18n plugin
-desc: i18n plugin should be context plugin
+title: Test mod_perl environment
+desc: ""
 type: :task
 component: angelos
 release: 
 reporter: dann <techmemo@gmail.com>
 status: :unstarted
 disposition: 
-creation_time: 2008-12-22 19:45:15.026038 Z
+creation_time: 2008-12-24 16:41:14.894841 Z
 references: []
 
-id: db509e5dae14f2486c7a593b29592f1c7802960c
+id: d2a62835f79b19555fdf7aec09570cd17566c94c
 log_events: 
-- - 2008-12-22 19:45:16.079087 Z
+- - 2008-12-24 16:41:17.497169 Z
   - dann <techmemo@gmail.com>
   - created
   - ""
