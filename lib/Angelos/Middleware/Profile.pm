@@ -3,13 +3,15 @@ use Mouse;
 use Time::HiRes qw(time);
 extends 'Angelos::Middleware';
 
+no Mouse;
+
 sub wrap {
-    my $self = shift;
+    my ($self, $next)  = @_;
 
     sub {
         my $req        = shift;
         my $start_time = time();
-        my $res        = $self->handler->($req);
+        my $res        = $next->($req);
         my $end_time   = time();
 
         # use logger
@@ -18,5 +20,7 @@ sub wrap {
         $res;
     }
 }
+
+__PACKAGE__->meta->make_immutable;
 
 1;

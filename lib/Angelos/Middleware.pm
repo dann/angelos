@@ -1,10 +1,6 @@
 package Angelos::Middleware;
 use Mouse;
 
-has 'handler' => (
-    is => 'rw',
-);
-
 no Mouse;
 
 sub wrap {
