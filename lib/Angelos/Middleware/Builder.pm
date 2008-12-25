@@ -1,4 +1,4 @@
-package Angelos::RequestHandler::Builder;
+package Angelos::Middleware::Builder;
 use UNIVERSAL::require;
 use Angelos::Config;
 use Data::Dumper;

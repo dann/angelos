@@ -1,4 +1,4 @@
-package Angelos::Server::ModPerl;
+package Angelos::Engine::ModPerl;
 use Mouse;
 use Angelos;
 extends 'HTTP::Engine::Interface::ModPerl';
@@ -30,7 +30,7 @@ __END__
 
 =head1 NAME
 
- Angelos::Server::ModPerl-
+ Angelos::Engine::ModPerl-
 
 =head1 SYNOPSIS
 

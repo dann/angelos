@@ -4,7 +4,7 @@ use warnings;
 our $VERSION = '0.01';
 use Carp ();
 use Mouse;
-use Angelos::Server;
+use Angelos::Engine;
 use Angelos::Utils;
 use Angelos::Home;
 use Angelos::Component::Loader;
@@ -89,7 +89,7 @@ sub setup_home {
 
 sub setup_server {
     my $self   = shift;
-    my $server = Angelos::Server->new(
+    my $server = Angelos::Engine->new(
         root   => $self->root,
         host   => $self->host,
         port   => $self->port,

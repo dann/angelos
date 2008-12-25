@@ -1,4 +1,4 @@
-package Angelos::Server;
+package Angelos::Engine;
 use Angelos::Logger;
 use Mouse;
 use HTTP::Engine;
@@ -8,7 +8,7 @@ use Angelos::Context;
 use Angelos::Component::Loader;
 use Angelos::Home;
 use Angelos::Logger;
-use Angelos::RequestHandler::Builder;
+use Angelos::Middleware::Builder;
 use Carp ();
 
 with( 'MouseX::Plaggerize', );
@@ -95,9 +95,10 @@ sub build_engine {
 sub _build_request_handler {
     my $self            = shift;
     my $request_handler = eval {
-        Angelos::RequestHandler::Builder->build(
+        Angelos::Middleware::Builder->build(
             sub { my $req = shift; $self->handle_request($req) } );
     };
+
     if ( my $err = $@ ) {
 
         # FIXME warn error if error occurs in builder.

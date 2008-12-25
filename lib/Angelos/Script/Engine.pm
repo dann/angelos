@@ -1,4 +1,4 @@
-package Angelos::Script::Server;
+package Angelos::Script::Engine;
 use Mouse;
 use Angelos;
 use Pod::Usage;

@@ -1,4 +1,3 @@
-
 package Angelos::Script::Generate::Flavor::App;
 use strict;
 use warnings;

@@ -2,16 +2,9 @@
 use strict;
 use warnings;
 use FindBin::libs;
-use Angelos::Script::Server;
-use Angelos::Debug::MemoryUsage;
+use Angelos::Script::Engine;
 
-# FIXME
-Angelos::Debug::MemoryUsage->reset;
-Angelos::Script::Server->new( app => 'TestApp::Web' )->run();
-
-#END {
-#    Angelos::Debug::MemoryUsage->show;
-#}
+Angelos::Script::Engine->new( app => 'TestApp::Web' )->run();
 
 __END__
 
