@@ -17,7 +17,8 @@ sub _build_request_handler {
     for my $middleware ( @{$middlewares} ) {
         my $module = $middleware->{module};
         $module->require or die $@;
-        $request_handler = $module->wrap($request_handler);
+        my $middleware_instance = $module->new( handler => $request_handler );
+        $request_handler = $middleware_instance->wrap;
     }
     $request_handler;
 }

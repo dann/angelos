@@ -7,7 +7,7 @@ extends 'Angelos::Controller';
 sub index {
     my ($self, $c, $params) = @_;
     #$self->dump($params);
-    Carp::confess 'ooooooooooooops';
+#    Carp::confess 'ooooooooooooops';
     #$c->stash->{template} = 'index';
     $c->res->body('Hello world');
     $c->res->code(200);
