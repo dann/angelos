@@ -178,7 +178,7 @@ Edit conf/routes.yaml to make dispatch rules and create an application class lik
 
 =head1 DESCRIPTION
 
-Angelos is
+Angelos is yet another web application framework
 
 =head1 AUTHOR
 

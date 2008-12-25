@@ -10,6 +10,9 @@ use Angelos::Home;
 use Angelos::Logger;
 use Angelos::Middleware::Builder;
 use Carp ();
+use Angelos::Exceptions;
+use Angelos::Exception;
+use Scalar::Util ();
 
 with( 'MouseX::Plaggerize', );
 
@@ -128,7 +131,9 @@ sub handle_request {
         $self->dispatch( $c, $req );
         $self->run_hook( 'AFTER_DISPATCH', $c );
     };
-    $self->handle_exception( $c, $@ ) if $@;
+    if(my $e = $@) {
+    $self->handle_exception( $c, $e );
+    }
     return $c->res;
 
 }
@@ -147,8 +152,9 @@ sub dispatch {
 
 sub handle_exception {
     my ( $self, $c, $error ) = @_;
+   $c->res->content_type('text/html; charset=utf-8');
     $c->res->status(500);
-    $c->res->body( "Internal Server Error:" . $error ) unless $c->res->body;
+    $c->res->body('Internal Error:' . $error) if $@;
 }
 
 __PACKAGE__->meta->make_immutable;
