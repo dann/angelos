@@ -25,13 +25,7 @@ sub load_components {
     my %comps = map { $_ => 1 } @comps;
 
     for my $component (@comps) {
-
-        # We pass ignore_loaded here so that overlay files for (e.g.)
-        # Model::DBI::Schema sub-classes are loaded - if it's in @comps
-        # we know M::P::O found a file on disk so this is safe
-
-        Angelos::Utils::ensure_class_loaded( $component,
-            { ignore_loaded => 1 } );
+        Mouse::load_class($component);
 
         my $module = $self->load_component($component);
         $self->_install_plugins_to($module);
