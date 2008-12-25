@@ -1,16 +1,15 @@
 package Angelos::Engine::ModPerl;
 use Mouse;
-use Angelos;
 extends 'HTTP::Engine::Interface::ModPerl';
 
 no Mouse;
 
 sub create_engine {
     my ( $class, $r, $context_key ) = @_;
-    my $app_class = $class->_load_app_class;
     $class->_setup_home;
 
-    my $app = $app_class->new;
+    my $app_class = $class->_load_app_class;
+    my $app = $app_class->new( server => 'ModPerl' );
     $app->setup;
     return $app->engine;
 }
@@ -18,6 +17,7 @@ sub create_engine {
 sub _load_app_class {
     my $app_class = $ENV{ANGELOS_APP_CLASS};
     Mouse::load_class($app_class);
+    $app_class;
 }
 
 sub _setup_home {
@@ -25,6 +25,8 @@ sub _setup_home {
 }
 
 __PACKAGE__->meta->make_immutable;
+
+1;
 
 __END__
 
@@ -34,15 +36,17 @@ __END__
 
 =head1 SYNOPSIS
 
-  <VirtualHost 127.0.0.1:8080>
-      ServerName hoge.example.com:8080
-      DocumentRoot "/var/www/myapp"
+  <VirtualHost *:80>
+      ServerName angelos.org
+      DocumentRoot /var/www/myapp
 
+      <Perl>
+          use lib qw(/var/www/myapp/lib);
+      </Perl>
       <Location />
-          SetHandler modperl
+          SetHandler perl-script
           PerlSetEnv ANGELOS_APP_CLASS MyApp
-          PerlResponseHandler Angelos::Server::ModPerl
-          PerlSwitches -Mlib=/var/www/myapp/lib
+          PerlResponseHandler Angelos::Engine::ModPerl
       </Location>
   </VirtualHost>
 
@@ -62,4 +66,4 @@ it under the same terms as Perl itself.
 
 =cut
 
-1;
+

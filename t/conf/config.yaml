@@ -7,7 +7,7 @@ components:
 #  controller:
 #    - module: Dumper
 
-middlewares:
-  - module: Angelos::Middleware::Profile
+#middlewares:
+#  - module: Angelos::Middleware::Profile
 #  - module: HTTPx::Middleware::DebugScreen
 
