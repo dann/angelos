@@ -17,7 +17,7 @@ test_tcp(
         my $port = shift;
         my $ua   = LWP::UserAgent->new;
         for ( 0 .. $loop ) {
-            $ua->get("http://localhost:$port/");
+            $ua->get("http://localhost:$port/book/index");
         }
     },
     server => sub {

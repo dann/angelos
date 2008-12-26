@@ -49,21 +49,16 @@ has 'server' => (
     is      => 'rw',
 );
 
-has 'server_instance' => (
+has 'engine' => (
     is      => 'rw',
     handles => ['controller'],
 );
 
 no Mouse;
 
-#sub BUILD {
-#    my $self = shift;
-#    my $server = $self->setup;
-#}
-
 sub run {
     my $self = shift;
-    $self->server_instance->run;
+    $self->engine->run;
 }
 
 sub setup {
@@ -94,27 +89,27 @@ sub setup_home {
 
 sub setup_engine {
     my $self   = shift;
-    my $server = Angelos::Engine->new(
+    my $engine = Angelos::Engine->new(
         root   => $self->root,
         host   => $self->host,
         port   => $self->port,
         server => $self->server,
         conf   => $self->conf,
     );
-    $server->load_plugin($_->{module}) for Angelos::Config->engine_plugins;
-    $self->server_instance($server);
-    $server;
+    $engine->load_plugin($_->{module}) for Angelos::Config->engine_plugins;
+    $self->engine($engine);
+    $engine;
 }
 
 sub setup_logger {
     my $self = shift;
-    $self->server_instance->logger( Angelos::Logger->new );
+    $self->engine->logger( Angelos::Logger->new );
 }
 
 sub setup_components {
     my $self = shift;
     my $components
-        = $self->server_instance->component_loader->load_components(
+        = $self->engine->component_loader->load_components(
         ref $self );
     $components;
 }
@@ -127,7 +122,7 @@ sub setup_dispatcher {
 sub _setup_dispatch_rules {
     my $self   = shift;
     my $routes = $self->build_routes;
-    $self->server_instance->add_route($_) for @{$routes};
+    $self->engine->add_route($_) for @{$routes};
 }
 
 sub build_routes {
@@ -142,7 +137,7 @@ sub build_root {
 
 sub engine {
     my $self = shift;
-    $self->server_instance->engine;
+    $self->engine->engine;
 }
 
 sub is_debug {
