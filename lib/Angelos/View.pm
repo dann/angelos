@@ -5,7 +5,7 @@ use Angelos::MIMETypes;
 use Path::Class qw(file dir);
 use Carp ();
 
-with( 'Angelos::Component', 'MouseX::Plaggerize', );
+with( 'Angelos::Component', );
 
 has 'context' => ( is => 'rw', );
 

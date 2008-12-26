@@ -14,7 +14,7 @@ use Angelos::Exceptions;
 use Angelos::Exception;
 use Angelos::Logger;
 
-with( 'MouseX::Plaggerize', );
+with( 'Angelos::Class::Hookable', );
 
 has 'engine' => (
     is      => 'rw',

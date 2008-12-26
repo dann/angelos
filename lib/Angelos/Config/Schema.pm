@@ -97,6 +97,19 @@ sub config {
                             },
                         ],
                     },
+                    engine => {
+                        type     => 'seq',
+                        sequence => [
+                            {   type    => 'map',
+                                mapping => {
+                                    module =>
+                                        { type => 'str', required => 1, },
+                                    config => { type => 'any', },
+                                },
+                            },
+                        ],
+                    },
+ 
  
                 }
             },

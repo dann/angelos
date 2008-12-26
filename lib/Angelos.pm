@@ -70,7 +70,7 @@ sub setup {
     my $self = shift;
     $self->setup_home;
     $self->setup_debug_plugins;
-    $self->setup_server;
+    $self->setup_engine;
     $self->setup_logger;
     $self->setup_components;
     $self->setup_dispatcher;
@@ -92,7 +92,7 @@ sub setup_home {
     $home;
 }
 
-sub setup_server {
+sub setup_engine {
     my $self   = shift;
     my $server = Angelos::Engine->new(
         root   => $self->root,
@@ -101,6 +101,7 @@ sub setup_server {
         server => $self->server,
         conf   => $self->conf,
     );
+    $server->load_plugin($_->{module}) for Angelos::Config->engine_plugins;
     $self->server_instance($server);
     $server;
 }

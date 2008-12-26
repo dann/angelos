@@ -20,6 +20,15 @@ sub logger_conf_path {
     Angelos::Home->path_to( 'conf', 'log.yaml' );
 }
 
+sub session {
+    my $class = shift;
+    my $global = $class->config->{global};
+    unless ($global) {
+        return +{};
+    }
+    $global->{session}; 
+}
+
 sub controller_plugins {
     my $class   = shift;
     my $plugins = $class->config->{plugins};
@@ -53,6 +62,16 @@ sub debug_plugins {
         return wantarray ? () : [];
     }
     $plugins = $plugins->{debug} || [];
+    return wantarray ? @{$plugins} : $plugins;
+}
+
+sub engine_plugins {
+    my $class = shift;
+    my $plugins = $class->config->{plugins};
+    unless ($plugins) {
+        return wantarray ? () : [];
+    }
+    $plugins = $plugins->{engine} || [];
     return wantarray ? @{$plugins} : $plugins;
 }
 

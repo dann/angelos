@@ -1,4 +1,4 @@
-package Angelos::Session::Builder;
+package Angelos::SessionBuilder;
 use Mouse;
 use HTTP::Session;
 use Angelos::Config;
@@ -6,12 +6,12 @@ use UNIVERSAL::require;
 
 no Mouse;
 
-sub construct_session {
+sub build {
     my ( $self, $request ) = @_;
     HTTP::Session->new(
         store   => $self->_build_session_store,
         state   => $self->_build_session_state($request),
-        id      => $self->_session_id_builder_class,
+        id      => $self->_session_id_class,
         request => $request,
     );
 }
@@ -48,6 +48,10 @@ sub _session_state_class {
 
 sub _session_state_params {
     Angelos::Config->session->{state}->{config} || {};
+}
+
+sub _session_id_class {
+    Angelos::Config->session->{id} || 'HTTP::Session::ID::MD5';
 }
 
 __PACKAGE__->meta->make_immutable;

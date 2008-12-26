@@ -19,6 +19,10 @@ has 'response' => (
     required => 1
 );
 
+has 'session' => (
+    is       => 'rw',
+);
+
 has 'stash' => (
     is      => 'rw',
     default => sub {
