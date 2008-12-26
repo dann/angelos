@@ -9,7 +9,8 @@ sub config {
     my $class = shift;
     return $CONFIG if $CONFIG;
 
-    my $CONFIG ||= Angelos::Config::Loader->load(
+    my $CONFIG
+        ||= Angelos::Config::Loader->load(
         Angelos::Home->path_to( 'conf', 'config.yaml' ),
         Angelos::Config::Schema->config );
     $CONFIG;
@@ -40,10 +41,10 @@ sub view_plugins {
 }
 
 sub debug_plugins {
-    my $class   = shift;
+    my $class = shift;
     my $plugins;
-    if($ENV{ANGELOS_DEBUG}) {
-        $plugins = ['Components', 'Routes'];
+    if ( $ENV{ANGELOS_DEBUG} ) {
+        $plugins = [ { module => 'Components' }, { module => 'Routes' } ];
         return wantarray ? @{$plugins} : $plugins;
     }
 
@@ -52,7 +53,6 @@ sub debug_plugins {
         return wantarray ? () : [];
     }
     $plugins = $plugins->{debug} || [];
-   warn $_ for @{$plugins};
     return wantarray ? @{$plugins} : $plugins;
 }
 

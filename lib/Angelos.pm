@@ -7,18 +7,23 @@ use Mouse;
 use Angelos::Engine;
 use Angelos::Utils;
 use Angelos::Home;
-use Angelos::Component::Loader;
 use Angelos::Dispatcher::Routes::Builder;
 use Angelos::Config;
 use Angelos::Logger;
 
-#with 'Angelos::Role::Pluggable';
+with 'Angelos::Class::Pluggable';
 
-#has '_plugin_ns' => (
-#    +default => sub {
-#        'Debug';
-#    }
-#);
+has '_plugin_ns' => (
+    +default => sub {
+        'Debug';
+    }
+);
+
+has '_plugin_app_ns' => (
+    +default => sub {
+        ['Angelos'];
+    }
+);
 
 has 'conf' => ( is => 'rw', );
 
@@ -36,7 +41,7 @@ has 'host' => (
 
 has 'port' => (
     is       => 'rw',
-    default  => 10070,
+    default  => 3000,
     required => 1,
 );
 
@@ -73,7 +78,7 @@ sub setup {
 
 sub setup_debug_plugins {
     my $self = shift;
-#    $self->load_plugin($_) for Angelos::Config->debug_plugins;
+    $self->load_plugin($_->{module}) for Angelos::Config->debug_plugins;
 }
 
 sub setup_home {
@@ -93,23 +98,11 @@ sub setup_server {
         root   => $self->root,
         host   => $self->host,
         port   => $self->port,
-        server => $self->_server,
+        server => $self->server,
         conf   => $self->conf,
     );
     $self->server_instance($server);
     $server;
-}
-
-sub _server {
-    my $self = shift;
-    return $self->server if $self->server;
-
-    if($ENV{MOD_PERL}) {
-        $self->server('ModPerl');
-    } else {
-        $self->server('ServerSimple');
-    }
-    $self->server;
 }
 
 sub setup_logger {

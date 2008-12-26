@@ -85,6 +85,19 @@ sub config {
                             },
                         ],
                     },
+                    debug => {
+                        type     => 'seq',
+                        sequence => [
+                            {   type    => 'map',
+                                mapping => {
+                                    module =>
+                                        { type => 'str', required => 1, },
+                                    config => { type => 'any', },
+                                },
+                            },
+                        ],
+                    },
+ 
                 }
             },
             middlewares => {

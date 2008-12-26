@@ -1,21 +1,19 @@
-package Angelos::Role::Pluggable;
-use Carp;
+package Angelos::Class::Pluggable;
+use Carp ();
 use Mouse::Role;
 use Module::Pluggable::Object;
 use Mouse::Util;
 
-our $VERSION = '0.0008';
-
 =head1 NAME
 
-   Angelos::Role::Pluggable - Make your classes pluggable
+   Angelos::Class::Pluggable - Make your classes pluggable
 
 =head1 SYNOPSIS
 
     package MyApp;
     use Mouse;
 
-    with 'Angelos::Role::Pluggable';
+    with 'Angelos::Class::Pluggable';
 
     ...
 
@@ -43,8 +41,8 @@ has _plugin_ns => (
 has _plugin_app_ns => (
     is       => 'rw',
     required => 1,
-    isa      => 'Str',
-    default  => sub { ref shift },
+    isa      => 'ArrayRef',
+    default  => sub { [ ref shift ] },
 );
 
 has _plugin_loaded => (
@@ -96,7 +94,7 @@ sub _role_from_plugin {
     #Father, please forgive me for I have sinned.
     my @roles = grep {/${o}$/} $self->_plugin_locator->plugins;
 
-    croak("Unable to locate plugin '$plugin'") unless @roles;
+    Carp::croak("Unable to locate plugin '$plugin'") unless @roles;
     return $roles[0] if @roles == 1;
     return shift @roles;
 }
@@ -116,15 +114,16 @@ sub _load_and_apply_role {
         eval { Mouse::load_class($role) };
         confess("Failed to load role: ${role} $@") if $@;
     }
-    Mouse::Util::apply_all_roles( (ref $self, @roles) );
+    Mouse::Util::apply_all_roles( ( ref $self, @roles ) );
     return 1;
 }
 
 sub _build_plugin_locator {
-    my $self = shift;
+    my $self    = shift;
     my $locator = Module::Pluggable::Object->new(
         search_path => [
-            map { join '::', ( $_, $self->_plugin_ns ) } $self->_plugin_app_ns
+            map { join '::', ( $_, $self->_plugin_ns ) }
+                @{ $self->_plugin_app_ns }
         ]
     );
     return $locator;
@@ -132,6 +131,5 @@ sub _build_plugin_locator {
 
 1;
 
-__END__;
+__END__
 
-1;

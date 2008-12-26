@@ -26,7 +26,7 @@ sub __make_dispatch_table_report {
     foreach my $route ( @{$routes} ) {
         $t->row(
             $route->path,
-            join( ',', @{ $route->conditions->{method} } ),
+            join( ',', @{ $route->conditions->{method} || [] } ),
             $route->params->{controller},
             $route->params->{action}
         );
