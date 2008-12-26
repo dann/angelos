@@ -1,33 +1,31 @@
 package Angelos::MIMETypes;
 use Mouse;
-use MIME::Types;
-use MIME::Type;
 
 has 'types' => (
     is      => 'rw',
+    isa     => 'HashRef',
     default => sub {
-        MIME::Types->new;
-    },
+        {   css  => 'text/css',
+            gif  => 'image/gif',
+            jpeg => 'image/jpeg',
+            jpg  => 'image/jpeg',
+            js   => 'application/javascript',
+            png  => 'image/png',
+            txt  => 'text/plain',
+        };
+    }
 );
 
 no Mouse;
 
 sub mime_type_of {
     my ( $self, $ext ) = @_;
-    if ( UNIVERSAL::isa( $ext, 'URI' ) ) {
-        $ext = ( $ext->path =~ /\.(\w+)$/ )[0];
-    }
-    $self->types->mimeTypeOf($ext);
+    $self->types->{$ext} || 'application/octet-stream';
 }
 
 sub add_type {
-    my ( $self, $type, $extensions ) = @_;
-    $self->types->add_type(
-        MIME::Type->new(
-            type      => $type,
-            extension => $extensions,
-        )
-    );
+    my ( $self, $type, $extension ) = @_;
+    $self->types->{$type} = $extension;
 }
 
 __PACKAGE__->meta->make_immutable;

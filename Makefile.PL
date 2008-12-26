@@ -9,7 +9,6 @@ requires 'Module::Pluggable::Object';
 requires 'Log::Dispatch::Config';
 requires 'Log::Dispatch::Configurator';
 requires 'Log::Dispatch::Configurator::YAML';
-requires 'MIME::Types';
 requires 'Path::Class';
 requires 'Text::SimpleTable';
 requires 'YAML';

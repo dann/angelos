@@ -10,7 +10,7 @@ use Angelos::Script::Engine;
 
 my $module = shift || 'ServerSimple';
 my $port = shift || empty_port();
-my $loop = shift || 200;
+my $loop = shift || 100;
 
 test_tcp(
     client => sub {
