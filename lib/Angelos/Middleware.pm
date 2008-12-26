@@ -4,7 +4,7 @@ use Mouse;
 no Mouse;
 
 sub wrap {
-    my $self = shift;
+    my ($self, $next) = @_;
     die 'Implement me';
 }
 

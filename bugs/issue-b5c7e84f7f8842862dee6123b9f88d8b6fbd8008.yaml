@@ -1,0 +1,22 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: i18n support
+desc: plugin or core
+type: :feature
+component: angelos
+release: 
+reporter: dann <techmemo@gmail.com>
+status: :closed
+disposition: :fixed
+creation_time: 2008-12-26 10:30:26.401307 Z
+references: []
+
+id: b5c7e84f7f8842862dee6123b9f88d8b6fbd8008
+log_events: 
+- - 2008-12-26 10:30:27.202068 Z
+  - dann <techmemo@gmail.com>
+  - created
+  - ""
+- - 2008-12-26 10:31:28.196704 Z
+  - dann <techmemo@gmail.com>
+  - closed with disposition fixed
+  - ""

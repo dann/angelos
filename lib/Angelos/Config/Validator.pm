@@ -1,5 +1,4 @@
 package Angelos::Config::Validator;
-use Kwalify;
 
 our $HasKwalify;
 eval {
@@ -19,7 +18,6 @@ sub validate_config {
         warn "Kwalify is not installed. Skipping the config validation."
             if $^W;
     }
-
 }
 
 1;

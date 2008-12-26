@@ -1,0 +1,18 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: Authentication and Authorization
+desc: ""
+type: :feature
+component: angelos
+release: 
+reporter: dann <techmemo@gmail.com>
+status: :unstarted
+disposition: 
+creation_time: 2008-12-26 10:30:47.971007 Z
+references: []
+
+id: 278ccd6189aa8dd36bd399e33ec433b04f80e4ba
+log_events: 
+- - 2008-12-26 10:30:50.300123 Z
+  - dann <techmemo@gmail.com>
+  - created
+  - ""
