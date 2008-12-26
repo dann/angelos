@@ -9,7 +9,7 @@ sub config {
     my $class = shift;
     return $CONFIG if $CONFIG;
 
-    my $CONFIG
+    $CONFIG
         ||= Angelos::Config::Loader->load(
         Angelos::Home->path_to( 'conf', 'config.yaml' ),
         Angelos::Config::Schema->config );
