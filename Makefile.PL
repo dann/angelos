@@ -3,9 +3,11 @@ name 'Angelos';
 all_from 'lib/Angelos.pm';
 
 requires 'Mouse';
-requires 'HTTP::Router';
 requires 'HTTP::Engine';
+requires 'HTTP::Router';
+requires 'HTTP::Session';
 requires 'Module::Pluggable::Object';
+requires 'UNIVERSAL::require';
 requires 'Log::Dispatch::Config';
 requires 'Log::Dispatch::Configurator';
 requires 'Log::Dispatch::Configurator::YAML';
@@ -16,6 +18,19 @@ requires 'Devel::InnerPackage';
 requires 'Module::Setup';
 requires 'Kwalify';
 requires 'Locale::Maketext::Simple';
+requires 'Locale::Maketext::Extract';
+requires 'Sub::Exporter';
+requires 'Devel::EvalContext';
+requires 'App::CLI';
+requires 'Pod::Simple::Text';
+requires 'FindBin::libs';
+requires 'String::CamelCase';
+requires 'MIME::Types';
+requires 'Template';
+requires 'Error';
+requires 'Error::Simple';
+requires 'File::Find::Rule';
+requires 'Devel::MemUsed';
 
 build_requires 'Test::More';
 
