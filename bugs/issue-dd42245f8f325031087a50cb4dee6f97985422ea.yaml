@@ -1,0 +1,18 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: display method like merb
+desc: ""
+type: :task
+component: controller
+release: 
+reporter: dann <techmemo@gmail.com>
+status: :unstarted
+disposition: 
+creation_time: 2008-12-27 19:56:35.600547 Z
+references: []
+
+id: dd42245f8f325031087a50cb4dee6f97985422ea
+log_events: 
+- - 2008-12-27 19:56:36.176321 Z
+  - dann <techmemo@gmail.com>
+  - created
+  - ""
