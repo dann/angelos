@@ -1,4 +1,4 @@
-package Angelos::Class::Pluggable;
+package Angelos::Class::Mixinable;
 use Carp ();
 use Mouse::Role;
 use Module::Pluggable::Object;
@@ -6,18 +6,18 @@ use Mouse::Util;
 
 =head1 NAME
 
-   Angelos::Class::Pluggable - Make your classes pluggable
+   Angelos::Class::Mixinable - Make your classes pluggable
 
 =head1 SYNOPSIS
 
     package MyApp;
     use Mouse;
 
-    with 'Angelos::Class::Pluggable';
+    with 'Angelos::Class::Mixinable';
 
     ...
 
-    package MyApp::Plugin::Pretty;
+    package MyApp::Mixin::Pretty;
     use Mouse::Role;
 
     sub pretty{ print "I am pretty" }
@@ -27,48 +27,48 @@ use Mouse::Util;
     #
     use MyApp;
     my $app = MyApp->new;
-    $app->load_plugin('Pretty');
+    $app->load_mixin('Pretty');
     $app->pretty;
 =cut
 
-has _plugin_ns => (
+has _mixin_ns => (
     is       => 'rw',
     required => 1,
     isa      => 'Str',
-    default  => sub {'Plugin'},
+    default  => sub {'Mixin'},
 );
 
-has _plugin_app_ns => (
+has _mixin_app_ns => (
     is       => 'rw',
     required => 1,
     isa      => 'ArrayRef',
-    default  => sub { [ ref shift ] },
+    default  => sub { [ ref shift, 'Angelos' ] },
 );
 
-has _plugin_loaded => (
+has _mixin_loaded => (
     is       => 'rw',
     required => 1,
     isa      => 'HashRef',
     default  => sub { {} }
 );
 
-has _plugin_locator => (
+has _mixin_locator => (
     is        => 'rw',
     required  => 1,
     lazy      => 1,
     isa       => 'Module::Pluggable::Object',
-    clearer   => '_clear_plugin_locator',
-    predicate => '_has_plugin_locator',
-    builder   => '_build_plugin_locator'
+    clearer   => '_clear_mixin_locator',
+    predicate => '_has_mixin_locator',
+    builder   => '_build_mixin_locator'
 );
 
-sub load_plugins {
-    my ( $self, @plugins ) = @_;
-    die("You must provide a plugin name") unless @plugins;
+sub load_mixins {
+    my ( $self, @mixins ) = @_;
+    die("You must provide a mixin name") unless @mixins;
 
-    my $loaded = $self->_plugin_loaded;
-    my @load   = grep { not exists $loaded->{$_} } @plugins;
-    my @roles  = map { $self->_role_from_plugin($_) } @load;
+    my $loaded = $self->_mixin_loaded;
+    my @load   = grep { not exists $loaded->{$_} } @mixins;
+    my @roles  = map { $self->_role_from_mixin($_) } @load;
 
     if ( $self->_load_and_apply_role(@roles) ) {
         @{$loaded}{@load} = @roles;
@@ -79,22 +79,22 @@ sub load_plugins {
     }
 }
 
-sub load_plugin {
+sub load_mixin {
     my $self = shift;
-    $self->load_plugins(@_);
+    $self->load_mixins(@_);
 }
 
-sub _role_from_plugin {
-    my ( $self, $plugin ) = @_;
+sub _role_from_mixin {
+    my ( $self, $mixin ) = @_;
 
-    return $1 if ( $plugin =~ /^\+(.*)/ );
+    return $1 if ( $mixin =~ /^\+(.*)/ );
 
-    my $o = join '::', $self->_plugin_ns, $plugin;
+    my $o = join '::', $self->_mixin_ns, $mixin;
 
     #Father, please forgive me for I have sinned.
-    my @roles = grep {/${o}$/} $self->_plugin_locator->plugins;
+    my @roles = grep {/${o}$/} $self->_mixin_locator->mixins;
 
-    Carp::croak("Unable to locate plugin '$plugin'") unless @roles;
+    Carp::croak("Unable to locate mixin '$mixin'") unless @roles;
     return $roles[0] if @roles == 1;
     return shift @roles;
 }
@@ -118,12 +118,12 @@ sub _load_and_apply_role {
     return 1;
 }
 
-sub _build_plugin_locator {
+sub _build_mixin_locator {
     my $self    = shift;
     my $locator = Module::Pluggable::Object->new(
         search_path => [
-            map { join '::', ( $_, $self->_plugin_ns ) }
-                @{ $self->_plugin_app_ns }
+            map { join '::', ( $_, $self->_mixin_ns ) }
+                @{ $self->_mixin_app_ns }
         ]
     );
     return $locator;

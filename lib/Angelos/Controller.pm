@@ -28,8 +28,8 @@ sub _call_filters {
     my ( $self, $filters, $context, $action, $params ) = @_;
     foreach my $filter ( @{$filters} ) {
         my $method = $filter->{name};
-        unless ( exists $filter->{except}
-            && $action eq $filter->{except} )
+        unless ( exists $filter->{exclude}
+            && $action eq $filter->{exclude} )
         {
             Carp::croak "$method doesn't exist"
                 unless __PACKAGE__->meta->has_method($method);

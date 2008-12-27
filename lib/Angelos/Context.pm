@@ -3,6 +3,8 @@ use Mouse;
 use Carp ();
 use Angelos::Logger;
 
+with 'Angelos::Class::Pluggable';
+
 has 'app' => (
     is       => 'rw',
     required => 1,

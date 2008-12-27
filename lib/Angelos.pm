@@ -11,17 +11,11 @@ use Angelos::Dispatcher::Routes::Builder;
 use Angelos::Config;
 use Angelos::Logger;
 
-with 'Angelos::Class::Pluggable';
+with 'Angelos::Class::Mixinable';
 
-has '_plugin_ns' => (
+has '_mixin_ns' => (
     +default => sub {
         'Debug';
-    }
-);
-
-has '_plugin_app_ns' => (
-    +default => sub {
-        ['Angelos'];
     }
 );
 
@@ -64,16 +58,21 @@ sub run {
 sub setup {
     my $self = shift;
     $self->setup_home;
-    $self->setup_debug_plugins;
+    $self->setup_mixins;
     $self->setup_engine;
     $self->setup_logger;
     $self->setup_components;
     $self->setup_dispatcher;
 }
 
-sub setup_debug_plugins {
+sub setup_mixins {
     my $self = shift;
-    $self->load_plugin($_->{module}) for Angelos::Config->debug_plugins;
+    $self->setup_debug_mixins;
+}
+
+sub setup_debug_mixins {
+    my $self = shift;
+    $self->load_mixin($_->{module}) for Angelos::Config->debug_mixins;
 }
 
 sub setup_home {
@@ -135,11 +134,6 @@ sub build_root {
     Angelos::Home->path_to('root')->absolute;
 }
 
-sub engine {
-    my $self = shift;
-    $self->engine->engine;
-}
-
 sub is_debug {
     $ENV{ANGELOS_DEBUG} ? 1 : 0;
 }
@@ -161,7 +155,9 @@ Angelos -
   extends 'Angelos';
 
   use MyApp;
-  MyApp->new->run;
+  my $app = MyApp->new;
+  $app->setup;
+  $app->run;
 
 Edit conf/routes.yaml to make dispatch rules and create an application class like below.
 

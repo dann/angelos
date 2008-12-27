@@ -49,7 +49,7 @@ sub view_plugins {
     return wantarray ? @{$plugins} : $plugins;
 }
 
-sub debug_plugins {
+sub debug_mixins {
     my $class = shift;
     my $plugins;
     if ( $ENV{ANGELOS_DEBUG} ) {

@@ -3,13 +3,15 @@ components:
   controller:
     - module: A
 
-#plugins:
-  #controller:
-  #  - module: Dumper
-#  debug:
-#    - module: Components
-#  engine:
-#    - module: Session
+mixins:
+  controller:
+    - module: Dumper
+  debug:
+    - module: Components
+
+plugins:
+  engine:
+   - module: Session
 
 #middlewares:
 #  - module: Angelos::Middleware::Profile

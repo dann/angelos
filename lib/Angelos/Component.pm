@@ -3,6 +3,7 @@ use strict;
 use warnings;
 use Mouse::Role;
 
-with 'Angelos::Class::Pluggable';
+with 'Angelos::Class::Mixinable';
+with 'Angelos::Class::Hookable';
 
 1;

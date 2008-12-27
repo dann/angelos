@@ -85,18 +85,6 @@ sub config {
                             },
                         ],
                     },
-                    debug => {
-                        type     => 'seq',
-                        sequence => [
-                            {   type    => 'map',
-                                mapping => {
-                                    module =>
-                                        { type => 'str', required => 1, },
-                                    config => { type => 'any', },
-                                },
-                            },
-                        ],
-                    },
                     engine => {
                         type     => 'seq',
                         sequence => [
@@ -111,6 +99,59 @@ sub config {
                     },
  
  
+                }
+            },
+            mixins => {
+                type    => 'map',
+                mapping => {
+                    model => {
+                        type     => 'seq',
+                        sequence => [
+                            {   type    => 'map',
+                                mapping => {
+                                    module =>
+                                        { type => 'str', required => 1, },
+                                    config => { type => 'any', },
+                                },
+                            },
+                        ],
+                    },
+                    controller => {
+                        type     => 'seq',
+                        sequence => [
+                            {   type    => 'map',
+                                mapping => {
+                                    module =>
+                                        { type => 'str', required => 1, },
+                                    config => { type => 'any', },
+                                },
+                            },
+                        ],
+                    },
+                    view => {
+                        type     => 'seq',
+                        sequence => [
+                            {   type    => 'map',
+                                mapping => {
+                                    module =>
+                                        { type => 'str', required => 1, },
+                                    config => { type => 'any', },
+                                },
+                            },
+                        ],
+                    },
+                    debug => {
+                        type     => 'seq',
+                        sequence => [
+                            {   type    => 'map',
+                                mapping => {
+                                    module =>
+                                        { type => 'str', required => 1, },
+                                    config => { type => 'any', },
+                                },
+                            },
+                        ],
+                    },
                 }
             },
             middlewares => {
