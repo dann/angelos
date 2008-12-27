@@ -1,5 +1,8 @@
 package Angelos::Script;
 use base qw(App::CLI);
+use Angelos::Home;
+use Cwd;
+use Path::Class;
 
 =head1 NAME
 
@@ -27,6 +30,7 @@ sub prepare {
             unshift @ARGV, 'help';
         }
     }
+    Angelos::Home->set_home(getcwd);
     return $self->SUPER::prepare(@_);
 }
 

@@ -19,10 +19,6 @@ package Angelos::Exception::ArgumentTypeError;
 use base 'Angelos::Exception';
 sub description {'Argument type mismatch'}
 
-package Angelos::Exception::ParamMethodUnimplemented;
-use base 'Angelos::Exception';
-sub description {'Object does not implement param() method'}
-
 package Angelos::Exception::TemplateNotFound;
 use base 'Angelos::Exception';
 sub description {'Template cannot open template file'}
@@ -35,13 +31,13 @@ package Angelos::Exception::TemplateParseError;
 use base 'Angelos::Exception';
 sub description {'TT parse error'}
 
-package Angelos::Exception::ResourceFileNotFound;
-use base 'Angelos::Exception';
-sub description {'MessageResource file not found'}
-
 package Angelos::Exception::LoadingModuleError;
 use base 'Angelos::Exception';
 sub description {'Error while loading module'}
+
+package Angelos::Exception::ParameterMissingError;
+use base 'Angelos::Exception';
+sub description {'required parameter is missing'}
 
 1;
 

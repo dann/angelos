@@ -18,6 +18,12 @@ sub home {
     $HOME;
 }
 
+sub set_home {
+    my ( $class, $home ) = @_;
+    $HOME = dir($home)->absolute->cleanup;
+    $HOME;
+}
+
 # FIXME
 sub _detect_home {
     my ( $class, $clazz ) = @_;

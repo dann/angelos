@@ -10,6 +10,7 @@ use Angelos::Home;
 use Angelos::Dispatcher::Routes::Builder;
 use Angelos::Config;
 use Angelos::Logger;
+use Angelos::Exceptions;
 
 with 'Angelos::Class::Mixinable';
 

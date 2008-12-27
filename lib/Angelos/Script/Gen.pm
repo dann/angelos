@@ -3,6 +3,7 @@ use base qw(App::CLI::Command);
 use Mouse;
 use Module::Setup;
 use String::CamelCase qw(camelize);
+use Angelos::Exceptions;
 
 no Mouse;
 
@@ -31,10 +32,20 @@ sub run {
     my $self   = shift;
     my $flavor = $self->{flavor} || 'app';
     my $module = $self->{name};
-    die "You need to give your new module name --module\n"
-      unless $module =~ /\w+/;
+
+    $self->validate_options;
 
     $self->generate( $flavor, $module );
+}
+
+sub validate_options {
+    my $self   = shift;
+    my $flavor = $self->{flavor} || 'app';
+    my $module = $self->{name};
+
+    Angelos::Exception::ParameterMissingError->throw(
+        "You need to give your new module name --module\n")
+        unless $module;
 }
 
 sub generate {
@@ -48,7 +59,7 @@ sub generate {
         flavor_class => $flavor_class,
         direct       => 1,
     };
-    my $argv = [ $module ];
+    my $argv = [$module];
     my $pmsetup = Module::Setup->new( options => $options, argv => $argv );
     $pmsetup->run( $options, [ $module, $flavor_class ] );
 }

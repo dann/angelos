@@ -8,6 +8,7 @@ use MIME::Types               ();
 use Angelos::Home;
 use Path::Class;
 use Mouse;
+use Angelos::Exceptions;
 
 has 'language' => ( is => 'rw', );
 
@@ -81,7 +82,20 @@ sub _js_gen {
     $LMExtract->set_compiled_entries;
     $LMExtract->compile(USE_GETTEXT_STYLE);
 
-    die 'implement me';
+    mkpath [
+        Angelos::Home->path_to( 'share', 'root', 'static', 'js', 'dict' ) ];
+    for my $lang ( Angelos::I18N->available_languages ) {
+        my $file
+            = Angelos::Home->path_to( 'share', 'root', 'static', 'js', 'dict',
+            "$lang.json" );
+        open my $fh, '>', $file or die "$file: $!";
+        no strict 'refs';
+        print $fh $self->_po_to_json;
+    }
+}
+
+sub _po_to_json {
+
 }
 
 =head2 _check_mime_type FILENAME
@@ -109,15 +123,10 @@ all your message catalogs and updates them with new and changed messages.
 sub update_catalogs {
     my $self = shift;
     $self->extract_messages();
-    my @catalogs = File::Find::Rule->file->in(
-        $self->_po_dir );
+    my @catalogs = File::Find::Rule->file->in( $self->_po_dir );
     if ( $self->language ) {
         $self->update_catalog(
-            File::Spec->catfile(
-                $self->_po_dir,
-                $self->language . ".po"
-            )
-        );
+            File::Spec->catfile( $self->_po_dir, $self->language . ".po" ) );
     }
     else {
         foreach my $catalog (@catalogs) {
@@ -128,8 +137,8 @@ sub update_catalogs {
 }
 
 sub _po_dir {
-   my $self = shift; 
-    Angelos::Home->path_to('share','po');
+    my $self = shift;
+    Angelos::Home->path_to( 'share', 'po' );
 }
 
 =head2 update_catalog FILENAME
@@ -165,7 +174,7 @@ sub extract_messages {
     # find all the .pm files in @INC
     my @files
         = File::Find::Rule->file->in(
-        Angelos::Home->path_to('share', 'root', 'templates' ),
+        Angelos::Home->path_to( 'share', 'root', 'templates' ),
         'lib', 'bin', @{ $self->{directories} || [] } );
 
     foreach my $file (@files) {
