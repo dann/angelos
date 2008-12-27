@@ -5,13 +5,16 @@ use File::Path 'mkpath';
 use Locale::Maketext::Extract ();
 use File::Find::Rule          ();
 use MIME::Types               ();
-our $MIME      = MIME::Types->new();
-our $LMExtract = Locale::Maketext::Extract->new;
-use constant USE_GETTEXT_STYLE => 1;
-
+use Angelos::Home;
 use Mouse;
 
 has 'language' => ( is => 'rw', );
+
+no Mouse;
+
+our $MIME      = MIME::Types->new();
+our $LMExtract = Locale::Maketext::Extract->new;
+use constant USE_GETTEXT_STYLE => 1;
 
 =head1 NAME
 

@@ -95,7 +95,7 @@ sub setup_engine {
         server => $self->server,
         conf   => $self->conf,
     );
-    $engine->load_plugin($_->{module}) for Angelos::Config->engine_plugins;
+    $engine->load_plugin($_->{module}) for Angelos::Config->plugins('engine');
     $self->engine($engine);
     $engine;
 }

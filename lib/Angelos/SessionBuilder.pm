@@ -25,12 +25,12 @@ sub _build_session_store {
 
 sub _session_store_class {
     return 'HTTP::Session::Store::OnMemory'
-        unless Angelos::Config->session->{store}->{type};
-    return Angelos::Config->session->{store}->{type};
+        unless _session()->{store}->{type};
+    return _session()->{store}->{type};
 }
 
 sub _session_store_params {
-    Angelos::Config->session->{store}->{config} || {};
+    _session()->{store}->{config} || {};
 }
 
 sub _build_session_state {
@@ -42,16 +42,20 @@ sub _build_session_state {
 
 sub _session_state_class {
     return 'HTTP::Session::State::Cookie'
-        unless Angelos::Config->session->{state}->{type};
-    return Angelos::Config->session->{state}->{class};
+        unless _session()->{state}->{type};
+    return _session()->{state}->{class};
 }
 
 sub _session_state_params {
-    Angelos::Config->session->{state}->{config} || {};
+    _session()->{state}->{config} || {};
 }
 
 sub _session_id_class {
-    Angelos::Config->session->{id} || 'HTTP::Session::ID::MD5';
+    _session()->{id} || 'HTTP::Session::ID::MD5';
+}
+
+sub _session {
+    Angelos::Config->global('session');
 }
 
 __PACKAGE__->meta->make_immutable;

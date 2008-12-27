@@ -47,10 +47,13 @@ sub _install_plugins_to {
     my ( $self, $component ) = @_;
     if ( $component =~ /Controller/i ) {
         $component->load_plugin( $_->{module} )
-            for Angelos::Config->controller_plugins;
+            for Angelos::Config->plugins('controller');
     } elsif ( $component =~ /View/i ) {
         $component->load_plugin( $_->{module} )
-            for Angelos::Config->view_plugins;
+            for Angelos::Config->plugins('view');
+    } elsif ( $component =~ /Model/i ) {
+        $component->load_plugin( $_->{module} )
+            for Angelos::Config->plugins('model');
     }
 }
 

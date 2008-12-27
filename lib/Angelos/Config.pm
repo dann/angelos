@@ -3,9 +3,43 @@ use Angelos::Home;
 use Angelos::Config::Loader;
 use Angelos::Config::Schema;
 
+sub global {
+    my $class = shift;
+    my $var   = shift;
+    $class->_get( 'global', $var );
+}
+
+sub plugins {
+    my $class   = shift;
+    my $var     = shift;
+    my $plugins = $class->_config->{plugins};
+    unless ($plugins) {
+        return wantarray ? () : [];
+    }
+    $plugins = $plugins->{$var} || [];
+    return wantarray ? @{$plugins} : $plugins;
+}
+
+sub mixins {
+    my $class = shift;
+    my $var   = shift;
+    $class->_get( 'mixins', $var );
+}
+
+sub middlewares {
+    my $class = shift;
+    $class->_get('middlewares');
+}
+
+sub routes {
+    my $routes = Angelos::Config::Loader->load(
+        Angelos::Home->path_to( 'conf', 'routes.yaml' ) );
+    return wantarray ? @{$routes} : $routes;
+}
+
 our $CONFIG;
 
-sub config {
+sub _config {
     my $class = shift;
     return $CONFIG if $CONFIG;
 
@@ -16,83 +50,22 @@ sub config {
     $CONFIG;
 }
 
+sub _get {
+    my $class   = shift;
+    my $section = shift;
+    my $var     = shift;
+    unless ( $class->_config->{$section} ) {
+        return +{};
+    }
+
+    unless ($var) {
+        return $class->_config->{$section};
+    }
+    return $class->_config->{$section}->{$var};
+}
+
 sub logger_conf_path {
     Angelos::Home->path_to( 'conf', 'log.yaml' );
-}
-
-sub i18n {
-    my $class = shift;
-    my $global = $class->config->{global};
-    unless ($global) {
-        return +{};
-    }
-    $global->{i18n}; 
-}
-
-sub session {
-    my $class = shift;
-    my $global = $class->config->{global};
-    unless ($global) {
-        return +{};
-    }
-    $global->{session}; 
-}
-
-sub controller_plugins {
-    my $class   = shift;
-    my $plugins = $class->config->{plugins};
-    unless ($plugins) {
-        return wantarray ? () : [];
-    }
-    $plugins = $plugins->{controller} || [];
-    return wantarray ? @{$plugins} : $plugins;
-}
-
-sub view_plugins {
-    my $class   = shift;
-    my $plugins = $class->config->{plugins};
-    unless ($plugins) {
-        return wantarray ? () : [];
-    }
-    $plugins = $plugins->{view} || [];
-    return wantarray ? @{$plugins} : $plugins;
-}
-
-sub debug_mixins {
-    my $class = shift;
-    my $plugins;
-    if ( $ENV{ANGELOS_DEBUG} ) {
-        $plugins = [ { module => 'Components' }, { module => 'Routes' } ];
-        return wantarray ? @{$plugins} : $plugins;
-    }
-
-    $plugins = $class->config->{plugins};
-    unless ($plugins) {
-        return wantarray ? () : [];
-    }
-    $plugins = $plugins->{debug} || [];
-    return wantarray ? @{$plugins} : $plugins;
-}
-
-sub engine_plugins {
-    my $class = shift;
-    my $plugins = $class->config->{plugins};
-    unless ($plugins) {
-        return wantarray ? () : [];
-    }
-    $plugins = $plugins->{engine} || [];
-    return wantarray ? @{$plugins} : $plugins;
-}
-
-sub routes {
-    my $routes = Angelos::Config::Loader->load(
-        Angelos::Home->path_to( 'conf', 'routes.yaml' ) );
-    return wantarray ? @{$routes} : $routes;
-}
-
-sub middlewares {
-    my $class = shift;
-    return $class->config->{middlewares} || [];
 }
 
 1;
