@@ -67,7 +67,8 @@ sub run {
 sub validate_options {
     my $self = shift;
     Angelos::Exception::ParameterMissingError->throw(
-        "You need to give your language --language\n") unless $self->{language};
+        "You need to give your language --language\n")
+        unless $self->{language};
 }
 
 sub _js_gen {
@@ -87,20 +88,24 @@ sub _js_gen {
     $LMExtract->set_compiled_entries;
     $LMExtract->compile(USE_GETTEXT_STYLE);
 
+    my $entries = $LMExtract->compiled_entries;
     mkpath [
         Angelos::Home->path_to( 'share', 'root', 'static', 'js', 'dict' ) ];
-    for my $lang ( Angelos::I18N->available_languages ) {
+    for my $lang ( @{ Angelos->global('i18n')->{available_languages} } ) {
         my $file
             = Angelos::Home->path_to( 'share', 'root', 'static', 'js', 'dict',
             "$lang.json" );
         open my $fh, '>', $file or die "$file: $!";
         no strict 'refs';
-        print $fh $self->_po_to_json;
+        foreach my $entry(@{$entries}) {
+            print $fh $self->_po_to_json($entry);
+        }
     }
 }
 
 sub _po_to_json {
-
+    my ($self, $entry) = @_;
+    die 'Implement me';
 }
 
 =head2 _check_mime_type FILENAME
