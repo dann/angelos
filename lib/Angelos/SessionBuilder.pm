@@ -55,7 +55,7 @@ sub _session_id_class {
 }
 
 sub _session {
-    Angelos::Config->global('session');
+    Angelos::Config->global('session') or die 'session config must be set';
 }
 
 __PACKAGE__->meta->make_immutable;

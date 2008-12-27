@@ -6,6 +6,7 @@ use Locale::Maketext::Extract ();
 use File::Find::Rule          ();
 use MIME::Types               ();
 use Angelos::Home;
+use Path::Class;
 use Mouse;
 
 has 'language' => ( is => 'rw', );
@@ -58,18 +59,22 @@ sub run {
     my $self = shift;
     return $self->_js_gen if $self->{js};
 
+    die 'language option must be set' unless $self->{language};
+
     $self->update_catalogs;
 }
 
 sub _js_gen {
     my $self     = shift;
     my @js_files = File::Find::Rule->file->in(
-        Angelos::Home->path_to( 'root', 'javascripts' ) );
+        Angelos::Home->path_to( 'share', 'root', 'static', 'js' ) );
 
     for my $file (@js_files) {
         next if $file =~ m/^ext/;
         next if $file =~ m/^yui/;
         next if $file =~ m/^rico/;
+        next if $file =~ m/^jquery/;
+        next if $file =~ m/^prototype/;
         $LMExtract->extract_file($file);
     }
 
@@ -105,11 +110,11 @@ sub update_catalogs {
     my $self = shift;
     $self->extract_messages();
     my @catalogs = File::Find::Rule->file->in(
-        Angelos::Config->global('i18n')->{'po_dir'} );
+        $self->_po_dir );
     if ( $self->language ) {
         $self->update_catalog(
             File::Spec->catfile(
-                Angelos->global('i18n')->{'po_dir'},
+                $self->_po_dir,
                 $self->language . ".po"
             )
         );
@@ -120,6 +125,11 @@ sub update_catalogs {
             $self->update_catalog($catalog);
         }
     }
+}
+
+sub _po_dir {
+   my $self = shift; 
+    Angelos::Home->path_to('share','po');
 }
 
 =head2 update_catalog FILENAME
@@ -155,7 +165,7 @@ sub extract_messages {
     # find all the .pm files in @INC
     my @files
         = File::Find::Rule->file->in(
-        Angelos::Home->path_to( 'root', 'templates' ),
+        Angelos::Home->path_to('share', 'root', 'templates' ),
         'lib', 'bin', @{ $self->{directories} || [] } );
 
     foreach my $file (@files) {

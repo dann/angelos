@@ -34,7 +34,7 @@ has 'dispatcher' => (
 has 'root' => (
     is       => 'rw',
     required => 1,
-    default  => sub { Angelos::Home->path_to('root')->absolute },
+    default  => sub { Angelos::Home->path_to('share','root')->absolute },
 );
 
 has 'host' => (

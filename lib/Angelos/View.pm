@@ -26,7 +26,7 @@ has 'format' => (
 has 'root' => (
     is      => 'rw',
     default => sub {
-        Angelos::Home->path_to( 'root', 'templates' );
+        Angelos::Home->path_to('share', 'root', 'templates' );
     },
 );
 

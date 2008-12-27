@@ -37,7 +37,7 @@ The .po files are kept in conf/locales.
 =cut
 
 # TODO FIXME
-my $po_dir = Angelos::Home->path_to( 'conf', 'locales' );
+my $po_dir = Angelos::Home->path_to( 'share', 'po' );
 require Locale::Maketext::Simple;
 Locale::Maketext::Simple->import(
     Path   => "$po_dir",
