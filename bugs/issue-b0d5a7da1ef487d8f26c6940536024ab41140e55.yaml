@@ -1,0 +1,18 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: directory structure
+desc: i18n, javascript, templates, css  and so on
+type: :task
+component: angelos
+release: 
+reporter: dann <techmemo@gmail.com>
+status: :unstarted
+disposition: 
+creation_time: 2008-12-27 13:25:03.569478 Z
+references: []
+
+id: b0d5a7da1ef487d8f26c6940536024ab41140e55
+log_events: 
+- - 2008-12-27 13:25:04.153150 Z
+  - dann <techmemo@gmail.com>
+  - created
+  - ""
