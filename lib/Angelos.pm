@@ -72,7 +72,7 @@ sub setup_mixins {
 
 sub setup_debug_mixins {
     my $self = shift;
-    $self->load_mixin($_->{module}) for Angelos::Config->debug_mixins;
+    $self->load_mixin($_->{module}) for Angelos::Config->mixins('debug');
 }
 
 sub setup_home {
@@ -153,11 +153,13 @@ Angelos -
   package MyApp;
   use Mouse;
   extends 'Angelos';
+  1;
 
   use MyApp;
   my $app = MyApp->new;
   $app->setup;
   $app->run;
+  1;
 
 Edit conf/routes.yaml to make dispatch rules and create an application class like below.
 

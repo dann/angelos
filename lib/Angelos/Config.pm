@@ -2,6 +2,7 @@ package Angelos::Config;
 use Angelos::Home;
 use Angelos::Config::Loader;
 use Angelos::Config::Schema;
+use Data::Dumper;
 
 sub global {
     my $class = shift;
@@ -12,23 +13,30 @@ sub global {
 sub plugins {
     my $class   = shift;
     my $var     = shift;
-    my $plugins = $class->_config->{plugins};
+    my $plugins = $class->_get( 'plugins', $var );
     unless ($plugins) {
         return wantarray ? () : [];
     }
-    $plugins = $plugins->{$var} || [];
     return wantarray ? @{$plugins} : $plugins;
 }
 
 sub mixins {
-    my $class = shift;
-    my $var   = shift;
-    $class->_get( 'mixins', $var );
+    my $class  = shift;
+    my $var    = shift;
+    my $mixins = $class->_get( 'mixins', $var );
+    unless ($mixin) {
+        return wantarray ? () : [];
+    }
+    return wantarray ? @{$mixins} : $mixins;
 }
 
 sub middlewares {
-    my $class = shift;
-    $class->_get('middlewares');
+    my $class       = shift;
+    my $middlewares = $class->_get('middlewares');
+    unless ($middlewares) {
+        return wantarray ? () : [];
+    }
+    return wantarray ? @{$middlewares} : $middlewares;
 }
 
 sub routes {
@@ -55,7 +63,7 @@ sub _get {
     my $section = shift;
     my $var     = shift;
     unless ( $class->_config->{$section} ) {
-        return +{};
+        return undef;
     }
 
     unless ($var) {

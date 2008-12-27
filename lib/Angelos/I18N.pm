@@ -47,3 +47,4 @@ Locale::Maketext::Simple->import(
 );
 
 1;
+
