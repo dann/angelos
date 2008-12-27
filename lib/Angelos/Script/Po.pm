@@ -105,11 +105,11 @@ sub update_catalogs {
     my $self = shift;
     $self->extract_messages();
     my @catalogs = File::Find::Rule->file->in(
-        Angelos::Config->framework('L10N')->{'PoDir'} );
+        Angelos::Config->global('i18n')->{'po_dir'} );
     if ( $self->language ) {
         $self->update_catalog(
             File::Spec->catfile(
-                Jifty->config->framework('L10N')->{'PoDir'},
+                Angelos->global('i18n')->{'po_dir'},
                 $self->language . ".po"
             )
         );
