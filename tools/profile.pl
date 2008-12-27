@@ -1,8 +1,9 @@
 #!/usr/bin/env perl
 use strict;
 use warnings;
-use lib '../t/lib';
+use lib 't/lib';
 use Test::TCP;
+use TestApp::Web;
 use HTTP::Engine;
 use LWP::UserAgent;
 use Angelos::Script::Engine;
@@ -29,12 +30,11 @@ test_tcp(
             DB::enable_profile();
             $SIG{TERM} = sub { DB::_finish(); exit; };
         }
-        my $engine = Angelos::Script::Engine->new(
-            app    => 'TestApp::Web',
+        my $engine = TestApp::Web->new(
             server => $module,
             port   => $port,
         );
-
+        $engine->setup;
         $engine->run;
 
     },

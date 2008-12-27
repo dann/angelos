@@ -1,4 +1,4 @@
-package Angelos::Script::Generate::Flavor::App;
+package Angelos::Script::Gen::Flavor::App;
 use strict;
 use warnings;
 use base 'Module::Setup::Flavor';

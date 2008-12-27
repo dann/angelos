@@ -1,4 +1,4 @@
-package Angelos::Script::Generate;
+package Angelos::Script::Gen;
 use base qw(App::CLI::Command);
 use Mouse;
 use Module::Setup;
@@ -31,6 +31,9 @@ sub run {
     my $self   = shift;
     my $flavor = $self->{flavor} || 'app';
     my $module = $self->{module};
+    die "You need to give your new module name --module\n"
+      unless $module =~ /\w+/;
+
     $self->generate( $flavor, $module );
 }
 
