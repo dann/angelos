@@ -8,11 +8,11 @@ no Mouse;
 
 =head1 NAME
 
-Angelos::Script::Generate - A generator for your Angelos application
+Angelos::Script::Gen - A generator for your Angelos application
 
 =head1 DESCRIPTION
 
-    % bin/angelos generate --flavor app --module MyApp 
+    % bin/angelos gen [--flavor app] --name MyApp 
 
 =head1 METHODS
 
@@ -22,7 +22,7 @@ Angelos::Script::Generate - A generator for your Angelos application
 
 sub options {
     (   'f|flavor=s' => 'flavor',
-        'm|module=s'   => 'module',
+        'm|name=s'   => 'name',
         'js'         => 'js',
     );
 }
@@ -30,7 +30,7 @@ sub options {
 sub run {
     my $self   = shift;
     my $flavor = $self->{flavor} || 'app';
-    my $module = $self->{module};
+    my $module = $self->{name};
     die "You need to give your new module name --module\n"
       unless $module =~ /\w+/;
 
@@ -48,14 +48,14 @@ sub generate {
         flavor_class => $flavor_class,
         direct       => 1,
     };
-    my $argv = [ $self->{module} ];
+    my $argv = [ $module ];
     my $pmsetup = Module::Setup->new( options => $options, argv => $argv );
     $pmsetup->run( $options, [ $module, $flavor_class ] );
 }
 
 sub to_flavor_class {
     my ( $self, $flavor_type ) = @_;
-    "+Angelos::Script::Generate::Flavor::" . camelize($flavor_type);
+    "+Angelos::Script::Gen::Flavor::" . camelize($flavor_type);
 }
 
 1;
