@@ -20,6 +20,15 @@ sub logger_conf_path {
     Angelos::Home->path_to( 'conf', 'log.yaml' );
 }
 
+sub i18n {
+    my $class = shift;
+    my $global = $class->config->{global};
+    unless ($global) {
+        return +{};
+    }
+    $global->{i18n}; 
+}
+
 sub session {
     my $class = shift;
     my $global = $class->config->{global};

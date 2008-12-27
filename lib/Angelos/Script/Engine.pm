@@ -1,4 +1,5 @@
 package Angelos::Script::Engine;
+use base qw(App::CLI::Command);
 use Mouse;
 use Angelos;
 use Pod::Usage;
@@ -6,7 +7,19 @@ use Path::Class;
 use Angelos::Home;
 use UNIVERSAL::require;
 
-extends 'Angelos::Script';
+=head1 NAME
+
+Angelos::Script::Server - A server script engine
+
+=head1 DESCRIPTION
+
+=head1 METHODS
+
+=head2 options()
+
+=cut
+
+sub options { }
 
 has 'app' => (
     is          => 'rw',

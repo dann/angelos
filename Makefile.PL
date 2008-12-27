@@ -13,13 +13,13 @@ requires 'Path::Class';
 requires 'Text::SimpleTable';
 requires 'YAML';
 requires 'Devel::InnerPackage';
-requires 'Class::Inspector';
 requires 'Module::Setup';
 requires 'Kwalify';
+requires 'Locale::Maketext::Simple';
 
 build_requires 'Test::More';
 
-install_script 'bin/angelos-gen';
+install_script 'bin/angelos';
 
 author_tests('xt');
 use_test_base;
