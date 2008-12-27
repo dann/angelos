@@ -6,19 +6,26 @@ extends 'Angelos::Middleware';
 no Mouse;
 
 sub wrap {
-    my ($self, $next)  = @_;
+    my ( $self, $next ) = @_;
 
     sub {
-        my $req        = shift;
-        my $start_time = time();
-        my $res        = $next->($req);
-        my $end_time   = time();
-
-        # use logger
-        warn "Request handling time: \n";
-        warn $end_time - $start_time . " secs";
+        my $req = shift;
+        my $res = $self->profile( $next, $req );
         $res;
     }
+}
+
+sub profile {
+    my ( $self, $code, $args ) = @_;
+    my $start_time = time();
+    my $result     = $code->($args);
+    my $end_time   = time();
+
+    # use logger
+    warn "Request handling time: \n";
+    warn $end_time - $start_time . " secs";
+
+    $result;
 }
 
 __PACKAGE__->meta->make_immutable;
