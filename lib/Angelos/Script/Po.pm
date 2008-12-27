@@ -60,9 +60,14 @@ sub run {
     my $self = shift;
     return $self->_js_gen if $self->{js};
 
-    die 'language option must be set' unless $self->{language};
-
+    $self->validate_options;
     $self->update_catalogs;
+}
+
+sub validate_options {
+    my $self = shift;
+    Angelos::Exception::ParameterMissingError->throw(
+        "You need to give your language --language\n") unless $self->{language};
 }
 
 sub _js_gen {
