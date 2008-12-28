@@ -1,5 +1,5 @@
-package Angelos::Script::Po;
-use base qw(App::CLI::Command);
+package Angelos::Script::Command::Po;
+use base qw(App::Cmd::Command);
 use File::Copy ();
 use File::Path 'mkpath';
 use Locale::Maketext::Extract ();
@@ -12,8 +12,6 @@ use Angelos::Exceptions;
 use JSON::XS;
 use utf8;
 
-has 'language' => ( is => 'rw', );
-
 no Mouse;
 
 our $MIME      = MIME::Types->new();
@@ -22,7 +20,7 @@ use constant USE_GETTEXT_STYLE => 1;
 
 =head1 NAME
 
-Angelos::Script::Po - Extract translatable strings from your application
+Angelos::Script::Command::Po - Extract translatable strings from your application
 
 =head1 DESCRIPTION
 
@@ -45,10 +43,11 @@ to include messages from javascript in your po files.
 
 =cut
 
-sub options {
-    (   'l|language=s' => 'language',
-        'dir=s@'       => 'directories',
-        'js'           => 'js',
+sub opt_spec {
+    return (
+        [ "lang=s",       "language for generatting po" ],
+        [ "search_path=s@", "search path" ],
+        [ "js",             "js" ],
     );
 }
 
@@ -58,27 +57,29 @@ Runs the "update_catalogs" method.
 
 =cut
 
-sub run {
-    my $self = shift;
-    $self->validate_options;
-
-    return $self->generate_javascript_resources if $self->{js};
-    $self->update_catalogs;
+sub validate_args {
+    my ( $self, $opt, $arg ) = @_;
+    use Data::Dumper;
+    warn Dumper $opt;
+    warn Dumper $arg;
+    Angelos::Exception::ParameterMissingError->throw(
+        "You need to give your language --lang\n")
+        unless $opt->{lang};
 }
 
-sub validate_options {
-    my $self = shift;
-    Angelos::Exception::ParameterMissingError->throw(
-        "You need to give your language --language\n")
-        unless $self->{language};
+sub run {
+    my ( $self, $opt, $arg ) = @_;
+
+    return $self->generate_javascript_resources($opt) if $opt->{js};
+    $self->update_catalogs($opt);
 }
 
 sub generate_javascript_resources {
-    my $self = shift;
+    my ( $self, $opt ) = @_;
     my $js_po_path
         = File::Spec->catfile(
         Angelos::Home->path_to( 'share', 'root', 'static', 'js', 'po' ),
-        $self->language . ".po" );
+        $opt->{lang} . ".po" );
     $self->_extract_messages_from_js($js_po_path);
     $self->_generate_javascript_dictionary($js_po_path);
 }
@@ -141,12 +142,12 @@ all your message catalogs and updates them with new and changed messages.
 =cut
 
 sub update_catalogs {
-    my $self = shift;
-    $self->extract_messages();
+    my ( $self, $opt ) = @_;
+    $self->extract_messages($opt);
     my @catalogs = File::Find::Rule->file->in( $self->_po_dir );
-    if ( $self->language ) {
+    if ( $opt->{lang} ) {
         $self->update_catalog(
-            File::Spec->catfile( $self->_po_dir, $self->language . ".po" ) );
+            File::Spec->catfile( $self->_po_dir, $opt->{lang} . ".po" ) );
     }
     else {
         foreach my $catalog (@catalogs) {
@@ -189,13 +190,13 @@ L<Locale::Maketext::Extract>.
 =cut
 
 sub extract_messages {
-    my $self = shift;
+    my ( $self, $opt ) = @_;
 
     # find all the .pm files in @INC
     my @files
         = File::Find::Rule->file->in(
         Angelos::Home->path_to( 'share', 'root', 'templates' ),
-        'lib', 'bin', @{ $self->{directories} || [] } );
+        'lib', 'bin', @{ $opt->{search_path} || [] } );
 
     foreach my $file (@files) {
         next if $file =~ m{(^|/)[\._]svn/};

@@ -2,7 +2,5 @@
 use strict;
 use warnings;
 use Angelos::Script;
-
-local $SIG{INT} = sub { warn "Stopped\n"; exit; };
-Angelos::Script->dispatch();
+Angelos::Script->run;
 

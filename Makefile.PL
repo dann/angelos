@@ -21,7 +21,7 @@ requires 'Locale::Maketext::Simple';
 requires 'Locale::Maketext::Extract';
 requires 'Sub::Exporter';
 requires 'Devel::EvalContext';
-requires 'App::CLI';
+requires 'App::Cmd';
 requires 'Pod::Simple::Text';
 requires 'FindBin::libs';
 requires 'String::CamelCase';

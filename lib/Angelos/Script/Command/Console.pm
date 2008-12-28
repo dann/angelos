@@ -1,13 +1,13 @@
-package Angelos::Script::Console;
+package Angelos::Script::Command::Console;
 use strict;
 use warnings;
-use base qw/App::CLI::Command/;
+use base qw(App::Cmd::Command);
 use Devel::EvalContext;
 use Term::ReadLine;
 
 =head1 NAME
 
-Angelos::Script::Console - A console for your Angelos application
+Angelos::Script::Command::Console - A console for your Angelos application
 
 =head1 DESCRIPTION
 
@@ -24,14 +24,12 @@ C<eval()>.
 
 =head1 METHODS
 
-=head2 options()
-
-Returns nothing. This script has no options now. Maybe it will have
-some command lines options in the future.
-
 =cut
 
-sub options { }
+sub opt_spec {
+  return (
+  );
+}
 
 =head2 run()
 

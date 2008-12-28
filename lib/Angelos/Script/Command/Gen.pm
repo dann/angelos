@@ -1,5 +1,5 @@
-package Angelos::Script::Gen;
-use base qw(App::CLI::Command);
+package Angelos::Script::Command::Gen;
+use base qw(App::Cmd::Command);
 use Mouse;
 use Module::Setup;
 use String::CamelCase qw(camelize);
@@ -9,7 +9,7 @@ no Mouse;
 
 =head1 NAME
 
-Angelos::Script::Gen - A generator for your Angelos application
+Angelos::Script::Command::Gen - A generator for your Angelos application
 
 =head1 DESCRIPTION
 
@@ -21,27 +21,25 @@ Angelos::Script::Gen - A generator for your Angelos application
 
 =cut
 
-sub options {
-    (   'f|flavor=s' => 'flavor',
-        'm|name=s'   => 'name',
-        'js'         => 'js',
+sub opt_spec {
+    return (
+        [ "f|flavor=s", "flavor name" ],
+        [ "n|name=s",   "name" ],
     );
 }
 
 sub run {
-    my $self   = shift;
-    my $flavor = $self->{flavor} || 'app';
-    my $module = $self->{name};
+    my ( $self, $opt, $arg ) = @_;
 
-    $self->validate_options;
+    my $flavor = $opt->{flavor} || 'app';
+    my $module = $opt->{name};
 
     $self->generate( $flavor, $module );
 }
 
-sub validate_options {
-    my $self   = shift;
-    my $flavor = $self->{flavor} || 'app';
-    my $module = $self->{name};
+sub validate_args {
+    my ( $self, $opt, $arg ) = @_;
+    my $module = $opt->{name};
 
     Angelos::Exception::ParameterMissingError->throw(
         "You need to give your new module name --module\n")
@@ -66,7 +64,7 @@ sub generate {
 
 sub to_flavor_class {
     my ( $self, $flavor_type ) = @_;
-    "+Angelos::Script::Gen::Flavor::" . camelize($flavor_type);
+    "+Angelos::Script::Command::Gen::Flavor::" . camelize($flavor_type);
 }
 
 1;
