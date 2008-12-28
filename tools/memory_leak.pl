@@ -2,6 +2,7 @@
 use strict;
 use warnings;
 use lib 't/lib';
+use Devel::Leak::Object qw{ GLOBAL_bless };
 use Test::TCP;
 use TestApp::Web;
 use HTTP::Engine;
@@ -39,13 +40,6 @@ test_tcp(
     },
     server => sub {
         my $port = shift;
-        if ( !$ENV{NO_NYTPROF} ) {
-            require Devel::NYTProf;
-            $ENV{NYTPROF} = 'start=no';
-            Devel::NYTProf->import;
-            DB::enable_profile();
-            $SIG{TERM} = sub { DB::_finish(); exit; };
-        }
         my $engine = TestApp::Web->new(
             server => $module,
             port   => $port,
@@ -56,3 +50,10 @@ test_tcp(
     },
 );
 
+=head1 NAME
+
+=head1 SYNOPSIS
+
+  tools/memory_leak.pl --loop 5
+
+=cut
