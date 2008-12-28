@@ -11,7 +11,7 @@ sub create_engine {
     my $app_class = $class->_load_app_class;
     my $app = $app_class->new( server => 'ModPerl' );
     $app->setup;
-    return $app->engine;
+    return $app->engine->engine;
 }
 
 sub _load_app_class {

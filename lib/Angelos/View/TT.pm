@@ -14,11 +14,19 @@ has 'engine' => (
 has 'TEMPLATE_EXTENSION' => ( +default => '.tt' );
 has 'CONTENT_TYPE' => ( +default => 'text/html' );
 
+has 'INCLUDE_PATH' => (
+    is => 'rw',
+    default => sub {
+        my $self = shift;
+        $self->root;
+    }
+);
+
 no Mouse;
 
 sub build_engine {
     my $self = shift;
-    Template->new( INCLUDE_PATH => $self->root );
+    Template->new( INCLUDE_PATH => $self->INCLUDE_PATH );
 }
 
 sub _render {

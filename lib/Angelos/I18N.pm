@@ -36,11 +36,9 @@ The .po files are kept in conf/locales.
  
 =cut
 
-# TODO FIXME
+# FIXME How should I set home dir before this module is imported
+
 my $po_dir = Angelos::Home->path_to( 'share', 'po' );
-
-warn $po_dir;
-
 require Locale::Maketext::Simple;
 Locale::Maketext::Simple->import(
     Path   => "$po_dir",
@@ -49,9 +47,4 @@ Locale::Maketext::Simple->import(
     Export => "loc",
 );
 
-sub available_languages {
-    die 'implement me';
-}
-
 1;
-

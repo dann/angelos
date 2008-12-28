@@ -32,6 +32,7 @@ requires 'Error::Simple';
 requires 'File::Find::Rule';
 requires 'Devel::MemUsed';
 requires 'JSON::XS';
+requires 'Term::ReadLine';
 
 build_requires 'Test::More';
 

@@ -4,6 +4,7 @@ use Angelos::Home;
 use Angelos::MIMETypes;
 use Path::Class qw(file dir);
 use Carp ();
+use Angelos::Exceptions;
 
 with( 'Angelos::Component', );
 
@@ -101,7 +102,7 @@ sub _do_render {
 }
 
 sub _render {
-    Carp::croak('Implement me!');
+    Angelos::Exception::AbstractMethod->throw('Sub class must overried this method');
 }
 
 sub _build_response {
