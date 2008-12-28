@@ -3,7 +3,7 @@ use Mouse;
 use Module::Pluggable::Object;
 use Angelos::Utils;
 use Devel::InnerPackage;
-use Angelos::Exception;
+use Angelos::Exceptions;
 use Scalar::Util;
 use Angelos::Config;
 
@@ -47,14 +47,26 @@ sub _install_plugins_to {
     my ( $self, $component ) = @_;
     if ( $component =~ /Controller/i ) {
         $component->load_plugin( $_->{module} )
-            for Angelos::Config->plugins('controller');
+            for $self->_controller_plugins;
     } elsif ( $component =~ /View/i ) {
         $component->load_plugin( $_->{module} )
-            for Angelos::Config->plugins('view');
+            for $self->_view_plugins;
     } elsif ( $component =~ /Model/i ) {
         $component->load_plugin( $_->{module} )
-            for Angelos::Config->plugins('model');
+            for $self->_model_plugins;
     }
+}
+
+sub _controller_plugins {
+    Angelos::Config->plugins('controller');
+}
+
+sub _view_plugins {
+    Angelos::Config->plugins('view');
+}
+
+sub _model_plugins {
+    Angelos::Config->plugins('model');
 }
 
 sub set_component {

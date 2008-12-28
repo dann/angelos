@@ -3,6 +3,7 @@ use strict;
 use warnings;
 use base 'Exporter';
 use Angelos::Config;
+use Angelos::Home;
 
 our @EXPORT_OK = qw(loc loc_lang);
 
@@ -36,15 +37,21 @@ The .po files are kept in conf/locales.
  
 =cut
 
-# FIXME How should I set home dir before this module is imported
+sub import {
+    my ( $class, %args ) = @_;
+    $class->setup;
+}
 
-my $po_dir = Angelos::Home->path_to( 'share', 'po' );
-require Locale::Maketext::Simple;
-Locale::Maketext::Simple->import(
-    Path   => "$po_dir",
-    Decode => 1,
-    Style  => 'gettext',
-    Export => "loc",
-);
+sub setup {
+    # FIXME How should I set home dir before this module is imported
+    my $po_dir = Angelos::Home->path_to( 'share', 'po' );
+    require Locale::Maketext::Simple;
+    Locale::Maketext::Simple->import(
+        Path   => $po_dir,
+        Decode => 1,
+        Style  => 'gettext',
+        Export => "loc",
+    );
+}
 
 1;

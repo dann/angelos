@@ -39,6 +39,10 @@ package Angelos::Exception::ParameterMissingError;
 use base 'Angelos::Exception';
 sub description {'required parameter is missing'}
 
+package Angelos::Exception::FileNotFoundError;
+use base 'Angelos::Exception';
+sub description {'file not found error'}
+
 1;
 
 __END__

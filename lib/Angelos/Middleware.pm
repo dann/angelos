@@ -1,11 +1,13 @@
 package Angelos::Middleware;
 use Mouse;
+use Angelos::Exceptions;
 
 no Mouse;
 
 sub wrap {
-    my ($self, $next) = @_;
-    die 'Implement me';
+    my ( $self, $next ) = @_;
+    Angelos::Exception::AbstractMethod->throw(
+        'Sub class must implement wrap method');
 }
 
 __PACKAGE__->meta->make_immutable;

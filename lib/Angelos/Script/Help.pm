@@ -33,7 +33,7 @@ sub run {
             print $self->loc_text($buf);
         }
         else {
-            die loc("Cannot find help topic '%1'.\n", $topic);
+            die "Cannot find help topic: $topic";
         }
     }
     return;

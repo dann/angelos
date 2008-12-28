@@ -6,7 +6,6 @@ use Test::TCP;
 use TestApp::Web;
 use HTTP::Engine;
 use LWP::UserAgent;
-use Angelos::Script::Engine;
 #use Carp::Always;
 
 my $module = shift || 'ServerSimple';
@@ -18,7 +17,7 @@ test_tcp(
         my $port = shift;
         my $ua   = LWP::UserAgent->new;
         for ( 0 .. $loop ) {
-            $ua->get("http://localhost:$port/book/index");
+            $ua->get("http://localhost:$port/");
         }
     },
     server => sub {

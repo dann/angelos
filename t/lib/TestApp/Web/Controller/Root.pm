@@ -2,6 +2,7 @@ package TestApp::Web::Controller::Root;
 use Mouse;
 use Angelos::Logger;
 use Carp ();
+use Angelos::Utils;
 extends 'Angelos::Controller';
 
 sub index {
@@ -11,6 +12,7 @@ sub index {
     #$c->stash->{template} = 'index';
     $c->res->body('Hello world');
     $c->res->code(200);
+
 }
 
 sub view {

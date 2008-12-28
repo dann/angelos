@@ -5,30 +5,36 @@ use Path::Class qw(dir file);
 our $HOME;
 
 sub home {
-    my ( $class, $app ) = @_;
+    my ( $class, $appclass ) = @_;
     if ($HOME) {
         return $HOME;
     }
-
-    if ( $ENV{ANGELOS_HOME} ) {
-        $HOME ||= dir( $ENV{ANGELOS_HOME} )->absolute->cleanup;
-        return $HOME if -d $HOME;
-    }
-    $HOME ||= $class->_detect_home($app);
+    $HOME = $class->guess_home($appclass);
     $HOME;
 }
 
 sub set_home {
-    my ( $class, $home ) = @_;
-    $HOME = dir($home)->absolute->cleanup;
-    $HOME;
+    my ($class, $home) = @_;
+    $HOME = $home;
 }
 
-# FIXME
-sub _detect_home {
+sub guess_home {
     my ( $class, $clazz ) = @_;
+    return $HOME if $HOME;
+
+    my $home;
+    if ( $ENV{ANGELOS_HOME} ) {
+        $home = dir( $ENV{ANGELOS_HOME} )->absolute->cleanup;
+        return $home if -d $home;
+    }
+    if ( my $env = Angelos::Utils::env_value( $clazz, 'HOME' ) ) {
+        $home = dir($env)->absolute->cleanup;
+        return $home if -d $home;
+    }
+
     ( my $file = "$clazz.pm" ) =~ s{::}{/}g;
     if ( my $inc_entry = $INC{$file} ) {
+
         {
 
             # find the @INC entry in which $file was found
@@ -50,12 +56,11 @@ sub _detect_home {
                     $home = dir($home)->parent->parent;
                 }
 
-                return $home;
+                return $home if -d $home;
             }
         }
 
         {
-
             # look for an installed Catalyst app
 
             # trim the .pm off the thing ( Foo/Bar.pm -> Foo/Bar/ )

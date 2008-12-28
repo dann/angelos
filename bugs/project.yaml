@@ -9,13 +9,15 @@ components:
 - !ditz.rubyforge.org,2008-03-06/component 
   name: model
 - !ditz.rubyforge.org,2008-03-06/component 
-  name: configloader
+  name: view
 - !ditz.rubyforge.org,2008-03-06/component 
   name: router
 - !ditz.rubyforge.org,2008-03-06/component 
   name: dispatcher
 - !ditz.rubyforge.org,2008-03-06/component 
   name: middleware 
+- !ditz.rubyforge.org,2008-03-06/component 
+  name: configloader
 
 releases: []
 

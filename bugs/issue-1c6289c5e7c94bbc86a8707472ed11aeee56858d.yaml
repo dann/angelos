@@ -1,0 +1,18 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: fixup i18n po dir
+desc: ""
+type: :bugfix
+component: angelos
+release: 
+reporter: dann <techmemo@gmail.com>
+status: :unstarted
+disposition: 
+creation_time: 2008-12-28 05:58:54.182454 Z
+references: []
+
+id: 1c6289c5e7c94bbc86a8707472ed11aeee56858d
+log_events: 
+- - 2008-12-28 05:58:54.918257 Z
+  - dann <techmemo@gmail.com>
+  - created
+  - ""

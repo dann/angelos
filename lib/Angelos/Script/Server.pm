@@ -15,25 +15,22 @@ Angelos::Script::Server - A server script
 =cut
 
 sub options {
-    (   'app=s'    => 'app',
-        'host=s'   => 'host',
-        'server=s' => 'server',
-        'port=s'   => 'port',
+    (   'app_class=s' => 'app',
+        'host=s'      => 'host',
+        'server=s'    => 'server',
+        'port=s'      => 'port',
     );
 }
 
 sub run {
     my $self = shift;
-    my $app  = $self->{app};
+    $self->validate_options;
+    $self->run_server; 
+}
 
-    # App::CLI bug
-    if($self->{app} eq 'Angelos::Script') {
-        die "You need to give your application name --app\n";
-    }
-
-    die "You need to give your application name --app\n"
-      unless $app =~ /\w+/;
-
+sub run_server {
+    my $self = shift;
+    my $app  = $self->{app_class};
     $app->require;
     $app = $app->new(
         host   => $self->{host}   || '127.0.0.1',
@@ -42,6 +39,14 @@ sub run {
     );
     $app->setup;
     $app->run;
+}
+
+sub validate_options {
+    my $app  = $self->{app_class};
+    Angelos::Exception::ParameterMissingError->throw(
+        "You need to give your application name --app\n")
+        unless $app;
+
 }
 
 1;

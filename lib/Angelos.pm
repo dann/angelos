@@ -11,9 +11,10 @@ use Angelos::Dispatcher::Routes::Builder;
 use Angelos::Config;
 use Angelos::Logger;
 use Angelos::Exceptions;
-use Angelos::I18N;
 
 with 'Angelos::Class::Mixinable';
+
+our $LOGGER;
 
 has '_mixin_ns' => (
     +default => sub {
@@ -79,12 +80,8 @@ sub setup_debug_mixins {
 
 sub setup_home {
     my $self = shift;
-    my $home;
-    if ( my $env = Angelos::Utils::env_value( ref $self, 'HOME' ) ) {
-        $home ||= Angelos::Home->home($env);
-    }
-    my $appclass = ref $self;
-    $home = Angelos::Home->home($appclass);
+    my $home = Angelos::Home->guess_home(ref $self);
+    Angelos::Home->set_home($home) if -d $home;
     $home;
 }
 
@@ -104,7 +101,8 @@ sub setup_engine {
 
 sub setup_logger {
     my $self = shift;
-    $self->engine->logger( Angelos::Logger->new );
+    $LOGGER = Angelos::Logger->instance;
+    $self->engine->logger( $LOGGER );
 }
 
 sub setup_components {

@@ -113,7 +113,8 @@ sub _build_response {
 
     unless ( $c->res->content_type ) {
         my $ct = $self->CONTENT_TYPE
-            || $self->_content_type( $c->stash->{format} );
+            || $self->_content_type( $c->stash->{format} || 'html' );
+        # FIXME: 
         my $charset = 'utf-8';
         $c->response->content_type("$ct; charset=$charset");
     }
