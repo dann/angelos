@@ -9,6 +9,8 @@ use Angelos::Home;
 use Path::Class;
 use Mouse;
 use Angelos::Exceptions;
+use JSON::XS;
+use utf8;
 
 has 'language' => ( is => 'rw', );
 
@@ -58,9 +60,9 @@ Runs the "update_catalogs" method.
 
 sub run {
     my $self = shift;
-    return $self->_js_gen if $self->{js};
-
     $self->validate_options;
+
+    return $self->generate_javascript_resources if $self->{js};
     $self->update_catalogs;
 }
 
@@ -71,9 +73,20 @@ sub validate_options {
         unless $self->{language};
 }
 
-sub _js_gen {
-    my $self     = shift;
-    my @js_files = File::Find::Rule->file->in(
+sub generate_javascript_resources {
+    my $self = shift;
+    my $js_po_path
+        = File::Spec->catfile(
+        Angelos::Home->path_to( 'share', 'root', 'static', 'js', 'po' ),
+        $self->language . ".po" );
+    $self->_extract_messages_from_js($js_po_path);
+    $self->_generate_javascript_dictionary($js_po_path);
+}
+
+sub _extract_messages_from_js {
+    my $self       = shift;
+    my $js_po_path = shift;
+    my @js_files   = File::Find::Rule->file->in(
         Angelos::Home->path_to( 'share', 'root', 'static', 'js' ) );
 
     for my $file (@js_files) {
@@ -84,28 +97,25 @@ sub _js_gen {
         next if $file =~ m/^prototype/;
         $LMExtract->extract_file($file);
     }
-
     $LMExtract->set_compiled_entries;
     $LMExtract->compile(USE_GETTEXT_STYLE);
-
-    my $entries = $LMExtract->compiled_entries;
     mkpath [
-        Angelos::Home->path_to( 'share', 'root', 'static', 'js', 'dict' ) ];
-    for my $lang ( @{ Angelos->global('i18n')->{available_languages} } ) {
-        my $file
-            = Angelos::Home->path_to( 'share', 'root', 'static', 'js', 'dict',
-            "$lang.json" );
-        open my $fh, '>', $file or die "$file: $!";
-        no strict 'refs';
-        foreach my $entry(@{$entries}) {
-            print $fh $self->_po_to_json($entry);
-        }
-    }
+        Angelos::Home->path_to( 'share', 'root', 'static', 'js', 'po' ) ];
+    $self->update_catalog($js_po_path);
+
 }
 
-sub _po_to_json {
-    my ($self, $entry) = @_;
-    die 'Implement me';
+sub _generate_javascript_dictionary {
+    my ( $self, $translation ) = @_;
+    $LMExtract->read_po($translation) if ( -f $translation );
+    $LMExtract->set_compiled_entries;
+    my %lexicon = $LMExtract->compile(USE_GETTEXT_STYLE);
+    my $file
+        = Angelos::Home->path_to( 'share', 'root', 'static', 'js', 'dict',
+        $self->language . ".json" );
+    open my $fh, '>', $file or die "$file: $!";
+    print $fh encode_json \%lexicon;
+    close $fh;
 }
 
 =head2 _check_mime_type FILENAME
