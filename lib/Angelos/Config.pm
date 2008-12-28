@@ -2,7 +2,6 @@ package Angelos::Config;
 use Angelos::Home;
 use Angelos::Config::Loader;
 use Angelos::Config::Schema;
-use Data::Dumper;
 
 sub global {
     my $class = shift;
@@ -24,6 +23,7 @@ sub mixins {
     my $class  = shift;
     my $var    = shift;
     my $mixins = $class->_get( 'mixins', $var );
+
     unless ($mixin) {
         return wantarray ? () : [];
     }
@@ -33,6 +33,7 @@ sub mixins {
 sub middlewares {
     my $class       = shift;
     my $middlewares = $class->_get('middlewares');
+
     unless ($middlewares) {
         return wantarray ? () : [];
     }
