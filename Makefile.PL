@@ -31,6 +31,7 @@ requires 'Error';
 requires 'Error::Simple';
 requires 'File::Find::Rule';
 requires 'Devel::MemUsed';
+requires 'JSON::XS';
 
 build_requires 'Test::More';
 
