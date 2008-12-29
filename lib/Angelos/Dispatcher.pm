@@ -19,8 +19,13 @@ sub dispatch_class {
 
 sub dispatch {
     my ( $self, $request ) = @_;
-    my $match = $self->router->match( $request->path,
-        { method => $request->method } );
+    use Data::Dumper;
+    warn Dumper $request;
+
+    warn 'BEFORE MATCH';
+    my $match = $self->router->match( $request );
+    warn 'AFTER MATCH';
+
     my $dispatch = $self->dispatch_class->new( match => $match );
     return $dispatch;
 }

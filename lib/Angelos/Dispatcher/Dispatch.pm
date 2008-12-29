@@ -17,6 +17,7 @@ sub run {
 
 sub dispatch {
     my ( $self, $args ) = @_;
+
     my $match      = $self->match;
     my $controller = $match->params->{controller};
     my $action     = $match->params->{action};
@@ -51,6 +52,7 @@ sub find_controller_instance {
 
 sub execute_action {
     my ( $self, $args ) = @_;
+
     my $controller = $args->{controller};
     my $action     = $args->{action};
     my $params     = $args->{params};
@@ -61,6 +63,7 @@ sub execute_action {
 __PACKAGE__->meta->make_immutable;
 
 1;
+
 __END__
 
 =head1 NAME
