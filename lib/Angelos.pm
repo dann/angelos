@@ -76,8 +76,6 @@ sub setup_debug_mixins {
     my $self = shift;
     use Data::Dumper;
     my @mixins = Angelos::Config->mixins('debug');
-    warn Dumper @mixins;
-
     $self->load_mixin( $_->{module} ) for Angelos::Config->mixins('debug');
 }
 

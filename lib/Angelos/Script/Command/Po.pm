@@ -59,9 +59,6 @@ Runs the "update_catalogs" method.
 
 sub validate_args {
     my ( $self, $opt, $arg ) = @_;
-    use Data::Dumper;
-    warn Dumper $opt;
-    warn Dumper $arg;
     Angelos::Exception::ParameterMissingError->throw(
         "You need to give your language --lang\n")
         unless $opt->{lang};
