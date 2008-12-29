@@ -1,6 +1,6 @@
 package Angelos::Dispatcher::Dispatch;
 use Mouse;
-extends 'Request::Dispatcher::Dispatch';
+extends 'HTTP::Request::Dispatcher::Dispatch';
 
 no Mouse;
 

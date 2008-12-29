@@ -2,7 +2,7 @@ package Angelos::Debug::Routes;
 use Text::SimpleTable;
 use Mouse::Role;
 
-around 'build_routes' => sub {
+around 'build_routeset' => sub {
     my ( $next, $self ) = @_;
     my $routes = $self->$next();
     Angelos::Debug::Routes->__show_dispatch_table($routes);
@@ -23,10 +23,12 @@ sub __make_dispatch_table_report {
         [ 10, 'controller' ],
         [ 10, 'action' ]
     );
-    foreach my $route ( @{$routes} ) {
+    foreach my $route ( $routes->all ) {
+        # FIXME metdods 
+        my $methods = $route->conditions->{method};
         $t->row(
             $route->path,
-            join( ',', @{ $route->conditions->{method} || [] } ),
+            $methods,
             $route->params->{controller},
             $route->params->{action}
         );

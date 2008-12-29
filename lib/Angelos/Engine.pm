@@ -28,7 +28,7 @@ has 'dispatcher' => (
     is      => 'rw',
     lazy    => 1,
     builder => 'build_dispathcer',
-    handles => [qw(add_route uri_for)],
+    handles => [qw(set_routeset uri_for)],
 );
 
 has 'root' => (

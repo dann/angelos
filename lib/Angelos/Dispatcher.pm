@@ -1,7 +1,7 @@
 package Angelos::Dispatcher;
 use Mouse;
 use Angelos::Dispatcher::Dispatch;
-extends 'Request::Dispatcher';
+extends 'HTTP::Request::Dispatcher';
 
 sub dispatch_class {
     'Angelos::Dispatcher::Dispatch';
