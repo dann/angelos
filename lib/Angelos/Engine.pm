@@ -103,10 +103,8 @@ sub _build_request_handler {
     };
 
     if ( my $err = $@ ) {
-
         # FIXME warn error if error occurs in builder.
         warn $err;
-        Carp::croak $err;
     }
     $request_handler;
 }
