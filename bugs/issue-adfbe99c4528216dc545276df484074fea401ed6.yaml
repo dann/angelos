@@ -1,0 +1,18 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: "Mixin\xE5\xAF\xBE\xE8\xB1\xA1\xE3\x82\x92Mouse::Role\xE3\x81\xA7\xE3\x81\xAF\xE3\x81\xAA\xE3\x81\x8F\xE3\x80\x81Angelos::Role\xE3\x81\xAE\xE3\x82\x88\xE3\x81\x86\xE3\x81\xAA\xE3\x82\x82\xE3\x81\xAE\xE3\x81\xAB\xE3\x81\x99\xE3\x82\x8B"
+desc: ""
+type: :task
+component: angelos
+release: 
+reporter: dann <techmemo@gmail.com>
+status: :unstarted
+disposition: 
+creation_time: 2008-12-29 12:15:20.744885 Z
+references: []
+
+id: adfbe99c4528216dc545276df484074fea401ed6
+log_events: 
+- - 2008-12-29 12:15:21.745182 Z
+  - dann <techmemo@gmail.com>
+  - created
+  - ""
