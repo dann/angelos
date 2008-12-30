@@ -198,7 +198,17 @@ template: |
   
   =cut
 ---
-dir: lib/____var-module_path-var____/View
+file: lib/____var-module_path-var____/View/TT.pm
+template: |
+  package [% module %]::View::TT;
+  use Mouse;
+  extends 'Angelos::View::TT';
+  
+  no Mouse;
+  
+  __PACKAGE__->meta->make_immutable;
+  
+  1;
 ---
 file: lib/____var-module_path-var____/Controller/Root.pm
 template: |
