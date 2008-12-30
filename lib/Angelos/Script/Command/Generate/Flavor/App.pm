@@ -224,7 +224,18 @@ template: |
   
   BEGIN { use_ok '[% module %]' }
 ---
-dir: share/root/templates
+file: share/root/templates/root/index.tt
+template: |
+  <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+      <head>
+          <title>Welcome to the Angelos Web Framework!</title>
+      </head>
+      <body>
+          <h2>Welcome to the Angelos Web Framework!</h2>
+          This page was generated from the template "templates/root/index.tt",
+      </body>
+  </html>
 ---
 dir: share/root/static/images
 ---
