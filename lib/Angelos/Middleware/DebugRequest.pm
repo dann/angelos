@@ -13,7 +13,7 @@ sub wrap {
         my $req = shift;
         my $res = $next->($req);
         $self->report_request($req);
-        $res;
+        return $res;
     }
 }
 

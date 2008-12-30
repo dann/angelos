@@ -23,6 +23,7 @@ sub profile {
     my $elapsed = $end_time - $start_time;
     my $message = "Request handling time: \n" . $elapsed . " secs";
     $self->log_message($message);
+    $result;
 }
 
 __PACKAGE__->meta->make_immutable;

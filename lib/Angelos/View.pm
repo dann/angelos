@@ -8,6 +8,10 @@ use Angelos::Exceptions;
 
 with( 'Angelos::Component', );
 
+has _mixin_app_ns => (
+    +default  => sub { [ 'Angelos::View' ] },
+);
+
 has 'context' => ( is => 'rw', );
 
 has 'types' => (

@@ -4,6 +4,10 @@ use Carp ();
 
 with( 'Angelos::Component', );
 
+has _mixin_app_ns => (
+    +default  => sub { [ 'Angelos::Controller' ] },
+);
+
 has 'before_filters' => (
     is         => 'rw',
     required   => 1,
