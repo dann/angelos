@@ -12,9 +12,8 @@ has 'engine' => (
 
 );
 
-has 'INCLUDE_PATH' => (
-    is      => 'rw',
-);
+has 'INCLUDE_PATH' => ( is => 'rw', );
+
 has 'TEMPLATE_EXTENSION' => ( +default => '.tt' );
 has 'CONTENT_TYPE'       => ( +default => 'text/html' );
 

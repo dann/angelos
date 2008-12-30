@@ -1,0 +1,18 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: url_for
+desc: ""
+type: :task
+component: angelos
+release: 
+reporter: dann <techmemo@gmail.com>
+status: :unstarted
+disposition: 
+creation_time: 2008-12-30 07:03:04.279213 Z
+references: []
+
+id: 71623a69b3c323f408cbf34407b94487e69e69aa
+log_events: 
+- - 2008-12-30 07:03:05.207495 Z
+  - dann <techmemo@gmail.com>
+  - created
+  - ""

@@ -1,0 +1,18 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: support multiple view
+desc: ""
+type: :task
+component: view
+release: 
+reporter: dann <techmemo@gmail.com>
+status: :unstarted
+disposition: 
+creation_time: 2008-12-30 07:24:20.736208 Z
+references: []
+
+id: e97d298a57fdb74594e0e46cdde6a9c4f19348ec
+log_events: 
+- - 2008-12-30 07:24:21.423304 Z
+  - dann <techmemo@gmail.com>
+  - created
+  - ""
