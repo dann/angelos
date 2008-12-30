@@ -4,33 +4,6 @@ use Mouse::Role;
 use Module::Pluggable::Object;
 use Mouse::Util;
 
-=head1 NAME
-
-   Angelos::Class::Mixinable - Make your classes pluggable
-
-=head1 SYNOPSIS
-
-    package MyApp;
-    use Mouse;
-
-    with 'Angelos::Class::Mixinable';
-
-    ...
-
-    package MyApp::Mixin::Pretty;
-    use Mouse::Role;
-
-    sub pretty{ print "I am pretty" }
-
-    1;
-
-    #
-    use MyApp;
-    my $app = MyApp->new;
-    $app->load_mixin('Pretty');
-    $app->pretty;
-=cut
-
 has _mixin_ns => (
     is       => 'rw',
     required => 1,
@@ -133,3 +106,51 @@ sub _build_mixin_locator {
 
 __END__
 
+=head1 NAME
+
+   Angelos::Class::Mixinable - Make your classes pluggable
+
+=head1 SYNOPSIS
+
+    package MyApp;
+    use Mouse;
+
+    with 'Angelos::Class::Mixinable';
+
+    ...
+
+    package MyApp::Mixin::Pretty;
+    use Mouse::Role;
+
+    sub pretty{ print "I am pretty" }
+
+    1;
+
+    #
+    use MyApp;
+    my $app = MyApp->new;
+    $app->load_mixin('Pretty');
+    #You may want to use load_mixins to load multiple Role Classes if you have
+    #$app->load_mixins(qw/Pretty MorePretty/);
+    $app->pretty;
+
+
+=head1 DESCRIPTION
+
+This module works like L<Mouse::Role>, differences is you can set Role classes dynamically.
+
+=head1 METHOD
+
+=head1 load_mixin
+
+set a Role Class
+
+=head2 load_mixins
+
+set Role Classes
+
+=head1 SEE ALSO
+
+L<Mouse::Role> L<Module::Pluggable::Object> L<Mouse::Util>
+
+=cut
