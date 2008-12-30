@@ -138,6 +138,7 @@ sub _template_path {
     my ( $self, $c ) = @_;
     my $template      = $c->stash->{template};
     my $template_path = $c->stash->{template_path};
+    # FIXME guess template pass via action if template_path isn't specified
     if ( $template && !$template_path ) {
         my $path = file( $self->root, $template );
         $c->stash->{template_path} = $path;
