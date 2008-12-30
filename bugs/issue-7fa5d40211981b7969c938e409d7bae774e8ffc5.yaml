@@ -1,0 +1,18 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: use __path_to__ in config file
+desc: ""
+type: :task
+component: angelos
+release: 
+reporter: dann <techmemo@gmail.com>
+status: :unstarted
+disposition: 
+creation_time: 2008-12-30 02:16:36.352219 Z
+references: []
+
+id: 7fa5d40211981b7969c938e409d7bae774e8ffc5
+log_events: 
+- - 2008-12-30 02:16:38.038976 Z
+  - dann <techmemo@gmail.com>
+  - created
+  - ""
