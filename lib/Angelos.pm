@@ -34,12 +34,14 @@ has 'root' => (
 
 has 'host' => (
     is      => 'rw',
+    isa        => 'Str',
     default => 0,
 );
 
 has 'port' => (
     is       => 'rw',
     default  => 3000,
+    isa        => 'Int',
     required => 1,
 );
 
