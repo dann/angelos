@@ -1,0 +1,18 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: staging, development, production config support
+desc: ""
+type: :task
+component: angelos
+release: 
+reporter: dann <techmemo@gmail.com>
+status: :unstarted
+disposition: 
+creation_time: 2008-12-30 08:02:34.907202 Z
+references: []
+
+id: 7e988c2c92544cb5a9040a299cee2fa941436b66
+log_events: 
+- - 2008-12-30 08:02:35.388372 Z
+  - dann <techmemo@gmail.com>
+  - created
+  - ""

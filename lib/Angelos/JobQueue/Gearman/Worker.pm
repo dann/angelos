@@ -23,7 +23,7 @@ sub BUILD {
     $self->worker->job_servers( @{ $self->job_servers } );
 }
 
-sub register_function {
+sub register_task {
     my ( $self, $task ) = @_;
     $self->worker->register_function(
         $task->name,
