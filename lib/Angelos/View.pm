@@ -8,9 +8,7 @@ use Angelos::Exceptions;
 
 with( 'Angelos::Component', );
 
-has _mixin_app_ns => (
-    +default  => sub { [ 'Angelos::View' ] },
-);
+has _mixin_app_ns => ( +default => sub { ['Angelos::View'] }, );
 
 has 'context' => ( is => 'rw', );
 
@@ -21,17 +19,10 @@ has 'types' => (
     }
 );
 
-has 'format' => (
-    is      => 'rw',
-    default => sub {
-        'tt';
-    }
-);
-
 has 'root' => (
     is      => 'rw',
     default => sub {
-        Angelos::Home->path_to('share', 'root', 'templates' );
+        Angelos::Home->path_to( 'share', 'root', 'templates' );
     },
 );
 
@@ -106,7 +97,8 @@ sub _do_render {
 }
 
 sub _render {
-    Angelos::Exception::AbstractMethod->throw('Sub class must overried this method');
+    Angelos::Exception::AbstractMethod->throw(
+        'Sub class must overried this method');
 }
 
 sub _build_response {
@@ -116,9 +108,11 @@ sub _build_response {
     $c->res->body($output);
 
     unless ( $c->res->content_type ) {
+        # guess extension from request path
         my $ct = $self->CONTENT_TYPE
             || $self->_content_type( $c->stash->{format} || 'html' );
-        # FIXME: 
+
+        # FIXME:
         my $charset = 'utf-8';
         $c->response->content_type("$ct; charset=$charset");
     }
@@ -127,10 +121,15 @@ sub _build_response {
 
 sub _template {
     my ( $self, $c ) = @_;
+    my $template ||= $c->stash->{template};
 
-    # FIXME action
-    my $template = $c->stash->{template}
-        || $c->action . $self->TEMPLATE_EXTENSION;
+    $template
+        ||= lc($c->_match->params->{controller}) . "/"
+        . $c->_match->params->{action}
+        . $self->TEMPLATE_EXTENSION;
+
+    # FIXME
+    $c->stash->{template} = $template;
     $template;
 }
 
@@ -138,7 +137,9 @@ sub _template_path {
     my ( $self, $c ) = @_;
     my $template      = $c->stash->{template};
     my $template_path = $c->stash->{template_path};
+
     # FIXME guess template pass via action if template_path isn't specified
+    # get  $c->_match->params->{format}
     if ( $template && !$template_path ) {
         my $path = file( $self->root, $template );
         $c->stash->{template_path} = $path;

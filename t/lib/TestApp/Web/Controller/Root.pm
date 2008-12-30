@@ -7,18 +7,13 @@ extends 'Angelos::Controller';
 
 sub index {
     my ($self, $c, $params) = @_;
-    $self->dump($c);
-#    Carp::confess 'ooooooooooooops';
-    #$c->stash->{template} = 'index';
-    $c->res->body('Hello world');
-    $c->res->code(200);
-
+    $c->view('TT')->render;
 }
 
 sub view {
     my ($self, $c, $params) = @_;
     $c->stash->{template} = 'index';
-    $c->view('TT')->render(+{});
+
 }
 
 1;

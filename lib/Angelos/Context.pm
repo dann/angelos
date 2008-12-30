@@ -32,6 +32,10 @@ has 'stash' => (
     }
 );
 
+has '_match' => (
+    is => 'rw',
+);
+
 no Mouse;
 
 sub req {
@@ -53,7 +57,9 @@ sub view {
     $v;
 }
 
-sub error {
+sub log {
+    my ($self, %loginfo) = @_;
+    Angelos::Logger->instance->log(%loginfo);
 }
 
 __PACKAGE__->meta->make_immutable;

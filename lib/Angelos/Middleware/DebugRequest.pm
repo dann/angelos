@@ -58,8 +58,8 @@ sub report_body_parameters {
 
 sub report_matching_info {
     my ( $self, $req ) = @_;
-    my $t = Text::SimpleTable->new( [ 50, 'Path' ], [ 5, 'Method' ] );
-    $t->row( $req->path, $req->method );
+    my $t = Text::SimpleTable->new( [ 40, 'Path' ], [ 8, 'Method' ], [ 30, 'Base' ] );
+    $t->row( $req->path, $req->method , $req->base);
     my $message = "Matching Info:\n" . $t->draw;
     $self->log_message($message);
 }

@@ -13,4 +13,4 @@ mixins:
 
 middlewares:
   - module: Angelos::Middleware::Profile
-#  - module: Angelos::Middleware::DebugRequest
+  - module: Angelos::Middleware::DebugRequest

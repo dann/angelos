@@ -23,19 +23,18 @@ sub dispatch {
     my $action     = $match->params->{action};
     my $params     = $match->params;
 
-    my $instance = $self->find_controller_instance(
-        {   controller => $controller,
-            args       => $args
-        }
-    );
-    $self->execute_action(
-        {   controller => $instance,
-            action     => $action,
-            params     => $params,
+    my $context = @{ $args }[0];
+    $context->_match($match);
+
+    my $controller_instance = $self->find_controller_instance(
+        {
+            context => $context,
+            controller => $controller,
             args       => $args
         }
     );
 
+    $controller_instance->_do_action( $context, $action, $params );
 }
 
 sub has_matches {
@@ -46,18 +45,8 @@ sub has_matches {
 sub find_controller_instance {
     my ( $self, $args ) = @_;
     my $controller = delete $args->{controller};
-    my $c          = @{ $args->{args} }[0];
-    $c->controller($controller);
-}
-
-sub execute_action {
-    my ( $self, $args ) = @_;
-
-    my $controller = $args->{controller};
-    my $action     = $args->{action};
-    my $params     = $args->{params};
-    my $context    = @{ $args->{args} }[0];
-    $controller->_do_action( $context, $action, $params );
+    my $context    = $args->{context};
+    $context->controller($controller);
 }
 
 __PACKAGE__->meta->make_immutable;
