@@ -20,12 +20,8 @@ sub profile {
     my $start_time = time();
     my $result     = $code->($args);
     my $end_time   = time();
-
-    # use logger
-    warn "Request handling time: \n";
-    warn $end_time - $start_time . " secs";
-
-    $result;
+    my $message = "Request handling time: \n" . $end_time - $start_time . " secs";
+    $self->log_message($message);
 }
 
 __PACKAGE__->meta->make_immutable;
