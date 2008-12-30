@@ -8,7 +8,7 @@ with 'Angelos::Class::Mixinable';
 has 'app' => (
     is       => 'rw',
     required => 1,
-    handles  => [qw(controller log)],
+    handles  => [qw(controller)],
 );
 
 has 'request' => (
