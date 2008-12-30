@@ -1,4 +1,17 @@
 =encoding utf8
+#
+#===============================================================================
+#
+#         FILE:  Mixins.pod
+#
+#  DESCRIPTION:  
+#
+#       AUTHOR:   (), <>
+#      COMPANY:  
+#      CREATED:  2008年12月30日 11時26分54秒 JST
+#     REVISION:  ---
+#===============================================================================
+
 
 =head1 NAME
 
@@ -106,4 +119,6 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 =cut
+
+
 

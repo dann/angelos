@@ -1,4 +1,16 @@
-=encoding utf8
+#
+#===============================================================================
+#
+#         FILE:  Cookpad.pod
+#
+#  DESCRIPTION:  
+#
+#       AUTHOR:   (), <>
+#      COMPANY:  
+#      CREATED:  2008年12月30日 11時25分27秒 JST
+#     REVISION:  ---
+#===============================================================================
+
 
 =head1 NAME
 
@@ -106,4 +118,6 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 =cut
+
+
 
