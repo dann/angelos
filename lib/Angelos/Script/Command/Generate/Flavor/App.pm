@@ -210,7 +210,7 @@ template: |
   
   sub index {
       my ($self, $c, $params) = @_;
-      $c->render;
+      $c->view("TT")->render;
   }
   
   __PACKAGE__->meta->make_immutable;
