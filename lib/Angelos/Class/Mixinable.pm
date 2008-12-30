@@ -138,6 +138,7 @@ __END__
 =head1 DESCRIPTION
 
 This module works like L<Mouse::Role>, differences is you can set Role classes dynamically.
+actually steal most of code from L<MooseX::Object::Pluggable>
 
 =head1 METHOD
 
@@ -151,6 +152,6 @@ set Role Classes
 
 =head1 SEE ALSO
 
-L<Mouse::Role> L<Module::Pluggable::Object> L<Mouse::Util>
+L<Mouse::Role> L<Module::Pluggable::Object> L<Mouse::Util> L<MooseX::Object::Pluggable>
 
 =cut
