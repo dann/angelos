@@ -120,7 +120,7 @@ __END__
     ...
 
     package MyApp::Mixin::Pretty;
-    use Mouse::Role;
+    use Angelos::Mixin;
 
     sub pretty{ print "I am pretty" }
 

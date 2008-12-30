@@ -6,9 +6,6 @@ components:
 mixins:
   controller:
     - module: Dumper
-  debug:
-    - module: Components
-    - module: Routes
 
 #plugins:
 #  engine:

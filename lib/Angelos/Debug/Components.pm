@@ -1,7 +1,6 @@
 package Angelos::Debug::Components;
 use Mouse::Role;
 use Text::SimpleTable;
-
 with 'Angelos::Debug';
 
 around 'setup_components' => sub {

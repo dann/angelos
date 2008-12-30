@@ -196,6 +196,9 @@ use case: write tricky code :-(
 =head1 TODO
 
 =head1 AUTHOR
+Takatoshi Kitano<lt>kitano.tk@gmail.comE<gt>
+
+original by
 Tokuhiro Matsuno E<lt>tokuhirom@gmail.comE<gt>
 
 =head1 SEE ALSO

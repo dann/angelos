@@ -76,9 +76,10 @@ sub setup_mixins {
 
 sub setup_debug_mixins {
     my $self = shift;
-    use Data::Dumper;
-    my @mixins = Angelos::Config->mixins('debug');
-    $self->load_mixin( $_->{module} ) for Angelos::Config->mixins('debug');
+    if($self->is_debug) { 
+        my @mixins = ({module => 'Components'}, {module => 'Routes'});
+        $self->load_mixin( $_->{module} ) for @mixins;
+    }
 }
 
 sub setup_home {
@@ -139,7 +140,11 @@ sub build_root {
 }
 
 sub is_debug {
-    $ENV{ANGELOS_DEBUG} ? 1 : 0;
+    my $self = shift;
+    my $is_debug = 0; 
+    $is_debug ||= $ENV{ANGELOS_DEBUG};
+    $is_debug ||=  Angelos::Utils::env_value( ref $self, 'HOME' );
+    return $is_debug;
 }
 
 __PACKAGE__->meta->make_immutable;
