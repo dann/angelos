@@ -20,11 +20,9 @@ sub profile {
     my $start_time = time();
     my $result     = $code->($args);
     my $end_time   = time();
-
-    # use logger
-    warn "Request handling time: \n";
-    warn $end_time - $start_time . " secs";
-
+    my $elapsed = $end_time - $start_time;
+    my $message = "Request handling time: \n" . $elapsed . " secs";
+    $self->log_message($message);
     $result;
 }
 

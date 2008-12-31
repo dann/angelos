@@ -1,4 +1,4 @@
-package Angelos::Class::Hookable::Plugin;
+package Angelos::Plugin;
 use Mouse;
 use Scalar::Util ();
 use Sub::Exporter;
@@ -64,12 +64,12 @@ __END__
 
 =head1 NAME
 
-Angelos::Class::Hookable::Plugin - plugin
+Angelos::Plugin - plugin
 
 =head1 SYNOPSIS
 
     package Your::Plugin::Foo;
-    use Angelos::Class::Hookable::Plugin;
+    use Angelos::Plugin;
 
 =head1 DESCRIPTION
 
@@ -96,5 +96,5 @@ add coderef to hook point.
 =back
 
 =head1 SEE ALSO
-
+See also L<MooseX::Plaggerize>, L<Class::Trigger>
 

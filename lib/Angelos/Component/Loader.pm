@@ -28,7 +28,9 @@ sub load_components {
         Mouse::load_class($component);
 
         my $module = $self->load_component($component);
-        $self->_install_plugins_to($module);
+        $self->_register_plugins_to($module);
+        $self->_register_mixins_to($module);
+
         my %modules = (
             $component => $module,
             map { $_ => $self->load_component($_) }
@@ -43,30 +45,37 @@ sub load_components {
     $self->components;
 }
 
-sub _install_plugins_to {
+sub _register_plugins_to {
     my ( $self, $component ) = @_;
+
     if ( $component =~ /Controller/i ) {
         $component->load_plugin( $_->{module} )
-            for $self->_controller_plugins;
-    } elsif ( $component =~ /View/i ) {
+            for Angelos::Config->plugins('controller');
+    }
+    elsif ( $component =~ /View/i ) {
         $component->load_plugin( $_->{module} )
-            for $self->_view_plugins;
-    } elsif ( $component =~ /Model/i ) {
+            for Angelos::Config->plugins('view');
+    }
+    elsif ( $component =~ /Model/i ) {
         $component->load_plugin( $_->{module} )
-            for $self->_model_plugins;
+            for Angelos::Config->plugins('model');
     }
 }
 
-sub _controller_plugins {
-    Angelos::Config->plugins('controller');
-}
-
-sub _view_plugins {
-    Angelos::Config->plugins('view');
-}
-
-sub _model_plugins {
-    Angelos::Config->plugins('model');
+sub _register_mixins_to {
+    my ( $self, $component ) = @_;
+    if ( $component =~ /Controller/i ) {
+        $component->load_mixin(  $_->{module} )
+            for Angelos::Config->mixins('controller');
+    }
+    elsif ( $component =~ /View/i ) {
+        $component->load_mixin( $_->{module} )
+            for Angelos::Config->mixins('view');
+    }
+    elsif ( $component =~ /Model/i ) {
+        $component->load_mixin( $_->{module} )
+            for Angelos::Config->mixins('model');
+    }
 }
 
 sub set_component {

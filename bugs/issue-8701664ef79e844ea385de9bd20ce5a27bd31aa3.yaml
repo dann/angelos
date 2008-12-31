@@ -1,0 +1,18 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: "+XXX::Mixin::YYY \xE3\x81\xA7\xE6\x8C\x87\xE5\xAE\x9A\xE3\x81\x97\xE3\x81\x9FMixin\xE3\x82\x92Load"
+desc: ""
+type: :task
+component: angelos
+release: 
+reporter: dann <techmemo@gmail.com>
+status: :unstarted
+disposition: 
+creation_time: 2008-12-29 12:08:55.155125 Z
+references: []
+
+id: 8701664ef79e844ea385de9bd20ce5a27bd31aa3
+log_events: 
+- - 2008-12-29 12:08:55.779656 Z
+  - dann <techmemo@gmail.com>
+  - created
+  - ""

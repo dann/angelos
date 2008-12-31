@@ -1,7 +1,0 @@
----
-- type: connect
-  path: /
-  controller: Root
-  action: index
-- type: resource 
-  controller: Book 

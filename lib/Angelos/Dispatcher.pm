@@ -1,10 +1,32 @@
 package Angelos::Dispatcher;
 use Mouse;
 use Angelos::Dispatcher::Dispatch;
-extends 'Request::Dispatcher';
+use HTTP::Router;
+extends 'HTTP::Request::Dispatcher';
+
+has 'router' => (
+    is      => 'ro',
+    default => sub {
+        HTTP::Router->new;
+    },
+);
+
+no Mouse;
 
 sub dispatch_class {
     'Angelos::Dispatcher::Dispatch';
+}
+
+sub dispatch {
+    my ( $self, $request ) = @_;
+    my $match = $self->router->match( $request );
+    my $dispatch = $self->dispatch_class->new( match => $match );
+    return $dispatch;
+}
+
+sub set_routeset {
+    my ( $self, $routeset ) = @_;
+    $self->router->routeset($routeset);
 }
 
 __PACKAGE__->meta->make_immutable;

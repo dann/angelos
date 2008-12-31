@@ -12,7 +12,7 @@ screen:
       text: green
     debug:
       text: red
-      background: white
+      background: black
     error:
       text: yellow
       background: red

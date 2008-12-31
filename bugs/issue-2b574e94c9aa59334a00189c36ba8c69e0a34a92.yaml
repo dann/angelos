@@ -1,0 +1,18 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: "setup\xE6\x99\x82\xE3\x81\xABplugin\xE3\x82\x92load"
+desc: ""
+type: :task
+component: angelos
+release: 
+reporter: dann <techmemo@gmail.com>
+status: :unstarted
+disposition: 
+creation_time: 2008-12-29 12:08:11.937374 Z
+references: []
+
+id: 2b574e94c9aa59334a00189c36ba8c69e0a34a92
+log_events: 
+- - 2008-12-29 12:08:13.019271 Z
+  - dann <techmemo@gmail.com>
+  - created
+  - ""

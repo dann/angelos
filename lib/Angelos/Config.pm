@@ -24,7 +24,7 @@ sub mixins {
     my $var    = shift;
     my $mixins = $class->_get( 'mixins', $var );
 
-    unless ($mixin) {
+    unless ($mixins) {
         return wantarray ? () : [];
     }
     return wantarray ? @{$mixins} : $mixins;
@@ -40,10 +40,8 @@ sub middlewares {
     return wantarray ? @{$middlewares} : $middlewares;
 }
 
-sub routes {
-    my $routes = Angelos::Config::Loader->load(
-        Angelos::Home->path_to( 'conf', 'routes.yaml' ) );
-    return wantarray ? @{$routes} : $routes;
+sub routes_config_path {
+    Angelos::Home->path_to( 'conf', 'routes.pl' );
 }
 
 our $CONFIG;

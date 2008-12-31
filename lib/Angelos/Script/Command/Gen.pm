@@ -23,8 +23,8 @@ Angelos::Script::Command::Gen - A generator for your Angelos application
 
 sub opt_spec {
     return (
-        [ "f|flavor=s", "flavor name" ],
-        [ "n|name=s",   "name" ],
+        [ "flavor=s", "flavor name" ],
+        [ "name=s",   "name" ],
     );
 }
 

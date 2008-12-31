@@ -1,5 +1,19 @@
 =encoding utf8
 
+#
+#===============================================================================
+#
+#         FILE:  Cookbook.pod
+#
+#  DESCRIPTION:  
+#
+#       AUTHOR:   (), <>
+#      COMPANY:  
+#      CREATED:  2008年12月30日 11時27分06秒 JST
+#     REVISION:  ---
+#===============================================================================
+
+
 =head1 NAME
 
 <Module::Name> - <One line description of module's purpose>
@@ -106,4 +120,6 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 =cut
+
+
 

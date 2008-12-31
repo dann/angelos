@@ -65,7 +65,7 @@ sub _role_from_mixin {
     my $o = join '::', $self->_mixin_ns, $mixin;
 
     #Father, please forgive me for I have sinned.
-    my @roles = grep {/${o}$/} $self->_mixin_locator->mixins;
+    my @roles = grep {/${o}$/} $self->_mixin_locator->plugins;
 
     Carp::croak("Unable to locate mixin '$mixin'") unless @roles;
     return $roles[0] if @roles == 1;
@@ -120,7 +120,7 @@ __END__
     ...
 
     package MyApp::Mixin::Pretty;
-    use Mouse::Role;
+    use Angelos::Mixin;
 
     sub pretty{ print "I am pretty" }
 

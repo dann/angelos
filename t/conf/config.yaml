@@ -6,14 +6,11 @@ components:
 mixins:
   controller:
     - module: Dumper
-  debug:
-    - module: Components
 
 #plugins:
 #  engine:
 #   - module: Session
 
-#middlewares:
-#  - module: Angelos::Middleware::Profile
-#  - module: HTTPx::Middleware::DebugScreen
-
+middlewares:
+  - module: Angelos::Middleware::Profile
+#  - module: Angelos::Middleware::DebugRequest
