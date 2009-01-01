@@ -39,7 +39,7 @@ has 'TEMPLATE_EXTENSION' => (
 around 'new' => sub {
     my ( $next, $class, @args ) = @_;
     my $instance = $next->( $class, @args );
-    $instance->run_hook('AFTER_INIT');
+    $instance->run_hook('AFTER_VIEW_INIT');
     $instance;
 };
 

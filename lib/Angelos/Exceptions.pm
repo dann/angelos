@@ -15,7 +15,7 @@ package Angelos::Exception::DeprecatedMethod;
 use base 'Angelos::Exception';
 sub description {'This method is now deprecated'}
 
-package Angelos::Exception::ArgumentTypeError;
+package Angelos::Exception::InvalidArgumentError;
 use base 'Angelos::Exception';
 sub description {'Argument type mismatch'}
 

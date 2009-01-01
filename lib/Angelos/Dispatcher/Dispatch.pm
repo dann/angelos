@@ -30,7 +30,6 @@ sub dispatch {
         {
             context => $context,
             controller => $controller,
-            args       => $args
         }
     );
 
