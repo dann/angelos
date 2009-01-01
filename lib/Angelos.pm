@@ -66,6 +66,7 @@ sub run {
 sub setup {
     my $self = shift;
     $self->setup_home;
+    $self->setup_application_class;
     $self->setup_mixins;
     $self->setup_engine;
     $self->setup_logger;
@@ -76,6 +77,11 @@ sub setup {
 sub setup_mixins {
     my $self = shift;
     $self->setup_debug_mixins;
+}
+
+sub setup_application_class {
+    my $self = shift;
+    Angelos::Config->application_class(ref $self);
 }
 
 sub setup_debug_mixins {

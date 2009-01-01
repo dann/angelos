@@ -65,7 +65,7 @@ sub _register_plugins_to {
 sub _register_mixins_to {
     my ( $self, $component ) = @_;
     if ( $component =~ /Controller/i ) {
-        $component->load_mixin(  $_->{module} )
+        $component->load_mixin( $_->{module} )
             for Angelos::Config->mixins('controller');
     }
     elsif ( $component =~ /View/i ) {
@@ -99,10 +99,13 @@ sub load_component {
 
     if ( my $error = $@ ) {
         chomp $error;
-        Angelos::Exception->throw(message => "Couldn't instantiate component $component : $error" );
+        Angelos::Exception->throw(
+            message => "Couldn't instantiate component $component : $error" );
     }
 
-    Angelos::Exception->throw(message => "Couldn't instantiate component $component") unless Scalar::Util::blessed($instance);
+    Angelos::Exception->throw(
+        message => "Couldn't instantiate component $component" )
+        unless Scalar::Util::blessed($instance);
 
     return $instance;
 }
@@ -113,22 +116,42 @@ sub search_component {
     foreach my $component ( keys %{ $self->components } ) {
         return $self->get_component($component) if $component =~ /$name/i;
     }
-    return undef;
+    Angelos::Exception::ComponentNotFound->throw(
+        message => "component is't found: $name" );
 }
 
 sub search_model {
     my ( $self, $short_model_name ) = @_;
-    $self->search_component( 'Model::' . $short_model_name );
+    if ( my $appclass = Angelos::Config->application_class ) {
+        return $self->get_component(
+            $appclass . "::Model::" . $short_model_name );
+    }
+    else {
+        return $self->search_component( 'Controller::' . $short_model_name );
+    }
 }
 
 sub search_controller {
     my ( $self, $short_controller_name ) = @_;
-    $self->search_component( 'Controller::' . $short_controller_name );
+    if ( my $appclass = Angelos::Config->application_class ) {
+        return $self->get_component(
+            $appclass . "::Controller::" . $short_controller_name );
+    }
+    else {
+        return $self->search_component(
+            'Controller::' . $short_controller_name );
+    }
 }
 
 sub search_view {
     my ( $self, $short_view_name ) = @_;
-    $self->search_component( 'View::' . $short_view_name );
+    if ( my $appclass = Angelos::Config->application_class ) {
+        return $self->get_component(
+            $appclass . "::Controller::" . $short_view_name );
+    }
+    else {
+        $self->search_component( 'View::' . $short_view_name );
+    }
 }
 
 __PACKAGE__->meta->make_immutable;

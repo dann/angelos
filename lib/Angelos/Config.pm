@@ -3,6 +3,9 @@ use Angelos::Home;
 use Angelos::Config::Loader;
 use Angelos::Config::Schema;
 
+our $CONFIG;
+our $APPLICAION_CLASS;
+
 sub global {
     my $class = shift;
     my $var   = shift;
@@ -52,8 +55,6 @@ sub routes_config_path {
     Angelos::Home->path_to( 'conf', 'routes.pl' );
 }
 
-our $CONFIG;
-
 sub _config {
     my $class = shift;
     return $CONFIG if $CONFIG;
@@ -81,6 +82,14 @@ sub _get {
 
 sub logger_conf_path {
     Angelos::Home->path_to( 'conf', 'log.yaml' );
+}
+
+# This is needed to search components fast
+sub application_class {
+    my ( $class, $application_class ) = @_;
+    return $APPLICAION_CLASS if $APPLICAION_CLASS;
+    $APPLICAION_CLASS = $application_class if $application_class;
+    $APPLICAION_CLASS;
 }
 
 1;

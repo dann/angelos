@@ -53,6 +53,12 @@ BEGIN {
             description => 'parameter is missing'
         },
 
+        'Angelos::Exception::ComponentNotFound' => {
+            isa         => 'Angelos::Exception',
+            alias       => 'component_not_dounf_error',
+            description => 'Component (MVC) not found'
+        },
+
     );
 }
 
