@@ -7,9 +7,10 @@ hook 'BEFORE_DISPATCH' => sub {
     my ( $self, $c ) = @_;
     my $session = Angelos::SessionBuilder->new->build( $c->req );
 
-    $c->meta->make_mutable;
-    $c->meta->add_attribute( 'session' => ( is => 'rw', ) );
-    $c->meta->make_immutable;
+    # This isn't supported Mouse
+    #$c->meta->make_mutable;
+    #$c->meta->add_attribute( 'session' => ( is => 'rw', ) );
+    #$c->meta->make_immutable;
 
     $c->session($session);
 };

@@ -55,9 +55,10 @@ sub _session_id_class {
 }
 
 sub _session {
-    Angelos::Config->global('session')
+    my $session_plugin = Angelos::Config->plugins( 'engine', 'Session' )
         or die
         'session config must be set before the session plugin used at global section in conf/config.yaml';
+    $session_plugin;
 }
 
 __PACKAGE__->meta->make_immutable;

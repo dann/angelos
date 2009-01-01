@@ -32,6 +32,10 @@ has '_match' => (
     is => 'rw',
 );
 
+has 'session' => (
+    is => 'rw',
+);
+
 no Mouse;
 
 sub req {

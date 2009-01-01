@@ -12,9 +12,17 @@ sub global {
 sub plugins {
     my $class   = shift;
     my $var     = shift;
+    my $module  = shift;
     my $plugins = $class->_get( 'plugins', $var );
     unless ($plugins) {
         return wantarray ? () : [];
+    }
+    if ($module) {
+        foreach my $plugin ( @{$plugins} ) {
+            if ( $module eq $plugin->{module} ) {
+                return $plugin;
+            }
+        }
     }
     return wantarray ? @{$plugins} : $plugins;
 }
