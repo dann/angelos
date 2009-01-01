@@ -33,6 +33,7 @@ requires 'File::Find::Rule';
 requires 'Devel::MemUsed';
 requires 'JSON::XS';
 requires 'Term::ReadLine';
+requires 'Devel::REPL';
 
 build_requires 'Test::More';
 

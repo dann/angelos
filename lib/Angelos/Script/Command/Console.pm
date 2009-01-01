@@ -2,8 +2,7 @@ package Angelos::Script::Command::Console;
 use strict;
 use warnings;
 use base qw(App::Cmd::Command);
-use Devel::EvalContext;
-use Term::ReadLine;
+use Devel::REPL;
 
 =head1 NAME
 
@@ -27,8 +26,7 @@ C<eval()>.
 =cut
 
 sub opt_spec {
-  return (
-  );
+    return ();
 }
 
 =head2 run()
@@ -37,19 +35,13 @@ Creates a new console process.
 
 =cut
 
+our @PLUGINS = qw(History LexEnv Completion MultiLine::PPI);
+
 sub run {
     my $self = shift;
-    my $term = new Term::ReadLine 'Angelos Console';
-    my $OUT = $term->OUT || \*STDOUT;
-    my $cxt = Devel::EvalContext->new;
-    while (defined($_ = $term->readline("angelos> "))) {
-        if (/\S/) {
-            my $res = $cxt->run($_);
-            warn $@ if $@;
-            print $OUT $res, "\n" unless $@ || !defined($res);
-            $term->addhistory($_);
-        }
-    }
+    my $repl = Devel::REPL->new(prompt => 'angelos> ');
+    $repl->load_plugin($_) for @PLUGINS;
+    $repl->run;
 }
 
 1;
