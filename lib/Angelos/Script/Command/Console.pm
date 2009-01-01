@@ -15,11 +15,7 @@ With this script, you can say something like this to diagnose your
 application:
 
     % bin/angelos console
-    angelos> my $foo = Jifty->app_class("Model", "StuffCollection")->new;
-    angelos> $foo->unlimit; YAML::Dump($foo)
-
-All Perl code are ok, since each lines of input are send to
-C<eval()>.
+    angelos> print 'Hello';
 
 =head1 METHODS
 

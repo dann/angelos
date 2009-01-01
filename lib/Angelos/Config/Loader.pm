@@ -21,7 +21,7 @@ sub _make_config {
     else {
         open my $fh, '<:utf8', $stuff
             or Angelos::Exception::FileNotFoundError->throw(
-            "Can't open confi: $!");
+            message => "Can't open config: $!");
         $config = YAML::LoadFile($fh);
         close $fh;
     }

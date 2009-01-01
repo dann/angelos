@@ -11,7 +11,6 @@ use Angelos::Home;
 use Angelos::Logger;
 use Angelos::Middleware::Builder;
 use Angelos::Exceptions;
-use Angelos::Exception;
 use Angelos::Logger;
 
 with( 'Angelos::Class::Hookable', );
@@ -44,8 +43,6 @@ has 'host' => (
 
 has 'port' => (
     is       => 'rw',
-    default  => 3000,
-    required => 1,
 );
 
 has 'server' => (
@@ -82,6 +79,7 @@ no Mouse;
 sub build_engine {
     my $self            = shift;
     my $request_handler = $self->_build_request_handler;
+    
     return HTTP::Engine->new(
         interface => {
             module => $self->server,
@@ -94,6 +92,7 @@ sub build_engine {
         },
     );
 }
+
 
 sub _build_request_handler {
     my $self            = shift;
@@ -117,7 +116,6 @@ sub build_dispathcer {
 
 sub handle_request {
     my ( $self, $req ) = @_;
-    my $path = $req->path;
     my $res  = HTTP::Engine::Response->new;
     my $c    = Angelos::Context->new(
         request  => $req,

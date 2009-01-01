@@ -1,47 +1,80 @@
 package Angelos::Exceptions;
 use strict;
-use Angelos::Exception;
+use warnings;
 
-# Concrete exceptions
-package Angelos::Exception::AbstractMethod;
-use base 'Angelos::Exception';
-sub description {'This method is abstract'}
+use Scalar::Util ();
 
-package Angelos::Exception::UnimplementedMethod;
-use base 'Angelos::Exception';
-sub description {'This method is unimplemented'}
+my %E;
 
-package Angelos::Exception::DeprecatedMethod;
-use base 'Angelos::Exception';
-sub description {'This method is now deprecated'}
+BEGIN {
+    %E = (
+        'Angelos::Exception' =>
+            { description => 'Generic excepction for Angelos' },
 
-package Angelos::Exception::InvalidArgumentError;
-use base 'Angelos::Exception';
-sub description {'Argument type mismatch'}
+        'Angelos::Exception::AbstractMethod' => {
+            isa         => 'Angelos::Exception',
+            alias       => 'aabstruct_error',
+            description => 'This method is Abstract'
+        },
 
-package Angelos::Exception::TemplateNotFound;
-use base 'Angelos::Exception';
-sub description {'Template cannot open template file'}
+        'Angelos::Exception::UnimplementedMethod' => {
+            isa         => 'Angelos::Exception',
+            alias       => 'unimplemented_error',
+            description => 'This method is unimplemented'
+        },
 
-package Angelos::Exception::DBConnectionError;
-use base 'Angelos::Exception';
-sub description {'DBI connect error'}
+        'Angelos::Exception::DeprecatedMethod' => {
+            isa         => 'Angelos::Exception',
+            alias       => 'deprecated_error',
+            description => 'This method is deprecated'
+        },
 
-package Angelos::Exception::TemplateParseError;
-use base 'Angelos::Exception';
-sub description {'TT parse error'}
+        'Angelos::Exception::InvalidArgumentError' => {
+            isa         => 'Angelos::Exception',
+            alias       => 'invalid_argument_error',
+            description => 'Argument type mismatch'
+        },
 
-package Angelos::Exception::LoadingModuleError;
-use base 'Angelos::Exception';
-sub description {'Error while loading module'}
+        'Angelos::Exception::TemplateNotFound' => {
+            isa         => 'Angelos::Exception',
+            alias       => 'template_error',
+            description => 'Template cannot open template file'
+        },
 
-package Angelos::Exception::ParameterMissingError;
-use base 'Angelos::Exception';
-sub description {'required parameter is missing'}
+        'Angelos::Exception::FileNotFound' => {
+            isa         => 'Angelos::Exception',
+            alias       => 'file_not_found_error',
+            description => 'file not found error'
+        },
 
-package Angelos::Exception::FileNotFoundError;
-use base 'Angelos::Exception';
-sub description {'file not found error'}
+        'Angelos::Exception::ParameterMissingError' => {
+            isa         => 'Angelos::Exception',
+            alias       => 'param_missing_error',
+            description => 'parameter is missing'
+        },
+
+    );
+}
+
+use Exception::Class (%E);
+
+$_->Trace(1) for keys %E;
+
+use base 'Exporter';
+our @EXPORT_OK = (
+    qw( rethrow_exception virtual_method_error ),
+    map { $_->{alias} } grep { exists $_->{alias} } values %E
+);
+
+sub rethrow_exception {
+    my $e = shift;
+
+    if ( Scalar::Util::blessed($e) and $e->can('rethrow') ) {
+        $e->rethrow();
+    }
+
+    Angelos::Exception->throw( message => $e );
+}
 
 1;
 

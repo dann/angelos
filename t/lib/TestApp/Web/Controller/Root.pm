@@ -7,7 +7,8 @@ extends 'Angelos::Controller';
 
 sub index {
     my ($self, $c, $params) = @_;
-    $c->view('HTPro')->render;
+    $c->res->body('HelloWorld');
+    #$c->view('HTPro')->render;
     #$c->view('TT')->render;
 }
 

@@ -2,7 +2,6 @@ package Angelos::Dispatcher;
 use Mouse;
 use Angelos::Dispatcher::Dispatch;
 use HTTP::Router;
-extends 'HTTP::Request::Dispatcher';
 
 has 'router' => (
     is      => 'ro',

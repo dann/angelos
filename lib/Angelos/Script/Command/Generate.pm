@@ -42,7 +42,7 @@ sub validate_args {
     my $module = $opt->{name};
 
     Angelos::Exception::ParameterMissingError->throw(
-        "You need to give your new module name --module\n")
+        message => "You need to give your new module name --module\n")
         unless $module;
 }
 

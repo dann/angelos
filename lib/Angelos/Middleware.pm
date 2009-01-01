@@ -8,7 +8,7 @@ no Mouse;
 sub wrap {
     my ( $self, $next ) = @_;
     Angelos::Exception::AbstractMethod->throw(
-        'Sub class must implement wrap method');
+        message => 'Sub class must implement wrap method');
 }
 
 sub log_message {

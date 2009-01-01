@@ -36,9 +36,7 @@ has 'TEMPLATE_EXTENSION' => (
     required => 1,
 );
 
-has 'engine' => (
-    is      => 'rw',
-);
+has 'engine' => ( is => 'rw', );
 
 sub BUILD {
     my $self = shift;
@@ -102,12 +100,12 @@ sub _do_render {
 
 sub _render {
     Angelos::Exception::AbstractMethod->throw(
-        'Sub class must overried this method');
+        message => 'Sub class must overried this method' );
 }
 
 sub _build_engine {
     Angelos::Exception::AbstractMethod->throw(
-        'Sub class must overried this method');
+        message => 'Sub class must overried this method' );
 }
 
 sub _build_response {
@@ -117,6 +115,7 @@ sub _build_response {
     $c->res->body($output);
 
     unless ( $c->res->content_type ) {
+
         # guess extension from request path
         my $ct = $self->CONTENT_TYPE
             || $self->_content_type( $c->stash->{format} || 'html' );
@@ -133,7 +132,7 @@ sub _template {
     my $template ||= $c->stash->{template};
 
     $template
-        ||= lc($c->_match->params->{controller}) . "/"
+        ||= lc( $c->_match->params->{controller} ) . "/"
         . $c->_match->params->{action}
         . $self->TEMPLATE_EXTENSION;
 

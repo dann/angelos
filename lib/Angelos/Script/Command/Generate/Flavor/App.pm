@@ -399,7 +399,7 @@ template: |+
   use FindBin::libs;
   use [% module %];
   
-  my $app = [% module %]->new( server => 'ServerSimple');
+  my $app = [% module %]->new( server => 'ServerSimple', port=> 3000);
   $app->setup;
   $app->run();
   

@@ -17,6 +17,12 @@ with 'Angelos::Class::Mixinable';
 
 our $LOGGER;
 
+has _mixin_app_ns => (
+    +default => sub {
+        ['Angelos'];
+    }
+);
+
 has '_mixin_ns' => (
     +default => sub {
         'Debug';
@@ -40,9 +46,7 @@ has 'host' => (
 
 has 'port' => (
     is       => 'rw',
-    default  => 3000,
     isa        => 'Int',
-    required => 1,
 );
 
 has 'server' => ( is => 'rw', );

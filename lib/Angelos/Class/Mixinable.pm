@@ -15,7 +15,7 @@ has _mixin_app_ns => (
     is       => 'rw',
     required => 1,
     isa      => 'ArrayRef',
-    default  => sub { [ ref shift, 'Angelos' ] },
+    default  => sub { [ ref shift ] },
 );
 
 has _mixin_loaded => (

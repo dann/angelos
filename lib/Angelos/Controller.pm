@@ -50,14 +50,14 @@ sub _call_filters {
 
 sub add_before_filter {
     my ( $self, $filter ) = @_;
-    Angelos::Exception::InvalidArgumentError->throw("name key is required")
+    Angelos::Exception::InvalidArgumentError->throw(message => "name key is required")
         unless $filter->{name};
     push @{ $self->before_filters }, $filter;
 }
 
 sub add_after_filter {
     my ( $self, $filter ) = @_;
-    Angelos::Exception::InvalidArgumentError->throw("name key is required")
+    Angelos::Exception::InvalidArgumentError->throw(message => "name key is required")
         unless $filter->{name};
     push @{ $self->after_filters }, $filter;
 }
