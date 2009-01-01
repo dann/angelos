@@ -99,13 +99,10 @@ sub load_component {
 
     if ( my $error = $@ ) {
         chomp $error;
-        Angelos::Exception->throw( message =>
-                qq/Couldn't instantiate component "$component", "$error"/ );
+        Angelos::Exception->throw( "Couldn't instantiate component $component : $error" );
     }
 
-    Angelos::Exception->throw( message =>
-            qq/Couldn't instantiate component "$component", "COMPONENT() didn't return an object-like value"/
-    ) unless Scalar::Util::blessed($instance);
+    Angelos::Exception->throw("Couldn't instantiate component $component") unless Scalar::Util::blessed($instance);
 
     return $instance;
 }

@@ -1,6 +1,6 @@
 package Angelos::Engine;
 use Mouse;
-use Carp ();
+use Carp         ();
 use Scalar::Util ();
 use HTTP::Engine;
 use HTTP::Engine::Response;
@@ -34,7 +34,7 @@ has 'dispatcher' => (
 has 'root' => (
     is       => 'rw',
     required => 1,
-    default  => sub { Angelos::Home->path_to('share','root')->absolute },
+    default  => sub { Angelos::Home->path_to( 'share', 'root' )->absolute },
 );
 
 has 'host' => (
@@ -103,6 +103,7 @@ sub _build_request_handler {
     };
 
     if ( my $err = $@ ) {
+
         # FIXME warn error if error occurs in builder.
         warn $err;
     }
@@ -139,7 +140,9 @@ sub handle_request {
 sub dispatch {
     my ( $self, $c, $req ) = @_;
     my $dispatch = $self->dispatcher->dispatch($req);
+
     unless ( $dispatch->has_matches ) {
+        $self->logger->log( level => 'info', message => '404 Not Found' );
         $c->res->status(404);
         $c->res->body("404 Not Found");
         return $c->res;
@@ -150,9 +153,10 @@ sub dispatch {
 
 sub handle_exception {
     my ( $self, $c, $error ) = @_;
+    $self->logger->log( level => 'error', message => $error );
     $c->res->content_type('text/html; charset=utf-8');
     $c->res->status(500);
-    $c->res->body( 'Internal Error:' . $error ) if $@;
+    $c->res->body( 'Internal Error:' . $error );
 }
 
 __PACKAGE__->meta->make_immutable;

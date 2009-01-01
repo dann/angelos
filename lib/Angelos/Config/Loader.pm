@@ -7,7 +7,6 @@ use Angelos::Exceptions;
 
 sub load {
     my ( $class, $stuff, $schema ) = @_;
-
     my $config = $class->_make_config($stuff);
     Angelos::Config::Validator->validate_config( $config, $schema );
 
@@ -20,7 +19,9 @@ sub _make_config {
         $config = Storable::dclone($stuff);
     }
     else {
-        open my $fh, '<:utf8', $stuff or Angelos::Exception::FileNotFoundError->throw($!);
+        open my $fh, '<:utf8', $stuff
+            or Angelos::Exception::FileNotFoundError->throw(
+            "Can't open confi: $!");
         $config = YAML::LoadFile($fh);
         close $fh;
     }

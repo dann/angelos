@@ -2,6 +2,7 @@ package Angelos::Engine::Plugin::Session;
 use Angelos::Class::Hookable::Plugin;
 use Angelos::Config;
 use Angelos::SessionBuilder;
+use Sub::Install;
 
 hook 'BEFORE_DISPATCH' => sub {
     my ( $self, $c ) = @_;
