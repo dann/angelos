@@ -36,12 +36,16 @@ has 'TEMPLATE_EXTENSION' => (
     required => 1,
 );
 
-around 'new' => sub {
-    my ( $next, $class, @args ) = @_;
-    my $instance = $next->( $class, @args );
-    $instance->run_hook('AFTER_VIEW_INIT');
-    $instance;
-};
+has 'engine' => (
+    is      => 'rw',
+);
+
+sub BUILD {
+    my $self = shift;
+    $self->run_hook('AFTER_VIEW_INIT');
+    my $template_engine = $self->_build_engine;
+    $self->engine($template_engine) if $template_engine;
+}
 
 around 'render' => sub {
     my ( $next, $self, $args ) = @_;
@@ -97,6 +101,11 @@ sub _do_render {
 }
 
 sub _render {
+    Angelos::Exception::AbstractMethod->throw(
+        'Sub class must overried this method');
+}
+
+sub _build_engine {
     Angelos::Exception::AbstractMethod->throw(
         'Sub class must overried this method');
 }

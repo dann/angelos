@@ -5,21 +5,13 @@ use Angelos::Home;
 use Path::Class;
 extends 'Angelos::View';
 
-has 'engine' => (
-    is      => 'rw',
-    lazy    => 1,
-    builder => 'build_engine',
-
-);
-
 has 'INCLUDE_PATH' => ( is => 'rw', );
-
 has 'TEMPLATE_EXTENSION' => ( +default => '.tt' );
 has 'CONTENT_TYPE'       => ( +default => 'text/html' );
 
 no Mouse;
 
-sub build_engine {
+sub _build_engine {
     my $self = shift;
     my $include_path ||= $self->INCLUDE_PATH;
     $include_path    ||= $self->root;

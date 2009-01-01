@@ -21,10 +21,6 @@ has 'response' => (
     required => 1
 );
 
-has 'session' => (
-    is       => 'rw',
-);
-
 has 'stash' => (
     is      => 'rw',
     default => sub {
@@ -50,7 +46,6 @@ sub res {
 
 sub view {
     my ( $self, $view ) = @_;
-    $view ||= 'TT';
     my $v = $self->app->view($view);
     Carp::croak "view $view doesn't exist" unless $v;
     $v->context($self);
