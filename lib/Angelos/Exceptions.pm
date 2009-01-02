@@ -74,11 +74,9 @@ our @EXPORT_OK = (
 
 sub rethrow_exception {
     my $e = shift;
-
     if ( Scalar::Util::blessed($e) and $e->can('rethrow') ) {
         $e->rethrow();
     }
-
     Angelos::Exception->throw( message => $e );
 }
 

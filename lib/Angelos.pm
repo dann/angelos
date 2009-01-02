@@ -11,7 +11,6 @@ use Angelos::Dispatcher::Routes::Builder;
 use Angelos::Config;
 use Angelos::Logger;
 use Angelos::Exceptions;
-use Angelos::Debug::Routes;
 
 with 'Angelos::Class::Mixinable';
 
@@ -65,13 +64,22 @@ sub run {
 
 sub setup {
     my $self = shift;
-    $self->setup_home;
-    $self->setup_application_class;
-    $self->setup_mixins;
-    $self->setup_engine;
-    $self->setup_logger;
-    $self->setup_components;
-    $self->setup_dispatcher;
+    eval {
+        $self->setup_home;
+        $self->setup_application_class;
+        $self->setup_mixins;
+        $self->setup_engine;
+        $self->setup_logger;
+        $self->setup_components;
+        $self->setup_dispatcher;
+    };
+    if($@) {
+        Angelos::Logger->instance->log(
+            level => 'error',
+            message => $@,
+        );
+        rethrow_exception($@);
+    }
 }
 
 sub setup_mixins {

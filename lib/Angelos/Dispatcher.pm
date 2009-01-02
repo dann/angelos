@@ -8,6 +8,7 @@ has 'router' => (
     default => sub {
         HTTP::Router->new;
     },
+    handles => [qw(uri_for)],
 );
 
 no Mouse;

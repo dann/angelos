@@ -7,8 +7,9 @@ use Angelos::Logger;
 
 has 'app' => (
     is       => 'rw',
+    isa      => 'Angelos::Engine',
     required => 1,
-    handles  => [qw(controller)],
+    handles  => [qw(controller urif_for)],
 );
 
 has 'request' => (
@@ -28,24 +29,25 @@ has 'stash' => (
     }
 );
 
-has '_match' => (
-    is => 'rw',
-);
+has '_match' => ( is => 'rw', );
 
+# FIXME
+# need to consider later
+# this should be added by plugin
+# should I use Sub::Install or something like that?
 has 'session' => (
-    is => 'rw',
+    is  => 'rw',
+    isa => 'HTTP::Session',
 );
 
 no Mouse;
 
 sub req {
-    my $self = shift;
-    $self->request;
+    shift->request;
 }
 
 sub res {
-    my $self = shift;
-    $self->response;
+    shift->response;
 }
 
 sub view {
@@ -57,9 +59,10 @@ sub view {
 }
 
 sub log {
-    my ($self, %loginfo) = @_;
+    my ( $self, %loginfo ) = @_;
     Angelos::Logger->instance->log(%loginfo);
 }
+
 
 __PACKAGE__->meta->make_immutable;
 
