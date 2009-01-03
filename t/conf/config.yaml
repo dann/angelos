@@ -7,9 +7,9 @@ components:
 #  controller:
 #    - module: Dumper
 
-#plugins:
-#  engine:
-#   - module: Session
+plugins:
+  engine:
+   - module: Session
 
 #middlewares:
 #  - module: Angelos::Middleware::Profile
