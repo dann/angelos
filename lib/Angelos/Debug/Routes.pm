@@ -25,7 +25,7 @@ sub __make_dispatch_table_report {
         [ 10, 'controller' ],
         [ 10, 'action' ]
     );
-    foreach my $route ( $routes->all ) {
+    foreach my $route ( $routes->routes ) {
         # FIXME metdods 
         my $methods = $route->conditions->{method};
         $t->row(
