@@ -60,7 +60,7 @@ sub _config {
     return $CONFIG if $CONFIG;
 
     $CONFIG
-        ||= Angelos::Config::Loader->load(
+        = Angelos::Config::Loader->load(
         Angelos::Home->path_to( 'conf', 'config.yaml' ),
         Angelos::Config::Schema->config );
     $CONFIG;

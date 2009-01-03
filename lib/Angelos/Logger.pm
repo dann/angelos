@@ -10,7 +10,7 @@ sub instance {
     return $LOGGER if $LOGGER;
     my $config = Log::Dispatch::Configurator::YAML->new($class->_logger_conf_path);
     Log::Dispatch::Config->configure($config);
-    $LOGGER ||= Log::Dispatch::Config->instance();
+    $LOGGER = Log::Dispatch::Config->instance();
     $LOGGER;
 }
 
