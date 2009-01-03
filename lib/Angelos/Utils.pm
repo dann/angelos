@@ -2,7 +2,6 @@ package Angelos::Utils;
 use strict;
 use warnings;
 use Carp ();
-use File::ShareDir ();
 use File::Spec;
 
 use vars qw/$SHARE_ROOT $ANGELOS_ROOT/;

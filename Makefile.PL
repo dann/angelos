@@ -20,7 +20,6 @@ requires 'Kwalify';
 requires 'Locale::Maketext::Simple';
 requires 'Locale::Maketext::Extract';
 requires 'Sub::Exporter';
-requires 'Devel::EvalContext';
 requires 'App::Cmd';
 requires 'Pod::Simple::Text';
 requires 'FindBin::libs';
@@ -33,6 +32,7 @@ requires 'Devel::MemUsed';
 requires 'JSON::XS';
 requires 'Term::ReadLine';
 requires 'Devel::REPL';
+requires 'Sub::Install';
 
 build_requires 'Test::More';
 
