@@ -33,7 +33,7 @@ has '_match' => ( is => 'rw', );
 
 # FIXME
 # need to consider later
-# this should be added by plugin
+# this attribute should be added by plugin
 # should I use Sub::Install or something like that?
 has 'session' => (
     is  => 'rw',
@@ -63,6 +63,10 @@ sub log {
     Angelos::Logger->instance->log(%loginfo);
 }
 
+sub action {
+    my $self =shift;
+    $self->_match->params->{action}
+}
 
 __PACKAGE__->meta->make_immutable;
 

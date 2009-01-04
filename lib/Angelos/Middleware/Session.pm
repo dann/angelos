@@ -24,9 +24,10 @@ sub wrap {
         my $req = shift;
         my $session = $self->session_builder->build( $req );
 
-        # FIXME Fix lator
+        # FIXME Fix later
         # How should I add attribute to HTTP::Engine::Request?
         # Mouse class can't be mutable 
+        # almost all engine plugin should be middleware 
         no strict 'refs';
         no warnings 'redefine';
         *{'HTTP::Engine::Request::session'} = sub {

@@ -1,9 +1,7 @@
 HTTP::Router->define(
     sub {
-        $_->resources('Users', sub {
-                $_->resources('Articles');
-            }
-        );
+        $_->match('/')->to( { controller => 'Root', action => 'index' } );
+        $_->resources('Book');
     }
 );
 

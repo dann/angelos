@@ -10,20 +10,17 @@ has 'match' => (
 no Mouse;
 
 sub run {
-    my $self = shift;
-    my @args = @_;
-    $self->dispatch( \@args );
+    my ($self, $context)  = @_;
+    $self->dispatch( $context );
 }
 
 sub dispatch {
-    my ( $self, $args ) = @_;
+    my ( $self, $context ) = @_;
 
     my $match      = $self->match;
     my $controller = $match->params->{controller};
     my $action     = $match->params->{action};
     my $params     = $match->params;
-
-    my $context = @{ $args }[0];
     $context->_match($match);
 
     my $controller_instance = $self->find_controller_instance(

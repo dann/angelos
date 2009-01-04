@@ -1,5 +1,5 @@
 package Angelos::Engine::Plugin::Session;
-use Angelos::Class::Hookable::Plugin;
+use Angelos::Plugin;
 use Angelos::Config;
 use Angelos::SessionBuilder;
 
