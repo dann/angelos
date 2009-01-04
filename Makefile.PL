@@ -39,7 +39,7 @@ build_requires 'Test::More';
 
 install_script 'bin/angelos';
 
-author_tests('xt');
+#author_tests('xt');
 use_test_base;
 auto_include;
 WriteAll;

@@ -1,5 +1,5 @@
 use strict;
-use Test::More tests => 3;
+use Test::More tests => 1;
 use Data::Dumper;
 use lib 't/lib';
 
