@@ -9,7 +9,7 @@ has 'app' => (
     is       => 'rw',
     isa      => 'Angelos::Engine',
     required => 1,
-    handles  => [qw(controller urif_for)],
+    handles  => [qw(controller)],
 );
 
 has 'request' => (
