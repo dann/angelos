@@ -8,8 +8,6 @@ sub create_engine {
     my ( $class, $r, $context_key ) = @_;
     $class->_setup_home;
 
-    warn 'create_engine';
-
     my $app_class = $class->_load_app_class;
     my $app = $app_class->new( server => 'ModPerl' );
     $app->setup;
@@ -45,9 +43,10 @@ __END__
       <Perl>
           use lib qw(/var/www/myapp/lib);
       </Perl>
-      <Location />
-          SetHandler perl-script
-          PerlSetEnv ANGELOS_APP_CLASS MyApp
+      <Location /modperl/angelos>
+          SetHandler modperl
+          PerlOptions +SetupEnv
+          PerlSetEnv ANGELOS_APP_CLASS MyApp 
           PerlResponseHandler Angelos::Engine::ModPerl
       </Location>
   </VirtualHost>
