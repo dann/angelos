@@ -36,7 +36,7 @@ sub env_value {
     my ( $class, $key ) = @_;
 
     $key = uc($key);
-    my @prefixes = ( class2env($class), 'CATALYST' );
+    my @prefixes = ( class2env($class), 'ANGELOS' );
 
     for my $prefix (@prefixes) {
         if ( defined( my $value = $ENV{"${prefix}_${key}"} ) ) {
