@@ -6,16 +6,11 @@ use Angelos::Utils;
 extends 'Angelos::Controller';
 
 sub index {
-    my ($self, $c, $params) = @_;
+    my ( $self, $c, $params ) = @_;
     $c->res->body('HelloWorld');
+
     # $c->view('HTPro')->render;
-    $c->view('TT')->render({name=>'Yamada Taro'});
-}
-
-sub view {
-    my ($self, $c, $params) = @_;
-    $c->stash->{template} = 'index';
-
+    $c->view('TT')->render( { name => 'Yamada Taro' } );
 }
 
 1;

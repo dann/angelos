@@ -12,6 +12,7 @@ has 'types' => (
             js   => 'application/javascript',
             png  => 'image/png',
             txt  => 'text/plain',
+            html  => 'text/html',
         };
     }
 );

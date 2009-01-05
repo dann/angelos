@@ -4,6 +4,7 @@ use Angelos::Home;
 use Angelos::MIMETypes;
 use Path::Class qw(file dir);
 use Angelos::Exceptions;
+use utf8;
 
 with( 'Angelos::Component', );
 
@@ -26,8 +27,8 @@ has 'root' => (
 );
 
 has 'CONTENT_TYPE' => (
-    is      => 'rw',
-    default => 'text/html',
+    is  => 'rw',
+    isa => 'Str',
 );
 
 has 'TEMPLATE_EXTENSION' => (
@@ -45,7 +46,7 @@ sub BUILD {
 no Mouse;
 
 sub SETUP {
-    my $self = shift;
+    my $self            = shift;
     my $template_engine = $self->_build_engine;
     $self->engine($template_engine) if $template_engine;
 }
@@ -56,7 +57,7 @@ sub render {
 }
 
 sub RENDER {
-    my ($self, $args) = @_;
+    my ( $self, $args ) = @_;
     my $c             = $self->context;
     my $template      = $self->_template($c);
     my $template_path = $self->_template_path($c);
@@ -117,12 +118,11 @@ sub _build_response {
     unless ( $c->res->content_type ) {
 
         # guess extension from request path
-        my $ct = $self->CONTENT_TYPE
-            || $self->_content_type( $c->stash->{format} || 'html' );
-
-        # FIXME:
+        my $ct = $self->_content_type( $c->stash->{format}
+                || $c->_match->params->{format}
+                || 'html' );
         my $charset = 'utf-8';
-        $c->response->content_type("$ct; charset=$charset");
+        $c->res->content_type("$ct; charset=$charset");
     }
     $c->res;
 }
@@ -145,9 +145,6 @@ sub _template_path {
     my ( $self, $c ) = @_;
     my $template      = $c->stash->{template};
     my $template_path = $c->stash->{template_path};
-
-    # FIXME guess template pass via action if template_path isn't specified
-    # get  $c->_match->params->{format}
     if ( $template && !$template_path ) {
         my $path = file( $self->root, $template );
         $c->stash->{template_path} = $path;
@@ -157,6 +154,7 @@ sub _template_path {
 
 sub _content_type {
     my ( $self, $format ) = @_;
+    return $self->CONTENT_TYPE if $self->CONTENT_TYPE;
     $self->types->mime_type_of($format) || 'text/plain';
 }
 
