@@ -13,7 +13,7 @@ use Angelos::Middleware::Builder;
 use Angelos::Exceptions;
 use Angelos::Logger;
 
-with( 'Angelos::Class::Hookable', );
+with 'Angelos::Class::Pluggable';
 
 has 'engine' => (
     is      => 'rw',
@@ -70,7 +70,6 @@ has 'logger' => (
 around 'new' => sub {
     my ( $next, $class, @args ) = @_;
     my $instance = $next->( $class, @args );
-    $instance->run_hook('AFTER_INIT');
     return $instance;
 };
 
@@ -118,18 +117,15 @@ sub handle_request {
     );
 
     eval {
-        $self->run_hook( 'BEFORE_DISPATCH', $c );
-        $self->dispatch( $c, $req );
-        $self->run_hook( 'AFTER_DISPATCH', $c );
+        $self->DISPATCH( $c, $req );
     };
     if ( my $e = $@ ) {
-        $self->handle_exception( $c, $e );
+        $self->HANDLE_EXCEPTION( $c, $e );
     }
-    $self->run_hook( 'BEFORE_OUTPUT', $c );
     return $c->res;
 }
 
-sub dispatch {
+sub DISPATCH {
     my ( $self, $c, $req ) = @_;
     my $dispatch = $self->dispatcher->dispatch($req);
 
@@ -143,7 +139,8 @@ sub dispatch {
     $c->res;
 }
 
-sub handle_exception {
+
+sub HANDLE_EXCEPTION {
     my ( $self, $c, $error ) = @_;
     $self->logger->log( level => 'error', message => $error );
     $c->res->content_type('text/html; charset=utf-8');

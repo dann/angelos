@@ -8,7 +8,7 @@ use Angelos::Exceptions;
 
 with( 'Angelos::Component', );
 
-has _mixin_app_ns => ( +default => sub { ['Angelos::View'] }, );
+has _plugin_app_ns => ( +default => sub { ['Angelos::View'] }, );
 
 has 'context' => ( is => 'rw', );
 
@@ -40,23 +40,24 @@ has 'engine' => ( is => 'rw', );
 
 sub BUILD {
     my $self = shift;
-    $self->run_hook('AFTER_VIEW_INIT');
+    $self->SETUP;
+}
+
+no Mouse;
+
+sub SETUP {
+    my $self = shift;
     my $template_engine = $self->_build_engine;
     $self->engine($template_engine) if $template_engine;
 }
 
-around 'render' => sub {
-    my ( $next, $self, $args ) = @_;
-    $self->run_hook( 'BEFORE_RENDER', $self->context );
-    my $result = $self->$next($args);
-    $self->run_hook( 'AFTER_RENDER', $self->context );
-    return $result;
-};
-
-no Mouse;
-
 sub render {
     my ( $self, $args ) = @_;
+    $self->RENCER($args);
+}
+
+sub RENDER {
+    my ($self, $args) = @_;
     my $c             = $self->context;
     my $template      = $self->_template($c);
     my $template_path = $self->_template_path($c);

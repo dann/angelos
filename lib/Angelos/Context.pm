@@ -3,7 +3,7 @@ use Mouse;
 use Carp ();
 use Angelos::Logger;
 
-#with 'Angelos::Class::Mixinable';
+#with 'Angelos::Class::Pluggable';
 
 has 'app' => (
     is       => 'rw',

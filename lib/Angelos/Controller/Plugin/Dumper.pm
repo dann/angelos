@@ -1,5 +1,5 @@
-package Angelos::Controller::Mixin::Dumper;
-use Angelos::Mixin;
+package Angelos::Controller::Plugin::Dumper;
+use Angelos::Plugin;
 
 use Angelos::Logger;
 use Data::Dumper;

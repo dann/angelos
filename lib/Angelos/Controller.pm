@@ -5,7 +5,7 @@ use Angelos::Exceptions;
 
 with( 'Angelos::Component', );
 
-has _mixin_app_ns => ( +default => sub { ['Angelos::Controller'] }, );
+has _plugin_app_ns => ( +default => sub { ['Angelos::Controller'] }, );
 
 has 'before_filters' => (
     is       => 'rw',
@@ -28,7 +28,6 @@ has 'after_filters' => (
 around 'new' => sub {
     my ( $next, $class, @args ) = @_;
     my $instance = $next->( $class, @args );
-    $instance->run_hook('AFTER_CONTROLLER_INIT');
     $instance;
 };
 
@@ -65,10 +64,13 @@ sub add_after_filter {
 sub _do_action {
     my ( $self, $context, $action, $params ) = @_;
     $self->_call_filters( $self->before_filters, $context, $action, $params );
-    $self->run_hook( 'BEFORE_ACTION', $context, $action, $params );
-    $self->$action( $context, $params );
-    $self->run_hook( 'AFTER_ACTION', $context, $action, $params );
+    $self->ACTION($context, $action, $params);
     $self->_call_filters( $self->after_filters, $context, $action, $params );
+}
+
+sub ACTION {
+    my ($self, $context, $action, $params) = @_; 
+    $self->$action( $context, $params );
 }
 
 __PACKAGE__->meta->make_immutable;

@@ -10,19 +10,19 @@ use Angelos::Home;
 use Angelos::Dispatcher::Routes::Builder;
 use Angelos::Config;
 use Angelos::Logger;
-use Angelos::Exceptions;
+use Angelos::Exceptions qw(rethrow_exception);
 
-with 'Angelos::Class::Mixinable';
+with 'Angelos::Class::Pluggable';
 
 our $LOGGER;
 
-has _mixin_app_ns => (
+has _plugin_app_ns => (
     +default => sub {
         ['Angelos'];
     }
 );
 
-has '_mixin_ns' => (
+has '_plugin_ns' => (
     +default => sub {
         'Debug';
     }
@@ -67,24 +67,24 @@ sub setup {
     eval {
         $self->setup_home;
         $self->setup_application_class;
-        $self->setup_mixins;
+        $self->setup_plugins;
         $self->setup_engine;
         $self->setup_logger;
         $self->setup_components;
         $self->setup_dispatcher;
     };
-    if($@) {
+    if(my $e = $@) {
         Angelos::Logger->instance->log(
             level => 'error',
-            message => $@,
+            message => $e,
         );
-        rethrow_exception($@);
+        rethrow_exception($e);
     }
 }
 
-sub setup_mixins {
+sub setup_plugins {
     my $self = shift;
-    $self->setup_debug_mixins;
+    $self->setup_debug_plugins;
 }
 
 sub setup_application_class {
@@ -92,11 +92,11 @@ sub setup_application_class {
     Angelos::Config->application_class(ref $self);
 }
 
-sub setup_debug_mixins {
+sub setup_debug_plugins {
     my $self = shift;
     if($self->is_debug) { 
-        my @mixins = ({module => 'Components'}, {module => 'Routes'});
-        $self->load_mixin( $_->{module} ) for @mixins;
+        my @plugins = ({module => 'Components'}, {module => 'Routes'});
+        $self->load_plugin( $_->{module} ) for @plugins;
     }
 }
 

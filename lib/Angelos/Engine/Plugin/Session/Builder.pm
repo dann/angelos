@@ -1,4 +1,4 @@
-package Angelos::SessionBuilder;
+package Angelos::Engine::Plugin::Session::Builder;
 use Mouse;
 use HTTP::Session;
 use Angelos::Config;

@@ -1,6 +1,6 @@
 package Angelos::Middleware::Session;
 use Mouse;
-use Angelos::SessionBuilder;
+use Angelos::Engine::Plugin::Session::Builder;
 
 # TODO
 # session state, store, id should be configurable
@@ -9,7 +9,8 @@ use Angelos::SessionBuilder;
 has 'session_builder' => (
     is => 'rw',
     default => sub {
-        Angelos::SessionBuilder->new->build;
+        # TODO this builder move to this classes 
+        Angelos::Engine::Plugin::Session::Builder->new->build;
     }
 );
 
@@ -33,7 +34,7 @@ sub wrap {
         *{'HTTP::Engine::Request::session'} = sub {
             return $session;
         };
-        
+
         my $res = $next->($req);
 
         $session->response_filter( $res );

@@ -30,17 +30,6 @@ sub plugins {
     return wantarray ? @{$plugins} : $plugins;
 }
 
-sub mixins {
-    my $class  = shift;
-    my $var    = shift;
-    my $mixins = $class->_get( 'mixins', $var );
-
-    unless ($mixins) {
-        return wantarray ? () : [];
-    }
-    return wantarray ? @{$mixins} : $mixins;
-}
-
 sub middlewares {
     my $class       = shift;
     my $middlewares = $class->_get('middlewares');

@@ -1,24 +1,20 @@
 package Angelos::Engine::Plugin::Session;
 use Angelos::Plugin;
 use Angelos::Config;
-use Angelos::SessionBuilder;
+use Angelos::Engine::Plugin::Session::Builder;
 
-hook 'BEFORE_DISPATCH' => sub {
-    my ( $self, $c ) = @_;
-    my $session = Angelos::SessionBuilder->new->build( $c->req );
-
-    # This isn't supported Mouse
-    #$c->meta->make_mutable;
-    #$c->meta->add_attribute( 'session' => ( is => 'rw', ) );
-    #$c->meta->make_immutable;
-
+around 'DISPATCH' => sub {
+    my $orig = shift;
+    my ($self, $c, $req) = @_;
+    my $session = Angelos::Engine::Plugin::Session::Builder->new->build( $c->req );
     $c->session($session);
-};
 
-hook 'AFTER_DISPATCH' => sub {
-    my ( $self, $c ) = @_;
+    my $result = $orig->($self, $c, $req);
+
     $c->session->response_filter( $c->res );
     $c->session->finalize;
+
+    $result;
 };
 
 1;
