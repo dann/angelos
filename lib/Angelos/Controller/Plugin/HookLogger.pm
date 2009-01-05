@@ -2,15 +2,12 @@ package Angelos::Controller::Plugin::HookLogger;
 use Angelos::Plugin;
 use Angelos::Logger;
 
-around 'new' => sub {
-    my ( $next, $class, @args ) = @_;
-    # oops
-    # Mouse doesn't support around with new?
+after 'SETUP' => sub {
+    my $self = shift;
     Angelos::Logger->instance->log(
         level   => 'info',
-        message => 'new',
+        message => "SETUP: class=" . ref $self,
     );
-    return $next->( $class, @args );
 };
 
 before 'ACTION' => sub {

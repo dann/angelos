@@ -27,6 +27,8 @@ has 'after_filters' => (
 
 no Mouse;
 
+sub SETUP {}
+
 sub _call_filters {
     my ( $self, $filters, $context, $action, $params ) = @_;
     foreach my $filter ( @{$filters} ) {

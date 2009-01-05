@@ -1,0 +1,49 @@
+=encoding utf8
+
+
+=head1 NAME
+
+ Angelos::Internals - 
+
+=head1 SYNOPSIS
+
+
+=head1 DESCRIPTION
+
+
+=head1 HOW TO INSTALL
+
+=head1 PLUGINS
+
+=head3 ENGINE
+Hookポイント
+    SETUP
+      Engine初期化時のHookポイント
+
+    DISPATCH
+      ControllerへのDispatch処理時に実行されるHook
+
+    HANDLE_EXCEPTION
+      エンジン内でのリクエスト処理時の例外を処理する時に実行されるHook
+
+=head2 CONTROLLER
+
+Hookポイント
+    SETUP
+      Controller初期化時に実行されるHook
+    ACTION
+      action実行時に実行されるHook
+
+=head2 VIEW
+
+Hookポイント
+    SETUP
+      View初期化時に実行されるHook
+
+    RENDER
+      View表示時に実行されるHook    
+
+=cut
+
+
+

@@ -13,6 +13,8 @@
 
 =head1 HOW TO INSTALL
 
+    $ sudo -H cpan Angelos
+
 =head1 HOW TO START
 
 スケルトンの生成

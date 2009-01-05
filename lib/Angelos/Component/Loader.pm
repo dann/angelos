@@ -29,6 +29,7 @@ sub load_components {
 
         my $module = $self->load_component($component);
         $self->_register_plugins_to($module);
+        $module->SETUP if $module->can('SETUP');
 
         my %modules = (
             $component => $module,

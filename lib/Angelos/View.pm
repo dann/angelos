@@ -39,17 +39,14 @@ has 'TEMPLATE_EXTENSION' => (
 has 'engine' => ( is => 'rw', );
 
 sub BUILD {
-    my $self = shift;
-    $self->SETUP;
-}
-
-no Mouse;
-
-sub SETUP {
     my $self            = shift;
     my $template_engine = $self->_build_engine;
     $self->engine($template_engine) if $template_engine;
 }
+
+no Mouse;
+
+sub SETUP { }
 
 sub render {
     my ( $self, $args ) = @_;
@@ -118,7 +115,8 @@ sub _build_response {
     unless ( $c->res->content_type ) {
 
         # guess extension from request path
-        my $ct = $self->_content_type( $c->stash->{format}
+        my $ct
+            = $self->_content_type( $c->stash->{format}
                 || $c->_match->params->{format}
                 || 'html' );
         my $charset = 'utf-8';
