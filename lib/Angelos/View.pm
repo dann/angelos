@@ -3,7 +3,6 @@ use Mouse;
 use Angelos::Home;
 use Angelos::MIMETypes;
 use Path::Class qw(file dir);
-use Carp ();
 use Angelos::Exceptions;
 
 with( 'Angelos::Component', );

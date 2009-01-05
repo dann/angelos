@@ -21,13 +21,13 @@ requires 'Kwalify';
 requires 'YAML';
 requires 'Devel::InnerPackage';
 requires 'Module::Setup';
-requires 'Sub::Exporter';
 requires 'App::Cmd';
 requires 'Pod::Simple::Text';
 requires 'FindBin::libs';
-requires 'Template';
+
 requires 'Exception::Class';
 requires 'File::Find::Rule';
+requires 'Template';
 
 # debug
 requires 'Devel::MemUsed';
@@ -36,8 +36,7 @@ requires 'Text::SimpleTable';
 # should not be in core
 # will separate these modules from core
 requires 'Term::ReadLine';
-requires 'Devel::REPL';
-requires 'Sub::Install';
+requires 'Devel::EvalContext';
 requires 'JSON::XS';
 requires 'MIME::Types';
 

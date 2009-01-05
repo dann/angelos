@@ -31,13 +31,20 @@ Creates a new console process.
 
 =cut
 
-our @PLUGINS = qw(History LexEnv Completion MultiLine::PPI);
-
 sub run {
     my $self = shift;
-    my $repl = Devel::REPL->new(prompt => 'angelos> ');
-    $repl->load_plugin($_) for @PLUGINS;
-    $repl->run;
+
+    my $term = new Term::ReadLine 'Angelos Console';
+    my $OUT = $term->OUT || \*STDOUT;
+    my $cxt = Devel::EvalContext->new;
+    while (defined($_ = $term->readline("angelos> "))) {
+        if (/\S/) {
+            my $res = $cxt->run($_);
+            warn $@ if $@;
+            print $OUT $res, "\n" unless $@ || !defined($res);
+            $term->addhistory($_);
+        }
+    }
 }
 
 1;
