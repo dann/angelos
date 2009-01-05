@@ -1,0 +1,72 @@
+=encoding utf8
+
+
+=head1 NAME
+
+ ExtendingAngelos - Angelos拡張マニュアル 
+
+=head1 SYNOPSIS
+
+
+=head1 DESCRIPTION
+Angelosは、プラグインおよびミドルウェアによって拡張する事ができる。
+
+プラグインは、Engine、Controller、Viewごとに存在し、
+それぞれごとに拡張するためのHookポイントが定義されている。
+
+ミドルウェアは、Angelosのリクエストライフサイクルを
+拡張するときに実装する物である。
+requestへのattribute追加、requestライフサイクルへHookし処理を変更
+する場合に用いる。
+
+=head1 HOW TO INSTALL
+
+=head1 PLUGINS
+Engine、Controller、Viewそれぞれ毎にPluginで拡張が行える。
+各PluginはAngelos::Pluginをuseしなければならない。
+
+各プラグインのHookポイントはmethod modifierを用いて拡張する。
+すなわち、拡張ポイントのメソッドの前(before)、後(after)、前後(around)に
+処理をはさみこむことが処理を拡張する
+
+method modifierについてはMouse or Mooseのドキュメントを参照。
+
+=head2 ENGINE
+Hookポイント
+    SETUP
+      Engine初期化時のHookポイント
+
+    DISPATCH
+      ControllerへのDispatch処理時に実行されるHook
+
+    HANDLE_EXCEPTION
+      エンジン内でのリクエスト処理時の例外を処理する時に実行されるHook
+
+=head2 CONTROLLER
+
+Hookポイント
+    SETUP
+      Controller初期化時に実行されるHook
+    ACTION
+      action実行時に実行されるHook
+
+=head2 VIEW
+
+Hookポイント
+    SETUP
+      View初期化時に実行されるHook
+
+    RENDER
+      View表示時に実行されるHook    
+
+=head1 MIDDLEWARES
+
+
+ミドルウェアは以下の条件を満たす必要がある。
+    - newできるようになっていること(use Mouseしていること)
+    - wrapメソッドでrequest handlerをwrapし、関数レファレンスを返す事
+
+=cut
+
+
+
