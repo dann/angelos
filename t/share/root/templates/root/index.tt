@@ -5,6 +5,7 @@
     </head>
     <body>
         <h2>Welcome to the Angelos Web Framework!</h2>
+        Hello, <b>[% name %]</b> !
         This page was generated from the template "templates/root/index.tt",
     </body>
 </html>

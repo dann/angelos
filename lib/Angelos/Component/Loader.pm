@@ -120,7 +120,7 @@ sub search_view {
     my ( $self, $short_view_name ) = @_;
     my $appclass = Angelos::Config->application_class;
     return $self->get_component(
-        $appclass . "::Controller::" . $short_view_name );
+        $appclass . "::View::" . $short_view_name );
 }
 
 __PACKAGE__->meta->make_immutable;
