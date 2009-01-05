@@ -25,13 +25,15 @@ has 'after_filters' => (
     }
 );
 
-around 'new' => sub {
-    my ( $next, $class, @args ) = @_;
-    my $instance = $next->( $class, @args );
-    $instance;
-};
-
 no Mouse;
+
+sub BUILD {
+    my $self = shift;
+    $self->SETUP;
+}
+
+sub SETUP {
+}
 
 sub _call_filters {
     my ( $self, $filters, $context, $action, $params ) = @_;
