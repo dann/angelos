@@ -67,13 +67,14 @@ has 'logger' => (
     handles => [qw(log)],
 );
 
-around 'new' => sub {
-    my ( $next, $class, @args ) = @_;
-    my $instance = $next->( $class, @args );
-    return $instance;
-};
-
 no Mouse;
+
+sub BUILD {
+    my $self = shift;
+    $self->SETUP;
+}
+
+sub SETUP {}
 
 sub build_engine {
     my $self            = shift;
