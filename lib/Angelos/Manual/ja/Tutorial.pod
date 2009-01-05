@@ -1,4 +1,10 @@
-=encoding utf8
+=around 'new' => sub {
+    my ( $next, $class, @args ) = @_;
+    my $instance = $next->( $class, @args );
+    return $instance;
+};
+
+encoding utf8
 
 
 =head1 NAME
