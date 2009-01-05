@@ -1,6 +1,5 @@
 package Angelos::Controller::Plugin::Dumper;
 use Angelos::Plugin;
-
 use Angelos::Logger;
 use Data::Dumper;
 

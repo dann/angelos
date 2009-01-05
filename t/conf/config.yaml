@@ -3,13 +3,12 @@ components:
   controller:
     - module: A
 
-#mixins:
-#  controller:
-#    - module: Dumper
-
 plugins:
   engine:
    - module: Session
+  controller:
+   - module: HookLogger 
+   - module: Dumper 
 
 #middlewares:
 #  - module: Angelos::Middleware::Profile
