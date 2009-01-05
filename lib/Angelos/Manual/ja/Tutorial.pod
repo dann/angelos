@@ -56,6 +56,9 @@ RailsライクなRoutingを規定する
   
 =head2 Controllerの実装
 
+DispatchテーブルにマッチしたControllerのメソッドが、実行される。
+Controllerはnewできなければならない。
+
     package MyApp::Controller::Root;
     use Mouse;
     extends 'Angelos::Controller';
@@ -68,14 +71,23 @@ RailsライクなRoutingを規定する
     __PACKAGE__->meta->make_immutable;
     1;
 
+
+
 =head2 Viewの実装
+
+使いたいViewクラスを継承
+
     package MyApp::View::TT;
     use Mouse;
     extends 'Angelos::View::TT';
    
     __PACKAGE__->meta->make_immutable;
     1;
-    
+
+使い方
+
+    $c->view('TT')->render({ name => 'John'});
+
 =cut
 
 
