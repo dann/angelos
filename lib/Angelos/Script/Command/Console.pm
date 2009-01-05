@@ -2,7 +2,6 @@ package Angelos::Script::Command::Console;
 use strict;
 use warnings;
 use base qw(App::Cmd::Command);
-use Devel::REPL;
 
 =head1 NAME
 
