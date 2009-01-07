@@ -13,7 +13,7 @@ BEGIN {
 
         'Angelos::Exception::AbstractMethod' => {
             isa         => 'Angelos::Exception',
-            alias       => 'aabstruct_error',
+            alias       => 'abstract_error',
             description => 'This method is Abstract'
         },
 
@@ -55,7 +55,7 @@ BEGIN {
 
         'Angelos::Exception::ComponentNotFound' => {
             isa         => 'Angelos::Exception',
-            alias       => 'component_not_dounf_error',
+            alias       => 'component_not_found_error',
             description => 'Component (MVC) not found'
         },
 
