@@ -61,7 +61,7 @@ sub guess_home {
         }
 
         {
-            # look for an installed Catalyst app
+            # look for an installed Angelos app
 
             # trim the .pm off the thing ( Foo/Bar.pm -> Foo/Bar/ )
             ( my $path = $inc_entry ) =~ s/\.pm$//;
