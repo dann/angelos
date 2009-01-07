@@ -1,0 +1,18 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: "log dispatch\xE3\x81\xAEdefault\xE8\xA8\xAD\xE5\xAE\x9A\xE3\x82\x92log/server.log\xE3\x81\xAB\xE5\x87\xBA\xE5\x8A\x9B\xE3\x81\xAB\xE5\xA4\x89\xE6\x9B\xB4"
+desc: ""
+type: :task
+component: angelos
+release: 
+reporter: dann <techmemo@gmail.com>
+status: :unstarted
+disposition: 
+creation_time: 2009-01-07 15:52:10.908826 Z
+references: []
+
+id: 7bf92ddce668d21d0270015d0da1dbcd7ca018d2
+log_events: 
+- - 2009-01-07 15:52:14.853809 Z
+  - dann <techmemo@gmail.com>
+  - created
+  - ""
