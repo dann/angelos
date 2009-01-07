@@ -53,7 +53,7 @@ sub SETUP {
 
 sub render {
     my ( $self, $args ) = @_;
-    $self->RENCER($args);
+    $self->RENDER($args);
 }
 
 sub RENDER {
