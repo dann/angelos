@@ -30,6 +30,7 @@ requires 'Exception::Class';
 requires 'File::Find::Rule';
 requires 'Template';
 requires 'MouseX::Getopt';
+requires 'IPC::System::Simple';
 
 # debug
 requires 'Devel::MemUsed';

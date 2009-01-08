@@ -7,7 +7,7 @@ use base 'Module::Setup::Flavor';
 
 =head1
 
-Angelos::Script::Command::Generate::Flavor::App - pack from angelos-app
+Angelos::Script::Command::Generate::Flavor::App - pack from app
 
 =head1 SYNOPSIS
 
