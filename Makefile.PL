@@ -29,6 +29,7 @@ requires 'FindBin::libs';
 requires 'Exception::Class';
 requires 'File::Find::Rule';
 requires 'Template';
+requires 'MouseX::Getopt';
 
 # debug
 requires 'Devel::MemUsed';
