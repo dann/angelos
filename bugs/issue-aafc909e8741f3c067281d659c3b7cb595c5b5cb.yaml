@@ -1,0 +1,18 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: design live test architecture
+desc: ""
+type: :task
+component: testing
+release: 
+reporter: dann <techmemo@gmail.com>
+status: :unstarted
+disposition: 
+creation_time: 2009-01-08 17:26:22.168417 Z
+references: []
+
+id: aafc909e8741f3c067281d659c3b7cb595c5b5cb
+log_events: 
+- - 2009-01-08 17:26:23.000015 Z
+  - dann <techmemo@gmail.com>
+  - created
+  - ""

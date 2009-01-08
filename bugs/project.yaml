@@ -22,6 +22,8 @@ components:
   name: Tutorial
 - !ditz.rubyforge.org,2008-03-06/component 
   name: script 
+- !ditz.rubyforge.org,2008-03-06/component 
+  name: testing
 
 releases: []
 
