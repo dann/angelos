@@ -5,8 +5,6 @@ use String::CamelCase qw(camelize);
 use Angelos::Exceptions;
 use IPC::System::Simple qw(system capturex);
 
-no Mouse;
-
 =head1 NAME
 
 Angelos::Script::Command::Flavor - A flavor packer/unpacker (for angelos developer only)
