@@ -1,0 +1,18 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: add flavor command to support pack and unpack flavor
+desc: ""
+type: :task
+component: script
+release: 
+reporter: dann <techmemo@gmail.com>
+status: :unstarted
+disposition: 
+creation_time: 2009-01-08 15:02:42.469132 Z
+references: []
+
+id: fecebdfca5f2e227446c7adb895105f40d159bab
+log_events: 
+- - 2009-01-08 15:02:43.013211 Z
+  - dann <techmemo@gmail.com>
+  - created
+  - ""
