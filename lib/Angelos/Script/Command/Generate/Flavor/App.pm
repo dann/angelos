@@ -110,10 +110,6 @@ template: |
     controller:
       - module: A
   
-  mixins:
-    controller:
-      - module: Dumper
-  
   #plugins:
   #  engine:
   #   - module: Session
@@ -391,27 +387,34 @@ template: |
   [% config.email %]
   [% module %]
 ---
+file: log/error.log
+is_binary: 1
+template: ''
+---
+file: log/server.log
+is_binary: 1
+template: ''
+---
 file: bin/server
 template: |+
   #!/usr/bin/perl
   use strict;
   use warnings;
   use FindBin::libs;
-  use [% module %];
+  use Angelos::Script::Server;
   
-  my $app = [% module %]->new( server => 'ServerSimple', port=> 3000);
-  $app->setup;
-  $app->run();
+  my $app = Angelos::Script::Server->new_with_options(app=> "[% module %]");
+  $app->run;
   
   __END__
   
-  =head1 NAME
+  =head1 NAME 
   
-  Angelos Server - Angelos web server
+  bin/server - a command-line interface to angelos
   
   =head1 SYNOPSIS
   
-    bin/server
+    bin/server [--host=192.168.0.100] [--port 3001] [--server ServerSimple] [--debug]
   
   =head1 AUTHOR
   

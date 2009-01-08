@@ -55,6 +55,12 @@ has 'engine' => (
     handles => ['controller'],
 );
 
+has 'debug' => (
+    is      => 'rw',
+    isa     => 'Bool',
+    default => 0
+);
+
 no Mouse;
 
 sub run {
@@ -159,7 +165,8 @@ sub build_root {
 
 sub is_debug {
     my $self = shift;
-    my $is_debug = 0; 
+    my $is_debug; 
+    $is_debug ||= $self->debug; 
     $is_debug ||= $ENV{ANGELOS_DEBUG};
     $is_debug ||=  Angelos::Utils::env_value( ref $self, 'HOME' );
     return $is_debug;

@@ -12,7 +12,11 @@ has 'types' => (
             js   => 'application/javascript',
             png  => 'image/png',
             txt  => 'text/plain',
-            html  => 'text/html',
+            html => 'text/html',
+            htm  => 'text/html',
+            json => 'application/json',
+            rss  => 'application/xml',
+            atom => 'application/xml',
         };
     }
 );

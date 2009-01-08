@@ -38,7 +38,6 @@ has 'root' => (
 
 has 'host' => (
     is      => 'rw',
-    default => 0,
 );
 
 has 'port' => (
@@ -65,6 +64,12 @@ has 'component_loader' => (
 has 'logger' => (
     is      => 'rw',
     handles => [qw(log)],
+);
+
+has 'debug' => (
+    is      => 'rw',
+    isa     => 'Bool',
+    default => 0
 );
 
 no Mouse;
