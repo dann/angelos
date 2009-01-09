@@ -2,10 +2,10 @@
 use strict;
 use warnings;
 use FindBin::libs;
-use TestApp::Web;
+use TestApp;
 #use Carp::Always;
 
-my $app = TestApp::Web->new( server => 'ServerSimple', port => 3000);
+my $app = TestApp->new( server => 'ServerSimple', port => 3000);
 $app->setup;
 $app->run();
 

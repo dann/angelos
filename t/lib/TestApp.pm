@@ -1,4 +1,4 @@
-package TestApp::Web;
+package TestApp;
 use Mouse;
 extends 'Angelos';
 
