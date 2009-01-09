@@ -5,8 +5,8 @@ type: :bugfix
 component: angelos
 release: 
 reporter: dann <techmemo@gmail.com>
-status: :unstarted
-disposition: 
+status: :closed
+disposition: :fixed
 creation_time: 2008-12-28 05:58:54.182454 Z
 references: []
 
@@ -15,4 +15,8 @@ log_events:
 - - 2008-12-28 05:58:54.918257 Z
   - dann <techmemo@gmail.com>
   - created
+  - ""
+- - 2009-01-09 12:11:14.090091 Z
+  - dann <techmemo@gmail.com>
+  - closed with disposition fixed
   - ""

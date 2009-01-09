@@ -5,8 +5,8 @@ type: :task
 component: view
 release: 
 reporter: dann <techmemo@gmail.com>
-status: :unstarted
-disposition: 
+status: :closed
+disposition: :fixed
 creation_time: 2008-12-30 07:24:20.736208 Z
 references: []
 
@@ -16,3 +16,7 @@ log_events:
   - dann <techmemo@gmail.com>
   - created
   - ""
+- - 2009-01-09 12:10:18.582098 Z
+  - dann <techmemo@gmail.com>
+  - closed with disposition fixed
+  - implemented
