@@ -5,8 +5,8 @@ type: :task
 component: configloader
 release: 
 reporter: dann <techmemo@gmail.com>
-status: :unstarted
-disposition: 
+status: :closed
+disposition: :fixed
 creation_time: 2008-12-20 08:07:33.824914 Z
 references: []
 
@@ -15,4 +15,8 @@ log_events:
 - - 2008-12-20 08:07:39.004733 Z
   - dann <techmemo@gmail.com>
   - created
+  - ""
+- - 2009-01-09 18:42:05.940899 Z
+  - dann <techmemo@gmail.com>
+  - closed with disposition fixed
   - ""
