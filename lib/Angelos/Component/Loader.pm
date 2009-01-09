@@ -17,7 +17,7 @@ no Mouse;
 sub load_components {
     my ( $self, $class ) = @_;
 
-    my @paths   = qw( ::Controller ::Model ::View  );
+    my @paths   = qw( ::Web::Controller ::Model ::Web::View  );
     my $locator = Module::Pluggable::Object->new(
         search_path => [ map { s/^(?=::)/$class/; $_; } @paths ], );
 
@@ -114,14 +114,14 @@ sub search_controller {
     my ( $self, $short_controller_name ) = @_;
     my $appclass = Angelos::Config->application_class;
     return $self->get_component(
-        $appclass . "::Controller::" . $short_controller_name );
+        $appclass . "::Web::Controller::" . $short_controller_name );
 }
 
 sub search_view {
     my ( $self, $short_view_name ) = @_;
     my $appclass = Angelos::Config->application_class;
     return $self->get_component(
-        $appclass . "::View::" . $short_view_name );
+        $appclass . "::Web::View::" . $short_view_name );
 }
 
 __PACKAGE__->meta->make_immutable;

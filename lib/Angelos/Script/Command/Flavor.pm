@@ -41,15 +41,12 @@ sub validate_args {
     my ( $self, $opt, $arg ) = @_;
 
     my $flavor = $opt->{name};
-    Angelos::Exception::ParameterMissingError->throw(
-        message => "You need to give flavor name with name option\n" )
-        unless $flavor;
+    die "You need to give flavor name with name option\n" unless $flavor;
 
     my $pack   = $opt->{'pack'};
     my $unpack = $opt->{'unpack'};
 
-    Angelos::Exception::ParameterMissingError->throw(
-        message => "You need to give pack or unpack option\n" )
+    die "You need to give pack or unpack option\n"
         unless $pack
             or $unpack;
 }
@@ -78,8 +75,9 @@ sub unpack_flavor {
 
 sub to_flavor_path {
     my ( $self, $flavor_type ) = @_;
-    my $flavor_path = file( "lib", "Angelos", "Script", "Command", "Generate",
-        "Flavor" . camelize($flavor_type) . ".pm" );
+    my $flavor_path
+        = file( "lib", "Angelos", "Script", "Command", "Generate", "Flavor",
+        camelize($flavor_type) . ".pm" );
     $flavor_path;
 }
 

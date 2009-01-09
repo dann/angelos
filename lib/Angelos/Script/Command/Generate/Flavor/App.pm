@@ -194,9 +194,16 @@ template: |
   
   =cut
 ---
-file: lib/____var-module_path-var____/View/TT.pm
+file: lib/____var-module_path-var____/CLI.pm
 template: |
-  package [% module %]::View::TT;
+  package [% module %]::CLI;
+  use base qw(Angelos::CLI);
+  
+  1;
+---
+file: lib/____var-module_path-var____/Web/View/TT.pm
+template: |
+  package [% module %]::Web::View::TT;
   use Mouse;
   extends 'Angelos::View::TT';
   
@@ -206,9 +213,9 @@ template: |
   
   1;
 ---
-file: lib/____var-module_path-var____/Controller/Root.pm
+file: lib/____var-module_path-var____/Web/Controller/Root.pm
 template: |
-  package [% module %]::Controller::Root;
+  package [% module %]::Web::Controller::Root;
   use Mouse;
   extends 'Angelos::Controller';
   
@@ -222,6 +229,47 @@ template: |
   __PACKAGE__->meta->make_immutable;
   
   1;
+---
+file: lib/____var-module_path-var____/CLI/Command/Echo.pm
+template: |
+  package [% module %]::CLI::Command::Echo;
+  use base qw(Angelos::CLI::Command);
+  
+  =head1 NAME
+  
+  [% module %]::CLI::Command::Echo - echo command 
+  
+  =head1 DESCRIPTION
+  
+      % cli echo --name Yamada  
+  
+  =cut
+  
+  sub opt_spec {
+      return (
+          [ "name=s", "your name" ],
+      );
+  }
+  
+  sub validate_args {
+      my ( $self, $opt, $arg ) = @_;
+  
+      return if $opt->{name};
+  
+      my $name = $opt->{name};
+      die "You need to give your name with name option\n"
+          unless $name;
+  }
+  
+  sub run {
+      my ( $self, $opt, $arg ) = @_;
+      my $name = $opt->{name};
+      print $name . "\n";
+  }
+  
+  1;
+---
+dir: lib/____var-module_path-var____/Model
 ---
 file: t/00_compile.t
 template: |
@@ -394,6 +442,17 @@ template: ''
 file: log/server.log
 is_binary: 1
 template: ''
+---
+file: bin/cli
+template: |+
+  #!/usr/bin/env perl
+  use strict;
+  use warnings;
+  use FindBin::libs;
+  
+  use [% module %]::CLI;
+  [% module %]::CLI->run;
+
 ---
 file: bin/server
 template: |+
