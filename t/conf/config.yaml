@@ -7,7 +7,7 @@ plugins:
   engine:
    - module: Session
   controller:
-   - module: HookLogger 
+   - module: DebugHook
    - module: Dumper 
 
 #middlewares:

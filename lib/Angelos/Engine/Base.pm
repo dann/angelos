@@ -10,8 +10,6 @@ use Angelos::Logger;
 has 'engine' => (
     is      => 'rw',
     isa     => 'HTTP::Engine',
-    lazy    => 1,
-    builder => 'build_engine',
     handles => [qw(run)],
 );
 
@@ -51,7 +49,7 @@ no Mouse;
 
 sub BUILD {
     my $self = shift;
-    $self->SETUP;
+    $self->engine( $self->build_engine );
 }
 
 sub SETUP { }

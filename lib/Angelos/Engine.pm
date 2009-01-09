@@ -14,8 +14,9 @@ with 'Angelos::Class::Pluggable';
 
 has 'dispatcher' => (
     is      => 'rw',
-    lazy    => 1,
-    builder => 'build_dispatcher',
+    default => sub {
+        shift->build_dispatcher;
+    },
     handles => [qw(set_routeset uri_for)],
 );
 
