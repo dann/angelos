@@ -8,7 +8,7 @@ binmode STDOUT, ":utf8";
 
 =head1 NAME
 
-Angelos::Script::Command::Manual - 
+Angelos::Script::Command::Manual - Show angelos manual 
 
 =head1 DESCRIPTION
 

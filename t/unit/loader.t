@@ -1,9 +1,19 @@
 use strict;
-use Test::More tests => 1;
-use Data::Dumper;
-use lib 't/lib';
+use warnings;
+use lib 'lib', 't/lib';
 
-BEGIN { use_ok 'Angelos::Component::Loader' }
+AngelosTest->runtests;
+
+package AngelosTest;
+use base qw/Angelos::Test/;
+use Test::More;
+
+sub dummy: Tests {
+    ok 1;
+}
+
+1;
+
 
 #{
 #    my $components

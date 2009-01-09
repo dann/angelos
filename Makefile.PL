@@ -47,11 +47,16 @@ requires 'MIME::Types';
 # will separete these modules from core
 requires 'FormValidator::Simple';
 
-build_requires 'Test::More';
+
+tests 't/*.t';
+test_requires 'Test::More';
+test_requires 'Test::MockObject';
+test_requires 'Test::Most';
+test_requires 'Test::Class';
 
 install_script 'bin/angelos';
 
-#author_tests('xt');
+author_tests('xt');
 use_test_base;
 auto_include;
 WriteAll;
