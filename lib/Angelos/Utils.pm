@@ -53,5 +53,15 @@ sub class2env {
     return uc($class);
 }
 
+sub HOME {
+    my $class = shift;
+    Angelos::Home->home;
+}
+
+sub path_to {
+    my $class = shift;
+    Angelos::Home->path_to(@_);
+}
+
 1;
 

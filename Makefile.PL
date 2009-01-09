@@ -15,11 +15,19 @@ requires 'Log::Dispatch::Configurator::YAML';
 requires 'Log::Dispatch::Colorful';
 requires 'String::CamelCase';
 requires 'Path::Class';
+
+# components
+requires 'Template';
+
+# i18n
 requires 'Locale::Maketext::Simple';
 requires 'Locale::Maketext::Extract';
 
+# config
 requires 'Kwalify';
 requires 'YAML';
+requires 'Data::Visitor::Callback';
+
 requires 'Devel::InnerPackage';
 requires 'Module::Setup';
 requires 'App::Cmd';
@@ -28,7 +36,8 @@ requires 'FindBin::libs';
 
 requires 'Exception::Class';
 requires 'File::Find::Rule';
-requires 'Template';
+
+
 requires 'MouseX::Getopt';
 requires 'IPC::System::Simple';
 

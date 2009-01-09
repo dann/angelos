@@ -2,6 +2,7 @@ package Angelos::Config;
 use Angelos::Home;
 use Angelos::Config::Loader;
 use Angelos::Config::Schema;
+use Data::Visitor::Callback;
 
 our $CONFIG;
 our $APPLICAION_CLASS;

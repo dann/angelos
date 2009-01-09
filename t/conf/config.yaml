@@ -9,6 +9,7 @@ plugins:
   controller:
    - module: DebugHook
    - module: Dumper 
+     config: __HOME__
 
 #middlewares:
 #  - module: Angelos::Middleware::Profile
