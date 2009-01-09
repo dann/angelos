@@ -24,6 +24,8 @@ components:
   name: script 
 - !ditz.rubyforge.org,2008-03-06/component 
   name: testing
+- !ditz.rubyforge.org,2008-03-06/component 
+  name: flavor
 
 releases: []
 

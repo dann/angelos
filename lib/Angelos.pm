@@ -39,13 +39,13 @@ has 'root' => (
 
 has 'host' => (
     is      => 'rw',
-    isa        => 'Str',
+    isa     => 'Str',
     default => 0,
 );
 
 has 'port' => (
-    is       => 'rw',
-    isa        => 'Int',
+    is  => 'rw',
+    isa => 'Int',
 );
 
 has 'server' => ( is => 'rw', );
@@ -79,9 +79,9 @@ sub setup {
         $self->setup_components;
         $self->setup_dispatcher;
     };
-    if(my $e = $@) {
+    if ( my $e = $@ ) {
         Angelos::Logger->instance->log(
-            level => 'error',
+            level   => 'error',
             message => $e,
         );
         rethrow_exception($e);
@@ -95,13 +95,13 @@ sub setup_plugins {
 
 sub setup_application_class {
     my $self = shift;
-    Angelos::Config->application_class(ref $self);
+    Angelos::Config->application_class( ref $self );
 }
 
 sub setup_debug_plugins {
     my $self = shift;
-    if($self->is_debug) { 
-        my @plugins = ({module => 'Components'}, {module => 'Routes'});
+    if ( $self->is_debug ) {
+        my @plugins = ( { module => 'Components' }, { module => 'Routes' } );
         $self->load_plugin( $_->{module} ) for @plugins;
     }
 }
@@ -165,10 +165,10 @@ sub build_root {
 
 sub is_debug {
     my $self = shift;
-    my $is_debug; 
-    $is_debug ||= $self->debug; 
+    my $is_debug;
+    $is_debug ||= $self->debug;
     $is_debug ||= $ENV{ANGELOS_DEBUG};
-    $is_debug ||=  Angelos::Utils::env_value( ref $self, 'HOME' );
+    $is_debug ||= Angelos::Utils::env_value( ref $self, 'HOME' );
     return $is_debug;
 }
 

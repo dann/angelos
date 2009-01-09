@@ -17,7 +17,7 @@ no Mouse;
 sub load_components {
     my ( $self, $class ) = @_;
 
-    my @paths   = qw( ::Controller ::C ::Model ::M ::View ::V );
+    my @paths   = qw( ::Controller ::Model ::View  );
     my $locator = Module::Pluggable::Object->new(
         search_path => [ map { s/^(?=::)/$class/; $_; } @paths ], );
 

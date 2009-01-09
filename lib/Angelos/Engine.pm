@@ -37,11 +37,13 @@ has 'root' => (
 );
 
 has 'host' => (
-    is      => 'rw',
+    is  => 'rw',
+    isa => 'Str',
 );
 
 has 'port' => (
-    is       => 'rw',
+    is  => 'rw',
+    isa => 'Int',
 );
 
 has 'server' => (
@@ -79,12 +81,12 @@ sub BUILD {
     $self->SETUP;
 }
 
-sub SETUP {}
+sub SETUP { }
 
 sub build_engine {
     my $self            = shift;
     my $request_handler = $self->_build_request_handler;
-    
+
     return HTTP::Engine->new(
         interface => {
             module => $self->server,
@@ -97,7 +99,6 @@ sub build_engine {
         },
     );
 }
-
 
 sub _build_request_handler {
     my $self            = shift;
@@ -115,16 +116,14 @@ sub build_dispathcer {
 
 sub handle_request {
     my ( $self, $req ) = @_;
-    my $res  = HTTP::Engine::Response->new;
-    my $c    = Angelos::Context->new(
+    my $res = HTTP::Engine::Response->new;
+    my $c   = Angelos::Context->new(
         request  => $req,
         response => $res,
         app      => $self
     );
 
-    eval {
-        $self->DISPATCH( $c, $req );
-    };
+    eval { $self->DISPATCH( $c, $req ); };
     if ( my $e = $@ ) {
         $self->HANDLE_EXCEPTION( $c, $e );
     }
@@ -144,7 +143,6 @@ sub DISPATCH {
     $dispatch->run($c);
     $c->res;
 }
-
 
 sub HANDLE_EXCEPTION {
     my ( $self, $c, $error ) = @_;
