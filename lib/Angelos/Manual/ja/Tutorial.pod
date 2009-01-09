@@ -1,114 +1,91 @@
 =encoding utf8
-
+ 
+ 
 =head1 NAME
-
-Angelos::Manual::Tutorial - アンジェロスマニュアル 
-
+ 
+ Angelos::Tutorial -
+ 
+=head1 SYNOPSIS
+ 
+ 
 =head1 DESCRIPTION
-
-This tutorial should give you everything you need to 
-build your first application with Angelos.
-
-=cut
-
-=head1 HOW TO
-
-=head2 The requirements
-
-Here's what you need to have installed -- at least when we write it.
-
-=head2 インストール方法
-
-On most systems you can use Perl's bundled CPAN module to download
-and install Angelos:
-
-  # sudo cpan install Angelos
-
-=head2 Setting up the Scaffolding
-
-Once you have Angelos happily installed, you're ready to 
-create your first application. 
-
-Change directory to some place it will be safe to create a new
-Angelos application. (Angelos will create a subdirectory for you).
-
-  # angelos generate --name MyApp
-  Can't guess application root from current path (/tmp) or bin path (/usr/bin)
-Let's take those one by one.
-
-=over
-
-=item bin
-
-=item conf
-
-Configuration files live in F<conf/>,
-
-=item log
-
-Angelos uses L<Log::Dispatch> to configure its logging. By default, it
-dumps logs named F<server.log> and F<error.log> into the F<log> directory.
-
-=item share/root/templates
-
-Angelos uses L<Template> as its primary templating system.  Put
-your application's templates into F<share/root/templates/>.  Out of
-the box,  comes with an application I<skeleton> that it installs
-in F<share/root/templates/>.  This default application is a convenient
-way to get a basic application up and running quickly, but probably
-needs some customization as you build a more advanced application.
-
-
-=item share/root/static
-
-Some nontrivial percentage of the I<stuff> your web application serves
-out doesn't need to (or I<shouldn't>) pass through your templating
-engine.
-
-Just drop your static files into F<share/root/static/> and Angelos will serve
-them out if it can't find a template with the right name.
-
-Out of the box, Angelos comes with a CSS style, Javascript libraries and a
-Pony. Look in F<share/root/static> in the Angelos distribution, or in the same
-place Angelos stuck its default templates.
-
-=item lib/MyApp
-
-To build a basic Angelos application, you only need to worry about two
-sorts of classes, B<Models> and B<Controllers>.
-
-=item lib/MyApp/Model
-
-=item lib/MyApp/Controller
-
-=item lib/MyApp/View
-
-=item t
-
-Angelos starts off your application with a basic harness, but can't yet write 
-all your tests for you. (It does, however, build simple tests for model
-classes you generate.)
-
-=item var
-
-Angelos stores cache files here while the server is running. You shouldn't ever
-have to touch this directory.
-
-=back
-
-=head2 That's it!
-
-=head1 GETTING HELP
-
-=head2 Online Help
-
-=head2 Joining the mailing list
-
-
-=head2 Browsing the wiki
-
-
-=head1 REPORTING BUGS
-
-
+ 
+ 
+=head1 HOW TO INSTALL
+ 
+    $ sudo -H cpan Angelos
+ 
+=head1 HOW TO START
+ 
+スケルトンの生成
+  
+    $ angelos generate --name MyApp
+    $ cd MyApp
+ 
+    # ここはModule::SetupのPluginで自動でできるようにする
+    $ chmod 700 bin/server
+ 
+開発サーバーの起動
+    $ bin/server
+ 
+デバッグモードでの起動
+    $ bin/server --debug
+ 
+=head1 HOW TO DEVELOP
+ 
+=head2 ルーティング
+pathとController, actionへのマッピングを規定.
+RailsライクなRoutingを規定する
+ 
+  $ vim conf/routes.pl
+ 
+    HTTP::Router->define(
+        sub {
+            $_->match('/')->to( { controller => 'Root', action => 'index' } );
+        }
+    );
+  
+複数のルールを書く場合
+ 
+    HTTP::Router->define(
+        sub {
+            $_->match('/')->to( { controller => 'Root', action => 'index' } );
+            $_->resources('Book');
+        }
+    );
+  
+=head2 Controllerの実装
+ 
+DispatchテーブルにマッチしたControllerのメソッドが、実行される。
+Controllerはnewできなければならない。
+ 
+    package MyApp::Controller::Root;
+    use Mouse;
+    extends 'Angelos::Controller';
+    
+    sub index {
+       # /share/root/templates/root/index.tt is used
+       $c->view('TT')->render;
+    }
+ 
+    __PACKAGE__->meta->make_immutable;
+    1;
+ 
+ 
+ 
+=head2 Viewの実装
+ 
+使いたいViewクラスを継承
+ 
+    package MyApp::View::TT;
+    use Mouse;
+    extends 'Angelos::View::TT';
+   
+    __PACKAGE__->meta->make_immutable;
+    1;
+ 
+使い方
+ 
+    $c->view('TT')->render({ name => 'John'});
+ 
 =cut

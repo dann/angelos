@@ -3,6 +3,9 @@ use base qw(App::Cmd::Command);
 use Angelos::Exceptions;
 use Pod::Simple::Text;
 use Path::Class;
+use utf8;
+binmode STDIN,  ":utf8";
+binmode STDOUT, ":utf8";
 
 =head1 NAME
 
@@ -37,9 +40,8 @@ sub run {
     my $lang  = $opt->{lang}  || 'en';
 
     if ( my $file = $self->_find_topic( $topic, $lang ) ) {
-
-        # FIXME later
-        open my $fh, '<:utf8', $file or die $!;
+        my $fh = $file->openr;
+        #open my $fh, '<:utf8', $file or die $!;
         my $parser = Pod::Simple::Text->new;
         my $buf;
         $parser->output_string( \$buf );
@@ -79,7 +81,8 @@ sub _find_topic {
         foreach my $prefix (@prefix) {
             foreach my $basename ( ucfirst( lc($topic) ), uc($topic) ) {
                 foreach my $ext ( 'pod', 'pm' ) {
-                    my $file = "$dir/$prefix/$lang/$basename.$ext";
+                    #my $file = file($dir/$prefix/$lang/$basename.$ext);
+                    my $file = file($dir, $prefix, $lang, "$basename.$ext");
                     return $file if -f $file;
                 }
             }
