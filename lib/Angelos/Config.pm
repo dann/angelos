@@ -30,6 +30,30 @@ sub plugins {
     return wantarray ? @{$plugins} : $plugins;
 }
 
+sub components {
+    my $class   = shift;
+    my $component_type     = shift;
+    my $module = shift;
+
+    my $components = $class->_get( 'components', $component_type );
+    unless ($components) {
+        if($module) {
+            return +{};
+        } else {
+            return wantarray ? () : [];
+        }
+    }
+    if ($module) {
+        foreach my $component ( @{$components} ) {
+            if ( $module eq $component->{module} ) {
+                return $component;
+            }
+        }
+        return +{};
+    }
+    return wantarray ? @{$components} : $components;
+}
+
 sub middlewares {
     my $class       = shift;
     my $middlewares = $class->_get('middlewares');

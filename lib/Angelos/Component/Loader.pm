@@ -73,12 +73,8 @@ sub get_component {
 
 sub load_component {
     my ( $self, $component ) = @_;
-
-    my $suffix = Angelos::Utils::class2classsuffix($component);
-
-    # FIXME: config loader
-    my $config = {};
-    my $instance = eval { $component->new( %{$config} || {} ) };
+    my $config = $self->_get_component_config($component);
+    my $instance = eval { $component->new( %{$config} ) };
 
     if ( my $error = $@ ) {
         chomp $error;
@@ -91,6 +87,15 @@ sub load_component {
         unless Scalar::Util::blessed($instance);
 
     return $instance;
+}
+
+sub _get_component_config {
+    my ($self, $component) =@_;
+    my $suffix = Angelos::Utils::class2classsuffix($component);
+    my ($component_type, $class_suffix) = split "::", $suffix;
+    my $setting = Angelos::Config->components(lc($component_type), $class_suffix); 
+    my $config = $setting->{config} || +{};
+    $config;
 }
 
 sub search_component {
