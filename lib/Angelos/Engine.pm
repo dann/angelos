@@ -2,53 +2,21 @@ package Angelos::Engine;
 use Mouse;
 use Carp         ();
 use Scalar::Util ();
-use HTTP::Engine;
 use HTTP::Engine::Response;
 use Angelos::Dispatcher;
 use Angelos::Context;
 use Angelos::Component::Loader;
-use Angelos::Home;
-use Angelos::Logger;
 use Angelos::Middleware::Builder;
 use Angelos::Exceptions;
-use Angelos::Logger;
+extends 'Angelos::Engine::Base';
 
 with 'Angelos::Class::Pluggable';
-
-has 'engine' => (
-    is      => 'rw',
-    isa     => 'HTTP::Engine',
-    lazy    => 1,
-    builder => 'build_engine',
-    handles => [qw(run)],
-);
 
 has 'dispatcher' => (
     is      => 'rw',
     lazy    => 1,
-    builder => 'build_dispathcer',
+    builder => 'build_dispatcher',
     handles => [qw(set_routeset uri_for)],
-);
-
-has 'root' => (
-    is       => 'rw',
-    required => 1,
-    default  => sub { Angelos::Home->path_to( 'share', 'root' )->absolute },
-);
-
-has 'host' => (
-    is  => 'rw',
-    isa => 'Str',
-);
-
-has 'port' => (
-    is  => 'rw',
-    isa => 'Int',
-);
-
-has 'server' => (
-    is      => 'rw',
-    default => 'ServerSimple',
 );
 
 has 'component_loader' => (
@@ -63,44 +31,9 @@ has 'component_loader' => (
     }
 );
 
-has 'logger' => (
-    is      => 'rw',
-    handles => [qw(log)],
-);
-
-has 'debug' => (
-    is      => 'rw',
-    isa     => 'Bool',
-    default => 0
-);
-
 no Mouse;
 
-sub BUILD {
-    my $self = shift;
-    $self->SETUP;
-}
-
-sub SETUP { }
-
-sub build_engine {
-    my $self            = shift;
-    my $request_handler = $self->_build_request_handler;
-
-    return HTTP::Engine->new(
-        interface => {
-            module => $self->server,
-            args   => {
-                host => $self->host,
-                port => $self->port,
-                root => $self->root,
-            },
-            request_handler => $request_handler,
-        },
-    );
-}
-
-sub _build_request_handler {
+sub build_request_handler {
     my $self            = shift;
     my $request_handler = eval {
         Angelos::Middleware::Builder->build(
@@ -109,7 +42,7 @@ sub _build_request_handler {
     $request_handler;
 }
 
-sub build_dispathcer {
+sub build_dispatcher {
     my $self = shift;
     return Angelos::Dispatcher->new;
 }
