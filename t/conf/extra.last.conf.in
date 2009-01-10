@@ -1,0 +1,16 @@
+<Location /modperl/http-engine>
+    SetHandler modperl
+    PerlOptions +SetupEnv
+    PerlResponseHandler TestModPerl::HTTPEngine
+</Location>
+
+<Perl>
+    use lib qw(@DocumentRoot@/modperl/angelos/lib);
+</Perl>
+PerlModule TestModPerl::Angelos
+<Location /modperl/angelos>
+    SetHandler perl-script
+    PerlSetEnv ANGELOS_APP_CLASS TestModPerl::Angelos 
+    PerlResponseHandler Angelos::Engine::ModPerl
+</Location>
+

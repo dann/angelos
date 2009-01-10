@@ -1,4 +1,23 @@
 use inc::Module::Install;
+
+BEGIN
+{
+    eval { 
+        die "not testing mod_perl" unless $ENV{TEST_MODPERL};
+        require mod_perl2;
+        require Apache::Test;
+    };
+    {
+        no strict 'refs';
+        *HAVE_MP = $@ ? sub { 0 } : sub { 1 };
+    }
+}
+
+if (HAVE_MP) {
+    require Apache::TestMM;
+    Apache::TestMM->import(qw(clean test));
+}
+
 name 'Angelos';
 all_from 'lib/Angelos.pm';
 
@@ -56,8 +75,15 @@ requires 'MIME::Types';
 # will separete these modules from core
 requires 'FormValidator::Simple';
 
+if (HAVE_MP) {
+    Apache::TestMM::filter_args();
+    Apache::TestMM::generate_script('t/TEST');
+    tests('t/integration/modperl/*.t');
+} else {
+    tests('t/*.t t/unit/*.t t/unit/*/*.t');
+    author_tests('xt');
+}
 
-tests 't/*.t';
 test_requires 'Test::More';
 test_requires 'Test::MockObject';
 test_requires 'Test::Most';
@@ -65,7 +91,7 @@ test_requires 'Test::Class';
 
 install_script 'bin/angelos';
 
-author_tests('xt');
+
 use_test_base;
 auto_include;
 WriteAll;

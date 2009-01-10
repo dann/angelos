@@ -1,0 +1,27 @@
+This is Perl module TestModPerl::Angelos.
+
+INSTALLATION
+
+TestModPerl::Angelos installation is straightforward. If your CPAN shell is set up,
+you should just be able to do
+
+    % cpan TestModPerl::Angelos
+
+Download it, unpack it, then build it as per the usual:
+
+    % perl Makefile.PL
+    % make && make test
+
+Then install it:
+
+    % make install
+
+DOCUMENTATION
+
+TestModPerl::Angelos documentation is available as in POD. So you can do:
+
+    % perldoc TestModPerl::Angelos
+
+to read the documentation online with your favorite pager.
+
+Your Name
