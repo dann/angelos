@@ -34,6 +34,8 @@ requires 'Log::Dispatch::Configurator::YAML';
 requires 'Log::Dispatch::Colorful';
 requires 'String::CamelCase';
 requires 'Path::Class';
+requires 'Devel::InnerPackage';
+requires 'Exception::Class';
 
 # components
 requires 'Template';
@@ -47,22 +49,18 @@ requires 'Kwalify';
 requires 'YAML';
 requires 'Data::Visitor::Callback';
 
-requires 'Devel::InnerPackage';
-requires 'Module::Setup';
-requires 'App::Cmd';
+# script
 requires 'Pod::Simple::Text';
-requires 'FindBin::libs';
-
-requires 'Exception::Class';
-requires 'File::Find::Rule';
-
-
 requires 'MouseX::Getopt';
 requires 'IPC::System::Simple';
+requires 'App::Cmd';
+requires 'Module::Setup';
+requires 'FindBin::libs';
 
 # debug
 requires 'Devel::MemUsed';
 requires 'Text::SimpleTable';
+requires 'File::Find::Rule';
 
 # should not be in core
 # will separate these modules from core
@@ -75,9 +73,15 @@ requires 'MIME::Types';
 # will separete these modules from core
 requires 'FormValidator::Simple';
 
+
+#requires 'Gearman::Client';
+#requires 'Gearman::Worker';
+#requires 'HTML::Template::Pro';
+
 if (HAVE_MP) {
+    require Cwd;
     Apache::TestMM::filter_args();
-    Apache::TestMM::generate_script('t/TEST');
+    Apache::TestMM::generate_script('t/integration/modperl/TEST');
     tests('t/integration/modperl/*.t');
 } else {
     tests('t/*.t t/unit/*.t t/unit/*/*.t');
@@ -90,7 +94,6 @@ test_requires 'Test::Most';
 test_requires 'Test::Class';
 
 install_script 'bin/angelos';
-
 
 use_test_base;
 auto_include;
