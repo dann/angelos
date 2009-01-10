@@ -81,7 +81,7 @@ requires 'FormValidator::Simple';
 if (HAVE_MP) {
     require Cwd;
     Apache::TestMM::filter_args();
-    Apache::TestMM::generate_script('t/integration/modperl/TEST');
+    Apache::TestMM::generate_script('t/TEST');
     tests('t/integration/modperl/*.t');
 } else {
     tests('t/*.t t/unit/*.t t/unit/*/*.t');
