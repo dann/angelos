@@ -3,7 +3,7 @@ use strict;
 use warnings;
 use lib 't/lib';
 use Test::TCP;
-use TestApp::Web;
+use TestApp;
 use HTTP::Engine;
 use LWP::UserAgent;
 use Getopt::Long;
@@ -46,7 +46,7 @@ test_tcp(
             DB::enable_profile();
             $SIG{TERM} = sub { DB::_finish(); exit; };
         }
-        my $engine = TestApp::Web->new(
+        my $engine = TestApp->new(
             server => $module,
             port   => $port,
         );

@@ -4,7 +4,6 @@ use Angelos::Home;
 use Angelos::MIMETypes;
 use Path::Class qw(file dir);
 use Angelos::Exceptions;
-use utf8;
 
 with( 'Angelos::Component', );
 

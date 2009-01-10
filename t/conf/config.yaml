@@ -3,13 +3,13 @@ components:
   controller:
     - module: A
 
-plugins:
-  engine:
-   - module: Session
-  controller:
-   - module: DebugHook
-   - module: Dumper 
-     config: __HOME__
+#plugins:
+#  engine:
+#   - module: Session
+#  controller:
+#   - module: DebugHook
+#   - module: Dumper 
+#     config: __HOME__
 
 #middlewares:
 #  - module: Angelos::Middleware::Profile
