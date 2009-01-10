@@ -82,7 +82,7 @@ if (HAVE_MP) {
     require Cwd;
     Apache::TestMM::filter_args();
     Apache::TestMM::generate_script('t/TEST');
-    tests('t/integration/modperl/*.t');
+    tests('t/integration/modperl/*.t t/performance/020_modperl/*.t');
 } else {
     tests('t/*.t t/unit/*.t t/unit/*/*.t');
     author_tests('xt');

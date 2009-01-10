@@ -1,11 +1,12 @@
 #!/usr/bin/perl
 # WARNING: this file is generated, do not edit
-# generated on Sat Jan 10 20:44:02 2009
+# generated on Sun Jan 11 01:54:47 2009
 # 01: /usr/lib/perl5/Apache/TestConfig.pm:953
 # 02: /usr/lib/perl5/Apache/TestConfig.pm:1043
 # 03: /usr/lib/perl5/Apache/TestMM.pm:141
 # 04: Makefile.PL:84
 
 BEGIN { eval { require blib && blib->import; } }
-use Apache::TestRunPerl;
-Apache::TestRunPerl->new->run(@ARGV);
+use blib;
+use Angelos::Test::Benchmark::ModPerl::TestRunPerl;
+Angelos::Test::Benchmark::ModPerl::TestRunPerl->new->run(@ARGV);

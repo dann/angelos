@@ -1,2 +1,3 @@
-use Apache::TestRunPerl;
-Apache::TestRunPerl->new->run(@ARGV);
+use blib;
+use Angelos::Test::Benchmark::ModPerl::TestRunPerl;
+Angelos::Test::Benchmark::ModPerl::TestRunPerl->new->run(@ARGV);
