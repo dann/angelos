@@ -1,7 +1,7 @@
 #!/usr/bin/env perl
 use strict;
 use warnings;
-use lib 'lib', 't/lib';
+use lib 'lib', 't/TestApp/lib';
 use Test::TCP;
 use TestApp;
 use HTTP::Engine;
