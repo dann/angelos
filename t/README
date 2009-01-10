@@ -1,0 +1,6 @@
+* unit -- unit test directories
+
+* integration - integration test directories
+  - mod_perl
+  - handler
+  - server_simple - we will add almost all test cases
