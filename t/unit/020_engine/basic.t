@@ -1,7 +1,20 @@
+#!/usr/bin/env perl
 use strict;
 use warnings;
+use File::Spec;
 
-use Test::More tests => 1;                      # last test to print
+use lib File::Spec->catdir('t', 'lib');
 
-ok 1, "dummy";
+AngelosTest->runtests;
 
+package AngelosTest;
+use strict;
+use warnings;
+use Angelos::Test;
+use base qw(Angelos::Test::Class);
+
+sub use_test : Tests {
+    use_ok 'Angelos::Engine';
+}
+
+1;

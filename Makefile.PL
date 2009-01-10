@@ -89,9 +89,12 @@ if (HAVE_MP) {
 }
 
 test_requires 'Test::More';
+test_requires 'Test::Differences';
+test_requires 'Test::Deep';
+test_requires 'Test::Exception';
 test_requires 'Test::MockObject';
-test_requires 'Test::Most';
 test_requires 'Test::Class';
+test_requires  'Module::Load::Conditional';
 
 install_script 'bin/angelos';
 

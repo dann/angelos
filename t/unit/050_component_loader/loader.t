@@ -1,19 +1,23 @@
+#!/usr/bin/env perl
 use strict;
 use warnings;
-use lib 'lib', 't/lib';
+use File::Spec;
+
+use lib File::Spec->catdir('t', 'lib');
 
 AngelosTest->runtests;
 
 package AngelosTest;
-use base qw/Angelos::Test/;
-use Test::More;
+use strict;
+use warnings;
+use Angelos::Test;
+use base qw(Angelos::Test::Class);
 
-sub dummy: Tests {
-    ok 1;
+sub use_test : Tests {
+    use_ok 'Angelos';
 }
 
 1;
-
 
 #{
 #    my $components
