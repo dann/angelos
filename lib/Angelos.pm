@@ -12,8 +12,6 @@ use Angelos::Exceptions qw(rethrow_exception);
 
 with 'Angelos::Class::Pluggable';
 
-our $LOGGER;
-
 has _plugin_app_ns => (
     +default => sub {
         ['Angelos'];
@@ -128,8 +126,7 @@ sub setup_engine {
 
 sub setup_logger {
     my $self = shift;
-    $LOGGER = Angelos::Logger->instance;
-    $self->engine->logger($LOGGER);
+    $self->engine->logger(Angelos::Logger->instance);
 }
 
 sub setup_components {

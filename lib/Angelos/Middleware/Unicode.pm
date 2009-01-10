@@ -25,7 +25,7 @@ sub encode_body {
 
 sub decode_params {
     my ( $self, $request ) = @_;
-    for my $value ( values %{ $request->params } ) {
+    for my $value ( values %{ $request->parameters } ) {
         if ( ref $value && ref $value ne 'ARRAY' ) {
             next;
         }

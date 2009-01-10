@@ -8,8 +8,10 @@ extends 'Angelos::Controller';
 sub index {
     my ( $self, $c, $params ) = @_;
     $c->res->body('HelloWorld');
+}
 
-    # $c->view('HTPro')->render;
+sub tt {
+    my ( $self, $c, $params ) = @_;
     $c->view('TT')->render( { name => 'Yamada Taro' } );
 }
 

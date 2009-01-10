@@ -1,0 +1,2 @@
+#!/bin/sh
+prove -lv t/integration/serversimple/*.t
