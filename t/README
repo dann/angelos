@@ -1,6 +1,16 @@
-* unit -- unit test directories
+* test category
+** unit -- unit test directories
 
-* integration - integration test directories
+** integration - integration test directories
   - mod_perl
   - handler
   - server_simple - we will add almost all test cases
+
+* base class
+** Angelos::Test::Class
+Use this base class if you want to do xUnit style test
+
+** Angelos::Test::Base
+Use Angelos::Test::Base if you want to do data driven test 
+
+
