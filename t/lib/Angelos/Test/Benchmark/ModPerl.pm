@@ -19,7 +19,7 @@ BEGIN {
     require File::Spec->catfile('t', 'conf', 'apache_test_config.pm');
     my $config = apache_test_config->new();
     $AB ||= $ENV{APACHE_BENCH};
-    $AB ||= File::Spec->catfile($config->{vars}->{bindir}, "ab");
+    #$AB ||= File::Spec->catfile($config->{vars}->{bindir}, "ab");
 
     if (! -x $AB) {
         plan skip_all => "set TEST_MODPERL to enable this test" unless $ENV{TEST_MODPERL};
