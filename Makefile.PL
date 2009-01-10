@@ -94,7 +94,10 @@ test_requires 'Test::Deep';
 test_requires 'Test::Exception';
 test_requires 'Test::MockObject';
 test_requires 'Test::Class';
+test_requires 'Test::TCP';
+test_requires 'LWP::UserAgent';
 test_requires  'Module::Load::Conditional';
+test_requires  'Carp::Always';
 
 install_script 'bin/angelos';
 

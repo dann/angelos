@@ -17,9 +17,10 @@ no Mouse;
 sub load_components {
     my ( $self, $class ) = @_;
 
+    my $appclass = Angelos::Config->application_class;
     my @paths   = qw( ::Web::Controller ::Model ::Web::View  );
     my $locator = Module::Pluggable::Object->new(
-        search_path => [ map { s/^(?=::)/$class/; $_; } @paths ], );
+        search_path => [ map { $appclass . $_ } @paths ], );
 
     my @comps = sort { length $a <=> length $b } $locator->plugins;
     my %comps = map { $_ => 1 } @comps;
