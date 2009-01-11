@@ -1,9 +1,9 @@
 #!/usr/bin/env perl
 use strict;
 use warnings;
-use lib 't/lib';
+use lib 'lib', 't/lib', 't/TestApp/lib';
 use Test::TCP;
-use TestApp::Web;
+use TestApp;
 use HTTP::Engine;
 use LWP::UserAgent;
 use Carp::Always;
@@ -20,7 +20,7 @@ test_tcp(
     },
     server => sub {
         my $port = shift;
-        my $engine = TestApp::Web->new(
+        my $engine = TestApp->new(
             server => $module,
             port   => $port,
         );

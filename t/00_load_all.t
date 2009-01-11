@@ -9,7 +9,7 @@ use Module::Pluggable::Object;
 my $finder = Module::Pluggable::Object->new( search_path => ['Angelos'], );
 
 foreach my $class (
-    grep !/\.ToDo|Angelos::Engine::ModPerl|Angelos::Component/,
+    grep !/\.ToDo|Angelos::Engine::ModPerl|Angelos::Component|HTPro|JobQueue/,
     sort do { local @INC = ('lib'); $finder->plugins }
     )
 {

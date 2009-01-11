@@ -1,3 +1,4 @@
+#use lib 'privinc';
 use inc::Module::Install;
 
 BEGIN
@@ -11,9 +12,12 @@ BEGIN
         no strict 'refs';
         *HAVE_MP = $@ ? sub { 0 } : sub { 1 };
     }
+
 }
 
+
 if (HAVE_MP) {
+    #include 'Module/Install/PRIVATE/Angelos.pm';
     require Apache::TestMM;
     Apache::TestMM->import(qw(clean test));
 }
@@ -79,8 +83,8 @@ requires 'FormValidator::Simple';
 #requires 'HTML::Template::Pro';
 
 if (HAVE_MP) {
-    require Cwd;
     Apache::TestMM::filter_args();
+    #Apache::TestMM::generate_script('t/integration/modperl/TEST');
     Apache::TestMM::generate_script('t/TEST');
     tests('t/integration/modperl/*.t t/performance/020_modperl/*.t');
 } else {
@@ -104,3 +108,4 @@ install_script 'bin/angelos';
 use_test_base;
 auto_include;
 WriteAll;
+
