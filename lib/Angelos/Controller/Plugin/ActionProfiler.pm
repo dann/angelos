@@ -7,8 +7,6 @@ has '__action_start_time' => ( is => 'rw', );
 
 has '__action_end_time' => ( is => 'rw', );
 
-has '__action_name_for_profile' => ( is => 'rw', );
-
 before 'ACTION' => sub {
     my ( $self, $c, $action, $params ) = @_;
     $self->__action_start_time( time() );
