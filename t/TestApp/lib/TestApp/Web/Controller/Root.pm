@@ -19,4 +19,6 @@ sub tt {
     $c->view('TT')->render( { name => 'Yamada Taro' } );
 }
 
+__PACKAGE__->meta->make_immutable;
+
 1;

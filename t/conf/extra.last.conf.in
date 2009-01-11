@@ -3,10 +3,10 @@ DocumentRoot "@DocumentRoot@/modperl/angelos"
     use lib qw(@DocumentRoot@/modperl/angelos/lib);
 </Perl>
 
-<IfDefine NYTPROF>
+#<IfDefine NYTPROF>
     PerlPassEnv NYTPROF
     PerlModule Devel::NYTProf::Apache
-</IfDefine>
+#</IfDefine>
 
 PerlModule TestModPerl::Angelos
 <Location />

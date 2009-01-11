@@ -1,2 +1,2 @@
 #!/bin/sh
-perl tools/analyze_module_depends.pl | less
+perl tools/analyze_module_depends.pl
