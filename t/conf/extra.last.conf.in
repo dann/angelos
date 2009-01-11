@@ -2,8 +2,12 @@ DocumentRoot "@DocumentRoot@/modperl/angelos"
 <Perl>
     use lib qw(@DocumentRoot@/modperl/angelos/lib);
 </Perl>
-#PerlPassEnv NYTPROF
-#PerlModule Devel::NYTProf::Apache
+
+<IfDefine NYTPROF>
+    PerlPassEnv NYTPROF
+    PerlModule Devel::NYTProf::Apache
+</IfDefine>
+
 PerlModule TestModPerl::Angelos
 <Location />
     SetHandler perl-script

@@ -8,10 +8,6 @@ use Angelos::Exceptions;
 sub build_from_config {
     my $self      = shift;
     my $conf_path = Angelos::Config->routes_config_path;
-    Angelos::Logger->instance->log(
-        level => "debug",
-        message => "routes.pl file path is $conf_path",
-    );
     Angelos::Exception->throw(
         message => "routes.pl doesn't exit: $conf_path" )
         unless -f $conf_path;
