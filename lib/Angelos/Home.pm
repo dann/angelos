@@ -78,12 +78,12 @@ sub guess_home {
 
 sub path_to {
     my ( $class, @path ) = @_;
-    my $path = dir( Angelos::Home->home, @path );
-    if ( $path->is_dir ) {
-        return $path;
+    my $path = File::Spec->catfile( Angelos::Home->home, @path );
+    if ( -f $path ) {
+        return file( Angelos::Home->home, @path );
     }
     else {
-        return file( Angelos::Home->home, @path );
+        return dir( Angelos::Home->home, @path );
     }
 }
 

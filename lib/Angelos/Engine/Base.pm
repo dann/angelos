@@ -22,11 +22,13 @@ has 'root' => (
 has 'host' => (
     is  => 'rw',
     isa => 'Str',
+    default  => '127.0.0.1',
 );
 
 has 'port' => (
-    is  => 'rw',
-    isa => 'Int',
+    is      => 'rw',
+    isa     => 'Int',
+    default => 3000,
 );
 
 has 'server' => (

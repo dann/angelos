@@ -2,18 +2,29 @@ package Angelos::Dispatcher::Routes::Builder;
 use Mouse;
 use Angelos::Config;
 use HTTP::Router;
-use Data::Dumper;
+use Angelos::Logger;
+use Angelos::Exceptions;
 
 sub build_from_config {
-    my $self = shift;
-    $self->build( Angelos::Config->routes_config_path );
+    my $self      = shift;
+    my $conf_path = Angelos::Config->routes_config_path;
+    Angelos::Logger->instance->log(
+        level => "debug",
+        message => "routes.pl file path is $conf_path",
+    );
+    Angelos::Exception->throw(
+        message => "routes.pl doesn't exit: $conf_path" )
+        unless -f $conf_path;
+    $self->build($conf_path);
 }
 
 sub build {
     my ( $self, $conf ) = @_;
-    my $router = eval { require $conf };
-    if ($@) {
-        die $@;
+    my $content = $conf->slurp;
+    my $router = eval $content;
+    if ( my $e = $@ ) {
+        Angelos::Exception->throw(
+            message => "Can't load routes.pl: $conf. error: $e" );
     }
     my @routeset = $router->routeset;
     \@routeset;

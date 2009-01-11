@@ -5,7 +5,7 @@ use Angelos::Test::Benchmark::ModPerl;
 benchmark_diag(
     type => 'angelos',
     mode => 'modperl',
-    path => '/modperl/angelos/'
+    path => '/'
 );
 
 1;

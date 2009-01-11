@@ -7,6 +7,10 @@ extends 'Angelos::Controller';
 
 sub index {
     my ( $self, $c, $params ) = @_;
+    Angelos::Logger->instance->log(
+        level => 'debug',
+        message => 'index method in Root controller',
+    );
     $c->res->body('HelloWorld');
 }
 

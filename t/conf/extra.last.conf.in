@@ -1,17 +1,11 @@
-<Location /modperl/http-engine>
-    SetHandler modperl
-    PerlOptions +SetupEnv
-    PerlResponseHandler TestModPerl::HTTPEngine
-</Location>
-
 DocumentRoot "@DocumentRoot@/modperl/angelos"
 <Perl>
     use lib qw(@DocumentRoot@/modperl/angelos/lib);
 </Perl>
-PerlPassEnv NYTPROF
-PerlModule Devel::NYTProf::Apache
+#PerlPassEnv NYTPROF
+#PerlModule Devel::NYTProf::Apache
 PerlModule TestModPerl::Angelos
-<Location /modperl/angelos>
+<Location />
     SetHandler perl-script
     PerlSetEnv ANGELOS_APP_CLASS TestModPerl::Angelos 
     PerlResponseHandler Angelos::Engine::ModPerl

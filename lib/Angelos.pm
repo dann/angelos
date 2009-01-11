@@ -42,6 +42,7 @@ has 'host' => (
 has 'port' => (
     is  => 'rw',
     isa => 'Int',
+    default => 3000,
 );
 
 has 'server' => ( is => 'rw', );
@@ -161,9 +162,9 @@ sub build_root {
 sub is_debug {
     my $self = shift;
     my $is_debug;
-    $is_debug ||= $self->debug;
     $is_debug ||= $ENV{ANGELOS_DEBUG};
-    $is_debug ||= Angelos::Utils::env_value( ref $self, 'HOME' );
+    $is_debug ||= Angelos::Utils::env_value( ref $self, 'DEBUG' );
+    $is_debug ||= $self->debug;
     return $is_debug;
 }
 
