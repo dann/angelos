@@ -1,0 +1,6 @@
+#!/bin/sh
+perl tools/profile_memory_leak.pl --loop 1 > memory_leak_1.txt
+perl tools/profile_memory_leak.pl --loop 10 > memory_leak_100.txt 
+diff -uNr memory_leak_1.txt memory_leak_100.txt
+rm -f memory_leak_1.txt
+rm -f memory_leak_100.txt

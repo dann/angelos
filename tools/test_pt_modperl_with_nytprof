@@ -1,0 +1,6 @@
+#!/bin/sh
+suro rm /tmp/nytprof.*
+TEST_MODPERL=1 perl Makefile.PL
+TEST_MODPERL=1 TEST_STACK_TRACE=1 APACHE_BENCH=/usr/sbin/ab make test
+find /tmp -name "nytprof.*.out.*" | xargs nytprofhtml -f
+suro rm /tmp/nytprof.*
