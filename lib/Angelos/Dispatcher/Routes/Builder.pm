@@ -26,4 +26,6 @@ sub build {
     \@routeset;
 }
 
+__PACKAGE__->meta->make_immutable;
+
 1;

@@ -64,4 +64,6 @@ sub report_matching_info {
     $self->log_message($message);
 }
 
+__PACKAGE__->meta->make_immutable;
+
 1;
