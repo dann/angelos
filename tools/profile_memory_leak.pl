@@ -4,7 +4,7 @@ use warnings;
 use lib 'lib', 't/TestApp/lib';
 use Devel::Leak::Object qw{ GLOBAL_bless };
 use Test::TCP;
-use TestApp::Web;
+use TestApp;
 use HTTP::Engine;
 use LWP::UserAgent;
 use Getopt::Long;
@@ -40,7 +40,7 @@ test_tcp(
     },
     server => sub {
         my $port = shift;
-        my $engine = TestApp::Web->new(
+        my $engine = TestApp->new(
             server => $module,
             port   => $port,
         );
