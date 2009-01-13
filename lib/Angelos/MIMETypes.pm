@@ -25,7 +25,7 @@ no Mouse;
 
 sub mime_type_of {
     my ( $self, $ext ) = @_;
-    $self->types->{$ext} || 'application/octet-stream';
+    $self->types->{$ext} || 'text/plain';
 }
 
 sub add_type {

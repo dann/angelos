@@ -85,7 +85,7 @@ sub _template_vars {
 
 sub _build_stash {
     my ( $self, $c ) = @_;
-    $c->stash->{C} = $self->context;
+    $c->stash->{c} = $self->context;
     $c->stash->{base} ||= $c->req->base;
 }
 
@@ -152,7 +152,7 @@ sub _template_path {
 sub _content_type {
     my ( $self, $format ) = @_;
     return $self->CONTENT_TYPE if $self->CONTENT_TYPE;
-    $self->types->mime_type_of($format) || 'text/plain';
+    $self->types->mime_type_of($format);
 }
 
 __PACKAGE__->meta->make_immutable;
