@@ -8,8 +8,8 @@ plugins:
    - module: Session
   controller:
    - module: Dumper 
-   - module: ActionProfiler
+#   - module: ActionProfiler
 
-middlewares:
+#middlewares:
 #  - module: Angelos::Middleware::DebugRequest
-  - module: Angelos::Middleware::Unicode
+#  - module: Angelos::Middleware::Unicode

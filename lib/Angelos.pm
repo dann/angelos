@@ -79,7 +79,7 @@ sub setup {
     if ( my $e = $@ ) {
         Angelos::Logger->instance->log(
             level   => 'error',
-            message => $e,
+            message => "Error occured in setup. cause: \n" . $e,
         );
         rethrow_exception($e);
     }

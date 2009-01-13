@@ -17,3 +17,5 @@ t/conf/extra.last.conf
 t/htdocs/index.html
 t/TEST
 tmon.out
+cover_db_view
+

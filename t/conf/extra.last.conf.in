@@ -1,13 +1,21 @@
+<Perl>
+    use lib qw(@DocumentRoot@/modperl/http-engine/lib);
+</Perl>
+<Location /modperl/http-engine>
+    SetHandler modperl
+    PerlOptions +SetupEnv
+    PerlResponseHandler TestModPerl::HTTPEngine 
+</Location>
+
+<IfDefine NYTPROF>
+    PerlPassEnv NYTPROF
+    PerlModule Devel::NYTProf::Apache
+</IfDefine>
+
 DocumentRoot "@DocumentRoot@/modperl/angelos"
 <Perl>
     use lib qw(@DocumentRoot@/modperl/angelos/lib);
 </Perl>
-
-#<IfDefine NYTPROF>
-    PerlPassEnv NYTPROF
-    PerlModule Devel::NYTProf::Apache
-#</IfDefine>
-
 PerlModule TestModPerl::Angelos
 <Location />
     SetHandler perl-script

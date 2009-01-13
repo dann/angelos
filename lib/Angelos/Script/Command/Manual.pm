@@ -42,7 +42,7 @@ sub validate_args {
 sub run {
     my ( $self, $opt, $arg ) = @_;
 
-    my $lang = $opt->{lang} || 'en';
+    my $lang = $opt->{lang} || 'ja';
     if ( $opt->{list} ) {
         $self->list_manual($lang);
     }

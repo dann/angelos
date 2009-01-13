@@ -100,8 +100,9 @@ test_requires 'Test::MockObject';
 test_requires 'Test::Class';
 test_requires 'Test::TCP';
 test_requires 'LWP::UserAgent';
-test_requires  'Module::Load::Conditional';
-test_requires  'Carp::Always';
+test_requires 'Module::Load::Conditional';
+test_requires 'Carp::Always';
+test_requires 'Module::Install::AuthorTests';
 
 install_script 'bin/angelos';
 
