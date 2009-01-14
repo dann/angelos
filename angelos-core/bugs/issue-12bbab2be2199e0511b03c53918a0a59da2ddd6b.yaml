@@ -3,7 +3,7 @@ title: refactored home settings
 desc: Set home should be Angelos::Home's role. CLI, modperl, script, normal application refer it the same way
 type: :task
 component: angelos
-release: 
+release: "0.01"
 reporter: dann <techmemo@gmail.com>
 status: :unstarted
 disposition: 
@@ -15,4 +15,8 @@ log_events:
 - - 2009-01-13 18:18:20.778135 Z
   - dann <techmemo@gmail.com>
   - created
+  - ""
+- - 2009-01-14 15:30:16.015780 Z
+  - dann <techmemo@gmail.com>
+  - assigned to release 0.01 from unassigned
   - ""

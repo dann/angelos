@@ -3,7 +3,7 @@ title: redirect
 desc: ""
 type: :task
 component: controller
-release: 
+release: "0.01"
 reporter: dann <techmemo@gmail.com>
 status: :unstarted
 disposition: 
@@ -15,4 +15,8 @@ log_events:
 - - 2008-12-22 18:16:57.234023 Z
   - dann <techmemo@gmail.com>
   - created
+  - ""
+- - 2009-01-14 15:30:06.318725 Z
+  - dann <techmemo@gmail.com>
+  - assigned to release 0.01 from unassigned
   - ""
