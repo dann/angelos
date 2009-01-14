@@ -74,13 +74,6 @@ requires 'Devel::EvalContext';
 requires 'JSON::XS';
 requires 'MIME::Types';
 
-# plugins
-# will separete these modules from core
-requires 'FormValidator::Simple';
-
-
-#requires 'Gearman::Client';
-#requires 'Gearman::Worker';
 #requires 'HTML::Template::Pro';
 
 if (HAVE_MP) {
