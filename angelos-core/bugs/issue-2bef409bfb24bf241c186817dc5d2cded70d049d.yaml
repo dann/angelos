@@ -1,0 +1,18 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: "Apache::Test\xE3\x81\xA7apache\xE3\x81\xAE\xE8\xA8\xAD\xE5\xAE\x9A\xE3\x82\x92\xE8\xA4\x87\xE6\x95\xB0\xE5\x88\x87\xE3\x82\x8A\xE6\x9B\xBF\xE3\x81\x88\xE3\x82\x89\xE3\x82\x8C\xE3\x82\x8B\xE3\x82\x88\xE3\x81\x86\xE3\x81\xAB\xE3\x81\x99\xE3\x82\x8B"
+desc: ""
+type: :task
+component: testing
+release: 
+reporter: dann <techmemo@gmail.com>
+status: :unstarted
+disposition: 
+creation_time: 2009-01-14 15:39:11.244259 Z
+references: []
+
+id: 2bef409bfb24bf241c186817dc5d2cded70d049d
+log_events: 
+- - 2009-01-14 15:39:12.012788 Z
+  - dann <techmemo@gmail.com>
+  - created
+  - ""
