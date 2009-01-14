@@ -1,0 +1,18 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: "buildbot\xE3\x81\xAEhtml\xE3\x82\x92angelos-site\xE3\x81\xAB\xE3\x82\xA2\xE3\x83\x83\xE3\x83\x97"
+desc: ""
+type: :task
+component: angelos-site
+release: 
+reporter: dann <techmemo@gmail.com>
+status: :unstarted
+disposition: 
+creation_time: 2009-01-14 15:44:06.614272 Z
+references: []
+
+id: 92d9700f974627b03767b3a3a45b8141b2f37ed0
+log_events: 
+- - 2009-01-14 15:44:07.141614 Z
+  - dann <techmemo@gmail.com>
+  - created
+  - ""

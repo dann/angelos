@@ -28,6 +28,8 @@ components:
   name: flavor
 - !ditz.rubyforge.org,2008-03-06/component 
   name: BUGS
+- !ditz.rubyforge.org,2008-03-06/component 
+  name: angelos-site
 releases: 
 - !ditz.rubyforge.org,2008-03-06/release 
   name: "0.01"

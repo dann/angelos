@@ -1,0 +1,18 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: "coverage\xE3\x83\x86\xE3\x82\xB9\xE3\x83\x88\xE3\x81\xAE\xE7\xB5\x90\xE6\x9E\x9C\xE3\x82\x92angelos-site\xE3\x81\xABupload"
+desc: ""
+type: :task
+component: angelos-site
+release: 
+reporter: dann <techmemo@gmail.com>
+status: :unstarted
+disposition: 
+creation_time: 2009-01-14 15:45:40.677424 Z
+references: []
+
+id: 281b3c0eb5be4fa32c72d38adf3ac84c22b4b91a
+log_events: 
+- - 2009-01-14 15:45:41.244639 Z
+  - dann <techmemo@gmail.com>
+  - created
+  - ""
