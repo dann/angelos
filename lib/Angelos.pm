@@ -105,9 +105,10 @@ sub setup_debug_plugins {
 
 sub setup_home {
     my $self = shift;
-    my $home = Angelos::Home->guess_home( ref $self );
-    Angelos::Home->set_home($home) if -d $home;
-    $home;
+    my $home = Angelos::Home->home(ref $self);
+#    my $home = Angelos::Home->guess_home( ref $self );
+#    Angelos::Home->set_home($home) if -d $home;
+    return $home;
 }
 
 sub setup_engine {

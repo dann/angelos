@@ -1,0 +1,18 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: refactored home settings
+desc: Set home should be Angelos::Home's role. CLI, modperl, script, normal application refer it the same way
+type: :task
+component: angelos
+release: 
+reporter: dann <techmemo@gmail.com>
+status: :unstarted
+disposition: 
+creation_time: 2009-01-13 18:18:18.929515 Z
+references: []
+
+id: 12bbab2be2199e0511b03c53918a0a59da2ddd6b
+log_events: 
+- - 2009-01-13 18:18:20.778135 Z
+  - dann <techmemo@gmail.com>
+  - created
+  - ""

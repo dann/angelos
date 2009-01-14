@@ -90,8 +90,6 @@ sub show_manual {
     my ( $self, $topic, $lang ) = @_;
     if ( my $file = $self->_find_topic( $topic, $lang ) ) {
         my $fh = $file->openr;
-
-        #open my $fh, '<:utf8', $file or die $!;
         my $parser = Pod::Simple::Text->new;
         my $buf;
         $parser->output_string( \$buf );

@@ -1,38 +1,51 @@
 package Angelos::Home;
+use strict;
+use warnings;
 use Angelos::Utils;
 use Path::Class qw(dir file);
+use Cwd ();
 
 our $HOME;
 
 sub home {
-    my ( $class, $appclass ) = @_;
+    my ( $class, $app_class ) = @_;
     if ($HOME) {
         return $HOME;
     }
-    $HOME = $class->guess_home($appclass);
+    $HOME ||= $class->_get_home_from_angelos_env;
+    $HOME ||= $class->_get_home_from_application_env($app_class);
+    $HOME ||= $class->_document_root;
+    $HOME ||= $class->_search_home_from_module_file_path($app_class);
+    $HOME ||= $class->_current_dir;
     $HOME;
 }
 
 sub set_home {
-    my ($class, $home) = @_;
+    my ( $class, $home ) = @_;
     $HOME = $home;
 }
 
-sub guess_home {
-    my ( $class, $clazz ) = @_;
-    return $HOME if $HOME;
-
-    my $home;
+sub _get_home_from_angelos_env {
     if ( $ENV{ANGELOS_HOME} ) {
-        $home = dir( $ENV{ANGELOS_HOME} )->absolute->cleanup;
+        my $home = dir( $ENV{ANGELOS_HOME} )->absolute->cleanup;
         return $home if -d $home;
     }
-    if ( my $env = Angelos::Utils::env_value( $clazz, 'HOME' ) ) {
-        $home = dir($env)->absolute->cleanup;
-        return $home if -d $home;
-    }
+    return;
+}
 
-    ( my $file = "$clazz.pm" ) =~ s{::}{/}g;
+sub _get_home_from_application_env {
+    my ($class, $app_class) = @_;
+    if ( my $env = Angelos::Utils::env_value( $app_class, 'HOME' ) ) {
+        my $home = dir($env)->absolute->cleanup;
+        return $home if -d $home;
+    }
+    return;
+}
+
+sub _search_home_from_module_file_path {
+    my ( $class, $app_class ) = @_;
+    my $home;
+    ( my $file = "$app_class.pm" ) =~ s{::}{/}g;
     if ( my $inc_entry = $INC{$file} ) {
 
         {
@@ -61,6 +74,7 @@ sub guess_home {
         }
 
         {
+
             # look for an installed Angelos app
 
             # trim the .pm off the thing ( Foo/Bar.pm -> Foo/Bar/ )
@@ -73,7 +87,19 @@ sub guess_home {
     }
 
     # we found nothing
-    return 0;
+    return;
+}
+
+sub _current_dir {
+    Cwd::getcwd;
+}
+
+sub _document_root {
+    if ( $ENV{DOCUMENT_ROOT} && $ENV{MOD_PERL} ) {
+        my $home = dir( $ENV{DOCUMENT_ROOT} )->absolute->cleanup;
+        return $home if -d $home;
+    }
+    return;
 }
 
 sub path_to {
@@ -88,26 +114,3 @@ sub path_to {
 }
 
 1;
-
-__END__
-
-=head1 NAME
-
-
-=head1 SYNOPSIS
-
-=head1 DESCRIPTION
-
-
-=head1 AUTHOR
-
-Takatoshi Kitano E<lt>kitano.tk@gmail.comE<gt>
-
-=head1 SEE ALSO
-
-=head1 LICENSE
-
-This library is free software; you can redistribute it and/or modify
-it under the same terms as Perl itself.
-
-=cut

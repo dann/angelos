@@ -1,4 +1,6 @@
 package Angelos::Logger;
+use strict;
+use warnings;
 use Log::Dispatch::Config;
 use Log::Dispatch::Configurator::YAML;
 use Angelos::Config;

@@ -3,7 +3,7 @@ use base qw(App::Cmd);
 use Angelos::Home;
 use Cwd;
 
-Angelos::Home->set_home(getcwd);
+#Angelos::Home->set_home(getcwd);
 
 =head1 NAME
 

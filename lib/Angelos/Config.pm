@@ -1,4 +1,6 @@
 package Angelos::Config;
+use strict;
+use warnings;
 use Angelos::Home;
 use Angelos::Config::Loader;
 use Angelos::Config::Schema;
