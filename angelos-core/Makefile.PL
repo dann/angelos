@@ -74,8 +74,6 @@ requires 'Devel::EvalContext';
 requires 'JSON::XS';
 requires 'MIME::Types';
 
-#requires 'HTML::Template::Pro';
-
 if (HAVE_MP) {
     Apache::TestMM::filter_args();
     #Apache::TestMM::generate_script('t/integration/modperl/TEST');
