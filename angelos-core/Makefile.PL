@@ -40,6 +40,7 @@ requires 'String::CamelCase';
 requires 'Path::Class';
 requires 'Devel::InnerPackage';
 requires 'Exception::Class';
+requires 'File::Spec';
 
 # components
 requires 'Template';

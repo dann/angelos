@@ -15,19 +15,26 @@ components:
 - !ditz.rubyforge.org,2008-03-06/component 
   name: dispatcher
 - !ditz.rubyforge.org,2008-03-06/component 
-  name: middleware 
+  name: middleware
 - !ditz.rubyforge.org,2008-03-06/component 
   name: configloader
 - !ditz.rubyforge.org,2008-03-06/component 
   name: Tutorial
 - !ditz.rubyforge.org,2008-03-06/component 
-  name: script 
+  name: script
 - !ditz.rubyforge.org,2008-03-06/component 
   name: testing
 - !ditz.rubyforge.org,2008-03-06/component 
   name: flavor
 - !ditz.rubyforge.org,2008-03-06/component 
   name: BUGS
-
-releases: []
-
+releases: 
+- !ditz.rubyforge.org,2008-03-06/release 
+  name: "0.01"
+  status: :unreleased
+  release_time: 
+  log_events: 
+  - - 2009-01-14 13:52:45.229106 Z
+    - dann <techmemo@gmail.com>
+    - created
+    - ""

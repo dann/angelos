@@ -1,0 +1,2 @@
+use lib '@DocumentRoot@/modperl/angelos/lib';
+1;
