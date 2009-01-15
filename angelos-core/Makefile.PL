@@ -42,6 +42,7 @@ requires 'Devel::InnerPackage';
 requires 'Exception::Class';
 requires 'File::Spec';
 requires 'IO::Pager';
+requires 'Class::Singleton';
 
 # components
 requires 'Template';

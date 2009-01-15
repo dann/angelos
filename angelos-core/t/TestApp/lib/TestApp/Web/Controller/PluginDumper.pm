@@ -6,7 +6,7 @@ extends 'Angelos::Controller';
 
 sub dumper {
     my ( $self, $c, $params ) = @_;
-    $self->dump($c->req);
+    #$self->dump($c->req);
     $c->res->body('HelloWorld');
 }
 

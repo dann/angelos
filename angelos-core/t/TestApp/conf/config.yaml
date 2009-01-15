@@ -7,7 +7,6 @@ plugins:
   engine:
    - module: Session
   controller:
-   - module: Dumper 
    - module: ActionProfiler
 
 middlewares:
