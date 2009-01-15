@@ -100,26 +100,14 @@ sub show_manual {
         $parser->parse_file($fh);
 
         $buf =~ s/^NAME\s+(.*?)::Help::\S+ - (.+)\s+DESCRIPTION/    $1:/;
-
         {
             local $STDOUT = new IO::Pager * STDOUT;
             print $buf;
         }
-        $self->page($buf);
     }
     else {
         die "Cannot find help topic $topic";
     }
-}
-
-sub page {
-    my ( $self, $output ) = @_;
-    print $output . "\n";
-
-    #foreach my $pager ( @{ $self->guess_pagers } ) {
-    system( "less", $output );
-
-    #}
 }
 
 sub help_base {
