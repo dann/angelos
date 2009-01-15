@@ -3,8 +3,8 @@ use Mouse::Role;
 use Angelos::I18N;
 
 sub loc {
-    my ( $self, $message ) = @_;
-    Angelos::I18N->loc($message);
+    my ( $self, $message, $arg ) = @_;
+    Angelos::I18N->loc($message, $arg);
 }
 
 sub loc_lang {

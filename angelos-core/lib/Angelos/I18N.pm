@@ -11,10 +11,8 @@ Angelos::I18N - Provides internationalization function
 
 =head1 SYNOPSIS
  
-  use Angelos::I18N qw(loc loc_lang);
- 
-  Angelos::I18N->loc_lang('ja'); # set the locale
-  loc('Hello'),
+  Angelos::I18N->loc_lang('ja'),
+  Angelos::I18N->loc('Hello'),
  
 =head1 Methods
  
@@ -39,15 +37,13 @@ our $LOC;
 our $LOC_LANG;
 
 sub loc {
-    my $class = shift;
-    my $message = shift;
+    my ($class, $message, $arg) = @_;
     $class->initialize unless $LOC;
-    $LOC->($message);
+    $LOC->($message, $arg);
 }
 
 sub loc_lang {
-    my $class = shift;
-    my $lang = shift;
+    my ($class, $lang) = @_;
     $class->initialize unless $LOC_LANG;
     $LOC_LANG->($lang);
 }
