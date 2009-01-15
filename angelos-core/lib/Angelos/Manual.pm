@@ -18,13 +18,12 @@ Chunk-sized pearls of wisdom for accomplishing common tasks
 
 Frequently asked questions, for some value of frequent
 
-=item L<Angelos::Manual::Style>
-
-Style guide for the Angelos project itself
-
 =item L<Angelos::Manual::Tutorial>
 
 Your first stop on this tour
+
+=item L<Angelos::Manual::Tutorial>
+
 
 =back
 

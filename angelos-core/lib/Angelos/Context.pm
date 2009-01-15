@@ -1,7 +1,6 @@
 package Angelos::Context;
 use Mouse;
 use Carp ();
-use Angelos::Logger;
 
 with 'Angelos::Class::Pluggable';
 

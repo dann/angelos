@@ -3,9 +3,7 @@ use Mouse;
 use Carp ();
 use HTTP::Engine;
 use Angelos::Home;
-use Angelos::Logger;
 use Angelos::Exceptions;
-use Angelos::Logger;
 
 has 'engine' => (
     is      => 'rw',

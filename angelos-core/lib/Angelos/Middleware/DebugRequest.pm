@@ -1,7 +1,6 @@
 package Angelos::Middleware::DebugRequest;
 use Mouse;
 use Text::SimpleTable;
-use Angelos::Logger;
 extends 'Angelos::Middleware';
 
 no Mouse;
