@@ -1,0 +1,18 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: "Model\xE3\x81\xAEsearch_path\xE3\x82\x92\xE8\xBF\xBD\xE5\x8A\xA0\xE3\x81\x99\xE3\x82\x8B\xE5\xAE\x9F\xE8\xA3\x85"
+desc: ""
+type: :task
+component: model
+release: "0.01"
+reporter: dann <techmemo@gmail.com>
+status: :unstarted
+disposition: 
+creation_time: 2009-01-15 15:56:04.362474 Z
+references: []
+
+id: 14a20f2ec29e5918f1f3806dd7328a334fcd187d
+log_events: 
+- - 2009-01-15 15:56:05.129031 Z
+  - dann <techmemo@gmail.com>
+  - created
+  - ""

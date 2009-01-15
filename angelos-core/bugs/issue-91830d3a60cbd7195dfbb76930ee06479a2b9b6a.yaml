@@ -1,0 +1,18 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: "redirect\xE3\x81\xAE\xE5\xAE\x9F\xE8\xA3\x85"
+desc: ""
+type: :task
+component: angelos
+release: "0.01"
+reporter: dann <techmemo@gmail.com>
+status: :unstarted
+disposition: 
+creation_time: 2009-01-15 15:57:10.773526 Z
+references: []
+
+id: 91830d3a60cbd7195dfbb76930ee06479a2b9b6a
+log_events: 
+- - 2009-01-15 15:57:12.717805 Z
+  - dann <techmemo@gmail.com>
+  - created
+  - ""
