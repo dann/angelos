@@ -19,7 +19,7 @@ no Mouse;
 sub load_components {
     my ( $self, $class ) = @_;
 
-    my $appclass = Angelos::Config->application_class;
+    my $appclass = $self->_application_class;
     my @paths   = qw( ::Web::Controller ::Model ::Web::View  );
     my $locator = Module::Pluggable::Object->new(
         search_path => [ map { $appclass . $_ } @paths ], );
@@ -113,23 +113,27 @@ sub search_component {
 
 sub search_model {
     my ( $self, $short_model_name ) = @_;
-    my $appclass = Angelos::Config->application_class;
+    my $appclass = $self->_application_class;
     return $self->get_component(
         $appclass . "::Model::" . $short_model_name );
 }
 
 sub search_controller {
     my ( $self, $short_controller_name ) = @_;
-    my $appclass = Angelos::Config->application_class;
+    my $appclass = $self->_application_class;
     return $self->get_component(
         $appclass . "::Web::Controller::" . $short_controller_name );
 }
 
 sub search_view {
     my ( $self, $short_view_name ) = @_;
-    my $appclass = Angelos::Config->application_class;
+    my $appclass = $self->_application_class;
     return $self->get_component(
         $appclass . "::Web::View::" . $short_view_name );
+}
+
+sub _application_class {
+    Angelos::Config->application_class;
 }
 
 __PACKAGE__->meta->make_immutable;

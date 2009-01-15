@@ -41,8 +41,9 @@ after 'ACTION' => sub {
 };
 
 sub __setup_formvalidator {
+    my $self = shift;
     my $setting
-        = Angelos::Config->plugins( 'controller', 'FormValidator::Simple' );
+        = $self->config->plugins( 'controller', 'FormValidator::Simple' );
     # setup FormValidator from config ?
     die 'Implement me';
 }
