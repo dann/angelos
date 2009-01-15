@@ -1,10 +1,10 @@
 package Angelos::CLI::Command;
 use Mouse;
 use IPC::System::Simple;
-use Angelos::Config;
 use base 'App::Cmd::Command';
 
 with 'Angelos::Class::Configurable';
+with 'Angelos::Class::Loggable';
 
 no Mouse;
 

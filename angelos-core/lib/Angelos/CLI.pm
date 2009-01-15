@@ -1,9 +1,6 @@
 package Angelos::CLI;
 use base qw(App::Cmd);
 use Angelos::Home;
-use Cwd;
-
-#Angelos::Home->set_home(getcwd);
 
 =head1 NAME
 

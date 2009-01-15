@@ -4,6 +4,7 @@ use IPC::System::Simple;
 use base 'App::Cmd::Command';
 
 with 'Angelos::Class::Configurable';
+with 'Angelos::Class::Loggable';
 
 sub system {
     my ($self, @args) = @_;

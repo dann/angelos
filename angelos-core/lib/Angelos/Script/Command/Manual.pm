@@ -38,7 +38,7 @@ sub validate_args {
     return if $opt->{list};
 
     my $topic = $opt->{topic};
-    die "You need to give manual topic name with name option\n"
+    die "You need to give manual topic name with topic option\n"
         unless $topic;
 }
 
@@ -61,7 +61,7 @@ sub list_manual {
     foreach my $file ( $dir->children ) {
         my $tutorial_name = $file->basename;
         $tutorial_name =~ s/\.pod$//;
-        print $tutorial_name . "\n";
+        print lc($tutorial_name) . "\n";
     }
 }
 
