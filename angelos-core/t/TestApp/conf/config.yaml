@@ -8,7 +8,7 @@ plugins:
    - module: Session
   controller:
    - module: Dumper 
-#   - module: ActionProfiler
+   - module: ActionProfiler
 
 middlewares:
   - module: Angelos::Middleware::DebugRequest

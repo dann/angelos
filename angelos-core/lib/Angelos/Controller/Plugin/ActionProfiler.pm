@@ -1,6 +1,5 @@
 package Angelos::Controller::Plugin::ActionProfiler;
 use Angelos::Plugin;
-use Angelos::Logger;
 use Time::HiRes qw(time);
 
 has '__action_start_time' => ( is => 'rw', );
@@ -19,7 +18,7 @@ after 'ACTION' => sub {
     my $elapsed = $self->__action_end_time - $self->__action_start_time;
     my $message
         = "action processing time:\naction: $action \ntime  : $elapsed  secs\n";
-    Angelos::Logger->instance->log(
+    $self->log(
         level   => 'info',
         message => $message,
     );
