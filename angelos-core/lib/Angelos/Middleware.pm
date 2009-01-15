@@ -1,7 +1,7 @@
 package Angelos::Middleware;
 use Mouse;
 use Angelos::Exceptions;
-use Angelos::Logger;
+with 'Angelos::Class::Loggable';
 
 no Mouse;
 
@@ -9,14 +9,6 @@ sub wrap {
     my ( $self, $next ) = @_;
     Angelos::Exception::AbstractMethod->throw(
         message => 'Sub class must implement wrap method');
-}
-
-sub log_message {
-    my ( $self, $message ) = @_;
-    Angelos::Logger->instance->log(
-        level   => "info",
-        message => "\n" . $message,
-    );
 }
 
 __PACKAGE__->meta->make_immutable;

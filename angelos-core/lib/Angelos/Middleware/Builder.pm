@@ -25,7 +25,7 @@ sub _build_request_handler {
 }
 
 sub _get_middlewares {
-    Angelos::Config->middlewares;
+    Angelos::Config->instance->middlewares;
 }
 
 1;

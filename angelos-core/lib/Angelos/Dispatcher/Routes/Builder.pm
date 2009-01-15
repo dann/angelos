@@ -2,12 +2,15 @@ package Angelos::Dispatcher::Routes::Builder;
 use Mouse;
 use Angelos::Config;
 use HTTP::Router;
-use Angelos::Logger;
 use Angelos::Exceptions;
+
+with 'Angelos::Class::Configurable';
+
+no Mouse;
 
 sub build_from_config {
     my $self      = shift;
-    my $conf_path = Angelos::Config->routes_config_path;
+    my $conf_path = $self->config->routes_config_path;
     Angelos::Exception->throw(
         message => "routes.pl doesn't exit: $conf_path" )
         unless -f $conf_path;

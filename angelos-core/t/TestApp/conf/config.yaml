@@ -10,6 +10,6 @@ plugins:
    - module: Dumper 
 #   - module: ActionProfiler
 
-#middlewares:
-#  - module: Angelos::Middleware::DebugRequest
-#  - module: Angelos::Middleware::Unicode
+middlewares:
+  - module: Angelos::Middleware::DebugRequest
+  - module: Angelos::Middleware::Unicode

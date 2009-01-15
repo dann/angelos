@@ -4,8 +4,11 @@ use warnings;
 use Mouse::Role;
 
 with 'Angelos::Class::Pluggable';
+with 'Angelos::Class::Configurable';
+with 'Angelos::Class::Loggable';
 
 1;
+
 __END__
 
 =head1 NAME

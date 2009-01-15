@@ -12,6 +12,8 @@ has 'components' => (
     default => sub { +{} },
 );
 
+with 'Angelos::Class::Configurable';
+
 no Mouse;
 
 sub load_components {
@@ -50,15 +52,15 @@ sub _register_plugins_to {
     my ( $self, $component ) = @_;
     if ( $component =~ /Controller/i ) {
         $component->load_plugin( $_->{module} )
-            for Angelos::Config->plugins('controller');
+            for $self->config->plugins('controller');
     }
     elsif ( $component =~ /View/i ) {
         $component->load_plugin( $_->{module} )
-            for Angelos::Config->plugins('view');
+            for $self->config->plugins('view');
     }
     elsif ( $component =~ /Model/i ) {
         $component->load_plugin( $_->{module} )
-            for Angelos::Config->plugins('model');
+            for $self->config->plugins('model');
     }
 }
 
@@ -94,7 +96,7 @@ sub _get_component_config {
     my ($self, $component) =@_;
     my $suffix = Angelos::Utils::class2classsuffix($component);
     my ($component_type, $class_suffix) = split "::", $suffix;
-    my $setting = Angelos::Config->components(lc($component_type), $class_suffix); 
+    my $setting = $self->config->components(lc($component_type), $class_suffix); 
     my $config = $setting->{config} || +{};
     $config;
 }

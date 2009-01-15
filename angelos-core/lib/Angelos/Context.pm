@@ -3,7 +3,7 @@ use Mouse;
 use Carp ();
 use Angelos::Logger;
 
-#with 'Angelos::Class::Pluggable';
+with 'Angelos::Class::Pluggable';
 
 has 'app' => (
     is       => 'rw',
@@ -56,11 +56,6 @@ sub view {
     Carp::croak "view $view doesn't exist" unless $v;
     $v->context($self);
     $v;
-}
-
-sub log {
-    my ( $self, %loginfo ) = @_;
-    Angelos::Logger->instance->log(%loginfo);
 }
 
 sub action {

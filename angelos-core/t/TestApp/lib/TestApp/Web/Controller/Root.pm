@@ -1,13 +1,12 @@
 package TestApp::Web::Controller::Root;
 use Mouse;
 use Angelos::Logger;
-use Carp ();
 use Angelos::Utils;
 extends 'Angelos::Controller';
 
 sub index {
     my ( $self, $c, $params ) = @_;
-    Angelos::Logger->instance->log(
+    $self->log(
         level => 'debug',
         message => 'index method in Root controller',
     );

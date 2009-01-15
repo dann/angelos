@@ -1,10 +1,10 @@
 package Angelos::Controller::Plugin::DebugHook;
 use Angelos::Plugin;
-use Angelos::Logger;
+with 'Angelos::Class::Loggable';
 
 after 'SETUP' => sub {
     my $self = shift;
-    Angelos::Logger->instance->log(
+    $self->log(
         level   => 'info',
         message => "SETUP: class=" . ref $self,
     );
@@ -12,7 +12,7 @@ after 'SETUP' => sub {
 
 before 'ACTION' => sub {
     my ( $self, $c, $action, $params ) = @_;
-    Angelos::Logger->instance->log(
+    $self->log(
         level   => 'info',
         message => "BEFORE ACTION: $action, $params",
     );
@@ -20,7 +20,7 @@ before 'ACTION' => sub {
 
 after 'ACTION' => sub {
     my $self = shift;
-    Angelos::Logger->instance->log(
+    $self->log(
         level   => 'info',
         message => "AFTER ACTION",
     );

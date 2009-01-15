@@ -1,12 +1,12 @@
 package Angelos::Controller::Plugin::Dumper;
 use Angelos::Plugin;
-use Angelos::Logger;
+with 'Angelos::Class::Loggable';
 use Data::Dumper;
 
 sub dump {
     my ($self, $args) = @_;
     my $result = Dumper $args;
-    Angelos::Logger->instance->log(
+    $self->log(
         level => 'debug',
         message => $result,
     );

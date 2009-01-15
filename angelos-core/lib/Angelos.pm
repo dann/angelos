@@ -6,11 +6,11 @@ use Angelos::Engine;
 use Angelos::Utils;
 use Angelos::Home;
 use Angelos::Dispatcher::Routes::Builder;
-use Angelos::Config;
 use Angelos::Logger;
 use Angelos::Exceptions qw(rethrow_exception);
 
 with 'Angelos::Class::Pluggable';
+with 'Angelos::Class::Configurable';
 
 has _plugin_app_ns => (
     +default => sub {
@@ -121,7 +121,7 @@ sub setup_engine {
         conf   => $self->conf,
     );
     $engine->load_plugin( $_->{module} )
-        for Angelos::Config->plugins('engine');
+        for $self->config->plugins('engine');
     $self->engine($engine);
     $engine;
 }

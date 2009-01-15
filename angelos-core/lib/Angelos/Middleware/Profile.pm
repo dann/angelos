@@ -12,7 +12,7 @@ sub wrap {
         my $req = shift;
         my $res = $self->profile( $next, $req );
         $res;
-    }
+        }
 }
 
 sub profile {
@@ -20,9 +20,9 @@ sub profile {
     my $start_time = time();
     my $result     = $code->($args);
     my $end_time   = time();
-    my $elapsed = $end_time - $start_time;
-    my $message = "Request handling time: \n" . $elapsed . " secs";
-    $self->log_message($message);
+    my $elapsed    = $end_time - $start_time;
+    my $message    = "Request handling time: \n" . $elapsed . " secs";
+    $self->log( level => 'info', message => $message );
     $result;
 }
 

@@ -77,7 +77,7 @@ sub _build_session_state {
 }
 
 sub _session {
-    my $session_plugin = Angelos::Config->plugins( 'engine', 'Session' )
+    my $session_plugin = Angelos::Config->instance->plugins( 'engine', 'Session' )
         or die
         'session config must be set before the session plugin used at global section in conf/config.yaml';
     $session_plugin;

@@ -1,25 +1,35 @@
 package Angelos::Config;
 use strict;
 use warnings;
+use base 'Class::Singleton';
 use Angelos::Home;
 use Angelos::Config::Loader;
 use Angelos::Config::Schema;
 use Data::Visitor::Callback;
 
-our $CONFIG;
 our $APPLICAION_CLASS;
 
-sub global {
+sub _new_instance {
     my $class = shift;
+    my $self = bless {}, $class;
+    $self->{config}
+        = Angelos::Config::Loader->load(
+        Angelos::Home->path_to( 'conf', 'config.yaml' ),
+        Angelos::Config::Schema->config );
+    return $self;
+}
+
+sub global {
+    my $self = shift;
     my $var   = shift;
-    $class->_get( 'global', $var );
+    $self->_get( 'global', $var );
 }
 
 sub plugins {
-    my $class   = shift;
+    my $self   = shift;
     my $var     = shift;
     my $module  = shift;
-    my $plugins = $class->_get( 'plugins', $var );
+    my $plugins = $self->_get( 'plugins', $var );
     unless ($plugins) {
         return wantarray ? () : [];
     }
@@ -34,15 +44,16 @@ sub plugins {
 }
 
 sub components {
-    my $class   = shift;
-    my $component_type     = shift;
-    my $module = shift;
+    my $self          = shift;
+    my $component_type = shift;
+    my $module         = shift;
 
-    my $components = $class->_get( 'components', $component_type );
+    my $components = $self->_get( 'components', $component_type );
     unless ($components) {
-        if($module) {
+        if ($module) {
             return +{};
-        } else {
+        }
+        else {
             return wantarray ? () : [];
         }
     }
@@ -58,8 +69,8 @@ sub components {
 }
 
 sub middlewares {
-    my $class       = shift;
-    my $middlewares = $class->_get('middlewares');
+    my $self       = shift;
+    my $middlewares = $self->_get('middlewares');
 
     unless ($middlewares) {
         return wantarray ? () : [];
@@ -72,28 +83,22 @@ sub routes_config_path {
 }
 
 sub _config {
-    my $class = shift;
-    return $CONFIG if $CONFIG;
-
-    $CONFIG
-        = Angelos::Config::Loader->load(
-        Angelos::Home->path_to( 'conf', 'config.yaml' ),
-        Angelos::Config::Schema->config );
-    $CONFIG;
+    my $self = shift;
+    $self->{config};
 }
 
 sub _get {
-    my $class   = shift;
+    my $self   = shift;
     my $section = shift;
     my $var     = shift;
-    unless ( $class->_config->{$section} ) {
+    unless ( $self->_config->{$section} ) {
         return undef;
     }
 
     unless ($var) {
-        return $class->_config->{$section};
+        return $self->_config->{$section};
     }
-    return $class->_config->{$section}->{$var};
+    return $self->_config->{$section}->{$var};
 }
 
 sub logger_conf_path {

@@ -14,7 +14,7 @@ sub wrap {
         my $res = $next->($req);
         $self->report_request($req);
         return $res;
-    }
+        }
 }
 
 sub report_request {
@@ -36,7 +36,7 @@ sub report_query_parameters {
                 ref $value eq 'ARRAY' ? ( join ', ', @$value ) : $value );
         }
         my $message = "Query Parameters are:\n" . $t->draw;
-        $self->log_message($message);
+        $self->log( level => 'info', message => $message );
     }
 }
 
@@ -52,16 +52,20 @@ sub report_body_parameters {
                 ref $value eq 'ARRAY' ? ( join ', ', @$value ) : $value );
         }
         my $message = "Body Parameters are:\n" . $t->draw;
-        $self->log_message($message);
+        $self->log( level => 'info', message => $message );
     }
 }
 
 sub report_matching_info {
     my ( $self, $req ) = @_;
-    my $t = Text::SimpleTable->new( [ 40, 'Path' ], [ 8, 'Method' ], [ 30, 'Base' ] );
-    $t->row( $req->path, $req->method , $req->base);
+    my $t = Text::SimpleTable->new(
+        [ 40, 'Path' ],
+        [ 8,  'Method' ],
+        [ 30, 'Base' ]
+    );
+    $t->row( $req->path, $req->method, $req->base );
     my $message = "Matching Info:\n" . $t->draw;
-    $self->log_message($message);
+    $self->log( level => 'info', message => $message );
 }
 
 __PACKAGE__->meta->make_immutable;
