@@ -3,6 +3,8 @@ use Mouse;
 use Angelos::Utils;
 extends 'Angelos::Controller';
 
+with 'Angelos::Class::Localizable';
+
 sub index {
     my ( $self, $c, $params ) = @_;
     $self->log(
@@ -15,6 +17,11 @@ sub index {
 sub tt {
     my ( $self, $c, $params ) = @_;
     $c->view('TT')->render( { name => 'Yamada Taro' } );
+}
+
+sub japanese {
+    my ($self, $c, $params) = @_;
+    warn $self->loc('Hello') . "\n";
 }
 
 __PACKAGE__->meta->make_immutable;

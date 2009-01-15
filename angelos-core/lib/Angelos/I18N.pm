@@ -5,8 +5,6 @@ use base 'Exporter';
 use Angelos::Config;
 use Angelos::Home;
 
-our @EXPORT_OK = qw(loc loc_lang);
-
 =head1 NAME
  
 Angelos::I18N - Provides internationalization function 
@@ -15,7 +13,7 @@ Angelos::I18N - Provides internationalization function
  
   use Angelos::I18N qw(loc loc_lang);
  
-  loc_lang('ja'); # set the locale
+  Angelos::I18N->loc_lang('ja'); # set the locale
   loc('Hello'),
  
 =head1 Methods
@@ -37,21 +35,32 @@ The .po files are kept in conf/locales.
  
 =cut
 
-sub import {
-    my ( $class, %args ) = @_;
-    $class->setup;
+our $LOC;
+our $LOC_LANG;
+
+sub loc {
+    my $class = shift;
+    my $message = shift;
+    $class->initialize unless $LOC;
+    $LOC->($message);
 }
 
-sub setup {
-    # FIXME How should I set home dir before this module is imported
-    #my $po_dir = Angelos::Home->path_to( 'share', 'po' );
-    #require Locale::Maketext::Simple;
-    #Locale::Maketext::Simple->import(
-    #    Path   => $po_dir,
-    #    Decode => 1,
-    #    Style  => 'gettext',
-    #    Export => "loc",
-    #);
+sub loc_lang {
+    my $class = shift;
+    my $lang = shift;
+    $class->initialize unless $LOC_LANG;
+    $LOC_LANG->($lang);
+}
+
+sub initialize {
+    my %args = ();
+    require Locale::Maketext::Simple;
+    $args{Path}     ||=  Angelos::Home->path_to( 'share', 'po' );
+    $args{Style}    ||= 'maketext';
+    $args{Export}   ||= 'loc';
+    $args{Subclass} ||= 'I18N';
+    ($LOC, $LOC_LANG) = Locale::Maketext::Simple->load_loc(%args);
+    $LOC ||=  Locale::Maketext::Simple->default_loc(%args);
 }
 
 1;
