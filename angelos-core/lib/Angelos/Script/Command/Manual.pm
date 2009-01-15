@@ -5,6 +5,7 @@ use base qw(Angelos::Script::Command);
 use Angelos::Exceptions;
 use Pod::Simple::Text;
 use Path::Class;
+use IO::Pager;
 
 binmode STDIN,  ":utf8";
 binmode STDOUT, ":utf8";
@@ -65,7 +66,8 @@ sub list_manual {
     }
 }
 
-my ($inc, @prefix);
+my ( $inc, @prefix );
+
 sub _find_manual_dir {
     my ( $self, $lang ) = @_;
     if ( !$inc ) {
@@ -91,18 +93,33 @@ sub _find_manual_dir {
 sub show_manual {
     my ( $self, $topic, $lang ) = @_;
     if ( my $file = $self->_find_topic( $topic, $lang ) ) {
-        my $fh = $file->openr;
+        my $fh     = $file->openr;
         my $parser = Pod::Simple::Text->new;
         my $buf;
         $parser->output_string( \$buf );
         $parser->parse_file($fh);
 
         $buf =~ s/^NAME\s+(.*?)::Help::\S+ - (.+)\s+DESCRIPTION/    $1:/;
-        print $buf;
+
+        {
+            local $STDOUT = new IO::Pager * STDOUT;
+            print $buf;
+        }
+        $self->page($buf);
     }
     else {
         die "Cannot find help topic $topic";
     }
+}
+
+sub page {
+    my ( $self, $output ) = @_;
+    print $output . "\n";
+
+    #foreach my $pager ( @{ $self->guess_pagers } ) {
+    system( "less", $output );
+
+    #}
 }
 
 sub help_base {

@@ -14,7 +14,7 @@ around 'build_routeset' => sub {
 sub __show_dispatch_table {
     my ( $self, $routes ) = @_;
     my $report = $self->__make_dispatch_table_report($routes);
-    $self->log_message($report);
+    $self->log( level => 'info', message => $report );
 }
 
 sub __make_dispatch_table_report {
@@ -26,11 +26,11 @@ sub __make_dispatch_table_report {
         [ 10, 'action' ]
     );
     foreach my $route ( $routes->routes ) {
-        # FIXME metdods 
+
+        # FIXME metdods
         my $methods = $route->conditions->{method};
         $t->row(
-            $route->path,
-            $methods,
+            $route->path, $methods,
             $route->params->{controller},
             $route->params->{action}
         );

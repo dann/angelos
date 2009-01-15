@@ -41,6 +41,7 @@ requires 'Path::Class';
 requires 'Devel::InnerPackage';
 requires 'Exception::Class';
 requires 'File::Spec';
+requires 'IO::Pager';
 
 # components
 requires 'Template';
