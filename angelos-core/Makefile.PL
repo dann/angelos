@@ -72,7 +72,6 @@ requires 'File::Find::Rule';
 # should not be in core
 # will separate these modules from core
 requires 'Term::ReadLine';
-requires 'Devel::EvalContext';
 requires 'JSON::XS';
 requires 'MIME::Types';
 
