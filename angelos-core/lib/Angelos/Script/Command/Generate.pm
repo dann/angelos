@@ -1,11 +1,10 @@
 package Angelos::Script::Command::Generate;
-use base qw(App::Cmd::Command);
-use Mouse;
+use strict;
+use warnings;
+use base qw(Angelos::Script::Command);
 use Module::Setup;
 use String::CamelCase qw(camelize);
 use Angelos::Exceptions;
-
-no Mouse;
 
 =head1 NAME
 

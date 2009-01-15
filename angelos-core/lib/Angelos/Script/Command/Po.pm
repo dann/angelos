@@ -1,5 +1,7 @@
 package Angelos::Script::Command::Po;
-use base qw(App::Cmd::Command);
+use strict;
+use warnings;
+use base qw(Angelos::Script::Command);
 use File::Copy ();
 use File::Path 'mkpath';
 use Locale::Maketext::Extract ();
@@ -7,12 +9,9 @@ use File::Find::Rule          ();
 use MIME::Types               ();
 use Angelos::Home;
 use Path::Class;
-use Mouse;
 use Angelos::Exceptions;
 use JSON::XS;
 use utf8;
-
-no Mouse;
 
 our $MIME      = MIME::Types->new();
 our $LMExtract = Locale::Maketext::Extract->new;

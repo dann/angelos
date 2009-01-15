@@ -1,9 +1,12 @@
 package Angelos::Script::Command::Manual;
-use base qw(App::Cmd::Command);
+use strict;
+use warnings;
+use base qw(Angelos::Script::Command);
 use Angelos::Exceptions;
 use Pod::Simple::Text;
 use Path::Class;
-use utf8;
+
+binmode STDIN,  ":utf8";
 binmode STDOUT, ":utf8";
 
 =head1 NAME
@@ -62,6 +65,7 @@ sub list_manual {
     }
 }
 
+my ($inc, @prefix);
 sub _find_manual_dir {
     my ( $self, $lang ) = @_;
     if ( !$inc ) {
@@ -78,10 +82,8 @@ sub _find_manual_dir {
 
     foreach my $dir ( $inc, @INC ) {
         foreach my $prefix (@prefix) {
-            foreach my $basename ( ucfirst( lc($topic) ), uc($topic) ) {
-                my $dir = dir( $dir, $prefix, $lang );
-                return $dir if -d $dir;
-            }
+            my $dir = dir( $dir, $prefix, $lang );
+            return $dir if -d $dir;
         }
     }
 }
@@ -106,8 +108,6 @@ sub show_manual {
 sub help_base {
     return "Angelos::Manual";
 }
-
-my ( $inc, @prefix );
 
 sub _find_topic {
     my ( $self, $topic, $lang ) = @_;

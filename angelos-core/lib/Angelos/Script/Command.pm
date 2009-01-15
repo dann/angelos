@@ -1,4 +1,4 @@
-package Angelos::CLI::Command;
+package Angelos::Script::Command;
 use strict;
 use warnings;
 use IPC::System::Simple;

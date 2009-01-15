@@ -1,9 +1,7 @@
 package Angelos::Script;
 use base qw(App::Cmd);
-use Angelos::Home;
 use Cwd;
-
-#Angelos::Home->set_home(getcwd);
+use IPC::System::Simple;
 
 1;
 

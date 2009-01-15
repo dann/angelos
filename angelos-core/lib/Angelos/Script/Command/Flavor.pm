@@ -1,9 +1,10 @@
 package Angelos::Script::Command::Flavor;
-use base qw(App::Cmd::Command);
+use strict;
+use warnings;
+use base qw(Angelos::Script::Command);
 use Path::Class;
 use String::CamelCase qw(camelize);
 use Angelos::Exceptions;
-use IPC::System::Simple qw(system capturex);
 
 =head1 NAME
 
@@ -59,7 +60,7 @@ sub pack_flavor {
     die "$flavor_path doesn't exist" unless -f $flavor_path;
     $flavor_path->remove;
     my $output
-        = capturex( "module-setup", "--pack", "$flavor_class", $flavor );
+        = $self->capture( "module-setup", "--pack", "$flavor_class", $flavor );
     my $fh = $flavor_path->openw;
     $fh->print($output);
     $fh->close;
@@ -69,7 +70,7 @@ sub unpack_flavor {
     my ( $self, $flavor ) = @_;
     local $ENV{MODULE_SETUP_DIR} = dir( $ENV{HOME}, '.angelos' );
     my $flavor_class = "+" . $self->to_flavor_class($flavor);
-    system( "module-setup", "--init", "--flavor-class=$flavor_class",
+    $self->system( "module-setup", "--init", "--flavor-class=$flavor_class",
         $flavor );
 }
 
