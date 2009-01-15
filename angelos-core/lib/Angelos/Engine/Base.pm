@@ -5,6 +5,8 @@ use HTTP::Engine;
 use Angelos::Home;
 use Angelos::Exceptions;
 
+with 'Angelos::Class::Loggable';
+
 has 'engine' => (
     is      => 'rw',
     isa     => 'HTTP::Engine',
@@ -32,11 +34,6 @@ has 'port' => (
 has 'server' => (
     is      => 'rw',
     default => 'ServerSimple',
-);
-
-has 'logger' => (
-    is      => 'rw',
-    handles => [qw(log)],
 );
 
 has 'debug' => (

@@ -69,7 +69,7 @@ sub DISPATCH {
     my $dispatch = $self->dispatcher->dispatch($req);
 
     unless ( $dispatch->has_matches ) {
-        $self->logger->log( level => 'info', message => "404 Not Found. path: " .$req->path );
+        $self->log( level => 'info', message => "404 Not Found. path: " .$req->path );
         $c->res->status(404);
         $c->res->body("404 Not Found. path:" . $req->path);
         return $c->res;
@@ -80,7 +80,7 @@ sub DISPATCH {
 
 sub HANDLE_EXCEPTION {
     my ( $self, $c, $error ) = @_;
-    $self->logger->log( level => 'error', message => $error );
+    $self->log( level => 'error', message => $error );
     $c->res->content_type('text/html; charset=utf-8');
     $c->res->status(500);
     $c->res->body( 'Internal Error:' . $error );

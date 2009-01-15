@@ -128,7 +128,7 @@ sub setup_engine {
 
 sub setup_logger {
     my $self = shift;
-    $self->engine->logger(Angelos::Logger->instance);
+    Angelos::Logger->instance;
 }
 
 sub setup_components {
