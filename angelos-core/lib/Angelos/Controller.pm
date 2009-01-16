@@ -59,6 +59,9 @@ sub add_after_filter {
 
 sub _do_action {
     my ( $self, $context, $action, $params ) = @_;
+
+    return if $context->finished; # already redirected
+
     $self->_call_filters( $self->before_filters, $context, $action, $params );
     $self->ACTION($context, $action, $params);
     $self->_call_filters( $self->after_filters, $context, $action, $params );

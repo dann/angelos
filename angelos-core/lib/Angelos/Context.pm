@@ -75,23 +75,8 @@ sub redirect {
         $status ||= 302;
         $self->response->headers->header( 'Location' => $location );
         $self->response->status($status);
-        $self->_send_http_headers( $self->response->headers );
         $self->finished(1);
     }
-}
-
-sub _send_http_header {
-    my $self    = shift;
-    my $headers = shift;
-    for my $key ( keys %$headers ) {
-        if ( ref $headers->{$key} eq 'ARRAY' ) {
-            print "$key: $_\n" for @{ $headers->{$key} };
-        }
-        else {
-            print "$key: ", $headers->{$key}, "\n";
-        }
-    }
-    print "\n";
 }
 
 __PACKAGE__->meta->make_immutable( inline_destructor => 1 );

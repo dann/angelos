@@ -11,7 +11,8 @@ sub index {
         level => 'debug',
         message => 'index method in Root controller',
     );
-    $c->res->body('HelloWorld');
+    #$c->redirect('http://www.google.co.jp');
+    #$c->res->body('HelloWorld');
 }
 
 sub tt {
