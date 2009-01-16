@@ -1,5 +1,5 @@
 package Angelos::Script::Command::Console;
-use Mouse;
+use Angelos::Class;
 use Angelos::Console;
 use base qw(Angelos::Script::Command);
 
@@ -42,9 +42,9 @@ sub run {
     $self->console->run;
 }
 
-no Mouse;
-__PACKAGE__->meta->make_immutable;
-1;
+__END_OF_CLASS__
+
+__END__
 
 =head1 AUTHOR
 

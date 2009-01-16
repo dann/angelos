@@ -1,5 +1,5 @@
 package Angelos::Engine;
-use Mouse;
+use Angelos::Class;
 use Carp         ();
 use Scalar::Util ();
 use HTTP::Engine::Response;
@@ -89,9 +89,8 @@ sub HANDLE_EXCEPTION {
     $c->res->body( 'Internal Error:' . $error );
 }
 
-__PACKAGE__->meta->make_immutable;
+__END_OF_CLASS__
 
-1;
 __END__
 
 =head1 NAME

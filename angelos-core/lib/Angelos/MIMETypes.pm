@@ -1,5 +1,5 @@
 package Angelos::MIMETypes;
-use Mouse;
+use Angelos::Class;
 
 has 'types' => (
     is      => 'rw',
@@ -21,8 +21,6 @@ has 'types' => (
     }
 );
 
-no Mouse;
-
 sub mime_type_of {
     my ( $self, $ext ) = @_;
     $self->types->{$ext} || 'text/plain';
@@ -33,6 +31,4 @@ sub add_type {
     $self->types->{$type} = $extension;
 }
 
-__PACKAGE__->meta->make_immutable;
-
-1;
+__END_OF_CLASS__

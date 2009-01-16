@@ -1,5 +1,5 @@
 package Angelos::Middleware::Unicode;
-use Mouse;
+use Angelos::Class;
 use utf8;
 
 no Mouse;
@@ -33,9 +33,8 @@ sub decode_params {
     }
 }
 
-__PACKAGE__->meta->make_immutable;
+__END_OF_CLASS__
 
-1;
 __END__
 
 =head1 NAME

@@ -1,5 +1,5 @@
 package Angelos::Console;
-use Mouse;
+use Angelos::Class;
 use Term::ReadLine;
 use Devel::EvalContext;
 with 'Angelos::Class::Pluggable';
@@ -22,8 +22,6 @@ has 'out_fh' => (
     lazy     => 1,
     default  => sub { shift->term->OUT || \*STDOUT; }
 );
-
-no Mouse;
 
 sub run {
     my ($self) = @_;
@@ -108,6 +106,4 @@ sub print {
     print $fh "\n" if $self->term->ReadLine =~ /Gnu/;
 }
 
-__PACKAGE__->meta->make_immutable;
-
-1;
+__END_OF_CLASS__

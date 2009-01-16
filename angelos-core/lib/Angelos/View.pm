@@ -1,5 +1,5 @@
 package Angelos::View;
-use Mouse;
+use Angelos::Class;
 use Angelos::Home;
 use Angelos::MIMETypes;
 use Path::Class qw(file dir);
@@ -42,8 +42,6 @@ sub BUILD {
     my $template_engine = $self->_build_engine;
     $self->engine($template_engine) if $template_engine;
 }
-
-no Mouse;
 
 sub SETUP { }
 
@@ -155,9 +153,7 @@ sub _content_type {
     $self->types->mime_type_of($format);
 }
 
-__PACKAGE__->meta->make_immutable;
-
-1;
+__END_OF_CLASS__
 
 __END__
 

@@ -1,5 +1,5 @@
 package Angelos::View::TT;
-use Mouse;
+use Angelos::Class;
 use Template;
 use Angelos::Home;
 use Path::Class;
@@ -34,8 +34,6 @@ has 'TIMER' => (
     isa => 'Str',
 );
 
-no Mouse;
-
 sub _build_engine {
     my $self = shift;
     my $include_path ||= $self->INCLUDE_PATH;
@@ -62,6 +60,5 @@ sub _render {
     $out;
 }
 
-__PACKAGE__->meta->make_immutable;
+__END_OF_CLASS__
 
-1;

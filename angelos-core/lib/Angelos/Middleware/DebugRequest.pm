@@ -1,5 +1,5 @@
 package Angelos::Middleware::DebugRequest;
-use Mouse;
+use Angelos::Class;
 use Text::SimpleTable;
 extends 'Angelos::Middleware';
 
@@ -67,6 +67,4 @@ sub report_matching_info {
     $self->log( level => 'info', message => $message );
 }
 
-__PACKAGE__->meta->make_immutable;
-
-1;
+__END_OF_CLASS__

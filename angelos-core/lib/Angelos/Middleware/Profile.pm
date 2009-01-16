@@ -1,9 +1,7 @@
 package Angelos::Middleware::Profile;
-use Mouse;
+use Angelos::Class;
 use Time::HiRes qw(time);
 extends 'Angelos::Middleware';
-
-no Mouse;
 
 sub wrap {
     my ( $self, $next ) = @_;
@@ -26,9 +24,8 @@ sub profile {
     $result;
 }
 
-__PACKAGE__->meta->make_immutable;
+__END_OF_CLASS__
 
-1;
 __END__
 
 =head1 NAME

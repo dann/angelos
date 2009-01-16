@@ -1,5 +1,5 @@
 package Angelos::Context;
-use Mouse;
+use Angelos::Class;
 use Carp ();
 
 with 'Angelos::Class::Pluggable';
@@ -79,9 +79,8 @@ sub redirect {
     }
 }
 
-__PACKAGE__->meta->make_immutable( inline_destructor => 1 );
+__END_OF_CLASS__
 
-1;
 __END__
 
 =head1 NAME

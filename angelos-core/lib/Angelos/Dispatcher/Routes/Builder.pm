@@ -1,12 +1,10 @@
 package Angelos::Dispatcher::Routes::Builder;
-use Mouse;
+use Angelos::Class;
 use Angelos::Config;
 use HTTP::Router;
 use Angelos::Exceptions;
 
 with 'Angelos::Class::Configurable';
-
-no Mouse;
 
 sub build_from_config {
     my $self      = shift;
@@ -29,6 +27,4 @@ sub build {
     \@routeset;
 }
 
-__PACKAGE__->meta->make_immutable;
-
-1;
+__END_OF_CLASS__

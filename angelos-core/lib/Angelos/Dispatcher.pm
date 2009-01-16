@@ -1,5 +1,5 @@
 package Angelos::Dispatcher;
-use Mouse;
+use Angelos::Class;
 use Angelos::Dispatcher::Dispatch;
 use HTTP::Router;
 
@@ -10,8 +10,6 @@ has 'router' => (
     },
     handles => [qw(uri_for)],
 );
-
-no Mouse;
 
 sub dispatch_class {
     'Angelos::Dispatcher::Dispatch';
@@ -29,9 +27,8 @@ sub set_routeset {
     $self->router->routeset($routeset);
 }
 
-__PACKAGE__->meta->make_immutable;
+__END_OF_CLASS__
 
-1;
 __END__
 
 =head1 NAME

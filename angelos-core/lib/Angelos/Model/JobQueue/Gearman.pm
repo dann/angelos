@@ -1,9 +1,5 @@
 package Angelos::Model::JobQueue::Gearman;
-use Mouse;
+use Angelos::Class;
 extends 'Angelos::JobQueue::Gearman::Client';
 
-no Mouse;
-
-__PACKAGE__->meta->make_immutable;
-
-1;
+__END_OF_CLASS__

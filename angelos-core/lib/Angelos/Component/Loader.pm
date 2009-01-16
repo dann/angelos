@@ -1,5 +1,5 @@
 package Angelos::Component::Loader;
-use Mouse;
+use Angelos::Class;
 use Module::Pluggable::Object;
 use Angelos::Utils;
 use Devel::InnerPackage;
@@ -13,8 +13,6 @@ has 'components' => (
 );
 
 with 'Angelos::Class::Configurable';
-
-no Mouse;
 
 sub load_components {
     my ( $self, $class ) = @_;
@@ -136,6 +134,4 @@ sub _application_class {
     Angelos::Config->application_class;
 }
 
-__PACKAGE__->meta->make_immutable;
-
-1;
+__END_OF_CLASS__

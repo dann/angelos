@@ -1,5 +1,5 @@
 package Angelos::Script::Server;
-use Mouse;
+use Angelos::Class;
 use Pod::Usage;
 use UNIVERSAL::require;
 use Angelos::Home;
@@ -49,8 +49,6 @@ has 'help' => (
     default => 0
 );
 
-no Mouse;
-
 sub run {
     my $self = shift;
     if ( $self->help ) {
@@ -69,9 +67,7 @@ sub run {
     $app->run;
 }
 
-__PACKAGE__->meta->make_immutable;
-
-1;
+__END_OF_CLASS__
 
 __END__
 

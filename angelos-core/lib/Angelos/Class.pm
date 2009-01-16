@@ -19,9 +19,9 @@ sub import {
     return if $caller eq 'main';
 
     no strict 'refs';
-    *{"$caller\::__END_CLASS__"} = sub {
+    *{"$caller\::__END_OF_CLASS__"} = sub {
         my $caller = caller(0);
-        __END_CLASS__($caller);
+        __END_OF_CLASS__($caller);
     };
 
     strict->import;
@@ -32,7 +32,7 @@ sub import {
     Mouse->export_to_level(1);
 }
 
-sub __END_CLASS__ {
+sub __END_OF_CLASS__ {
     my ( $caller, ) = @_;
 
     Mouse::unimport;

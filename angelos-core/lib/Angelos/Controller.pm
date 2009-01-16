@@ -1,5 +1,5 @@
 package Angelos::Controller;
-use Mouse;
+use Angelos::Class;
 use Carp ();
 use Angelos::Exceptions;
 
@@ -24,8 +24,6 @@ has 'after_filters' => (
         [];
     }
 );
-
-no Mouse;
 
 sub SETUP {}
 
@@ -72,9 +70,8 @@ sub ACTION {
     $self->$action( $context, $params );
 }
 
-__PACKAGE__->meta->make_immutable;
+__END_OF_CLASS__
 
-1;
 __END__
 
 =head1 NAME

@@ -40,8 +40,8 @@ has 'host' => (
 );
 
 has 'port' => (
-    is  => 'rw',
-    isa => 'Int',
+    is      => 'rw',
+    isa     => 'Int',
     default => 3000,
 );
 
@@ -105,9 +105,7 @@ sub setup_debug_plugins {
 
 sub setup_home {
     my $self = shift;
-    my $home = Angelos::Home->home(ref $self);
-#    my $home = Angelos::Home->guess_home( ref $self );
-#    Angelos::Home->set_home($home) if -d $home;
+    my $home = Angelos::Home->home( ref $self );
     return $home;
 }
 
@@ -120,8 +118,7 @@ sub setup_engine {
         server => $self->server,
         conf   => $self->conf,
     );
-    $engine->load_plugin( $_->{module} )
-        for $self->config->plugins('engine');
+    $engine->load_plugin( $_->{module} ) for $self->config->plugins('engine');
     $self->engine($engine);
     $engine;
 }
@@ -169,7 +166,7 @@ sub is_debug {
     return $is_debug;
 }
 
-__END_CLASS__
+__END_OF_CLASS__
 
 __END__
 
@@ -181,9 +178,9 @@ Angelos -
 
 
   package MyApp;
-  use Mouse;
+  use Angelos::Class;
   extends 'Angelos';
-  1;
+  __END_OF_CLASS__
 
   use MyApp;
   my $app = MyApp->new;

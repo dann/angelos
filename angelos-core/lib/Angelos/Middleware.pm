@@ -1,9 +1,8 @@
 package Angelos::Middleware;
-use Mouse;
+use Angelos::Class;
 use Angelos::Exceptions;
 with 'Angelos::Class::Loggable';
 
-no Mouse;
 
 sub wrap {
     my ( $self, $next ) = @_;
@@ -11,9 +10,8 @@ sub wrap {
         message => 'Sub class must implement wrap method');
 }
 
-__PACKAGE__->meta->make_immutable;
+__END_OF_CLASS__
 
-1;
 __END__
 
 =head1 NAME
