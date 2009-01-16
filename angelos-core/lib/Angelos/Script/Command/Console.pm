@@ -54,8 +54,14 @@ Creates a new console process.
 
 sub run {
     my $self = shift;
+    $self->setup_plugins;
     $self->show_banner;
     $self->run_loop;
+}
+
+sub setup_plugins {
+    my $self = shift;
+    $self->load_plugin('History');
 }
 
 sub run_loop {
@@ -138,17 +144,15 @@ sub eval {
 }
 
 sub compile {
-    my ( $self, @args ) = @_;
-    my $compiled = eval $self->wrap_as_sub(@args);
+    my ( $self, $line ) = @_;
+    my $compiled = eval $self->wrap($line);
     return $self->error_return( "Compile error", $@ ) if $@;
     return $compiled;
 }
 
-sub wrap_as_sub {
-    my ( $self, $line, %args ) = @_;
-    return qq!sub {\n!
-        . ( $args{no_mangling} ? $line : $self->mangle_line($line) )
-        . qq!\n}\n!;
+sub wrap {
+    my ( $self, $line ) = @_;
+    $line;
 }
 
 sub mangle_line {

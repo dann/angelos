@@ -1,7 +1,7 @@
 package Angelos;
 use 5.00800;
 our $VERSION = '0.01';
-use Mouse;
+use Angelos::Class;
 use Angelos::Engine;
 use Angelos::Utils;
 use Angelos::Home;
@@ -169,9 +169,8 @@ sub is_debug {
     return $is_debug;
 }
 
-__PACKAGE__->meta->make_immutable;
+__END_CLASS__
 
-1;
 __END__
 
 =head1 NAME
