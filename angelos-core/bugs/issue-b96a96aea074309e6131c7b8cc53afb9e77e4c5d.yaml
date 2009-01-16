@@ -1,0 +1,18 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: "visit\xE3\x81\xAE\xE5\xAE\x9F\xE8\xA3\x85"
+desc: ""
+type: :task
+component: angelos
+release: 
+reporter: dann <techmemo@gmail.com>
+status: :unstarted
+disposition: 
+creation_time: 2009-01-16 09:58:12.664592 Z
+references: []
+
+id: b96a96aea074309e6131c7b8cc53afb9e77e4c5d
+log_events: 
+- - 2009-01-16 09:58:13.101735 Z
+  - dann <techmemo@gmail.com>
+  - created
+  - ""
