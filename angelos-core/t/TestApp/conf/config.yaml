@@ -3,12 +3,12 @@ components:
   controller:
     - module: A
 
-plugins:
-  engine:
-   - module: Session
-  controller:
-   - module: ActionProfiler
+#plugins:
+#  engine:
+#   - module: Session
+#  controller:
+#   - module: ActionProfiler
 
-middlewares:
-  - module: Angelos::Middleware::DebugRequest
-  - module: Angelos::Middleware::Unicode
+#middlewares:
+#  - module: Angelos::Middleware::DebugRequest
+#  - module: Angelos::Middleware::Unicode

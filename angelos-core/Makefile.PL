@@ -63,6 +63,9 @@ requires 'IPC::System::Simple';
 requires 'App::Cmd';
 requires 'Module::Setup';
 requires 'FindBin::libs';
+requires 'File::Slurp';
+requires 'File::HomeDir';
+requires 'Devel::EvalContext';
 
 # debug
 requires 'Devel::MemUsed';

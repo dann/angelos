@@ -1,10 +1,10 @@
-package Angelos::Script::Command::Console::Plugin::History;
+package Angelos::Console::Plugin::History;
 use Mouse::Role;
 use File::Slurp;
 use Path::Class;
 use File::HomeDir;
 
-around 'run_loop' => sub {
+around 'run' => sub {
     my $orig = shift;
     my ( $self, @args ) = @_;
     $self->read_history;
