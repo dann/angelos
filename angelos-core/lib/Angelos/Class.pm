@@ -28,15 +28,15 @@ sub import {
     warnings->import;
 
     init_class($caller);
-    Mouse::unimport;
+
     Mouse->export_to_level(1);
 }
 
 sub __END_CLASS__ {
     my ( $caller, ) = @_;
 
+    Mouse::unimport;
     $caller->meta->make_immutable( inline_destructor => 1 );
-
     "END_OF_CLASS";
 }
 
