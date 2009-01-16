@@ -1,9 +1,8 @@
 package Angelos::I18N;
 use strict;
 use warnings;
-use base 'Exporter';
-use Angelos::Config;
 use Angelos::Home;
+use base 'Class::Singleton';
 
 =head1 NAME
  
@@ -11,8 +10,8 @@ Angelos::I18N - Provides internationalization function
 
 =head1 SYNOPSIS
  
-  Angelos::I18N->loc_lang('ja'),
-  Angelos::I18N->loc('Hello'),
+  Angelos::I18N->instance->loc_lang('ja'),
+  Angelos::I18N->instance->loc('Hello'),
  
 =head1 Methods
  
@@ -33,30 +32,35 @@ The .po files are kept in conf/locales.
  
 =cut
 
-our $LOC;
-our $LOC_LANG;
+sub _new_instance {
+    my $class = shift;
+    my $self = bless {}, $class;
+
+    require Locale::Maketext::Simple;
+    my $config = {
+        Path     => Angelos::Home->path_to( 'share', 'po' ),
+        Style    => 'maketext',
+        Export   => 'loc',
+        Subclass => 'I18N',
+    };
+    my ( $loc, $loc_lang ) = Locale::Maketext::Simple->load_loc(%$config);
+    $loc ||= Locale::Maketext::Simple->default_loc(%$config);
+    $self->{loc}      = $loc;
+    $self->{loc_lang} = $loc_lang;
+
+    return $self;
+}
 
 sub loc {
-    my ($class, $message, $arg) = @_;
-    $class->initialize unless $LOC;
-    $LOC->($message, $arg);
+    my ( $self, $message, $arg ) = @_;
+    my $loc = $self->{loc};
+    $loc->( $message, $arg );
 }
 
 sub loc_lang {
-    my ($class, $lang) = @_;
-    $class->initialize unless $LOC_LANG;
-    $LOC_LANG->($lang);
-}
-
-sub initialize {
-    my %args = ();
-    require Locale::Maketext::Simple;
-    $args{Path}     ||=  Angelos::Home->path_to( 'share', 'po' );
-    $args{Style}    ||= 'maketext';
-    $args{Export}   ||= 'loc';
-    $args{Subclass} ||= 'I18N';
-    ($LOC, $LOC_LANG) = Locale::Maketext::Simple->load_loc(%args);
-    $LOC ||=  Locale::Maketext::Simple->default_loc(%args);
+    my ( $self, $lang ) = @_;
+    my $loc_lang = $self->{loc_lang};
+    $loc_lang->($lang);
 }
 
 1;
