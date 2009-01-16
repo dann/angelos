@@ -1,0 +1,18 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: "redirect_to action (redirect\xE3\x83\xA1\xE3\x82\xBD\xE3\x83\x83\xE3\x83\x89\xE3\x81\xA8\xE3\x82\xA4\xE3\x83\xB3\xE3\x82\xBF\xE3\x83\xBC\xE3\x83\x95\xE3\x82\xA7\xE3\x83\xBC\xE3\x82\xB9\xE6\xA4\x9C\xE8\xA8\x8E)"
+desc: ""
+type: :task
+component: angelos
+release: "0.01"
+reporter: dann <techmemo@gmail.com>
+status: :unstarted
+disposition: 
+creation_time: 2009-01-16 09:12:43.644852 Z
+references: []
+
+id: 0e3246e2bca88755a35c41acb44181c2baa5d8d7
+log_events: 
+- - 2009-01-16 09:12:44.099520 Z
+  - dann <techmemo@gmail.com>
+  - created
+  - ""

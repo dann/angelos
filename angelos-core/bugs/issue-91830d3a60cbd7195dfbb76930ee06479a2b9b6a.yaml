@@ -5,8 +5,8 @@ type: :task
 component: angelos
 release: "0.01"
 reporter: dann <techmemo@gmail.com>
-status: :unstarted
-disposition: 
+status: :closed
+disposition: :fixed
 creation_time: 2009-01-15 15:57:10.773526 Z
 references: []
 
@@ -15,4 +15,8 @@ log_events:
 - - 2009-01-15 15:57:12.717805 Z
   - dann <techmemo@gmail.com>
   - created
+  - ""
+- - 2009-01-16 09:02:27.237597 Z
+  - dann <techmemo@gmail.com>
+  - closed with disposition fixed
   - ""
