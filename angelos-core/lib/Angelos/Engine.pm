@@ -69,9 +69,12 @@ sub DISPATCH {
     my $dispatch = $self->dispatcher->dispatch($req);
 
     unless ( $dispatch->has_matches ) {
-        $self->log( level => 'info', message => "404 Not Found. path: " .$req->path );
+        $self->log(
+            level   => 'info',
+            message => "404 Not Found. path: " . $req->path
+        );
         $c->res->status(404);
-        $c->res->body("404 Not Found. path:" . $req->path);
+        $c->res->body("404 Not Found.");
         return $c->res;
     }
     $dispatch->run($c);

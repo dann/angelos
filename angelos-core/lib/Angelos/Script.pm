@@ -1,7 +1,5 @@
 package Angelos::Script;
 use base qw(App::Cmd);
-use Cwd;
-use IPC::System::Simple;
 
 1;
 
