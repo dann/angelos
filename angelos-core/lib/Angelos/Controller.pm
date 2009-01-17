@@ -104,6 +104,7 @@ __END__
 =head1 AUTHOR
 
 Takatoshi Kitano E<lt>kitano.tk@gmail.comE<gt>
+vkgtaro
 
 =head1 SEE ALSO
 
