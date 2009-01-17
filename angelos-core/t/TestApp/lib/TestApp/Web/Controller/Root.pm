@@ -1,5 +1,5 @@
 package TestApp::Web::Controller::Root;
-use Mouse;
+use Angelos::Class;
 use Angelos::Utils;
 extends 'Angelos::Controller';
 
@@ -25,6 +25,14 @@ sub japanese {
     warn $self->loc('Hello') . "\n";
 }
 
-__PACKAGE__->meta->make_immutable;
+sub forward {
+    my ($self, $c, $params) = @_;
+    $c->forward(controller => 'Books', action => 'index');
+}
 
-1;
+sub detach {
+    my ($self, $c, $params) = @_;
+    $c->detach(controller => 'Books', action => 'index');
+}
+
+__END_OF_CLASS__

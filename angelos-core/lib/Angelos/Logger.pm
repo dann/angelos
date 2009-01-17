@@ -4,20 +4,25 @@ use warnings;
 use Log::Dispatch::Config;
 use Log::Dispatch::Configurator::YAML;
 use Angelos::Config;
+use base 'Class::Singleton';
 
-our $LOGGER;
-
-sub instance {
-    my $class   = shift;
-    return $LOGGER if $LOGGER;
-    my $config = Log::Dispatch::Configurator::YAML->new($class->_logger_conf_path);
+sub _new_instance {
+    my $class = shift;
+    my $self = bless {}, $class;
+    my $config
+        = Log::Dispatch::Configurator::YAML->new( $self->_logger_conf_path );
     Log::Dispatch::Config->configure($config);
-    $LOGGER = Log::Dispatch::Config->instance();
-    $LOGGER;
+    $self->{logger} = Log::Dispatch::Config->instance();
+    return $self;
+}
+
+sub log {
+    my ( $self, %log ) = @_;
+    $log{level} ||= 'debug';
+    $self->{logger}->log(%log);
 }
 
 sub _logger_conf_path {
-    my $class = shift;
     Angelos::Config->logger_conf_path;
 }
 

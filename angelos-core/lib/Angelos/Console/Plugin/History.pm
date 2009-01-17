@@ -1,5 +1,5 @@
 package Angelos::Console::Plugin::History;
-use Mouse::Role;
+use Angelos::Plugin;
 use File::Slurp;
 use Path::Class;
 use File::HomeDir;

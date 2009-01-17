@@ -8,6 +8,7 @@ use Angelos::Context;
 use Angelos::Component::Loader;
 use Angelos::Middleware::Builder;
 use Angelos::Exceptions;
+use Exception::Class;
 extends 'Angelos::Engine::Base';
 
 with 'Angelos::Class::Pluggable';
@@ -31,8 +32,6 @@ has 'component_loader' => (
         'view'       => 'search_view',
     }
 );
-
-no Mouse;
 
 sub build_request_handler {
     my $self            = shift;
@@ -58,7 +57,7 @@ sub handle_request {
     );
 
     eval { $self->DISPATCH( $c, $req ); };
-    if ( my $e = $@ ) {
+    if ( my $e = Exception::Class->caught() ) {
         $self->HANDLE_EXCEPTION( $c, $e );
     }
     return $c->res;

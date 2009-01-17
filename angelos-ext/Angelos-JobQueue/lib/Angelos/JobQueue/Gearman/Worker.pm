@@ -1,5 +1,5 @@
 package Angelos::JobQueue::Gearman::Worker;
-use Mouse;
+use Angelos::Class;
 use Gearman::Worker;
 use Storable qw(thaw);
 
@@ -15,8 +15,6 @@ has 'worker' => (
         return Gearman::Worker->new;
     }
 );
-
-no Mouse;
 
 sub BUILD {
     my $self = shift;
@@ -41,6 +39,4 @@ sub run {
     $self->worker->work while 1;
 }
 
-__PACKAGE__->meta->make_immutable;
-
-1;
+__END_OF_CLASS__

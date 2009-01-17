@@ -59,6 +59,12 @@ BEGIN {
             description => 'Component (MVC) not found'
         },
 
+        'Angelos::Exception::Detach' => {
+            isa         => 'Angelos::Exception',
+            alias       => 'detach',
+            description => 'detach'
+        },
+
     );
 }
 

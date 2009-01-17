@@ -17,6 +17,10 @@ test_tcp(
         my $port = shift;
         my $ua   = LWP::UserAgent->new;
         $ua->get("http://localhost:$port/");
+
+        $ua->get("http://localhost:$port/forward");
+
+        $ua->get("http://localhost:$port/detach");
     },
     server => sub {
         my $port = shift;

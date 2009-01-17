@@ -2,6 +2,7 @@ package Angelos::Controller;
 use Angelos::Class;
 use Carp ();
 use Angelos::Exceptions;
+use Exception::Class;
 
 with( 'Angelos::Component', );
 
@@ -25,7 +26,7 @@ has 'after_filters' => (
     }
 );
 
-sub SETUP {}
+sub SETUP { }
 
 sub _call_filters {
     my ( $self, $filters, $context, $action, $params ) = @_;
@@ -43,14 +44,16 @@ sub _call_filters {
 
 sub add_before_filter {
     my ( $self, $filter ) = @_;
-    Angelos::Exception::InvalidArgumentError->throw(message => "name key is required")
+    Angelos::Exception::InvalidArgumentError->throw(
+        message => "name key is required" )
         unless $filter->{name};
     push @{ $self->before_filters }, $filter;
 }
 
 sub add_after_filter {
     my ( $self, $filter ) = @_;
-    Angelos::Exception::InvalidArgumentError->throw(message => "name key is required")
+    Angelos::Exception::InvalidArgumentError->throw(
+        message => "name key is required" )
         unless $filter->{name};
     push @{ $self->after_filters }, $filter;
 }
@@ -58,15 +61,26 @@ sub add_after_filter {
 sub _do_action {
     my ( $self, $context, $action, $params ) = @_;
 
-    return if $context->finished; # already redirected
+    return if $context->finished;    # already redirected
 
     $self->_call_filters( $self->before_filters, $context, $action, $params );
-    $self->ACTION($context, $action, $params);
+
+    eval { $self->ACTION( $context, $action, $params ); };
+    my $e;
+    if ( $e = Exception::Class->caught('Angelos::Exception::Detach') ) {
+        $self->log->( level => 'info', message => "Detached" );
+    }
+    else {
+        $e = Exception::Class->caught();
+        $self->log->( level => 'error', message => $e );
+        $e->rethrow;
+    }
+
     $self->_call_filters( $self->after_filters, $context, $action, $params );
 }
 
 sub ACTION {
-    my ($self, $context, $action, $params) = @_; 
+    my ( $self, $context, $action, $params ) = @_;
     $self->$action( $context, $params );
 }
 

@@ -1,6 +1,8 @@
 package Angelos::Context;
 use Angelos::Class;
-use Carp ();
+use Angelos::Exceptions;
+use Angelos::Utils;
+use Params::Validate qw(SCALAR HASHREF);
 
 with 'Angelos::Class::Pluggable';
 
@@ -45,8 +47,6 @@ has 'session' => (
     isa => 'HTTP::Session',
 );
 
-no Mouse;
-
 sub req {
     shift->request;
 }
@@ -58,7 +58,10 @@ sub res {
 sub view {
     my ( $self, $view ) = @_;
     my $v = $self->app->view($view);
-    Carp::croak "view $view doesn't exist" unless $v;
+    Angelos::Exception::ComponentNotFound->throw(
+        level   => 'error',
+        message => "view $view doesn't exist"
+    ) unless $v;
     $v->context($self);
     $v;
 }
@@ -68,7 +71,8 @@ sub action {
     $self->_match->params->{action};
 }
 
-# TODO: should I extend HTTP::Engine::Response?
+# redirect_to( action => $action) ?
+# redirect_to( url => $url) ?
 sub redirect {
     my ( $self, $location, $status ) = @_;
     unless ( $self->finished ) {
@@ -77,6 +81,58 @@ sub redirect {
         $self->response->status($status);
         $self->finished(1);
     }
+}
+
+# forward(action=> $action)
+# forward(controller=> $controller, action => 'index', params=> aaa)
+sub forward {
+    my $self       = shift;
+    my %forward_to = Params::Validate::validate(
+        @_,
+        {   action => 1,    # required
+            controller => { type => SCALAR },
+            #params     => { type => HASHREF },
+        }
+    );
+    my $controller ||= $forward_to{controller};
+    $controller    ||= caller;
+    my $short_controller_name
+        = Angelos::Utils::class2classsuffix($controller);
+    my $controller_instance = $self->app->controller($short_controller_name);
+    my $action              = $forward_to{action};
+    my $params              = $forward_to{params};
+    $controller_instance->$action( $self, $self->request, $params );
+}
+
+sub forward_with_filters {
+    my $self       = shift;
+    my %forward_to = Params::Validate::validate(
+        @_,
+        {   action => 1,    # required
+            controller => { type => SCALAR },
+            #params     => { type => HASHREF },
+        }
+    );
+    my $controller ||= $forward_to{controller};
+    $controller    ||= caller;
+    my $short_controller_name
+        = Angelos::Utils::class2classsuffix($controller);
+    my $controller_instance = $self->app->controller($short_controller_name);
+    my $action              = $forward_to{action};
+    my $params              = $forward_to{params};
+    $controller_instance->_do_action( $self, $action, $params );
+}
+
+sub detach {
+    my ( $self, %forward_to ) = @_;
+    $self->forward(%forward_to);
+    Angelos::Exception::Detach->throw( message => 'detached' );
+}
+
+sub detach_with_filter {
+    my ( $self, %forward_to ) = @_;
+    $self->forward_with_filters(%forward_to);
+    Angelos::Exception::Detach->throw( message => 'detached' );
 }
 
 __END_OF_CLASS__

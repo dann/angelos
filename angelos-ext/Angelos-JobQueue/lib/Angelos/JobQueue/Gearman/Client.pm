@@ -1,5 +1,5 @@
 package Angelos::JobQueue::Gearman::Client;
-use Mouse;
+use Angelos::Class;
 use Gearman::Client;
 use Storable qw( freeze );
 
@@ -16,8 +16,6 @@ has 'client' => (
         $client;
     }
 );
-
-no Mouse;
 
 sub BUILD {
     my $self = shift;
@@ -56,7 +54,6 @@ sub add_task {
     $self->client->dispatch_background($gtask);
 }
 
-__PACKAGE__->meta->make_immutable;
+__END_OF_CLASS__
 
-1;
-
+__END__

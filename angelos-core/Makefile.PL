@@ -43,6 +43,7 @@ requires 'Exception::Class';
 requires 'File::Spec';
 requires 'IO::Pager';
 requires 'Class::Singleton';
+requires 'Params::Validate';
 
 # components
 requires 'Template';
@@ -68,7 +69,6 @@ requires 'File::HomeDir';
 requires 'Devel::EvalContext';
 
 # debug
-requires 'Devel::MemUsed';
 requires 'Text::SimpleTable';
 requires 'File::Find::Rule';
 

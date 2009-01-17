@@ -1,5 +1,5 @@
 package Angelos::JobQueue::Gearman::Task;
-use Mouse;
+use Angelos::Class;
 use String::CamelCase qw(decamelize);
 use Angelos::Exceptions;
 
@@ -44,4 +44,4 @@ sub on_complete {
 sub on_retry {
 }
 
-1;
+__END_OF_CLASS__
