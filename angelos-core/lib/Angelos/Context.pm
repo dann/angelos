@@ -10,7 +10,7 @@ has 'app' => (
     is       => 'rw',
     isa      => 'Angelos::Engine',
     required => 1,
-    handles  => [qw(controller)],
+    handles  => [qw(controller model)],
 );
 
 has 'request' => (
