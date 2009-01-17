@@ -3,6 +3,7 @@ use Angelos::Plugin;
 
 after 'SETUP' => sub {
     my $self = shift;
+    warn $self->is_plugin_loaded('DebugHook');
     $self->log(
         level   => 'info',
         message => "SETUP: class=" . ref $self,
