@@ -6,6 +6,8 @@ use Log::Dispatch::Configurator::YAML;
 use Angelos::Config;
 use base 'Class::Singleton';
 
+$Log::Dispatch::Config::CallerDepth = 2;
+
 sub _new_instance {
     my $class = shift;
     my $self = bless {}, $class;
