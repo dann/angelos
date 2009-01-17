@@ -176,10 +176,10 @@ Angelos -
 
 =head1 SYNOPSIS
 
-
   package MyApp;
   use Angelos::Class;
   extends 'Angelos';
+
   __END_OF_CLASS__
 
   use MyApp;
@@ -197,6 +197,14 @@ Angelos is yet another web application framework
 =head1 AUTHOR
 
 Takatoshi Kitano E<lt>kitano.tk@gmail.comE<gt>
+
+=head1 CONTRIBUTORS
+
+Many people have contributed ideas, inspiration, fixes and features to
+the Angelos.  Their efforts continue to be very much appreciated.
+Please let me know if you think anyone is missing from this list.
+
+Lyo Kato, Tomyhero Teranishi, vkgtaro, hideden, bonnu
 
 =head1 SEE ALSO
 
