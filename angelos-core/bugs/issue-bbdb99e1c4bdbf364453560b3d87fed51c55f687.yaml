@@ -1,0 +1,18 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: "Angelos::Plugin\xE3\x81\xA7\xE8\x87\xAA\xE5\x8B\x95\xE3\x81\xA7with 'Angelos::Class::XXX'\xE3\x82\x92\xE3\x81\x99\xE3\x82\x8B\xE3\x82\x88\xE3\x81\x86\xE3\x81\xAB\xE3\x81\x99\xE3\x82\x8B"
+desc: ""
+type: :task
+component: angelos
+release: 
+reporter: dann <techmemo@gmail.com>
+status: :unstarted
+disposition: 
+creation_time: 2009-01-17 12:11:10.814216 Z
+references: []
+
+id: bbdb99e1c4bdbf364453560b3d87fed51c55f687
+log_events: 
+- - 2009-01-17 12:11:15.106161 Z
+  - dann <techmemo@gmail.com>
+  - created
+  - ""

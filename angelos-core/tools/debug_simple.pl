@@ -6,7 +6,7 @@ use Test::TCP;
 use TestApp;
 use HTTP::Engine;
 use LWP::UserAgent;
-use Carp::Always;
+#use Carp::Always;
 
 my $module = shift || 'ServerSimple';
 my $port = shift || empty_port();

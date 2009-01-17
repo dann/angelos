@@ -1,0 +1,18 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: "Plugin\xE3\x81\xAEconfig\xE3\x82\x92config/plugins/formvalidator/config.yaml \xE3\x81\xAA\xE3\x81\xA9\xE3\x81\xA7\xE3\x81\x8B\xE3\x81\x91\xE3\x82\x8B\xE3\x82\x88\xE3\x81\x86\xE3\x81\xAB\xE3\x81\x99\xE3\x82\x8B"
+desc: ""
+type: :task
+component: angelos
+release: "0.01"
+reporter: dann <techmemo@gmail.com>
+status: :unstarted
+disposition: 
+creation_time: 2009-01-17 12:07:18.236198 Z
+references: []
+
+id: 08250350b2cebbd13ed1dc6f4ffc8d363aecf6c5
+log_events: 
+- - 2009-01-17 12:07:18.748384 Z
+  - dann <techmemo@gmail.com>
+  - created
+  - ""
