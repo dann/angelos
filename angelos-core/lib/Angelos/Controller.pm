@@ -64,18 +64,18 @@ sub _do_action {
     return if $context->finished;    # already redirected
 
     $self->_call_filters( $self->before_filters, $context, $action, $params );
-    #eval { 
+    eval { 
         $self->ACTION( $context, $action, $params );
-        #};
-    #my $e;
-    #if ( $e = Exception::Class->caught('Angelos::Exception::Detach') ) {
-    #    $self->log( level => 'info', message => "Detached" );
-    #}
-    #else {
-    #    $e = Exception::Class->caught();
-    #    $self->log( level => 'error', message => $e );
-    #    rethrow_exception($e);
-    #}
+    };
+
+    my $e;
+    if ( $e = Exception::Class->caught('Angelos::Exception::Detach') ) {
+        $self->log( level => 'info', message => "Detached" );
+    }
+    elsif ( $e = Exception::Class->caught() ) {
+        $self->log( level => 'error', message => $e );
+        rethrow_exception($e);
+    }
 
     $self->_call_filters( $self->after_filters, $context, $action, $params );
 }

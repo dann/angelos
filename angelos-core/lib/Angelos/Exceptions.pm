@@ -16,7 +16,6 @@ BEGIN {
             alias       => 'abstract_error',
             description => 'This method is Abstract'
         },
-
         'Angelos::Exception::UnimplementedMethod' => {
             isa         => 'Angelos::Exception',
             alias       => 'unimplemented_error',
