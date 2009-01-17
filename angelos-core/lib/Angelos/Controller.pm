@@ -1,7 +1,7 @@
 package Angelos::Controller;
 use Angelos::Class;
 use Carp ();
-use Angelos::Exceptions;
+use Angelos::Exceptions qw(rethrow_exception);
 use Exception::Class;
 
 with( 'Angelos::Component', );
@@ -64,16 +64,17 @@ sub _do_action {
     return if $context->finished;    # already redirected
 
     $self->_call_filters( $self->before_filters, $context, $action, $params );
-
-    eval { $self->ACTION( $context, $action, $params ); };
+    eval { 
+        $self->ACTION( $context, $action, $params );
+    };
     my $e;
     if ( $e = Exception::Class->caught('Angelos::Exception::Detach') ) {
-        $self->log->( level => 'info', message => "Detached" );
+        $self->log( level => 'info', message => "Detached" );
     }
     else {
         $e = Exception::Class->caught();
-        $self->log->( level => 'error', message => $e );
-        $e->rethrow;
+        $self->log( level => 'error', message => $e );
+        rethrow_exception($e);
     }
 
     $self->_call_filters( $self->after_filters, $context, $action, $params );
