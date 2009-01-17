@@ -27,7 +27,7 @@ sub dispatch {
             controller => $controller,
         }
     );
-
+    $controller_instance->context($context);;
     $controller_instance->_do_action( $context, $action, $params );
 }
 

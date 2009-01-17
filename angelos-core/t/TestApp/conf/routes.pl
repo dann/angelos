@@ -3,6 +3,7 @@ HTTP::Router->define(
         $_->match('/')->to( { controller => 'Root', action => 'index' } );
         $_->match('/japanese')->to( { controller => 'Root', action => 'japanese' } );
         $_->match('/forward')->to( { controller => 'Root', action => 'forward' } );
+        $_->match('/detach')->to( { controller => 'Root', action => 'detach' } );
 #        $_->match('/middlewareunicode')
 #            ->to( { controller => 'MiddlewareUnicode', action => 'index' } );
 #        $_->resources('Book');

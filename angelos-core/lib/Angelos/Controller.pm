@@ -26,6 +26,10 @@ has 'after_filters' => (
     }
 );
 
+has 'context' => (
+    is => 'rw',
+);
+
 sub SETUP { }
 
 sub _call_filters {

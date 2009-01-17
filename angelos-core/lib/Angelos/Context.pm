@@ -126,13 +126,13 @@ sub forward_with_filters {
 sub detach {
     my ( $self, %forward_to ) = @_;
     $self->forward(%forward_to);
-    Angelos::Exception::Detach->throw( message => 'detached' );
+    die 'DETACH';
 }
 
 sub detach_with_filter {
     my ( $self, %forward_to ) = @_;
     $self->forward_with_filters(%forward_to);
-    Angelos::Exception::Detach->throw( message => 'detached' );
+    die 'DETACH';
 }
 
 __END_OF_CLASS__
