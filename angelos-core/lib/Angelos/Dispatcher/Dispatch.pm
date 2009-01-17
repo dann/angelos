@@ -1,13 +1,11 @@
 package Angelos::Dispatcher::Dispatch;
-use Mouse;
+use Angelos::Class;
 use Carp ();
 
 has 'match' => (
     is       => 'rw',
     required => 1,
 );
-
-no Mouse;
 
 sub run {
     my ($self, $context)  = @_;
@@ -45,9 +43,7 @@ sub find_controller_instance {
     $context->controller($controller);
 }
 
-__PACKAGE__->meta->make_immutable;
-
-1;
+__END_OF_CLASS__
 
 __END__
 
