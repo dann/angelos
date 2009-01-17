@@ -27,9 +27,9 @@ sub global {
 
 sub plugins {
     my $self   = shift;
-    my $var     = shift;
+    my $type     = shift;
     my $module  = shift;
-    my $plugins = $self->_get( 'plugins', $var );
+    my $plugins = $self->_get( 'plugins', $type );
     unless ($plugins) {
         return wantarray ? () : [];
     }
@@ -39,6 +39,7 @@ sub plugins {
                 return $plugin;
             }
         }
+        return undef;
     }
     return wantarray ? @{$plugins} : $plugins;
 }
