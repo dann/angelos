@@ -5,8 +5,8 @@ type: :task
 component: middleware
 release: "0.01"
 reporter: dann <techmemo@gmail.com>
-status: :unstarted
-disposition: 
+status: :closed
+disposition: :fixed
 creation_time: 2009-01-14 15:29:13.497768 Z
 references: []
 
@@ -15,4 +15,8 @@ log_events:
 - - 2009-01-14 15:29:14.594867 Z
   - dann <techmemo@gmail.com>
   - created
+  - ""
+- - 2009-01-17 17:17:48.462601 Z
+  - dann <techmemo@gmail.com>
+  - closed with disposition fixed
   - ""

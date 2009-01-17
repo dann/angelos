@@ -5,7 +5,7 @@ extends 'Angelos::Middleware';
 use Angelos::Exceptions;
 use HTTP::Engine::Response;
 use Angelos::MIMETypes;
-use IO::File;
+use Path::Class;
 use Angelos::Home;
 use File::stat;
 
@@ -68,9 +68,8 @@ sub serve_static {
     $res->header( 'Content-Length' => $stat->size );
     $res->header( 'Last-Modified'  => $stat->mtime );
 
-    my $fh = IO::File->new( $full_path, 'r' );
+    my $fh = $full_path->openr;
     if ( defined $fh ) {
-        warn 'hoge';
         binmode $fh;
         $res->code(200);
         $res->body($fh);
@@ -101,3 +100,5 @@ sub _extension_to_type {
 }
 
 __END_OF_CLASS__
+
+__END__
