@@ -3,6 +3,7 @@ use Angelos::Class;
 use Carp ();
 use Angelos::Exceptions qw(rethrow_exception);
 use Exception::Class;
+use Angelos::Utils;
 
 with( 'Angelos::Component', );
 
@@ -26,9 +27,7 @@ has 'after_filters' => (
     }
 );
 
-has 'context' => (
-    is => 'rw',
-);
+has 'context' => ( is => 'rw', );
 
 sub SETUP { }
 
@@ -68,9 +67,7 @@ sub _do_action {
     return if $context->finished;    # already redirected
 
     $self->_call_filters( $self->before_filters, $context, $action, $params );
-    eval { 
-        $self->ACTION( $context, $action, $params );
-    };
+    eval { $self->ACTION( $context, $action, $params ); };
 
     my $e;
     if ( $e = Exception::Class->caught('Angelos::Exception::Detach') ) {
@@ -87,6 +84,11 @@ sub _do_action {
 sub ACTION {
     my ( $self, $context, $action, $params ) = @_;
     $self->$action( $context, $params );
+}
+
+sub is_plugin_loaded {
+    my ( $self, $short_plugin_name ) = @_;
+    Angelos::Utils::is_plugin_loaded( 'controller', $short_plugin_name );
 }
 
 __END_OF_CLASS__
