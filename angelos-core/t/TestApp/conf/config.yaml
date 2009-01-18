@@ -8,9 +8,6 @@ plugins:
    - module: Session
   controller:
    - module: ActionProfiler
-     config: 
-       aaa : bbb
-       ccc : ddd
 
 #   - module: DebugHook 
 
