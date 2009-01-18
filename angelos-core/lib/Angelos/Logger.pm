@@ -4,6 +4,7 @@ use warnings;
 use Log::Dispatch::Config;
 use Log::Dispatch::Configurator::YAML;
 use Angelos::Config;
+use Angelos::Exceptions;
 use base 'Class::Singleton';
 
 $Log::Dispatch::Config::CallerDepth = 2;
@@ -21,6 +22,9 @@ sub _new_instance {
 sub log {
     my ( $self, %log ) = @_;
     $log{level} ||= 'debug';
+    Angelos::Exception::InvalidArgumentError->throw(
+        message => 'message option is required' )
+        unless $log{message};
     $self->{logger}->log(%log);
 }
 
