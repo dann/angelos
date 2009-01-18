@@ -44,6 +44,7 @@ requires 'File::Spec';
 requires 'IO::Pager';
 requires 'Class::Singleton';
 requires 'Params::Validate';
+requires 'Class::Method::Modifiers::Fast';
 
 # components
 requires 'Template';
