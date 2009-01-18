@@ -18,7 +18,7 @@ has 'dispatcher' => (
     default => sub {
         shift->build_dispatcher;
     },
-    handles => [qw(set_routeset uri_for)],
+    handles => [qw(set_routeset)],
 );
 
 has 'component_loader' => (

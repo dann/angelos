@@ -21,13 +21,13 @@ sub _new_instance {
 
 sub global {
     my $self = shift;
-    my $var   = shift;
+    my $var  = shift;
     $self->_get( 'global', $var );
 }
 
 sub plugins {
-    my $self   = shift;
-    my $type     = shift;
+    my $self    = shift;
+    my $type    = shift;
     my $module  = shift;
     my $plugins = $self->_get( 'plugins', $type );
     unless ($plugins) {
@@ -45,7 +45,7 @@ sub plugins {
 }
 
 sub components {
-    my $self          = shift;
+    my $self           = shift;
     my $component_type = shift;
     my $module         = shift;
 
@@ -70,7 +70,7 @@ sub components {
 }
 
 sub middlewares {
-    my $self       = shift;
+    my $self        = shift;
     my $middlewares = $self->_get('middlewares');
 
     unless ($middlewares) {
@@ -89,7 +89,7 @@ sub _config {
 }
 
 sub _get {
-    my $self   = shift;
+    my $self    = shift;
     my $section = shift;
     my $var     = shift;
     unless ( $self->_config->{$section} ) {
