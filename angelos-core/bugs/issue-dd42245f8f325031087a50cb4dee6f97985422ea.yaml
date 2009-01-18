@@ -3,7 +3,7 @@ title: display method like merb
 desc: ""
 type: :task
 component: controller
-release: 
+release: TODO
 reporter: dann <techmemo@gmail.com>
 status: :unstarted
 disposition: 
@@ -15,4 +15,8 @@ log_events:
 - - 2008-12-27 19:56:36.176321 Z
   - dann <techmemo@gmail.com>
   - created
+  - ""
+- - 2009-01-18 18:46:10.750212 Z
+  - dann <techmemo@gmail.com>
+  - assigned to release TODO from unassigned
   - ""

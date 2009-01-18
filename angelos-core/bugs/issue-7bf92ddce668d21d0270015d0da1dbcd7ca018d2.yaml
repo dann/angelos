@@ -3,7 +3,7 @@ title: "log dispatch\xE3\x81\xAEdefault\xE8\xA8\xAD\xE5\xAE\x9A\xE3\x82\x92log/s
 desc: ""
 type: :task
 component: angelos
-release: 
+release: TODO
 reporter: dann <techmemo@gmail.com>
 status: :unstarted
 disposition: 
@@ -15,4 +15,8 @@ log_events:
 - - 2009-01-07 15:52:14.853809 Z
   - dann <techmemo@gmail.com>
   - created
+  - ""
+- - 2009-01-18 18:45:24.191106 Z
+  - dann <techmemo@gmail.com>
+  - assigned to release TODO from unassigned
   - ""

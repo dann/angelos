@@ -3,7 +3,7 @@ title: FillInForm architecture
 desc: fillinform plugin should be controller mixin or plugin?
 type: :task
 component: controller
-release: 
+release: TODO
 reporter: dann <techmemo@gmail.com>
 status: :unstarted
 disposition: 
@@ -15,4 +15,8 @@ log_events:
 - - 2008-12-22 18:14:52.442537 Z
   - dann <techmemo@gmail.com>
   - created
+  - ""
+- - 2009-01-18 18:44:53.805494 Z
+  - dann <techmemo@gmail.com>
+  - assigned to release TODO from unassigned
   - ""

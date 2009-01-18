@@ -3,7 +3,7 @@ title: separate core and additional functionalities
 desc: ""
 type: :task
 component: angelos
-release: 
+release: TODO
 reporter: dann <techmemo@gmail.com>
 status: :unstarted
 disposition: 
@@ -15,4 +15,8 @@ log_events:
 - - 2009-01-03 00:01:47.927979 Z
   - dann <techmemo@gmail.com>
   - created
+  - ""
+- - 2009-01-18 18:45:19.721541 Z
+  - dann <techmemo@gmail.com>
+  - assigned to release TODO from unassigned
   - ""

@@ -3,7 +3,7 @@ title: HTTPx::Middleware::Session
 desc: ""
 type: :feature
 component: middleware
-release: 
+release: TODO
 reporter: dann <techmemo@gmail.com>
 status: :unstarted
 disposition: 
@@ -15,4 +15,12 @@ log_events:
 - - 2008-12-21 07:41:59.633070 Z
   - dann <techmemo@gmail.com>
   - created
+  - ""
+- - 2009-01-18 18:40:55.615560 Z
+  - dann <techmemo@gmail.com>
+  - assigned to release 777 from unassigned
+  - ""
+- - 2009-01-18 18:43:09.435544 Z
+  - dann <techmemo@gmail.com>
+  - assigned to release TODO from 777
   - ""

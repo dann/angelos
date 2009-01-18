@@ -3,7 +3,7 @@ title: "Apache::Test\xE3\x81\xA7apache\xE3\x81\xAE\xE8\xA8\xAD\xE5\xAE\x9A\xE3\x
 desc: ""
 type: :task
 component: testing
-release: 
+release: TODO
 reporter: dann <techmemo@gmail.com>
 status: :unstarted
 disposition: 
@@ -15,4 +15,8 @@ log_events:
 - - 2009-01-14 15:39:12.012788 Z
   - dann <techmemo@gmail.com>
   - created
+  - ""
+- - 2009-01-18 18:46:47.978665 Z
+  - dann <techmemo@gmail.com>
+  - assigned to release TODO from unassigned
   - ""

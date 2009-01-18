@@ -3,7 +3,7 @@ title: init flavor option
 desc: ""
 type: :task
 component: script
-release: 
+release: TODO
 reporter: dann <techmemo@gmail.com>
 status: :unstarted
 disposition: 
@@ -15,4 +15,8 @@ log_events:
 - - 2009-01-08 17:25:48.017002 Z
   - dann <techmemo@gmail.com>
   - created
+  - ""
+- - 2009-01-18 18:47:08.489756 Z
+  - dann <techmemo@gmail.com>
+  - assigned to release TODO from unassigned
   - ""

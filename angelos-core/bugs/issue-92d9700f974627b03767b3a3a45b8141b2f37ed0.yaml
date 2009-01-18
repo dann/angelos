@@ -3,7 +3,7 @@ title: "buildbot\xE3\x81\xAEhtml\xE3\x82\x92angelos-site\xE3\x81\xAB\xE3\x82\xA2
 desc: ""
 type: :task
 component: angelos-site
-release: 
+release: TODO
 reporter: dann <techmemo@gmail.com>
 status: :unstarted
 disposition: 
@@ -15,4 +15,8 @@ log_events:
 - - 2009-01-14 15:44:07.141614 Z
   - dann <techmemo@gmail.com>
   - created
+  - ""
+- - 2009-01-18 18:46:28.382717 Z
+  - dann <techmemo@gmail.com>
+  - assigned to release TODO from unassigned
   - ""

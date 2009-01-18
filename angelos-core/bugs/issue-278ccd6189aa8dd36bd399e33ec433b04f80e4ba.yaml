@@ -3,7 +3,7 @@ title: Authentication and Authorization
 desc: ""
 type: :feature
 component: angelos
-release: 
+release: TODO
 reporter: dann <techmemo@gmail.com>
 status: :unstarted
 disposition: 
@@ -15,4 +15,8 @@ log_events:
 - - 2008-12-26 10:30:50.300123 Z
   - dann <techmemo@gmail.com>
   - created
+  - ""
+- - 2009-01-18 18:45:07.453781 Z
+  - dann <techmemo@gmail.com>
+  - assigned to release TODO from unassigned
   - ""

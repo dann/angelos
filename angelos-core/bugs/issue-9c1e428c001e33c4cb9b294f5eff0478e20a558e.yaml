@@ -3,7 +3,7 @@ title: move Angelos::JobQueue to Angelos::Model::JobQueue
 desc: ""
 type: :task
 component: model
-release: 
+release: TODO
 reporter: dann <techmemo@gmail.com>
 status: :closed
 disposition: :fixed
@@ -19,4 +19,8 @@ log_events:
 - - 2009-01-09 18:41:21.787046 Z
   - dann <techmemo@gmail.com>
   - closed with disposition fixed
+  - ""
+- - 2009-01-18 18:43:29.688678 Z
+  - dann <techmemo@gmail.com>
+  - assigned to release TODO from unassigned
   - ""

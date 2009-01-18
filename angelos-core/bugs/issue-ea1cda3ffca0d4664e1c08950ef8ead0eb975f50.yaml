@@ -3,7 +3,7 @@ title: form validator
 desc: ""
 type: :feature
 component: controller
-release: 
+release: TODO
 reporter: dann <techmemo@gmail.com>
 status: :unstarted
 disposition: 
@@ -15,4 +15,8 @@ log_events:
 - - 2008-12-24 16:35:27.813664 Z
   - dann <techmemo@gmail.com>
   - created
+  - ""
+- - 2009-01-18 18:44:58.580758 Z
+  - dann <techmemo@gmail.com>
+  - assigned to release TODO from unassigned
   - ""

@@ -3,7 +3,7 @@ title: implement live test base class or util
 desc: ""
 type: :task
 component: testing
-release: 
+release: TODO
 reporter: dann <techmemo@gmail.com>
 status: :unstarted
 disposition: 
@@ -15,4 +15,8 @@ log_events:
 - - 2009-01-10 17:00:54.700114 Z
   - dann <techmemo@gmail.com>
   - created
+  - ""
+- - 2009-01-18 18:46:43.440075 Z
+  - dann <techmemo@gmail.com>
+  - assigned to release TODO from unassigned
   - ""
