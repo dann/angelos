@@ -14,9 +14,9 @@ sub home {
         return $HOME;
     }
     $HOME ||= $class->_get_home_from_angelos_env;
-    $HOME ||= $class->_get_home_from_application_env($app_class);
+    $HOME ||= $class->_get_home_from_application_env($app_class) if $app_class;
     $HOME ||= $class->_document_root;
-    $HOME ||= $class->_search_home_from_module_file_path($app_class);
+    $HOME ||= $class->_search_home_from_module_file_path($app_class) if $app_class;
     $HOME ||= $class->_current_dir;
     $HOME;
 }
