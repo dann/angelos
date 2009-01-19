@@ -202,16 +202,16 @@ template: |
   1;
 ---
 file: lib/____var-module_path-var____/Web/View/TT.pm
-template: |
+template: |+
   package [% module %]::Web::View::TT;
-  use Mouse;
+  use Angelos::Class;
   extends 'Angelos::View::TT';
   
-  no Mouse;
+  __END_OF_CLASS__
   
-  __PACKAGE__->meta->make_immutable;
+  __END__
   
-  1;
+
 ---
 file: lib/____var-module_path-var____/Web/Controller/Root.pm
 template: |+
