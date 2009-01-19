@@ -1,0 +1,18 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: "Plugin\xE3\x82\x92\xE3\x83\x86\xE3\x82\xB9\xE3\x83\x88\xE3\x81\x99\xE3\x82\x8B\xE3\x81\x9F\xE3\x82\x81\xE3\x81\xAE\xE6\xA9\x9F\xE6\xA7\x8B\xE3\x82\x92\xE7\x94\xA8\xE6\x84\x8F"
+desc: ""
+type: :task
+component: testing
+release: "0.01"
+reporter: dann <techmemo@gmail.com>
+status: :unstarted
+disposition: 
+creation_time: 2009-01-18 18:42:03.878659 Z
+references: []
+
+id: 1a57a75dea3de89feed013bb079b9fb4845c02d0
+log_events: 
+- - 2009-01-18 18:42:04.558067 Z
+  - dann <techmemo@gmail.com>
+  - created
+  - ""
