@@ -214,21 +214,20 @@ template: |
   1;
 ---
 file: lib/____var-module_path-var____/Web/Controller/Root.pm
-template: |
+template: |+
   package [% module %]::Web::Controller::Root;
-  use Mouse;
+  use Angelos::Class;
   extends 'Angelos::Controller';
-  
-  no Mouse;
   
   sub index {
       my ($self, $c, $params) = @_;
       $c->view("TT")->render;
   }
   
-  __PACKAGE__->meta->make_immutable;
+  __END_OF_CLASS__
   
-  1;
+  __END__
+
 ---
 file: lib/____var-module_path-var____/CLI/Command/Echo.pm
 template: |
