@@ -1,5 +1,5 @@
 package Angelos::Engine::Base;
-use Mouse;
+use Angelos::Class;
 use Carp ();
 use HTTP::Engine;
 use Angelos::Home;
@@ -42,8 +42,6 @@ has 'debug' => (
     default => 0
 );
 
-no Mouse;
-
 sub BUILD {
     my $self = shift;
     $self->engine( $self->build_engine );
@@ -80,9 +78,8 @@ sub handle_request {
         message => 'Sub class must overried this method' );
 }
 
-__PACKAGE__->meta->make_immutable;
+__END_OF_CLASS__
 
-1;
 __END__
 
 =head1 NAME

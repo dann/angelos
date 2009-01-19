@@ -39,6 +39,7 @@ sub build_request_handler {
         Angelos::Middleware::Builder->build(
             sub { my $req = shift; $self->handle_request($req) } );
     };
+    die "Can't create request handler correctly" unless $request_handler;
     $request_handler;
 }
 

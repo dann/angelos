@@ -1,4 +1,6 @@
 package Angelos::Config::Loader;
+use strict;
+use warnings;
 use YAML ();
 use Storable;
 use Encode;
@@ -59,6 +61,7 @@ sub _config_substitutions {
 
 sub _make_config {
     my ( $class, $stuff ) = @_;
+    my $config;
     if ( ref $stuff && ref $stuff eq 'HASH' ) {
         $config = Storable::dclone($stuff);
     }
@@ -67,9 +70,18 @@ sub _make_config {
             or Angelos::Exception::FileNotFound->throw(
             message => "Can't open config: $!");
         $config = YAML::LoadFile($fh);
+        $config = $class->_decode_config($config);
         close $fh;
     }
     $config;
+}
+
+sub _decode_config {
+    my ( $class, $data ) = @_;
+    my $yaml = YAML::Dump($data);
+    utf8::decode($yaml);
+    $data = YAML::Load($yaml);
+    $data;
 }
 
 1;
