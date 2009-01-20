@@ -1,0 +1,18 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: "render method\xE3\x81\xAE\xE5\xAE\x9F\xE8\xA3\x85 (view\xE3\x81\xAFformat\xE3\x81\x8B\xE3\x82\x89\xE8\x87\xAA\xE5\x8B\x95\xE9\x81\xB8\xE6\x8A\x9E\xEF\xBC\x89"
+desc: ""
+type: :task
+component: controller
+release: "0.01"
+reporter: dann <techmemo@gmail.com>
+status: :unstarted
+disposition: 
+creation_time: 2009-01-20 23:50:48.335889 Z
+references: []
+
+id: cba7bc9980d993d9288752efeb626c30ca0f6fe4
+log_events: 
+- - 2009-01-20 23:50:48.750434 Z
+  - dann <techmemo@gmail.com>
+  - created
+  - ""
