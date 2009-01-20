@@ -5,10 +5,10 @@ use Scalar::Util ();
 use HTTP::Engine::Response;
 use Angelos::Dispatcher;
 use Angelos::Context;
-use Angelos::Component::Loader;
 use Angelos::Middleware::Builder;
 use Angelos::Exceptions;
 use Exception::Class;
+use Angelos::Component::Manager;
 extends 'Angelos::Engine::Base';
 
 with 'Angelos::Class::Pluggable';
@@ -21,10 +21,10 @@ has 'dispatcher' => (
     handles => [qw(set_routeset)],
 );
 
-has 'component_loader' => (
+has 'component_manager' => (
     is      => 'rw',
     default => sub {
-        Angelos::Component::Loader->new;
+        Angelos::Component::Manager->instance;
     },
     handles => {
         'controller' => 'search_controller',

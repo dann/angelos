@@ -131,7 +131,7 @@ sub setup_logger {
 sub setup_components {
     my $self = shift;
     my $components
-        = $self->engine->component_loader->load_components( ref $self );
+        = $self->engine->component_manager->setup( ref $self );
     $components;
 }
 
