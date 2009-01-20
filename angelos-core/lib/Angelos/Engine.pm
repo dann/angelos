@@ -10,7 +10,6 @@ use Angelos::Exceptions;
 use Exception::Class;
 use Angelos::Component::Manager;
 extends 'Angelos::Engine::Base';
-
 with 'Angelos::Class::Pluggable';
 
 has 'dispatcher' => (
@@ -69,10 +68,7 @@ sub DISPATCH {
     my $dispatch = $self->dispatcher->dispatch($req);
 
     unless ( $dispatch->has_matches ) {
-        $self->log(
-            level   => 'info',
-            message => "404 Not Found. path: " . $req->path
-        );
+        $self->log->info("404 Not Found. path: " . $req->path);
         $c->res->status(404);
         $c->res->body("404 Not Found.");
         return $c->res;
@@ -83,7 +79,7 @@ sub DISPATCH {
 
 sub HANDLE_EXCEPTION {
     my ( $self, $c, $error ) = @_;
-    $self->log( level => 'error', message => $error );
+    $self->log->error("404 Not Found. path: " . $error);
     $c->res->content_type('text/html; charset=utf-8');
     $c->res->status(500);
     $c->res->body( 'Internal Error:' . $error );

@@ -19,13 +19,58 @@ sub _new_instance {
     return $self;
 }
 
-sub log {
-    my ( $self, %log ) = @_;
-    $log{level} ||= 'debug';
-    Angelos::Exception::InvalidArgumentError->throw(
-        message => 'message option is required' )
-        unless $log{message};
-    $self->{logger}->log(%log);
+sub debug {
+    my ( $self, $message ) = @_;
+    my $log = {
+        message => $message,
+        level   => 'debug',
+    };
+    $self->{logger}->log(%$log);
+}
+
+sub warn {
+    my ( $self, $message ) = @_;
+    my $log = {
+        message => $message,
+        level   => 'warn',
+    };
+    $self->{logger}->log(%$log);
+}
+
+sub info {
+    my ( $self, $message ) = @_;
+    my $log = {
+        message => $message,
+        level   => 'info',
+    };
+    $self->{logger}->log(%$log);
+}
+
+sub critical {
+    my ( $self, $message ) = @_;
+    my $log = {
+        message => $message,
+        level   => 'critical',
+    };
+    $self->{logger}->log(%$log);
+}
+
+sub notice {
+    my ( $self, $message ) = @_;
+    my $log = {
+        message => $message,
+        level   => 'notice',
+    };
+    $self->{logger}->log(%$log);
+}
+
+sub error {
+    my ( $self, $message ) = @_;
+    my $log = {
+        message => $message,
+        level   => 'error',
+    };
+    $self->{logger}->log(%$log);
 }
 
 sub _logger_conf_path {

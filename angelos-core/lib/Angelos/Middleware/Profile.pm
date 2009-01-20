@@ -20,7 +20,7 @@ sub profile {
     my $end_time   = time();
     my $elapsed    = $end_time - $start_time;
     my $message    = "Request handling time: \n" . $elapsed . " secs";
-    $self->log( level => 'info', message => $message );
+    $self->log->info($message);
     $result;
 }
 

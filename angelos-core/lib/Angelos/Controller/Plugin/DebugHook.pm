@@ -4,26 +4,17 @@ use Angelos::Plugin;
 after 'SETUP' => sub {
     my $self = shift;
     warn $self->is_plugin_loaded('DebugHook');
-    $self->log(
-        level   => 'info',
-        message => "SETUP: class=" . ref $self,
-    );
+    $self->log->info( "SETUP: class=" . ref $self );
 };
 
 before 'ACTION' => sub {
     my ( $self, $c, $action, $params ) = @_;
-    $self->log(
-        level   => 'info',
-        message => "BEFORE ACTION: $action, $params",
-    );
+    $self->log->info("BEFORE ACTION: $action, $params");
 };
 
 after 'ACTION' => sub {
     my $self = shift;
-    $self->log(
-        level   => 'info',
-        message => "AFTER ACTION",
-    );
+    $self->log->info("AFTER ACTION");
 };
 
 1;

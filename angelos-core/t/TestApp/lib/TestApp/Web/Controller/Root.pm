@@ -7,10 +7,7 @@ with 'Angelos::Class::Localizable';
 
 sub index {
     my ( $self, $c, $params ) = @_;
-    $self->log(
-        level => 'debug',
-        message => 'index method in Root controller',
-    );
+    $self->log->debug('index method in Root controller');
     #$c->redirect('http://www.google.co.jp');
     #$c->res->body('HelloWorld');
 }

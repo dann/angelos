@@ -3,6 +3,7 @@ use Text::SimpleTable;
 use Mouse::Role;
 
 with 'Angelos::Debug';
+with 'Angelos::Class::Loggable';
 
 around 'build_routeset' => sub {
     my ( $next, $self ) = @_;
@@ -14,7 +15,7 @@ around 'build_routeset' => sub {
 sub __show_dispatch_table {
     my ( $self, $routes ) = @_;
     my $report = $self->__make_dispatch_table_report($routes);
-    $self->log( level => 'info', message => $report );
+    $self->log->info($report);
 }
 
 sub __make_dispatch_table_report {

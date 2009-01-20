@@ -55,7 +55,7 @@ sub _render {
             = "Couldn't render template "
             . $c->stash->{template} . ": "
             . $self->engine->error;
-        $c->log( level => 'error', message => $error );
+        $c->log->error( $error );
     }
     $out;
 }

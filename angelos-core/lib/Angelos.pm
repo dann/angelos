@@ -6,9 +6,9 @@ use Angelos::Engine;
 use Angelos::Utils;
 use Angelos::Home;
 use Angelos::Dispatcher::Routes::Builder;
-use Angelos::Logger;
 use Angelos::Exceptions qw(rethrow_exception);
 
+with 'Angelos::Class::Loggable';
 with 'Angelos::Class::Pluggable';
 with 'Angelos::Class::Configurable';
 
@@ -77,10 +77,7 @@ sub setup {
         $self->setup_dispatcher;
     };
     if ( my $e = $@ ) {
-        Angelos::Logger->instance->log(
-            level   => 'error',
-            message => "Error occured in setup. cause: \n" . $e,
-        );
+        $self->log->error("Error occured in setup. cause: \n" . $e),
         rethrow_exception($e);
     }
 }
@@ -124,7 +121,6 @@ sub setup_engine {
 }
 
 sub setup_logger {
-    my $self = shift;
     Angelos::Logger->instance;
 }
 

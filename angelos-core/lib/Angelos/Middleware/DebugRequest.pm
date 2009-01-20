@@ -3,8 +3,6 @@ use Angelos::Class;
 use Text::SimpleTable;
 extends 'Angelos::Middleware';
 
-no Mouse;
-
 sub wrap {
     my ( $self, $next ) = @_;
 
@@ -35,7 +33,7 @@ sub report_query_parameters {
                 ref $value eq 'ARRAY' ? ( join ', ', @$value ) : $value );
         }
         my $message = "Query Parameters are:\n" . $t->draw;
-        $self->log( level => 'info', message => $message );
+        $self->log->info($message);
     }
 }
 
@@ -51,7 +49,7 @@ sub report_body_parameters {
                 ref $value eq 'ARRAY' ? ( join ', ', @$value ) : $value );
         }
         my $message = "Body Parameters are:\n" . $t->draw;
-        $self->log( level => 'info', message => $message );
+        $self->log->info($message);
     }
 }
 
@@ -64,7 +62,7 @@ sub report_matching_info {
     );
     $t->row( $req->path, $req->method, $req->base );
     my $message = "Matching Info:\n" . $t->draw;
-    $self->log( level => 'info', message => $message );
+    $self->log->info($message);
 }
 
 __END_OF_CLASS__

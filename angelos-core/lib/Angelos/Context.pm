@@ -5,6 +5,7 @@ use Angelos::Utils;
 use Params::Validate qw(SCALAR HASHREF);
 
 with 'Angelos::Class::Pluggable';
+with 'Angelos::Class::Loggable';
 
 has 'app' => (
     is       => 'rw',

@@ -2,7 +2,7 @@ package Angelos::Model::DBIC;
 use Angelos::Class;
 use Data::Dumper;
 extends 'Angelos::Model';
-with 'Angelos::Class::ComponetnLoadable';
+with 'Angelos::Class::ComponentLoadable';
 
 use Carp qw(croak);
 

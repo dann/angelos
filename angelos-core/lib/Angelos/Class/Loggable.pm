@@ -3,8 +3,7 @@ use Mouse::Role;
 use Angelos::Logger;
 
 sub log {
-    my ($self, %log) = @_;
-    Angelos::Logger->instance->log(%log);
+    Angelos::Logger->instance;
 }
 
 1;

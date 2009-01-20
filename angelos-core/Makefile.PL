@@ -79,6 +79,9 @@ requires 'Term::ReadLine';
 requires 'JSON::XS';
 requires 'MIME::Types';
 
+requires 'HTML::FillInForm';
+requires 'FormValidator::Simple';
+
 # Middleware
 requires 'File::stat';
 

@@ -71,10 +71,10 @@ sub _do_action {
 
     my $e;
     if ( $e = Exception::Class->caught('Angelos::Exception::Detach') ) {
-        $self->log( level => 'info', message => "Detached" );
+        $self->log->info("Detached");
     }
     elsif ( $e = Exception::Class->caught() ) {
-        $self->log( level => 'error', message => $e );
+        $self->log->error($e);
         rethrow_exception($e);
     }
 
