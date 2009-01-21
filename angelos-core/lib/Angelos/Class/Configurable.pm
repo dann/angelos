@@ -1,5 +1,5 @@
 package Angelos::Class::Configurable;
-use Mouse::Role;
+use Angelos::Role;
 use Angelos::Config;
 
 sub config {

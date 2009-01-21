@@ -1,7 +1,7 @@
 package Angelos::Component;
 use strict;
 use warnings;
-use Mouse::Role;
+use Angelos::Role;
 
 with 'Angelos::Class::Pluggable';
 with 'Angelos::Class::Configurable';

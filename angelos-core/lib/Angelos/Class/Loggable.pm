@@ -1,5 +1,5 @@
 package Angelos::Class::Loggable;
-use Mouse::Role;
+use Angelos::Role;
 use Angelos::Logger;
 
 sub log {

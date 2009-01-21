@@ -1,5 +1,5 @@
 package Angelos::Class::ComponentLoadable;
-use Mouse::Role;
+use Angelos::Role;
 use Angelos::Component::Manager;
 
 has '__component_loader' => (

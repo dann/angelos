@@ -1,6 +1,6 @@
 package Angelos::Class::Pluggable;
 use Carp ();
-use Mouse::Role;
+use Angelos::Role;
 use Module::Pluggable::Object;
 use Mouse::Util;
 

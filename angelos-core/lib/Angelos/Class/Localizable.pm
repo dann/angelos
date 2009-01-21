@@ -1,5 +1,5 @@
 package Angelos::Class::Localizable;
-use Mouse::Role;
+use Angelos::Role;
 use Angelos::I18N;
 
 has 'localizer' => (
