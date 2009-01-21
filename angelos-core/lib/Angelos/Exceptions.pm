@@ -40,6 +40,12 @@ BEGIN {
             description => 'Template cannot open template file'
         },
 
+        'Angelos::Exception::NotAcceptable' => {
+            isa         => 'Angelos::Exception',
+            alias       => 'not_acceptable_error',
+            description => 'This mime type isnt acceptable'
+        },
+
         'Angelos::Exception::FileNotFound' => {
             isa         => 'Angelos::Exception',
             alias       => 'file_not_found_error',

@@ -28,7 +28,7 @@ sub dispatch {
         }
     );
     $controller_instance->context($context);;
-    $controller_instance->_do_action( $action, $params );
+    $controller_instance->_dispatch_action( $action, $params );
 }
 
 sub has_matches {

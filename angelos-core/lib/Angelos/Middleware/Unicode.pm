@@ -2,8 +2,6 @@ package Angelos::Middleware::Unicode;
 use Angelos::Class;
 use utf8;
 
-no Mouse;
-
 sub wrap {
     my ( $self, $next ) = @_;
     sub {

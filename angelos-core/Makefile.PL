@@ -79,8 +79,13 @@ requires 'Term::ReadLine';
 requires 'JSON::XS';
 requires 'MIME::Types';
 
+# Plugins (remove from core)
 requires 'HTML::FillInForm';
 requires 'FormValidator::Simple';
+requires 'HTTP::MobileAgent';
+requires 'Encode::JP::Mobile';
+requires 'HTTP::MobileAgent::Plugin::Charset';
+requires 'Data::Visitor::Encode';
 
 # Middleware
 requires 'File::stat';

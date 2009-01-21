@@ -15,3 +15,6 @@ middlewares:
   - module: Angelos::Middleware::DebugRequest
   - module: Angelos::Middleware::Unicode
   - module: Angelos::Middleware::Static
+  - module: Angelos::Middleware::MobileAgent
+  - module: Angelos::Middleware::MobileJP
+  - module: Angelos::Middleware::Session

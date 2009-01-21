@@ -16,7 +16,8 @@ has 'app' => (
 
 has 'request' => (
     is       => 'rw',
-    required => 1
+    required => 1,
+    handles  => [qw(params)],
 );
 
 has 'response' => (
@@ -56,6 +57,11 @@ sub res {
     shift->response;
 }
 
+# TODO: TO BE ADDED
+#sub session {
+#    $shift->request->session;
+#}
+
 sub view {
     my ( $self, $view ) = @_;
     my $v = $self->app->view($view);
@@ -92,6 +98,7 @@ sub forward {
         @_,
         {   action => 1,    # required
             controller => { type => SCALAR },
+
             #params     => { type => HASHREF },
         }
     );
@@ -111,6 +118,7 @@ sub forward_with_filters {
         @_,
         {   action => 1,    # required
             controller => { type => SCALAR },
+
             #params     => { type => HASHREF },
         }
     );
@@ -127,13 +135,13 @@ sub forward_with_filters {
 sub detach {
     my ( $self, %forward_to ) = @_;
     $self->forward(%forward_to);
-    Angelos::Exception::Detach->throw(message => 'DETACH');
+    Angelos::Exception::Detach->throw( message => 'DETACH' );
 }
 
 sub detach_with_filter {
     my ( $self, %forward_to ) = @_;
     $self->forward_with_filters(%forward_to);
-    Angelos::Exception::Detach->throw(message => 'DETACH');
+    Angelos::Exception::Detach->throw( message => 'DETACH' );
 }
 
 __END_OF_CLASS__

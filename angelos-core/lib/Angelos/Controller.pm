@@ -5,7 +5,8 @@ use Angelos::Exceptions qw(rethrow_exception);
 use Exception::Class;
 use Angelos::Utils;
 
-with( 'Angelos::Component', );
+with  'Angelos::Component';
+with  'Angelos::Controller::Mixin::Responder';
 
 has _plugin_app_ns => ( +default => sub { ['Angelos::Controller'] }, );
 
@@ -40,6 +41,7 @@ has 'context' => (
             model
             view
             controller
+            session 
             )
     ],
 );
@@ -76,7 +78,7 @@ sub add_after_filter {
     push @{ $self->after_filters }, $filter;
 }
 
-sub _do_action {
+sub _dispatch_action {
     my ( $self, $action, $params ) = @_;
 
     return if $self->context->finished;    # already redirected

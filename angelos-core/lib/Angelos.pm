@@ -3,6 +3,7 @@ use 5.00800;
 our $VERSION = '0.01';
 use Angelos::Class;
 use Angelos::BootLoader;
+use Angelos::MIMETypes;
 
 has 'engine' => ( is => 'rw', );
 
@@ -53,6 +54,12 @@ sub setup {
 sub run {
     my $self = shift;
     $self->engine->run;
+}
+
+our $MIMETYPES;
+sub available_mimetypes {
+    $MIMETYPES = Angelos::MIMETypes->new;
+    $MIMETYPES;
 }
 
 
