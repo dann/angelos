@@ -1,8 +1,7 @@
-package Angelos::Debug::Routes;
+package Angelos::BootLoader::Plugin::ShowRoutes;
+use Angelos::Plugin;
 use Text::SimpleTable;
-use Mouse::Role;
 
-with 'Angelos::Debug';
 with 'Angelos::Class::Loggable';
 
 around 'build_routeset' => sub {

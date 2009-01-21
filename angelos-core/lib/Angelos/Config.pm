@@ -103,7 +103,6 @@ sub _get {
 }
 
 sub logger_conf_path {
-    warn caller;
     Angelos::Home->path_to( 'conf', 'log.yaml' );
 }
 

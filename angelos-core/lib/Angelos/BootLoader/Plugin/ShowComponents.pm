@@ -1,7 +1,6 @@
-package Angelos::Debug::Components;
-use Mouse::Role;
+package Angelos::BootLoader::Plugin::ShowComponents;
+use Angelos::Plugin;
 use Text::SimpleTable;
-with 'Angelos::Debug';
 
 around 'setup_components' => sub {
     my ( $next, $self ) = @_;

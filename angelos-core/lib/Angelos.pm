@@ -2,36 +2,20 @@ package Angelos;
 use 5.00800;
 our $VERSION = '0.01';
 use Angelos::Class;
-use Angelos::Engine;
-use Angelos::Utils;
-use Angelos::Home;
-use Angelos::Dispatcher::Routes::Builder;
-use Angelos::Exceptions qw(rethrow_exception);
+use Angelos::BootLoader;
 
-with 'Angelos::Class::Loggable';
-with 'Angelos::Class::Pluggable';
-with 'Angelos::Class::Configurable';
+has 'engine' => ( is => 'rw', );
 
-has _plugin_app_ns => (
-    +default => sub {
-        ['Angelos'];
-    }
-);
+has 'bootloader' => (
+    is      => 'rw',
+    default => sub {
 
-has '_plugin_ns' => (
-    +default => sub {
-        'Debug';
     }
 );
 
 has 'conf' => ( is => 'rw', );
 
-has 'root' => (
-    is       => 'rw',
-    required => 1,
-    lazy     => 1,
-    builder  => 'build_root',
-);
+has 'appclass' => ( is => 'rw', );
 
 has 'host' => (
     is      => 'rw',
@@ -47,120 +31,30 @@ has 'port' => (
 
 has 'server' => ( is => 'rw', );
 
-has 'engine' => (
-    is      => 'rw',
-    handles => ['controller'],
-);
-
 has 'debug' => (
     is      => 'rw',
     isa     => 'Bool',
     default => 0
 );
 
-no Mouse;
+sub setup {
+    my $self       = shift;
+    my $bootloader = Angelos::BootLoader->new(
+        appclass => ref $self,
+        host     => $self->host,
+        port     => $self->port,
+        server   => $self->server,
+        debug    => $self->debug,
+    );
+    my $engine = $bootloader->run;
+    $self->engine($engine);
+}
 
 sub run {
     my $self = shift;
     $self->engine->run;
 }
 
-sub setup {
-    my $self = shift;
-    eval {
-        $self->setup_home;
-        $self->setup_application_class;
-        $self->setup_plugins;
-        $self->setup_engine;
-        $self->setup_logger;
-        $self->setup_components;
-        $self->setup_dispatcher;
-    };
-    if ( my $e = $@ ) {
-        $self->log->error("Error occured in setup. cause: \n" . $e),
-        rethrow_exception($e);
-    }
-}
-
-sub setup_plugins {
-    my $self = shift;
-    $self->setup_debug_plugins;
-}
-
-sub setup_application_class {
-    my $self = shift;
-    Angelos::Config->application_class( ref $self );
-}
-
-sub setup_debug_plugins {
-    my $self = shift;
-    if ( $self->is_debug ) {
-        my @plugins = ( { module => 'Components' }, { module => 'Routes' } );
-        $self->load_plugin( $_->{module} ) for @plugins;
-    }
-}
-
-sub setup_home {
-    my $self = shift;
-    my $home = Angelos::Home->home( ref $self );
-    return $home;
-}
-
-sub setup_engine {
-    my $self   = shift;
-    my $engine = Angelos::Engine->new(
-        root   => $self->root,
-        host   => $self->host,
-        port   => $self->port,
-        server => $self->server,
-        conf   => $self->conf,
-    );
-    $engine->load_plugin( $_->{module} ) for $self->config->plugins('engine');
-    $self->engine($engine);
-    $engine;
-}
-
-sub setup_logger {
-    Angelos::Logger->instance;
-}
-
-sub setup_components {
-    my $self = shift;
-    my $components
-        = $self->engine->component_manager->setup( ref $self );
-    $components;
-}
-
-sub setup_dispatcher {
-    my $self = shift;
-    $self->_setup_dispatch_rules;
-}
-
-sub _setup_dispatch_rules {
-    my $self     = shift;
-    my $routeset = $self->build_routeset;
-    $self->engine->set_routeset($routeset);
-}
-
-sub build_routeset {
-    my $self = shift;
-    my $routeset
-        = Angelos::Dispatcher::Routes::Builder->new->build_from_config;
-    $routeset->[0];
-}
-
-sub build_root {
-    Angelos::Home->path_to('root')->absolute;
-}
-
-sub is_debug {
-    my $self = shift;
-    my $is_debug;
-    $is_debug ||= $ENV{ANGELOS_DEBUG};
-    $is_debug ||= Angelos::Utils::env_value( ref $self, 'DEBUG' );
-    $is_debug ||= $self->debug;
-    return $is_debug;
-}
 
 __END_OF_CLASS__
 

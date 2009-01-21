@@ -34,11 +34,8 @@ has 'component_manager' => (
 
 sub build_request_handler {
     my $self            = shift;
-    my $request_handler = eval {
-        Angelos::Middleware::Builder->build(
-            sub { my $req = shift; $self->handle_request($req) } );
-    };
-    die "Can't create request handler correctly" unless $request_handler;
+    my $request_handler = Angelos::Middleware::Builder->build(
+        sub { my $req = shift; $self->handle_request($req) } );
     $request_handler;
 }
 
@@ -68,7 +65,7 @@ sub DISPATCH {
     my $dispatch = $self->dispatcher->dispatch($req);
 
     unless ( $dispatch->has_matches ) {
-        $self->log->info("404 Not Found. path: " . $req->path);
+        $self->log->info( "404 Not Found. path: " . $req->path );
         $c->res->status(404);
         $c->res->body("404 Not Found.");
         return $c->res;
@@ -79,7 +76,7 @@ sub DISPATCH {
 
 sub HANDLE_EXCEPTION {
     my ( $self, $c, $error ) = @_;
-    $self->log->error("404 Not Found. path: " . $error);
+    $self->log->error( "404 Not Found. path: " . $error );
     $c->res->content_type('text/html; charset=utf-8');
     $c->res->status(500);
     $c->res->body( 'Internal Error:' . $error );

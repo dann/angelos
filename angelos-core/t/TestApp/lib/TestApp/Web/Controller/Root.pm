@@ -9,7 +9,7 @@ sub index {
     my ( $self, $c, $params ) = @_;
     $self->log->debug('index method in Root controller');
     #$c->redirect('http://www.google.co.jp');
-    #$c->res->body('HelloWorld');
+    $c->res->body('HelloWorld');
 }
 
 sub tt {
