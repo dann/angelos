@@ -7,7 +7,7 @@ HTTP::Router->define(
         $_->match('/detach_test')->to( { controller => 'Root', action => 'detach' } );
 #        $_->match('/middlewareunicode')
 #            ->to( { controller => 'MiddlewareUnicode', action => 'index' } );
-#        $_->resources('Book');
+        $_->resources('Book');
     }
 );
 

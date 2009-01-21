@@ -15,7 +15,7 @@ has '__contenttype_to_view_mappings' => (
 sub __content_type {
     my ( $self, ) = @_;
     my $content_type ||= $self->__content_type_from_format;
-    $content_type    ||= $self->__perform_content_negotiation();
+    $content_type    ||= $self->__content_type_from_accept_header;
     $content_type    ||= 'text/html';
     $content_type;
 }
@@ -28,7 +28,7 @@ sub __content_type_from_format {
 
 sub __content_type_from_accept_header {
     my $self    = shift;
-    my @accepts = $self->request->header('Accept');
+    my @accepts = $self->req->header('Accept');
     return $accepts[0] if @accepts;
 }
 
@@ -38,16 +38,6 @@ sub __select_view {
     $view ||= 'TT';
     $view;
 }
-
-# TODO
-# merb's interface seems good.
-#
-# :format<Symbol>:: A registered mime-type format
-# :template<String>::
-# The path to the template relative to the template root
-# :status<~to_i>::
-# The status to send to the client. Typically, this would be an integer
-# (200), or a Merb status code (Accepted)
 
 sub render {
     my ( $self, @args ) = @_;

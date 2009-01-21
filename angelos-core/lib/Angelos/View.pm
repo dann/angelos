@@ -4,6 +4,7 @@ use Angelos::Home;
 use Angelos::MIMETypes;
 use Path::Class qw(file dir);
 use Angelos::Exceptions;
+use Params::Validate qw(SCALAR);
 
 with( 'Angelos::Component', );
 
@@ -45,20 +46,37 @@ sub BUILD {
 
 sub SETUP { }
 
+# format
+# -A registered mime-type format
+# template
+# The path to the template relative to the template root
+# tatus
+#   The status to send to the client. Typically, this would be an integer
+#  (200), or a Merb status code (Accepted)
+# params
+#   template parameters
 sub render {
-    my ( $self, $args ) = @_;
-    $self->RENDER($args);
+    my $self   = shift;
+    my %params = Params::Validate::validate(
+        @_,
+        {   template => { optional => 1 },
+            format   => { optional => 1 },
+            status   => { optional => 1 },
+            params   => { optional => 1 },
+        },
+    );
+    $self->RENDER( \%params );
 }
 
 sub RENDER {
-    my ( $self, $args ) = @_;
+    my ( $self, $opts ) = @_;
     my $c             = $self->context;
-    my $template      = $self->_template($c);
-    my $template_path = $self->_template_path($c);
+    my $template      = $self->_template( $c, $opts->{template} );
+    my $template_path = $self->_template_path( $c, $opts->{template} );
     return undef unless $template || $template_path;
 
     $self->_build_stash($c);
-    my $vars   = $self->_build_template_vars( $c, $args );
+    my $vars   = $self->_build_template_vars( $c, $opts->{params} );
     my $output = $self->_do_render( $c,           $vars );
     return undef unless $output;
 
@@ -123,22 +141,19 @@ sub _build_response {
 }
 
 sub _template {
-    my ( $self, $c ) = @_;
-    my $template ||= $c->stash->{template};
-
+    my ( $self, $c, $given_template ) = @_;
+    my $template ||= $given_template;
     $template
         ||= lc( $c->_match->params->{controller} ) . "/"
         . $c->_match->params->{action}
         . $self->TEMPLATE_EXTENSION;
-
-    # FIXME
     $c->stash->{template} = $template;
     $template;
 }
 
 sub _template_path {
-    my ( $self, $c ) = @_;
-    my $template      = $c->stash->{template};
+    my ( $self, $c, $given_template ) = @_;
+    my $template ||= $given_template;
     my $template_path = $c->stash->{template_path};
     if ( $template && !$template_path ) {
         my $path = file( $self->root, $template );
