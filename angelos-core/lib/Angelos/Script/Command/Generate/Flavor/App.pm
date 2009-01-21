@@ -221,7 +221,7 @@ template: |+
   
   sub index {
       my ($self, $params) = @_;
-      $self->view("TT")->render;
+      $self->render(params => {name => 'Yamada Taro'});
   }
   
   __END_OF_CLASS__
@@ -286,7 +286,8 @@ template: |
       </head>
       <body>
           <h2>Welcome to the Angelos Web Framework!</h2>
-          This page was generated from the template "templates/root/index.tt",
+          <p> Hi [% name %] </p>
+          <p> This page was generated from the template "templates/root/index.tt" </p>
       </body>
   </html>
 ---
