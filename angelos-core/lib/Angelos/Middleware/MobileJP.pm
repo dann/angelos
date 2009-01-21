@@ -15,12 +15,25 @@ sub wrap {
     my ( $self, $next ) = @_;
     sub {
         my $req = shift;
+        $self->setup_encoding($req);
         $self->decode_params($req);
         my $res = $next->($req);
         my $encoding = $req->mobile_agent->encoding;
         $self->escape_specialchars($res, $encoding);
         $res;
     };
+}
+
+sub setup_encoding {
+    my ($self, $req) = @_;
+
+    $self->encoding(do {
+        my $encoding = $req->mobile_agent->encoding;
+        ref($encoding) && $encoding->isa('Encode::Encoding')
+            ? $encoding
+            : Encode::find_encoding($encoding);
+    });
+
 }
 
 sub decode_params {
@@ -44,7 +57,7 @@ sub escape_specialchars {
         and not ref($body)
         and $res->content_type =~ $decoding_content_type )
     {
-        $body = $encoding->encode(
+        $body = $self->encoding->encode(
             $body,
             sub {
                 my $char = shift;

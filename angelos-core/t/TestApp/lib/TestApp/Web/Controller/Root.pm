@@ -14,7 +14,8 @@ sub index {
 
 sub tt {
     my ( $self, $c, $params ) = @_;
-    $self->view('TT')->render( { name => 'Yamada Taro' } );
+    $self->render( { name => 'Yamada Taro' } );
+    #$self->view('TT')->render( { name => 'Yamada Taro' } );
 }
 
 sub japanese {

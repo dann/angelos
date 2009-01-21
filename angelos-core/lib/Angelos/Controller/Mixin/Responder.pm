@@ -6,7 +6,7 @@ use Angelos;
 has '__contenttype_to_view_mappings' => (
     is      => 'rw',
     default => sub {
-        'text/html' => 'View::TT',
+        {'text/html' => 'TT'} ,
     }
 );
 
@@ -15,7 +15,7 @@ sub __content_type {
     my $format ||= $self->context->_match->{format};
     $format    ||= $self->__negotiate_content_type;
     $format    ||= 'html';
-    Angelos->available_mimitypes->mime_type_of($format);
+    Angelos->available_mimetypes->mime_type_of($format);
 }
 
 # TODO content type from header
