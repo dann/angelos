@@ -23,12 +23,13 @@ has 'types' => (
 
 sub mime_type_of {
     my ( $self, $ext ) = @_;
-    $self->types->{$ext} || 'text/plain';
+    $self->types->{$ext};
 }
 
 sub add_type {
-    my ( $self, $type, $extension ) = @_;
-    $self->types->{$type} = $extension;
+    my ( $self, $ext, $mime_type ) = @_;
+    $self->types->{$ext} = $mime_type;
 }
 
 __END_OF_CLASS__
+

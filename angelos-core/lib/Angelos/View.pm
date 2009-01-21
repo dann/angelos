@@ -89,7 +89,7 @@ sub _build_stash {
 
 sub _do_render {
     my ( $self, $c, $vars ) = @_;
-    my $output = eval { $self->_render( $c, $vars ); };
+    my $output = $self->_render( $c, $vars );
     $output;
 }
 

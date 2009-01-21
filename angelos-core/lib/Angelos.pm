@@ -7,15 +7,6 @@ use Angelos::MIMETypes;
 
 has 'engine' => ( is => 'rw', );
 
-has 'bootloader' => (
-    is      => 'rw',
-    default => sub {
-
-    }
-);
-
-has 'conf' => ( is => 'rw', );
-
 has 'appclass' => ( is => 'rw', );
 
 has 'host' => (
