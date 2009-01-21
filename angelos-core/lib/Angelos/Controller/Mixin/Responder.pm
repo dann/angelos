@@ -9,7 +9,6 @@ has '__contenttype_to_view_mappings' => (
         {   'text/html'        => 'TT',
             'application/json' => 'JSON',
         },
-        ;
     }
 );
 
