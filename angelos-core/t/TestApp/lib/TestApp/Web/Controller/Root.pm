@@ -6,15 +6,15 @@ extends 'Angelos::Controller';
 with 'Angelos::Class::Localizable';
 
 sub index {
-    my ( $self, $c, $params ) = @_;
+    my ( $self, $params ) = @_;
     $self->log->debug('index method in Root controller');
     #$c->redirect('http://www.google.co.jp');
-    $c->res->body('HelloWorld');
+    $self->res->body('HelloWorld');
 }
 
 sub tt {
     my ( $self, $c, $params ) = @_;
-    $c->view('TT')->render( { name => 'Yamada Taro' } );
+    $self->view('TT')->render( { name => 'Yamada Taro' } );
 }
 
 sub japanese {
@@ -22,14 +22,14 @@ sub japanese {
     warn $self->loc('Hello') . "\n";
 }
 
-sub forward {
+sub forward_test {
     my ($self, $c, $params) = @_;
-    $c->forward(controller => 'Books', action => 'index');
+    $self->forward(controller => 'Books', action => 'index');
 }
 
-sub detach {
+sub detach_test {
     my ($self, $c, $params) = @_;
-    $c->detach(controller => 'Books', action => 'index');
+    $self->detach(controller => 'Books', action => 'index');
 }
 
 __END_OF_CLASS__

@@ -27,12 +27,27 @@ has 'after_filters' => (
     }
 );
 
-has 'context' => ( is => 'rw', );
+has 'context' => (
+    is      => 'rw',
+    handles => [
+        qw(
+            req
+            res
+            forward
+            detach
+            forward_with_filters
+            detach_with_filters
+            model
+            view
+            controller
+            )
+    ],
+);
 
 sub SETUP { }
 
 sub _call_filters {
-    my ( $self, $filters, $context, $action, $params ) = @_;
+    my ( $self, $filters, $action, $params ) = @_;
     foreach my $filter ( @{$filters} ) {
         my $method = $filter->{name};
         unless ( exists $filter->{exclude}
@@ -40,7 +55,7 @@ sub _call_filters {
         {
             Carp::croak "$method doesn't exist"
                 unless __PACKAGE__->meta->has_method($method);
-            $self->$method->( $context, $action, $params );
+            $self->$method->( $self->context, $action, $params );
         }
     }
 }
@@ -62,12 +77,12 @@ sub add_after_filter {
 }
 
 sub _do_action {
-    my ( $self, $context, $action, $params ) = @_;
+    my ( $self, $action, $params ) = @_;
 
-    return if $context->finished;    # already redirected
+    return if $self->context->finished;    # already redirected
 
-    $self->_call_filters( $self->before_filters, $context, $action, $params );
-    eval { $self->ACTION( $context, $action, $params ); };
+    $self->_call_filters( $self->before_filters, $action, $params );
+    eval { $self->ACTION( $self->context, $action, $params ); };
 
     my $e;
     if ( $e = Exception::Class->caught('Angelos::Exception::Detach') ) {
@@ -78,12 +93,12 @@ sub _do_action {
         rethrow_exception($e);
     }
 
-    $self->_call_filters( $self->after_filters, $context, $action, $params );
+    $self->_call_filters( $self->after_filters, $action, $params );
 }
 
 sub ACTION {
     my ( $self, $context, $action, $params ) = @_;
-    $self->$action( $context, $params );
+    $self->$action($params);
 }
 
 sub is_plugin_loaded {

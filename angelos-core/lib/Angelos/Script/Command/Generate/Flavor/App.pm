@@ -220,8 +220,8 @@ template: |+
   extends 'Angelos::Controller';
   
   sub index {
-      my ($self, $c, $params) = @_;
-      $c->view("TT")->render;
+      my ($self, $params) = @_;
+      $self->view("TT")->render;
   }
   
   __END_OF_CLASS__
