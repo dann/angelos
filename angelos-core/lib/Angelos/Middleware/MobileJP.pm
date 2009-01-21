@@ -18,22 +18,19 @@ sub wrap {
         $self->setup_encoding($req);
         $self->decode_params($req);
         my $res = $next->($req);
-        my $encoding = $req->mobile_agent->encoding;
-        $self->escape_specialchars($res, $encoding);
+        $self->escape_specialchars($res);
         $res;
     };
 }
 
 sub setup_encoding {
     my ($self, $req) = @_;
-
     $self->encoding(do {
         my $encoding = $req->mobile_agent->encoding;
         ref($encoding) && $encoding->isa('Encode::Encoding')
             ? $encoding
             : Encode::find_encoding($encoding);
     });
-
 }
 
 sub decode_params {
@@ -51,7 +48,7 @@ my $htmlspecialchars = join '', keys %htmlspecialchars;
 our $decoding_content_type = qr{^text|xml$|javascript$};
 
 sub escape_specialchars {
-    my ( $self, $res, $encoding ) = @_;
+    my ( $self, $res ) = @_;
     my $body = $res->body;
     if (    $body
         and not ref($body)
