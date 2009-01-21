@@ -7,7 +7,6 @@ use HTTP::Engine::Response;
 use Angelos::MIMETypes;
 use Path::Class;
 use Angelos::Home;
-use File::stat;
 
 has 'types' => (
     is      => 'rw',
@@ -61,7 +60,7 @@ sub serve_static {
     my $self      = shift;
     my $full_path = shift;
     my $type      = $self->_extension_to_type($full_path);
-    my $stat      = stat $full_path;
+    my $stat      = $full_path->stat;
 
     my $res = HTTP::Engine::Response->new;
     $res->header( 'Content-Type'   => $type );
