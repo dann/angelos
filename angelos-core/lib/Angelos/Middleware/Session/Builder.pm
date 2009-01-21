@@ -1,5 +1,5 @@
-package Angelos::Engine::Plugin::Session::Builder;
-use Mouse;
+package Angelos::Middleware::Session::Builder;
+use Angelos::Class;
 use HTTP::Session;
 use Angelos::Config;
 use UNIVERSAL::require;
@@ -50,8 +50,6 @@ has 'session_id_class' => (
     }
 );
 
-no Mouse;
-
 sub build {
     my ( $self, $request ) = @_;
     HTTP::Session->new(
@@ -77,12 +75,12 @@ sub _build_session_state {
 }
 
 sub _session {
-    my $session_plugin = Angelos::Config->instance->plugins( 'engine', 'Session' )
+    my $session_plugin = Angelos::Config->instance->middlewares( 'Session' )
         or die
         'session config must be set before the session plugin used at global section in conf/config.yaml';
     $session_plugin;
 }
 
-__PACKAGE__->meta->make_immutable;
+__END_OF_CLASS__
 
-1;
+__END__

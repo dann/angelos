@@ -40,15 +40,6 @@ has 'finished' => (
 
 has '_match' => ( is => 'rw', );
 
-# FIXME
-# need to consider later
-# this attribute should be added by plugin
-# should I use Sub::Install or something like that?
-has 'session' => (
-    is  => 'rw',
-    isa => 'HTTP::Session',
-);
-
 sub req {
     shift->request;
 }
@@ -57,10 +48,9 @@ sub res {
     shift->response;
 }
 
-# TODO: TO BE ADDED
-#sub session {
-#    $shift->request->session;
-#}
+sub session {
+    shift->request->session;
+}
 
 sub view {
     my ( $self, $view ) = @_;

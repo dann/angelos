@@ -71,7 +71,16 @@ sub components {
 
 sub middlewares {
     my $self        = shift;
+    my $module         = shift;
     my $middlewares = $self->_get('middlewares');
+    if ($module) {
+        foreach my $middleware ( @{$middlewares} ) {
+            if ( $module eq $middleware->{module} ) {
+                return $middleware;
+            }
+        }
+        return +{};
+    }
 
     unless ($middlewares) {
         return wantarray ? () : [];

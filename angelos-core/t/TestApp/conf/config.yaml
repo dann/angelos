@@ -17,3 +17,14 @@ middlewares:
   - module: Angelos::Middleware::MobileAgent
   - module: Angelos::Middleware::MobileJP
   - module: Angelos::Middleware::Session
+#    config:
+#      store:
+#        class: HTTP::Session::Store::File
+#        config:
+#           dir: /tmp/session
+#      state:
+#        class: HTTP::Session::State::URI
+#        config:
+#          session_id_name: hoge
+#      id: HTTP::Session::ID::SHA1
+
