@@ -3,6 +3,7 @@ use strict;
 use warnings;
 use Devel::MemUsed;
 use Module::Depends;
+use Number::Bytes::Human qw(format_bytes);
 
 main();
 
@@ -22,7 +23,7 @@ sub record_memory_usage {
         elsif ( defined $pid ) {
             my $memused = Devel::MemUsed->new;
             eval "use $module";
-            print sprintf( "%35s %08d", $module, $memused ) . "\n";
+            print sprintf( "%35s %08s", $module, $memused ) . "\n";
             exit();
         }
         else {

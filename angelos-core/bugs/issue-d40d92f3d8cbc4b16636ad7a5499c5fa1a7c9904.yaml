@@ -1,0 +1,18 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: "Config\xE3\x81\xAA\xE3\x81\xA9\xE3\x81\xAESingleton\xE3\x81\xAE\xE3\x82\xA4\xE3\x83\xB3\xE3\x82\xB9\xE3\x82\xBF\xE3\x83\xB3\xE3\x82\xB9\xE3\x81\xAE\xE8\xA8\xAD\xE8\xA8\x88\xE3\x81\xAE\xE5\x86\x8D\xE8\x80\x83"
+desc: ""
+type: :task
+component: angelos
+release: "0.01"
+reporter: dann <techmemo@gmail.com>
+status: :unstarted
+disposition: 
+creation_time: 2009-01-22 19:18:25.340288 Z
+references: []
+
+id: d40d92f3d8cbc4b16636ad7a5499c5fa1a7c9904
+log_events: 
+- - 2009-01-22 19:18:26.076845 Z
+  - dann <techmemo@gmail.com>
+  - created
+  - ""
