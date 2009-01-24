@@ -15,6 +15,10 @@ sub wrap {
 
 sub overload_request_method {
     my ( $self, $req ) = @_;
+
+    my $method = $req->method;
+    return $req unless $method && uc $method eq 'POST';
+
     my $overload = $req->param('_method')
         || $req->param('x-tunneled-method')
         || $req->header('X-HTTP-Method-Override');

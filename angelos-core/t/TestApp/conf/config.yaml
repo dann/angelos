@@ -4,8 +4,6 @@ components:
     - module: A
 
 plugins:
-  engine:
-   - module: Session
   controller:
    - module: ActionProfiler
 

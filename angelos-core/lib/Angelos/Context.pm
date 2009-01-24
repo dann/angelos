@@ -68,6 +68,7 @@ sub action {
     $self->_match->params->{action};
 }
 
+# TODO change interface
 # redirect_to( action => $action) ?
 # redirect_to( url => $url) ?
 sub redirect {
@@ -88,8 +89,7 @@ sub forward {
         @_,
         {   action => 1,    # required
             controller => { type => SCALAR },
-
-            #params     => { type => HASHREF },
+            params     => { optional => 1, type => HASHREF },
         }
     );
     my $controller ||= $forward_to{controller};

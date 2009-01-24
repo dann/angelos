@@ -1,7 +1,6 @@
 package Angelos::Middleware::Session;
 use Angelos::Class;
 use HTTP::Session;
-use Angelos::Config;
 use UNIVERSAL::require;
 
 BEGIN {
@@ -34,7 +33,7 @@ has 'state' => (
 
 has 'id' => (
     is      => 'rw',
-    default => 'HTTP::Session::ID::MD5'
+    default => 'HTTP::Session::ID::SHA1'
 );
 
 sub wrap {
@@ -47,7 +46,7 @@ sub wrap {
         $req->session->response_filter($res);
         $req->session->finalize;
         $res;
-        }
+    }
 }
 
 sub build_session {
