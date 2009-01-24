@@ -3,8 +3,8 @@ use strict;
 use warnings;
 use Carp ();
 use File::Spec;
-
-use vars qw/$SHARE_ROOT $ANGELOS_ROOT/;
+use YAML ();
+use Encode;
 
 # steal from Catalyst
 sub class2appclass {
@@ -56,8 +56,18 @@ sub class2env {
 sub is_plugin_loaded {
     my $plugin_type = shift;
     my $plugin_name = shift;
-    my $plugin = Angelos::Config->instance->plugins($plugin_type, $plugin_name);
+    my $plugin
+        = Angelos::Config->instance->plugins( $plugin_type, $plugin_name );
     $plugin ? 1 : 0;
+}
+
+sub load_yaml {
+    my $config_file_path = shift;
+    YAML::Load(
+        Encode::decode(
+            'utf8', YAML::Dump( YAML::LoadFile($config_file_path) )
+        )
+    );
 }
 
 1;

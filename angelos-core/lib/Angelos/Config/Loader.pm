@@ -1,12 +1,11 @@
 package Angelos::Config::Loader;
 use strict;
 use warnings;
-use YAML ();
 use Storable;
-use Encode;
 use Angelos::Config::Validator;
 use Angelos::Exceptions;
 use Data::Visitor::Callback;
+use Angelos::Utils;
 
 sub load {
     my ( $class, $stuff, $schema ) = @_;
@@ -18,19 +17,18 @@ sub load {
 }
 
 sub _substitute_config {
-    my ($class, $config) = @_;
+    my ( $class, $config ) = @_;
 
     # Data::Visitor::Callback uses Squirel.
     # Should we depends this module?
     my $v = Data::Visitor::Callback->new(
         plain_value => sub {
             return unless defined $_;
-            $class->_config_substitutions( $_ );
+            $class->_config_substitutions($_);
         }
     );
-    $v->visit( $config );
+    $v->visit($config);
 }
-
 
 =head2 _config_substitutions( $value )
 
@@ -48,13 +46,13 @@ default macros:
 =cut
 
 sub _config_substitutions {
-    my $class    = shift;
-    my $subs = {};
-    $subs->{ HOME }    ||= sub { shift->HOME; };
-    $subs->{ path_to } ||= sub { shift->path_to( @_ ); };
+    my $class = shift;
+    my $subs  = {};
+    $subs->{HOME}    ||= sub { shift->HOME; };
+    $subs->{path_to} ||= sub { shift->path_to(@_); };
     my $subsre = join( '|', keys %$subs );
 
-    for ( @_ ) {
+    for (@_) {
         s{__($subsre)(?:\((.+?)\))?__}{ $subs->{ $1 }->( "Angelos::Utils", $2 ? split( /,/, $2 ) : () ) }eg;
     }
 }
@@ -66,22 +64,9 @@ sub _make_config {
         $config = Storable::dclone($stuff);
     }
     else {
-        open my $fh, '<:utf8', $stuff
-            or Angelos::Exception::FileNotFound->throw(
-            message => "Can't open config: $stuff");
-        $config = YAML::LoadFile($fh);
-        $config = $class->_decode_config($config);
-        close $fh;
+        $config = Angelos::Utils::load_yaml($stuff);
     }
     $config;
-}
-
-sub _decode_config {
-    my ( $class, $data ) = @_;
-    my $yaml = YAML::Dump($data);
-    utf8::decode($yaml);
-    $data = YAML::Load($yaml);
-    $data;
 }
 
 1;
