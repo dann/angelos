@@ -1,13 +1,13 @@
 #!/usr/bin/env perl
 use strict;
 use warnings;
-use lib 't/lib','t/TestApp/lib';
+use FindBin::libs;
+use lib 't/TestApp/lib';
 use Test::More tests => 1;
 use Test::TCP;
 use TestApp;
 use HTTP::Engine;
 use LWP::UserAgent;
-use Carp::Always;
 
 my $module = shift || 'ServerSimple';
 my $port = shift || empty_port();

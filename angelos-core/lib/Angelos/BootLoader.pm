@@ -3,6 +3,7 @@ use Angelos::Class;
 use Angelos::Engine;
 use Angelos::Utils;
 use Angelos::Home;
+use Angelos::Request;
 use Angelos::Dispatcher::Routes::Builder;
 use Angelos::Exceptions qw(rethrow_exception);
 
@@ -61,7 +62,9 @@ sub SETUP {
     eval {
         $self->setup_home;
         $self->setup_application_class;
-        $self->setup_plugins;
+        $self->setup_bootloader_plugins;
+        $self->setup_request;
+        $self->setup_response;
         $self->setup_engine;
         $self->setup_logger;
         $self->setup_components;
@@ -73,9 +76,8 @@ sub SETUP {
     return $self->engine;
 }
 
-sub setup_plugins {
-    my $self = shift;
-    $self->setup_debug_plugins;
+sub setup_mixins {
+    Angelos::Mixin::Loader->load;
 }
 
 sub setup_application_class {
@@ -83,7 +85,7 @@ sub setup_application_class {
     Angelos::Config->application_class( $self->appclass );
 }
 
-sub setup_debug_plugins {
+sub setup_bootloader_plugins {
     my $self = shift;
     if ( $self->is_debug ) {
         my @plugins
@@ -96,6 +98,14 @@ sub setup_home {
     my $self = shift;
     my $home = Angelos::Home->home( $self->appclass );
     return $home;
+}
+
+sub setup_request {
+    my $self = shift;
+    Angelos::Request->setup;
+}
+
+sub setup_response {
 }
 
 sub setup_engine {

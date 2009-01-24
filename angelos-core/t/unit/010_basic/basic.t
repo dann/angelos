@@ -1,9 +1,7 @@
 #!/usr/bin/env perl
 use strict;
 use warnings;
-use File::Spec;
-
-use lib File::Spec->catdir('t', 'lib');
+use FindBin::libs;
 
 AngelosTest->runtests;
 

@@ -6,7 +6,6 @@ use Test::TCP;
 use TestApp;
 use HTTP::Engine;
 use LWP::UserAgent;
-use Carp::Always;
 use Angelos::Test::Base;
 
 my $module = shift || 'ServerSimple';

@@ -44,6 +44,25 @@ sub plugins {
     return wantarray ? @{$plugins} : $plugins;
 }
 
+sub mixins {
+    my $self    = shift;
+    my $type    = shift;
+    my $module  = shift;
+    my $mixins = $self->_get( 'mixins', $type );
+    unless ($mixins) {
+        return wantarray ? () : [];
+    }
+    if ($module) {
+        foreach my $mixin( @{$mixins} ) {
+            if ( $module eq $mixin->{module} ) {
+                return $mixin;
+            }
+        }
+        return undef;
+    }
+    return wantarray ? @{$mixins} : $mixins;
+}
+
 sub components {
     my $self           = shift;
     my $component_type = shift;

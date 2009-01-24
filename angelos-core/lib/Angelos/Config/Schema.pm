@@ -104,43 +104,7 @@ sub config {
             mixins => {
                 type    => 'map',
                 mapping => {
-                    model => {
-                        type     => 'seq',
-                        sequence => [
-                            {   type    => 'map',
-                                mapping => {
-                                    module =>
-                                        { type => 'str', required => 1, },
-                                    config => { type => 'any', },
-                                },
-                            },
-                        ],
-                    },
-                    controller => {
-                        type     => 'seq',
-                        sequence => [
-                            {   type    => 'map',
-                                mapping => {
-                                    module =>
-                                        { type => 'str', required => 1, },
-                                    config => { type => 'any', },
-                                },
-                            },
-                        ],
-                    },
-                    view => {
-                        type     => 'seq',
-                        sequence => [
-                            {   type    => 'map',
-                                mapping => {
-                                    module =>
-                                        { type => 'str', required => 1, },
-                                    config => { type => 'any', },
-                                },
-                            },
-                        ],
-                    },
-                    debug => {
+                    request => {
                         type     => 'seq',
                         sequence => [
                             {   type    => 'map',

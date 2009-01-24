@@ -62,12 +62,16 @@ sub is_plugin_loaded {
 }
 
 sub load_yaml {
-    my $config_file_path = shift;
-    YAML::Load(
-        Encode::decode(
-            'utf8', YAML::Dump( YAML::LoadFile($config_file_path) )
-        )
-    );
+    my $filename = shift;
+    my $IN;
+    if ( ref $filename eq 'GLOB' ) {
+        $IN = $filename;
+    }
+    else {
+        open $IN, '<:utf8', $filename
+            or die "can't open $filename";
+    }
+    YAML::Load( Encode::decode( 'utf8', YAML::Dump( YAML::LoadFile($IN) ) ) );
 }
 
 1;

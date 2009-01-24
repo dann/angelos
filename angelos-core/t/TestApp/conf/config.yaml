@@ -9,10 +9,14 @@ plugins:
 
 #   - module: DebugHook 
 
+mixins:
+  request:
+   - module: MobileAgent 
+
 middlewares:
   - module: Angelos::Middleware::DebugRequest
   - module: Angelos::Middleware::Static
-  - module: Angelos::Middleware::MobileAgent
+#  - module: Angelos::Middleware::MobileAgent
   - module: Angelos::Middleware::MobileJP
   - module: Angelos::Middleware::Session
 #    config:
