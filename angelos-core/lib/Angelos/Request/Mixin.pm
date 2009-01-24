@@ -7,4 +7,5 @@ sub install_method {
     install_subroutine( 'HTTP::Engine::Request', $method_name => $code, );
 }
 
+
 __END_OF_CLASS__

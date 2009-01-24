@@ -28,6 +28,7 @@ name 'Angelos';
 all_from 'lib/Angelos.pm';
 
 requires(
+
     # Basics
     'Mouse'                             => '0.14',
     'HTTP::Engine'                      => 0,
@@ -48,6 +49,7 @@ requires(
     'Class::Singleton'                  => 0,
     'Params::Validate'                  => 0,
     'Class::Method::Modifiers::Fast'    => 0,
+    'Data::Util'                        => 0,
 
     # Config
     'Kwalify'                 => 0,
