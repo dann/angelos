@@ -4,6 +4,7 @@ use Angelos::Engine;
 use Angelos::Utils;
 use Angelos::Home;
 use Angelos::Request;
+use Angelos::Response;
 use Angelos::Dispatcher::Routes::Builder;
 use Angelos::Exceptions qw(rethrow_exception);
 
@@ -76,10 +77,6 @@ sub SETUP {
     return $self->engine;
 }
 
-sub setup_mixins {
-    Angelos::Mixin::Loader->load;
-}
-
 sub setup_application_class {
     my $self = shift;
     Angelos::Config->application_class( $self->appclass );
@@ -106,6 +103,8 @@ sub setup_request {
 }
 
 sub setup_response {
+    my $self = shift;
+    Angelos::Response->setup;
 }
 
 sub setup_engine {
