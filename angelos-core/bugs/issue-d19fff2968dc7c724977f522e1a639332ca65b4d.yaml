@@ -1,0 +1,18 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: "application class\xE3\x81\xAEMyApp::Config\xE3\x81\xB8\xE3\x81\xAE\xE7\xA7\xBB\xE5\x8B\x95"
+desc: ""
+type: :task
+component: angelos
+release: "0.01"
+reporter: dann <techmemo@gmail.com>
+status: :unstarted
+disposition: 
+creation_time: 2009-01-25 10:26:17.131590 Z
+references: []
+
+id: d19fff2968dc7c724977f522e1a639332ca65b4d
+log_events: 
+- - 2009-01-25 10:26:17.475722 Z
+  - dann <techmemo@gmail.com>
+  - created
+  - ""
