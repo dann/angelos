@@ -123,6 +123,6 @@ test_requires(
 install_script 'bin/angelos';
 
 use_test_base;
+auto_include;
 auto_install;
-#auto_include;
 WriteAll;
