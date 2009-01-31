@@ -2,7 +2,7 @@
 use strict;
 use warnings;
 use FindBin::libs;
-use lib 't/TestApp/lib';
+use lib glob 't/App/*/lib';
 use Test::More tests => 1;
 use Test::TCP;
 use TestApp;

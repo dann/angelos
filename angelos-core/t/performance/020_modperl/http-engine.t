@@ -1,5 +1,6 @@
 use strict;
-use lib 't/lib','t/TestApp/lib';
+use FindBin::libs;
+use lib glob 't/App/*/lib';
 use Angelos::Test::Benchmark::ModPerl;
 
 benchmark_diag(

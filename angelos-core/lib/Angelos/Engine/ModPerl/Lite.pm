@@ -1,5 +1,5 @@
 package Angelos::Engine::ModPerl::Lite;
-use Mouse;
+use Angelos::Class;
 extends 'HTTP::Engine::Interface::ModPerl';
 
 no Mouse;
@@ -22,9 +22,9 @@ sub _setup_home {
     $ENV{ANGELOS_HOME} = $ENV{DOCUMENT_ROOT};
 }
 
-__PACKAGE__->meta->make_immutable;
+__END_OF_CLASS__
 
-1;
+__END__
 
 =head1 SYNOPSIS
 

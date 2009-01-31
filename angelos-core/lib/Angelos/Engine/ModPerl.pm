@@ -1,8 +1,6 @@
 package Angelos::Engine::ModPerl;
-use Mouse;
+use Angelos::Class;
 extends 'HTTP::Engine::Interface::ModPerl';
-
-no Mouse;
 
 sub create_engine {
     my ( $class, $r, $context_key ) = @_;
@@ -18,9 +16,7 @@ sub _load_app_class {
     $app_class;
 }
 
-__PACKAGE__->meta->make_immutable;
-
-1;
+__END_OF_CLASS__
 
 __END__
 
