@@ -7,7 +7,7 @@ sub setup {
     my $self = shift;
     for my $mixin ( $self->config->mixins('response') ) {
         my $module = join '::',
-            ( 'Angelos', 'Request', 'Mixin', $mixin->{module} );
+            ( 'Angelos', 'Response', 'Mixin', $mixin->{module} );
         $module->require or die "Can't load $module";
         $module->new->SETUP;
     }
