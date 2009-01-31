@@ -20,9 +20,9 @@ has 'root' => (
 );
 
 has 'host' => (
-    is  => 'rw',
-    isa => 'Str',
-    default  => '127.0.0.1',
+    is      => 'rw',
+    isa     => 'Str',
+    default => '127.0.0.1',
 );
 
 has 'port' => (
@@ -42,6 +42,11 @@ has 'debug' => (
     default => 0
 );
 
+has 'request_handler' => (
+    is  => 'rw',
+    isa => 'CodeRef',
+);
+
 sub BUILD {
     my $self = shift;
     $self->engine( $self->build_engine );
@@ -51,7 +56,8 @@ sub SETUP { }
 
 sub build_engine {
     my $self            = shift;
-    my $request_handler = $self->build_request_handler;
+    my $request_handler = $self->request_handler;
+    $request_handler ||= $self->build_request_handler;
 
     return HTTP::Engine->new(
         interface => {

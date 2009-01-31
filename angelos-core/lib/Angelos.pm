@@ -29,6 +29,8 @@ has 'debug' => (
     default => 0
 );
 
+has 'request_handler' => ( is => 'rw', );
+
 sub setup {
     my $self       = shift;
     my $bootloader = Angelos::BootLoader->new(
@@ -39,6 +41,8 @@ sub setup {
         debug    => $self->debug,
     );
     my $engine = $bootloader->run;
+    $engine->request_handler( $self->request_handler )
+        if $self->request_handler;
     $self->engine($engine);
 }
 
@@ -48,11 +52,11 @@ sub run {
 }
 
 our $MIMETYPES;
+
 sub available_mimetypes {
     $MIMETYPES = Angelos::MIMETypes->new;
     $MIMETYPES;
 }
-
 
 __END_OF_CLASS__
 
