@@ -29,6 +29,7 @@ has 'debug' => (
     default => 0
 );
 
+# This attribute is used for test only
 has 'request_handler' => ( is => 'rw', );
 
 sub setup {

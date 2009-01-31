@@ -1,7 +1,8 @@
 #!/usr/bin/env perl
 use strict;
 use warnings;
-use lib 'lib', 't/TestApp/lib';
+use lib 'lib', 't/lib';
+use lib glob 't/App/*/lib';
 use Devel::Leak::Object qw{ GLOBAL_bless };
 use Test::TCP;
 use TestApp;

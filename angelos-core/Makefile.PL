@@ -73,7 +73,6 @@ requires(
     'File::Find::Rule'  => 0,
     'Term::ReadLine'    => 0,
     'JSON::XS'          => 0,
-    'MIME::Types'       => 0,
 
     # Components
     'Template' => 0,
@@ -89,6 +88,7 @@ requires(
     # View Plugins (remove from core)
 
     # Middleware
+    'MIME::Types' => 0,
 );
 
 if (HAVE_MP) {

@@ -14,23 +14,9 @@ before_handle {
     $req;
 };
 
-# TODO
-# if a logger is provided from HTTP::Engine::Middleware ,
-# we don't need the implementation like below 
+# TBD mod_perl
 sub build_logger {
-    if ( eval "require Log::Dispatch; require Log::Dispatch::Screen; 1" ) {
-        my $dispatcher = Log::Dispatch->new;
-        $dispatcher->add(
-            Log::Dispatch::Screen->new(
-                name      => 'screen',
-                min_level => 'debug',
-            )
-        );
-        return $dispatcher;
-    }
-    else {
-        die 'Need to setup logger instance';
-    }
+    Angelos::Logger->instance;
 }
 
 sub report_request_info {
