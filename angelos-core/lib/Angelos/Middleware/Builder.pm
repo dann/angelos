@@ -14,11 +14,19 @@ sub build {
 sub _build_request_handler {
     my ( $class, $application_request_handler, $middlewares ) = @_;
     my $request_handler = $application_request_handler;
-    my $mw = HTTP::Engine::Middleware->new;
+    my $mw              = HTTP::Engine::Middleware->new;
     for my $middleware ( @{$middlewares} ) {
-        $mw->install($middleware->{module} => $middleware->{config} || {});
+        my $middleware_name
+            = $class->resovle_middleware_name( $middleware->{module} );
+        $mw->install( $middleware_name => $middleware->{config} || {} );
     }
     $mw->handler($application_request_handler);
+}
+
+sub resovle_middleware_name {
+    my ( $class, $name ) = @_;
+    my $middleeware_name ||= 'Angelos::Middleware::' . $name;
+    return $middleeware_name;
 }
 
 sub _get_middlewares {

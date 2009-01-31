@@ -14,13 +14,13 @@ mixins:
    - module: MobileAgent 
 
 middlewares:
-  - module: Angelos::Middleware::DebugScreen
-  - module: Angelos::Middleware::DebugRequest
-  - module: Angelos::Middleware::Static
-  - module: Angelos::Middleware::Unicode
-  - module: Angelos::Middleware::Session
+  - module: DebugScreen
+  - module: DebugRequest
+  - module: Static
+  - module: Unicode
+  - module: Session
 
-#  - module: Angelos::Middleware::Session
+#  - module: Session
 #    config:
 #      store:
 #        class: HTTP::Session::Store::File
