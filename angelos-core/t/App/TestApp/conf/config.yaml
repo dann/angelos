@@ -1,0 +1,34 @@
+---
+components:
+  controller:
+    - module: A
+
+plugins:
+  controller:
+   - module: ActionProfiler
+
+#   - module: DebugHook 
+
+mixins:
+  request:
+   - module: MobileAgent 
+
+middlewares:
+  - module: Angelos::Middleware::DebugScreen
+  - module: Angelos::Middleware::DebugRequest
+  - module: Angelos::Middleware::Static
+  - module: Angelos::Middleware::Unicode
+  - module: Angelos::Middleware::Session
+
+#  - module: Angelos::Middleware::Session
+#    config:
+#      store:
+#        class: HTTP::Session::Store::File
+#        config:
+#           dir: /tmp/session
+#      state:
+#        class: HTTP::Session::State::URI
+#        config:
+#          session_id_name: hoge
+#      id: HTTP::Session::ID::SHA1
+ 

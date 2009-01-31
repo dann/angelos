@@ -53,7 +53,7 @@ sub wrap {
             my $res = $next->($req);
             return $res;
         }
-        }
+    }
 }
 
 sub is_static_file {
