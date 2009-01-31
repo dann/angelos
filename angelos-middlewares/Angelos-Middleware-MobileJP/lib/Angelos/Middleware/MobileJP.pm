@@ -1,4 +1,6 @@
 package Angelos::Middleware::MobileJP;
+use 5.00800;
+our $VERSION = '0.01';
 use HTTP::Engine::Middleware;
 use Encode;
 use Encode::JP::Mobile ':props';
@@ -79,3 +81,4 @@ sub escape_specialchars {
 __MIDDLEWARE__
 
 __END__
+

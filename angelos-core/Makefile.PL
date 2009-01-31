@@ -89,10 +89,6 @@ requires(
     # View Plugins (remove from core)
 
     # Middleware
-    'HTTP::MobileAgent'                  => 0,
-    'Encode::JP::Mobile'                 => 0,
-    'HTTP::MobileAgent::Plugin::Charset' => 0,
-    'Data::Visitor::Encode'              => 0,
 );
 
 if (HAVE_MP) {
