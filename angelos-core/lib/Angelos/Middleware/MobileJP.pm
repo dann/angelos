@@ -1,6 +1,5 @@
 package Angelos::Middleware::MobileJP;
-use Angelos::Class;
-
+use HTTP::Engine::Middleware;
 use Encode;
 use Encode::JP::Mobile ':props';
 use Encode::JP::Mobile::Character;
@@ -11,17 +10,20 @@ has 'encoding' => (
     is => 'rw',
 );
 
-sub wrap {
-    my ( $self, $next ) = @_;
-    sub {
-        my $req = shift;
-        $self->setup_encoding($req);
-        $self->decode_params($req);
-        my $res = $next->($req);
-        $self->escape_specialchars($res);
-        $res;
-    };
-}
+# outer_middleware 'HTTP::Engine::Middleware::MobileAgent';
+
+before_handle {
+    my ( $c, $self, $req ) = @_;
+    $self->setup_encoding($req) unless $self->encoding;
+    $self->decode_params($req);
+    $req;
+};
+
+after_handle {
+    my ( $c, $self, $req, $res ) = @_;
+    $self->escape_specialchars($res);
+    $res;
+};
 
 sub setup_encoding {
     my ($self, $req) = @_;
@@ -74,6 +76,6 @@ sub escape_specialchars {
 
 }
 
-__END_OF_CLASS__
+__MIDDLEWARE__
 
 __END__

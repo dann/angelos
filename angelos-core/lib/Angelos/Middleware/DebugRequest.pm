@@ -1,55 +1,59 @@
 package Angelos::Middleware::DebugRequest;
-use Angelos::Class;
+use HTTP::Engine::Middleware;
 use Text::SimpleTable;
-extends 'Angelos::Middleware';
 
-sub wrap {
-    my ( $self, $next ) = @_;
+has 'logger' => (
+    is      => 'rw',
+    lazy    => 1,
+    builder => 'build_logger',
+);
 
-    sub {
-        my $req = shift;
-        my $res = $next->($req);
-        $self->report_request($req);
-        return $res;
-        }
-}
+before_handle {
+    my ( $c, $self, $req ) = @_;
+    $self->report_request_info($req);
+    $req;
+};
 
-sub report_request {
-    my ( $self, $request ) = @_;
-    $self->report_query_parameters($request);
-    $self->report_body_parameters($request);
-    $self->report_matching_info($request);
-}
-
-sub report_query_parameters {
-    my ( $self, $req ) = @_;
-    if ( keys %{ $req->query_parameters } ) {
-        my $t
-            = Text::SimpleTable->new( [ 35, 'Parameter' ], [ 36, 'Value' ] );
-        for my $key ( sort keys %{ $req->query_parameters } ) {
-            my $param = $req->query_parameters->{$key};
-            my $value = defined($param) ? $param : '';
-            $t->row( $key,
-                ref $value eq 'ARRAY' ? ( join ', ', @$value ) : $value );
-        }
-        my $message = "Query Parameters are:\n" . $t->draw;
-        $self->log->info($message);
+# TODO
+# if a logger is provided from HTTP::Engine::Middleware ,
+# we don't need the implementation like below 
+sub build_logger {
+    if ( eval "require Log::Dispatch; require Log::Dispatch::Screen; 1" ) {
+        my $dispatcher = Log::Dispatch->new;
+        $dispatcher->add(
+            Log::Dispatch::Screen->new(
+                name      => 'screen',
+                min_level => 'debug',
+            )
+        );
+        return $dispatcher;
+    }
+    else {
+        die 'Need to setup logger instance';
     }
 }
 
-sub report_body_parameters {
+sub report_request_info {
+    my ( $self, $request ) = @_;
+    $self->report_params($request);
+    $self->report_matching_info($request);
+}
+
+sub report_params {
     my ( $self, $req ) = @_;
-    if ( keys %{ $req->body_parameters } ) {
-        my $t
-            = Text::SimpleTable->new( [ 35, 'Parameter' ], [ 36, 'Value' ] );
-        for my $key ( sort keys %{ $req->body_parameters } ) {
-            my $param = $req->body_parameters->{$key};
-            my $value = defined($param) ? $param : '';
-            $t->row( $key,
-                ref $value eq 'ARRAY' ? ( join ', ', @$value ) : $value );
+    for my $method (qw/params query_params body_params/) {
+        if ( keys %{ $req->$method } ) {
+            my $t = Text::SimpleTable->new( [ 35, 'Parameter' ],
+                [ 36, 'Value' ] );
+            for my $key ( sort keys %{ $req->$method } ) {
+                my $param = $req->$method->{$key};
+                my $value = defined($param) ? $param : '';
+                $t->row( $key,
+                    ref $value eq 'ARRAY' ? ( join ', ', @$value ) : $value );
+            }
+            my $message = "Parameters $method: \n" . $t->draw;
+            $self->logger->log( level => 'info', message => $message );
         }
-        my $message = "Body Parameters are:\n" . $t->draw;
-        $self->log->info($message);
     }
 }
 
@@ -62,7 +66,9 @@ sub report_matching_info {
     );
     $t->row( $req->path, $req->method, $req->base );
     my $message = "Matching Info:\n" . $t->draw;
-    $self->log->info($message);
+    $self->logger->info($message);
 }
 
-__END_OF_CLASS__
+__MIDDLEWARE__
+
+__END__

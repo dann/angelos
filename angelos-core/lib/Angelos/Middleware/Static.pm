@@ -1,17 +1,14 @@
 package Angelos::Middleware::Static;
-use Angelos::Class;
-extends 'Angelos::Middleware';
-
-use Angelos::Exceptions;
+use HTTP::Engine::Middleware;
 use HTTP::Engine::Response;
-use Angelos::MIMETypes;
+use MIME::Types;
 use Path::Class;
 use Angelos::Home;
 
 has 'types' => (
     is      => 'rw',
     default => sub {
-        Angelos::MIMETypes->new;
+        MIME::Types->new;
     }
 );
 
@@ -20,6 +17,28 @@ has 'prefix' => (
     default => 'static',
 );
 
+has 'root' => (
+    is      => 'rw',
+    lazy    => 1,
+    builder => 'build_root',
+);
+
+sub build_root {
+    # TODO
+    Angelos::Home->path_to( 'share', 'root' );
+}
+
+before_handle {
+    my ( $c, $self, $req ) = @_;
+    # TODO
+    $req;
+};
+
+after_handle {
+    my ( $c, $self, $req, $res ) = @_;
+    $res;
+};
+
 sub wrap {
     my ( $self, $next ) = @_;
     sub {
@@ -27,14 +46,14 @@ sub wrap {
 
         my $path = $req->path;
         if ( $self->is_static_file($path) ) {
-            my $full_path = Angelos::Home->path_to( 'share', 'root', $path );
+            my $full_path = file( $self->root, $path );
             return $self->serve_static($full_path);
         }
         else {
             my $res = $next->($req);
             return $res;
         }
-    }
+        }
 }
 
 sub is_static_file {
@@ -44,9 +63,9 @@ sub is_static_file {
         return 0 unless $path =~ /^\/$prefix.*/;
     }
 
-    my $ext = $self->_extract_extension($path);
-    my $type = $self->_extension_to_type($ext) || 'text/plain';
-    my $full_path = Angelos::Home->path_to( 'share', 'root', $path );
+    my $ext       = $self->_extract_extension($path);
+    my $type      = $self->_extension_to_type($ext) || 'text/plain';
+    my $full_path = file( $self->root, $path );
 
     if ( -f $full_path ) {
         return 1;
@@ -74,14 +93,13 @@ sub serve_static {
         $res->body($fh);
     }
     else {
-        Angelos::Exception->throw(
-            message => "Unable to open $full_path for reading" );
+        die "Unable to open $full_path for reading";
     }
     $res;
 }
 
 sub _extract_extension {
-    my ($self, $path) = @_;
+    my ( $self, $path ) = @_;
     $path =~ /\.(\w+)$/;
     my $ext = $1;
     $ext;
@@ -92,12 +110,12 @@ sub _extension_to_type {
     my $type;
     if ( $full_path =~ /.*\.(\S{1,})$/xms ) {
         my $ext = $1;
-        $type = $self->types->mime_type_of($ext);
+        $type = $self->types->mimeTypeOf($ext);
     }
     $type ||= 'text/plain';
     $type;
 }
 
-__END_OF_CLASS__
+__MIDDLEWARE__
 
 __END__

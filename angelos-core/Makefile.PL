@@ -32,6 +32,7 @@ requires(
     # Basics
     'Mouse'                             => '0.14',
     'HTTP::Engine'                      => 0,
+    'HTTP::Engine::Middleware'          => 0,
     'HTTP::Router'                      => 0,
     'HTTP::Session'                     => 0,
     'Module::Pluggable::Object'         => 0,

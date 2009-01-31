@@ -1,7 +1,6 @@
 package Angelos::Request;
 use Angelos::Class;
 use UNIVERSAL::require;
-extends 'HTTP::Engine::Request';
 with 'Angelos::Class::Configurable';
 
 sub setup {

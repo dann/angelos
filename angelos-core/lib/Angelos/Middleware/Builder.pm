@@ -1,7 +1,7 @@
 package Angelos::Middleware::Builder;
+use HTTP::Engine::Middleware;
 use UNIVERSAL::require;
 use Angelos::Config;
-use Data::Dumper;
 
 sub build {
     my $class                       = shift;
@@ -14,15 +14,11 @@ sub build {
 sub _build_request_handler {
     my ( $class, $application_request_handler, $middlewares ) = @_;
     my $request_handler = $application_request_handler;
+    my $mw = HTTP::Engine::Middleware->new;
     for my $middleware ( @{$middlewares} ) {
-        my $module = $middleware->{module};
-        $module->require or die $@;
-
-        my $middleware_instance
-            = $module->new( $middleware->{config}  || {} );
-        $request_handler = $middleware_instance->wrap($request_handler);
+        $mw->install($middleware->{module} => $middleware->{config} || {});
     }
-    $request_handler;
+    $mw->handler($application_request_handler);
 }
 
 sub _get_middlewares {
@@ -30,6 +26,7 @@ sub _get_middlewares {
 }
 
 1;
+
 __END__
 
 =head1 NAME

@@ -1,15 +1,15 @@
 package Angelos::Middleware::Session;
-use Angelos::Class;
+use HTTP::Engine::Middleware;
 use HTTP::Session;
 use UNIVERSAL::require;
 
 BEGIN {
+    # TODO use method_class? 
     *HTTP::Engine::Request::session = sub {
         my ( $self, $session ) = @_;
         $self->{session} = $session if $session;
         $self->{session};
     };
-
 }
 
 has 'store' => (
@@ -36,18 +36,19 @@ has 'id' => (
     default => 'HTTP::Session::ID::SHA1'
 );
 
-sub wrap {
-    my ( $self, $next ) = @_;
-    sub {
-        my $req     = shift;
-        my $session = $self->build_session($req);
-        $req->session($session);
-        my $res = $next->($req);
-        $req->session->response_filter($res);
-        $req->session->finalize;
-        $res;
-    }
-}
+before_handle {
+    my ( $c, $self, $req ) = @_;
+    my $session = $self->build_session($req);
+    $req->session($session);
+    $req;
+};
+
+after_handle {
+    my ( $c, $self, $req, $res ) = @_;
+    $req->session->response_filter($res);
+    $req->session->finalize;
+    $res;
+};
 
 sub build_session {
     my ( $self, $request ) = @_;
@@ -73,7 +74,7 @@ sub _build_session_state {
     $session_state_class->new( $self->state->{config} );
 }
 
-__END_OF_CLASS__
+__MIDDLEWARE__
 
 __END__
 
