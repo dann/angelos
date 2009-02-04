@@ -30,7 +30,7 @@ all_from 'lib/Angelos.pm';
 requires(
 
     # Basics
-    'Mouse'                             => '0.14',
+    'Mouse'                             => '0.15',
     'HTTP::Engine'                      => 0,
     'HTTP::Engine::Middleware'          => 0,
     'HTTP::Router'                      => 0,
