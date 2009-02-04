@@ -12,6 +12,7 @@ use Angelos::Test;
 use base qw(Angelos::Test::Class);
 
 sub use_test : Tests {
+    die 'oops';
     use_ok 'Angelos';
 }
 
