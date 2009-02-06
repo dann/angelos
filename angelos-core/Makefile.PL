@@ -31,7 +31,8 @@ requires(
 
     # Basics
     'Mouse'                             => '0.15',
-    'HTTP::Engine'                      => 0,
+    'MouseX::Types'                     => '0.01',
+    'HTTP::Engine'                      => '0.1.1',
     'HTTP::Engine::Middleware'          => 0,
     'HTTP::Router'                      => 0,
     'HTTP::Session'                     => 0,

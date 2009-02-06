@@ -3,22 +3,22 @@ components:
   controller:
     - module: A
 
-plugins:
-  controller:
-   - module: ActionProfiler
-
+#plugins:
+#  controller:
+#   - module: ActionProfiler
+#
 #   - module: DebugHook 
 
-mixins:
-  request:
-   - module: MobileAgent 
+#mixins:
+#  request:
+#   - module: MobileAgent 
 
-middlewares:
-  - module: DebugScreen
-  - module: DebugRequest
-  - module: Static
-  - module: Unicode
-  - module: Session
+#middlewares:
+#  - module: DebugScreen
+#  - module: DebugRequest
+#  - module: Static
+#  - module: Unicode
+#  - module: Session
 
 #  - module: Session
 #    config:
