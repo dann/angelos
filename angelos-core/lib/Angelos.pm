@@ -49,7 +49,7 @@ sub setup {
 
 sub run {
     my $self = shift;
-    $self->engine->run;
+    $self->engine->run(@_);
 }
 
 our $MIMETYPES;

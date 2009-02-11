@@ -7,9 +7,6 @@ with 'Angelos::Class::Localizable';
 
 sub index {
     my ( $self, $params ) = @_;
-    $self->log->debug('index method in Root controller');
-    warn $self->req->mobile_agent;
-    #$c->redirect('http://www.google.co.jp');
     $self->res->body('HelloWorld');
 }
 

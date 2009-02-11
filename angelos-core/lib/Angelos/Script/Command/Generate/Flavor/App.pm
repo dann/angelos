@@ -115,7 +115,6 @@ template: |
   #   - module: Session
   
   middlewares:
-    - module: Angelos::Middleware::Profile
     - module: Angelos::Middleware::DebugRequest
 ---
 file: conf/routes.pl

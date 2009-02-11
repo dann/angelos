@@ -15,12 +15,11 @@ has 'components' => (
 with 'Angelos::Class::Configurable';
 
 sub load_components {
-    my ( $self, $class ) = @_;
+    my ( $self, $application_class ) = @_;
 
-    my $appclass = $self->_application_class;
     my @paths   = qw( ::Web::Controller ::Model ::Web::View  );
     my $locator = Module::Pluggable::Object->new(
-        search_path => [ map { $appclass . $_ } @paths ], );
+        search_path => [ map { $application_class . $_ } @paths ], );
 
     my @comps = sort { length $a <=> length $b } $locator->plugins;
     my %comps = map { $_ => 1 } @comps;
@@ -91,10 +90,11 @@ sub load_component {
 }
 
 sub _get_component_config {
-    my ($self, $component) =@_;
+    my ( $self, $component ) = @_;
     my $suffix = Angelos::Utils::class2classsuffix($component);
-    my ($component_type, $class_suffix) = split "::", $suffix;
-    my $setting = $self->config->components(lc($component_type), $class_suffix); 
+    my ( $component_type, $class_suffix ) = split "::", $suffix;
+    my $setting
+        = $self->config->components( lc($component_type), $class_suffix );
     my $config = $setting->{config} || +{};
     $config;
 }

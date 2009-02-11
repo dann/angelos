@@ -6,8 +6,8 @@ type: :task
 component: angelos
 release: "0.01"
 reporter: dann <techmemo@gmail.com>
-status: :unstarted
-disposition: 
+status: :closed
+disposition: :fixed
 creation_time: 2009-01-23 05:06:21.882237 Z
 references: []
 
@@ -17,3 +17,7 @@ log_events:
   - dann <techmemo@gmail.com>
   - created
   - ""
+- - 2009-02-11 04:19:59.047089 Z
+  - dann <techmemo@gmail.com>
+  - closed with disposition fixed
+  - separate prosecces if you want to use multiple application in the same process

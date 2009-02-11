@@ -142,4 +142,5 @@ sub application_class {
     $APPLICAION_CLASS;
 }
 
+
 1;

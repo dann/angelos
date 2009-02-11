@@ -2,24 +2,32 @@ package Angelos::Middleware::Builder;
 use HTTP::Engine::Middleware;
 use UNIVERSAL::require;
 use Angelos::Config;
+use Angelos::Exceptions;
 
 sub build {
     my $class                       = shift;
     my $application_request_handler = shift;
     my $middlewares                 = $class->_get_middlewares;
-    $class->_build_request_handler( $application_request_handler,
+    my $handler
+        = $class->_build_request_handler( $application_request_handler,
         $middlewares );
+    return $handler;
 }
 
 sub _build_request_handler {
     my ( $class, $application_request_handler, $middlewares ) = @_;
-    my $request_handler = $application_request_handler;
-    my $mw              = HTTP::Engine::Middleware->new;
+    my $mw = HTTP::Engine::Middleware->new;
+
     for my $middleware ( @{$middlewares} ) {
         my $middleware_name
             = $class->resovle_middleware_name( $middleware->{module} );
-        $mw->install( $middleware_name => $middleware->{config} || {} );
+        my $config = $middleware->{config} || {};
+        #$middleware_name->require;
+        #Angelos::Exception->throw( message => "Can't load middleware:$@" )
+        #    if $@;
+        $mw->install( $middleware_name => $config );
     }
+
     $mw->handler($application_request_handler);
 }
 

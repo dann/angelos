@@ -72,6 +72,8 @@ sub SETUP {
         $self->setup_dispatcher;
     };
     if ( my $e = $@ ) {
+        warn 'coooooooooooooooooooooooooool';
+        warn $e;
         rethrow_exception($e);
     }
     return $self->engine;

@@ -68,9 +68,6 @@ sub action {
     $self->_match->params->{action};
 }
 
-# TODO change interface
-# redirect_to( action => $action) ?
-# redirect_to( url => $url) ?
 sub redirect {
     my ( $self, $location, $status ) = @_;
     unless ( $self->finished ) {

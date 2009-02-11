@@ -1,5 +1,6 @@
 package Angelos::Class;
 use Mouse;
+use utf8;
 
 sub init_class {
     my $klass = shift;
@@ -26,6 +27,7 @@ sub import {
 
     strict->import;
     warnings->import;
+    utf8->import;
 
     init_class($caller);
 

@@ -1,4 +1,5 @@
 package Angelos::Test::Class;
+use Carp ();
 use Getopt::Long;
 use Module::Load::Conditional qw(can_load);
 use strict;
@@ -44,7 +45,7 @@ sub runtests {
 }
 
 sub is_internal {
-    return $ENV{CHI_INTERNAL_TESTS};
+    return $ENV{ANGELOS_INTERNAL_TESTS};
 }
 
 sub internal_only {
