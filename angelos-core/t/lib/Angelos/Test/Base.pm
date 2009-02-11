@@ -30,20 +30,23 @@ use warnings;
 use Test::Base::Filter -base;
 use HTTP::Request;
 use HTTP::Engine::Response;
+use HTTP::Request::Common;
 use YAML;
 use Carp ();
 
 sub request {
     $self->assert_scalar(@_);
     my $args = YAML::Load(shift);
-
     Carp::croak 'path must be set'   unless $args->{path};
     Carp::croak 'method must be set' unless $args->{method};
-    my @opts = (
-        $args->{method}, "http://localhost" . $args->{path},
-        $args->{header}, $args->{content}
-    );
-    return HTTP::Request->new(@opts);
+
+    my $sub = HTTP::Request::Common->can( $args->{method} );
+
+    my $uri = $args->{uri};
+    $uri ||= 'http://localhost' . $args->{path};
+
+    $sub->( $uri, $args->{headers}, Content => $args->{content} )
+
 }
 
 sub response {

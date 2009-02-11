@@ -2,7 +2,6 @@ use strict;
 use warnings;
 use FindBin::libs;
 use lib glob File::Spec->catfile( 't', 'App', '*', 'lib' );
-#use Angelos::Test::Utils;
 use Angelos::Test::Base;
 
 plan tests => 1 * blocks;
@@ -24,10 +23,7 @@ __END__
 --- request
 method: GET
 path: /root/index
-params:
-  hoge: hoge
-  bar:  foo
 --- response
-body: 'hoge'
+body: hoge
 status: 200
 
