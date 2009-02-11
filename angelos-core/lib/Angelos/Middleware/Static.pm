@@ -24,37 +24,21 @@ has 'root' => (
 );
 
 sub build_root {
-    # TODO
     Angelos::Home->path_to( 'share', 'root' );
 }
 
 before_handle {
     my ( $c, $self, $req ) = @_;
-    # TODO
-    $req;
-};
 
-after_handle {
-    my ( $c, $self, $req, $res ) = @_;
-    $res;
-};
-
-sub wrap {
-    my ( $self, $next ) = @_;
-    sub {
-        my $req = shift;
-
-        my $path = $req->path;
-        if ( $self->is_static_file($path) ) {
-            my $full_path = file( $self->root, $path );
-            return $self->serve_static($full_path);
-        }
-        else {
-            my $res = $next->($req);
-            return $res;
-        }
+    my $path = $req->path;
+    if ( $self->is_static_file($path) ) {
+        my $full_path = file( $self->root, $path );
+        return $self->serve_static($full_path);
     }
-}
+    else {
+        $req;
+    }
+};
 
 sub is_static_file {
     my ( $self, $path ) = @_;

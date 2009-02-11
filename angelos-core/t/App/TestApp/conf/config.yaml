@@ -13,11 +13,11 @@ components:
 #  request:
 #   - module: MobileAgent 
 
-#middlewares:
-#  - module: DebugScreen
+middlewares:
+  - module: DebugScreen
+  - module: Static
+  - module: Unicode
 #  - module: DebugRequest
-#  - module: Static
-#  - module: Unicode
 #  - module: Session
 
 #  - module: Session

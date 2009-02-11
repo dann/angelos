@@ -8,6 +8,16 @@ before_handle {
     $req;
 };
 
+has 'logger' => (
+    is      => 'rw',
+    default => sub {
+        sub {
+            my ( $level, $message ) = @_;
+            my $logger = Angelos::Logger->instance->$level($message);
+            }
+    }
+);
+
 sub report_request_info {
     my ( $self, $request ) = @_;
     $self->report_request_basic_info($request);
@@ -26,7 +36,7 @@ sub report_params {
                 ref $value eq 'ARRAY' ? ( join ', ', @$value ) : $value );
         }
         my $message = "Parameters: \n" . $t->draw;
-        $self->log( 'info', $message );
+        $self->log( 'info' => $message );
     }
 }
 
@@ -39,7 +49,7 @@ sub report_request_basic_info {
     );
     $t->row( $req->path, $req->method, $req->base );
     my $message = "Matching Info:\n" . $t->draw;
-    $self->log( 'info', $message );
+    $self->log( 'info' => $message );
 }
 
 __MIDDLEWARE__
@@ -48,22 +58,22 @@ __END__
 
 =head1 NAME
 
-HTTP::Engine::Middleware::DebugRequest - documentation is TODO
 
 =head1 SYNOPSIS
 
-    my $mw = HTTP::Engine::Middleware->new;
-    $mw->install( 'HTTP::Engine::Middleware::DebugRequest' => {
-        logger => sub {
-            my($level, $msg) = @_;
-            warn $mgs;
-        },
-    });
-    HTTP::Engine->new(
-        interface => {
-            module => 'YourFavoriteInterfaceHere',
-            request_handler => $mw->handler( \&handler ),
-        }
-    )->run();
+=head1 DESCRIPTION
+
+=head1 AUTHOR
+
+Takatoshi Kitano E<lt>kitano.tk@gmail.comE<gt>
+
+=head1 CONTRIBUTORS
+
+=head1 SEE ALSO
+
+=head1 LICENSE
+
+This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself.
 
 =cut
