@@ -4,6 +4,7 @@ our $VERSION = '0.01';
 use Angelos::Class;
 use Angelos::BootLoader;
 use Angelos::MIMETypes;
+use Angelos::Registrar;
 
 has 'engine' => ( is => 'rw', );
 
@@ -34,6 +35,10 @@ has 'request_handler' => ( is => 'rw', );
 
 sub setup {
     my $self       = shift;
+
+    no warnings 'redefine';
+    local *Angelos::Registrar::context = sub { $self };
+
     my $bootloader = Angelos::BootLoader->new(
         appclass => ref $self,
         host     => $self->host,
@@ -49,6 +54,8 @@ sub setup {
 
 sub run {
     my $self = shift;
+
+    local *Angelos::Registrar::context = sub { $self };
     $self->engine->run(@_);
 }
 
