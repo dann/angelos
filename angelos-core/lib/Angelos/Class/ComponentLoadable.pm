@@ -1,6 +1,6 @@
 package Angelos::Class::ComponentLoadable;
 use Angelos::Role;
-use Angelos::Component::Manager;
+use Angelos::Registrar;
 
 has '__component_loader' => (
     is      => 'rw',
@@ -16,7 +16,7 @@ has '__component_loader' => (
 );
 
 sub __build_component_loader {
-    Angelos::Component::Manager->instance;
+    Angelos::Registrar::context()->engine->component_loader;
 }
 
 1;

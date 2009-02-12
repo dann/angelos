@@ -38,7 +38,6 @@ sub setup {
 
     no warnings 'redefine';
     local *Angelos::Registrar::context = sub { $self };
-
     my $bootloader = Angelos::BootLoader->new(
         appclass => ref $self,
         host     => $self->host,
@@ -55,12 +54,12 @@ sub setup {
 sub run {
     my $self = shift;
 
+    no warnings 'redefine';
     local *Angelos::Registrar::context = sub { $self };
     $self->engine->run(@_);
 }
 
 our $MIMETYPES;
-
 sub available_mimetypes {
     $MIMETYPES = Angelos::MIMETypes->new;
     $MIMETYPES;

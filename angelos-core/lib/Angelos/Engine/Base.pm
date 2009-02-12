@@ -47,6 +47,8 @@ has 'request_handler' => (
     isa => 'CodeRef',
 );
 
+has 'config' => ( is => 'rw', );
+
 sub BUILD {
     my $self = shift;
     $self->engine( $self->build_engine );

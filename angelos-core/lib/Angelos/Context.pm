@@ -85,7 +85,7 @@ sub forward {
     my %forward_to = Params::Validate::validate(
         @_,
         {   action => 1,    # required
-            controller => { type => SCALAR },
+            controller => { type     => SCALAR },
             params     => { optional => 1, type => HASHREF },
         }
     );
@@ -106,7 +106,7 @@ sub forward_with_filters {
         {   action => 1,    # required
             controller => { type => SCALAR },
 
-            #params     => { type => HASHREF },
+            params => { optional => 1, type => HASHREF },
         }
     );
     my $controller ||= $forward_to{controller};

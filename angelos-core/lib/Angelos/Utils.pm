@@ -53,14 +53,6 @@ sub class2env {
     return uc($class);
 }
 
-sub is_plugin_loaded {
-    my $plugin_type = shift;
-    my $plugin_name = shift;
-    my $plugin
-        = Angelos::Config->instance->plugins( $plugin_type, $plugin_name );
-    $plugin ? 1 : 0;
-}
-
 sub load_yaml {
     my $filename = shift;
     my $IN;

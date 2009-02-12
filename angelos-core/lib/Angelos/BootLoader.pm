@@ -1,6 +1,7 @@
 package Angelos::BootLoader;
 use Angelos::Class;
 use Angelos::Engine;
+use Angelos::Config;
 use Angelos::Utils;
 use Angelos::Home;
 use Angelos::Request;
@@ -10,7 +11,6 @@ use Angelos::Exceptions qw(rethrow_exception);
 
 with 'Angelos::Class::Loggable';
 with 'Angelos::Class::Pluggable';
-with 'Angelos::Class::Configurable';
 
 has _plugin_app_ns => (
     +default => sub {
@@ -18,7 +18,7 @@ has _plugin_app_ns => (
     }
 );
 
-has 'conf' => ( is => 'rw', );
+has 'config' => ( is => 'rw', );
 
 has 'appclass' => ( is => 'rw', );
 
@@ -62,11 +62,11 @@ sub SETUP {
     my $self = shift;
     eval {
         $self->setup_home;
-        $self->setup_application_class;
+        $self->setup_config;
+        $self->setup_engine;
         $self->setup_bootloader_plugins;
         $self->setup_request;
         $self->setup_response;
-        $self->setup_engine;
         $self->setup_logger;
         $self->setup_components;
         $self->setup_dispatcher;
@@ -75,11 +75,6 @@ sub SETUP {
         rethrow_exception($e);
     }
     return $self->engine;
-}
-
-sub setup_application_class {
-    my $self = shift;
-    Angelos::Config->application_class( $self->appclass );
 }
 
 sub setup_bootloader_plugins {
@@ -114,7 +109,7 @@ sub setup_engine {
         host   => $self->host,
         port   => $self->port,
         server => $self->server,
-        conf   => $self->conf,
+        conf   => $self->config,
     );
     $engine->load_plugin( $_->{module} ) for $self->config->plugins('engine');
     $self->engine($engine);
@@ -125,9 +120,17 @@ sub setup_logger {
     Angelos::Logger->instance;
 }
 
+sub setup_config {
+    my $self   = shift;
+    my $config = Angelos::Config->new;
+    $self->config($config);
+    $config;
+}
+
 sub setup_components {
-    my $self       = shift;
-    my $components = $self->engine->component_manager->setup( $self->appclass );
+    my $self = shift;
+    my $components
+        = $self->engine->component_manager->setup( $self->appclass );
     $components;
 }
 
@@ -140,6 +143,7 @@ sub _setup_dispatch_rules {
     my $self     = shift;
     my $routeset = $self->build_routeset;
     $self->engine->set_routeset($routeset);
+    $routeset;
 }
 
 sub build_routeset {

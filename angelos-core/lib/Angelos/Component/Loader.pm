@@ -6,6 +6,7 @@ use Devel::InnerPackage;
 use Angelos::Exceptions;
 use Scalar::Util;
 use Angelos::Config;
+use Angelos::Registrar;
 
 has 'components' => (
     is      => 'rw',
@@ -13,13 +14,19 @@ has 'components' => (
 );
 
 with 'Angelos::Class::Configurable';
+with 'Angelos::Class::ApplicationClassAware';
+
+sub setup {
+    my $self = shift;
+    my $components = $self->load_components;
+}
 
 sub load_components {
-    my ( $self, $application_class ) = @_;
+    my ( $self, ) = @_;
 
     my @paths   = qw( ::Web::Controller ::Model ::Web::View  );
     my $locator = Module::Pluggable::Object->new(
-        search_path => [ map { $application_class . $_ } @paths ], );
+        search_path => [ map { $self->application_class . $_ } @paths ], );
 
     my @comps = sort { length $a <=> length $b } $locator->plugins;
     my %comps = map { $_ => 1 } @comps;
@@ -111,27 +118,23 @@ sub search_component {
 
 sub search_model {
     my ( $self, $short_model_name ) = @_;
-    my $appclass = $self->_application_class;
+    my $appclass = $self->application_class;
     return $self->get_component(
         $appclass . "::Model::" . $short_model_name );
 }
 
 sub search_controller {
     my ( $self, $short_controller_name ) = @_;
-    my $appclass = $self->_application_class;
+    my $appclass = $self->application_class;
     return $self->get_component(
         $appclass . "::Web::Controller::" . $short_controller_name );
 }
 
 sub search_view {
     my ( $self, $short_view_name ) = @_;
-    my $appclass = $self->_application_class;
+    my $appclass = $self->application_class;
     return $self->get_component(
         $appclass . "::Web::View::" . $short_view_name );
-}
-
-sub _application_class {
-    Angelos::Config->application_class;
 }
 
 __END_OF_CLASS__

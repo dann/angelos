@@ -5,7 +5,6 @@ use base 'App::Cmd::Command';
 
 with 'Angelos::Class::Configurable';
 with 'Angelos::Class::Loggable';
-with 'Angelos::Class::ComponentLoadable';
 
 sub system {
     my ($self, @args) = @_;

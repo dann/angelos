@@ -8,7 +8,7 @@ use Angelos::Context;
 use Angelos::Middleware::Builder;
 use Angelos::Exceptions;
 use Exception::Class;
-use Angelos::Component::Manager;
+use Angelos::Component::Loader;
 extends 'Angelos::Engine::Base';
 with 'Angelos::Class::Pluggable';
 
@@ -23,7 +23,7 @@ has 'dispatcher' => (
 has 'component_manager' => (
     is      => 'rw',
     default => sub {
-        Angelos::Component::Manager->instance;
+        Angelos::Component::Loader->new;
     },
     handles => {
         'controller' => 'search_controller',
@@ -34,7 +34,7 @@ has 'component_manager' => (
 
 sub build_request_handler {
     my $self            = shift;
-    my $request_handler = Angelos::Middleware::Builder->build(
+    my $request_handler = Angelos::Middleware::Builder->new->build(
         sub { my $req = shift; $self->handle_request($req) } );
     $request_handler;
 }

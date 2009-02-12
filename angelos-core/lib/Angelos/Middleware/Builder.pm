@@ -1,8 +1,11 @@
 package Angelos::Middleware::Builder;
+use Angelos::Class;
 use HTTP::Engine::Middleware;
 use UNIVERSAL::require;
 use Angelos::Config;
 use Angelos::Exceptions;
+
+with 'Angelos::Class::Configurable';
 
 sub build {
     my $class                       = shift;
@@ -22,6 +25,7 @@ sub _build_request_handler {
         my $middleware_name
             = $class->resovle_middleware_name( $middleware->{module} );
         my $config = $middleware->{config} || {};
+
         #$middleware_name->require;
         #Angelos::Exception->throw( message => "Can't load middleware:$@" )
         #    if $@;
@@ -38,10 +42,11 @@ sub resovle_middleware_name {
 }
 
 sub _get_middlewares {
-    Angelos::Config->instance->middlewares;
+    my $self = shift;
+    $self->config->middlewares;
 }
 
-1;
+__END_OF_CLASS__
 
 __END__
 
