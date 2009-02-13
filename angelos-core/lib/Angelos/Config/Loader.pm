@@ -10,7 +10,7 @@ use Angelos::Utils;
 sub load {
     my ( $class, $stuff, $schema ) = @_;
     my $config = $class->_make_config($stuff);
-    Angelos::Config::Validator->validate_config( $config, $schema );
+    $class->validate_config($config, $schema);
     $class->_substitute_config($config);
 
     return $config;
@@ -28,6 +28,11 @@ sub _substitute_config {
         }
     );
     $v->visit($config);
+}
+
+sub validate_config {
+    my ($class, $config, $schema) = @_;
+    Angelos::Config::Validator->validate_config( $config, $schema );
 }
 
 =head2 _config_substitutions( $value )

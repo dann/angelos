@@ -1,5 +1,5 @@
 package Angelos::Controller::Mixin::Responder;
-use Mouse::Role;
+use Any::Moose '::Role';
 use Angelos::MIMETypes;
 use Angelos;
 

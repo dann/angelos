@@ -37,7 +37,7 @@ after SETUP => sub {
     $self->__validator_profiles({});
 
     # XXX: check this - auto processing
-    my $stuff = Angelos::Home->path_to(qw/conf validator.yaml/);
+    my $stuff = $self->home->path_to(qw/conf validator.yaml/);
     open my $fh, '<:utf8', $stuff
         or return;
     my $config = eval {

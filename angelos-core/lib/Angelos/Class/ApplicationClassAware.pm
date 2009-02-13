@@ -1,8 +1,8 @@
 package Angelos::Class::ApplicationClassAware;
-use Mouse::Role;
+use Any::Moose '::Role';
 use Angelos::Registrar;
 
-sub application_class {
+sub app_class {
     ref Angelos::Registrar::context();
 }
 

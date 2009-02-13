@@ -26,13 +26,13 @@ sub load_components {
 
     my @paths   = qw( ::Web::Controller ::Model ::Web::View  );
     my $locator = Module::Pluggable::Object->new(
-        search_path => [ map { $self->application_class . $_ } @paths ], );
+        search_path => [ map { $self->app_class. $_ } @paths ], );
 
     my @comps = sort { length $a <=> length $b } $locator->plugins;
     my %comps = map { $_ => 1 } @comps;
 
     for my $component (@comps) {
-        Mouse::load_class($component);
+        Any::Moose::load_class($component);
 
         my $module = $self->load_component($component);
         $self->_register_plugins_to($module);
@@ -81,6 +81,7 @@ sub get_component {
 sub load_component {
     my ( $self, $component ) = @_;
     my $config = $self->_get_component_config($component);
+    warn $component;
     my $instance = eval { $component->new( %{$config} ) };
 
     if ( my $error = $@ ) {
@@ -118,21 +119,21 @@ sub search_component {
 
 sub search_model {
     my ( $self, $short_model_name ) = @_;
-    my $appclass = $self->application_class;
+    my $appclass = $self->app_class;
     return $self->get_component(
         $appclass . "::Model::" . $short_model_name );
 }
 
 sub search_controller {
     my ( $self, $short_controller_name ) = @_;
-    my $appclass = $self->application_class;
+    my $appclass = $self->app_class;
     return $self->get_component(
         $appclass . "::Web::Controller::" . $short_controller_name );
 }
 
 sub search_view {
     my ( $self, $short_view_name ) = @_;
-    my $appclass = $self->application_class;
+    my $appclass = $self->app_class;
     return $self->get_component(
         $appclass . "::Web::View::" . $short_view_name );
 }

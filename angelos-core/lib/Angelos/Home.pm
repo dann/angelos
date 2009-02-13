@@ -1,28 +1,28 @@
 package Angelos::Home;
-use strict;
-use warnings;
+use Angelos::Class;
 use Angelos::Utils;
 use Path::Class qw(dir file);
 use File::Spec;
 use Cwd ();
-our $HOME;
 
-sub home {
-    my ( $class, $app_class ) = @_;
-    if ($HOME) {
-        return $HOME;
-    }
-    $HOME ||= $class->_get_home_from_angelos_env;
-    $HOME ||= $class->_get_home_from_application_env($app_class) if $app_class;
-    $HOME ||= $class->_document_root;
-    $HOME ||= $class->_search_home_from_module_file_path($app_class) if $app_class;
-    $HOME ||= $class->_current_dir;
-    $HOME;
-}
+with 'Angelos::Class::ApplicationClassAware';
 
-sub set_home {
-    my ( $class, $home ) = @_;
-    $HOME = $home;
+has '_home' => ( is => 'rw', );
+
+sub detect_home {
+    my ( $self, $app_class ) = @_;
+    return $self->_home if $self->_home;
+
+    # $app_class ||= $self->app_class;
+
+    my $home;
+    $home ||= $self->_get_home_from_angelos_env;
+    $home ||= $self->_get_home_from_application_env($app_class) if $app_class;
+    $home ||= $self->_document_root;
+    $home ||= $self->_search_home_from_module_file_path($app_class) if $app_class;
+    $home ||= $self->_current_dir;
+    $self->_home($home);
+    $home;
 }
 
 sub _get_home_from_angelos_env {
@@ -34,7 +34,7 @@ sub _get_home_from_angelos_env {
 }
 
 sub _get_home_from_application_env {
-    my ($class, $app_class) = @_;
+    my ( $self, $app_class ) = @_;
     if ( my $env = Angelos::Utils::env_value( $app_class, 'HOME' ) ) {
         my $home = dir($env)->absolute->cleanup;
         return $home if -d $home;
@@ -103,14 +103,14 @@ sub _document_root {
 }
 
 sub path_to {
-    my ( $class, @path ) = @_;
-    my $path = File::Spec->catfile( Angelos::Home->home, @path );
+    my ( $self, @path ) = @_;
+    my $path = File::Spec->catfile( $self->_home, @path );
     if ( -f $path ) {
-        return file( Angelos::Home->home, @path );
+        return file( $self->_home, @path );
     }
     else {
-        return dir( Angelos::Home->home, @path );
+        return dir( $self->_home, @path );
     }
 }
 
-1;
+__END_OF_CLASS__

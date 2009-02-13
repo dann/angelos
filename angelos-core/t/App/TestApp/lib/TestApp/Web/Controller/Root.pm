@@ -3,8 +3,6 @@ use Angelos::Class;
 use Angelos::Utils;
 extends 'Angelos::Controller';
 
-with 'Angelos::Class::Localizable';
-
 sub index {
     my ( $self, $params ) = @_;
     $self->res->body('HelloWorld');

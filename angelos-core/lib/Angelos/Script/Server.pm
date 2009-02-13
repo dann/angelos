@@ -5,12 +5,7 @@ use UNIVERSAL::require;
 use Angelos::Home;
 
 with 'MouseX::Getopt';
-
-has 'root' => (
-    is       => 'rw',
-    required => 1,
-    default  => sub { Angelos::Home->path_to( 'share', 'root' )->absolute },
-);
+with 'Angelos::Class::HomeAware';
 
 has 'host' => (
     is      => 'rw',
@@ -59,7 +54,6 @@ sub run {
     my $app = $app_name->new(
         host   => $self->host,
         port   => $self->port,
-        root   => $self->root,
         server => $self->server,
         debug  => $self->debug,
     );

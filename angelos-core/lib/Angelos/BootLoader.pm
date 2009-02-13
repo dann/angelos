@@ -3,14 +3,15 @@ use Angelos::Class;
 use Angelos::Engine;
 use Angelos::Config;
 use Angelos::Utils;
-use Angelos::Home;
 use Angelos::Request;
 use Angelos::Response;
 use Angelos::Dispatcher::Routes::Builder;
 use Angelos::Exceptions qw(rethrow_exception);
+use Exception::Class;
 
 with 'Angelos::Class::Loggable';
 with 'Angelos::Class::Pluggable';
+with 'Angelos::Class::HomeAware';
 
 has _plugin_app_ns => (
     +default => sub {
@@ -61,7 +62,6 @@ sub run {
 sub SETUP {
     my $self = shift;
     eval {
-        $self->setup_home;
         $self->setup_config;
         $self->setup_engine;
         $self->setup_bootloader_plugins;
@@ -71,7 +71,7 @@ sub SETUP {
         $self->setup_components;
         $self->setup_dispatcher;
     };
-    if ( my $e = $@ ) {
+    if ( my $e = Exception::Class->caught() ) {
         rethrow_exception($e);
     }
     return $self->engine;
@@ -84,12 +84,6 @@ sub setup_bootloader_plugins {
             = ( { module => 'ShowComponents' }, { module => 'ShowRoutes' } );
         $self->load_plugin( $_->{module} ) for @plugins;
     }
-}
-
-sub setup_home {
-    my $self = shift;
-    my $home = Angelos::Home->home( $self->appclass );
-    return $home;
 }
 
 sub setup_request {
@@ -154,7 +148,8 @@ sub build_routeset {
 }
 
 sub build_root {
-    Angelos::Home->path_to( 'share', 'root' );
+    my $self = shift;
+    $self->home->path_to( 'share', 'root' );
 }
 
 sub is_debug {

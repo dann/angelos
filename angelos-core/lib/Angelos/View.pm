@@ -6,7 +6,8 @@ use Path::Class qw(file dir);
 use Angelos::Exceptions;
 use Params::Validate qw(SCALAR);
 
-with( 'Angelos::Component', );
+with 'Angelos::Component';
+with 'Angelos::Class::HomeAware';
 
 has _plugin_app_ns => ( +default => sub { ['Angelos::View'] }, );
 
@@ -22,7 +23,8 @@ has 'types' => (
 has 'root' => (
     is      => 'rw',
     default => sub {
-        Angelos::Home->path_to( 'share', 'root', 'templates' );
+        my $self = shift;
+        $self->home->path_to( 'share', 'root', 'templates' );
     },
 );
 

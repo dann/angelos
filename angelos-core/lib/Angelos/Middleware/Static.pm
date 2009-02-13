@@ -5,6 +5,8 @@ use MIME::Types;
 use Path::Class;
 use Angelos::Home;
 
+with 'Angelos::Class::HomeAware';
+
 has 'types' => (
     is      => 'rw',
     default => sub {
@@ -24,7 +26,8 @@ has 'root' => (
 );
 
 sub build_root {
-    Angelos::Home->path_to( 'share', 'root' );
+    my $self = shift;
+    $self->home->path_to( 'share', 'root' );
 }
 
 before_handle {

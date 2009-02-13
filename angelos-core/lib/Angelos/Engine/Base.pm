@@ -16,7 +16,7 @@ has 'engine' => (
 has 'root' => (
     is       => 'rw',
     required => 1,
-    default  => sub { Angelos::Home->path_to( 'share', 'root' )->absolute },
+    default  => sub { shift->home->path_to( 'share', 'root' )->absolute },
 );
 
 has 'host' => (

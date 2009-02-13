@@ -1,10 +1,15 @@
 package Angelos::Role;
 use strict;
 use warnings;
-use Mouse::Role ();
+use Any::Moose '::Role';
 
 sub import {
-    goto &Mouse::Role::import;
+    if (Any::Moose::is_moose_loaded()) {
+        goto &Moose::Role::import;
+    }
+    else {
+        goto &Mouse::Role::import;
+    }
 }
 
 1;

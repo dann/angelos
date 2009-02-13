@@ -25,8 +25,6 @@ sub validate_args {
 sub run {
     my ( $self, $opt, $args ) = @_;
     my $result = $opt->{blortex};
-    my $debug = Angelos::Config->mixins;
-    warn Dumper $debug;
     print $result . "\n";
 }
 

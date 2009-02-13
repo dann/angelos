@@ -1,11 +1,11 @@
 package Angelos::Class;
-use Mouse;
+use Any::Moose;
 use utf8;
 
 sub init_class {
     my $klass = shift;
-    my $meta  = Mouse::Meta::Class->initialize($klass);
-    $meta->superclasses('Mouse::Object')
+    my $meta  = any_moose('::Meta::Class')->initialize($klass);
+    $meta->superclasses(any_moose('::Object'))
         unless $meta->superclasses;
 
     no strict 'refs';
@@ -31,13 +31,25 @@ sub import {
 
     init_class($caller);
 
-    Mouse->export_to_level(1);
+    if (Any::Moose::is_moose_loaded()) {
+        Moose->import({ into_level => 1 });
+    }
+    else {
+        Mouse->export_to_level( 1 );
+    }
+
 }
 
 sub __END_OF_CLASS__ {
     my ( $caller, ) = @_;
 
-    Mouse::unimport;
+    if (Any::Moose::is_moose_loaded()) {
+        # Moose::unimport;
+    }
+    else {
+        Mouse::unimport;
+    }
+
     $caller->meta->make_immutable( inline_destructor => 1 );
     "END_OF_CLASS";
 }

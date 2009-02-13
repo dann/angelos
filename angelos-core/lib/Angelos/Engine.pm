@@ -47,6 +47,12 @@ sub build_dispatcher {
 sub handle_request {
     my ( $self, $req ) = @_;
     my $res = HTTP::Engine::Response->new;
+
+
+    # TODO
+    no warnings 'redefine';
+    local *Angelos::Registrar::context = sub { $self };
+
     my $c   = Angelos::Context->new(
         request  => $req,
         response => $res,

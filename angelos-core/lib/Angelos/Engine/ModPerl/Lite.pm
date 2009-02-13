@@ -14,7 +14,7 @@ sub create_engine {
 
 sub _load_handler_class {
     my $handler_class = $ENV{ANGELOS_HANDLER_CLASS};
-    Mouse::load_class($handler_class);
+    Any::Moose::load_class($handler_class);
     $handler_class;
 }
 

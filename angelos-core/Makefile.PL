@@ -32,8 +32,9 @@ requires(
     # Basics
     'Mouse'                             => '0.16',
     'MouseX::Types'                     => '0.01',
+    'Any::Moose'                        => '0.03',
     'HTTP::Engine'                      => '0.1.2',
-    'HTTP::Engine::Middleware'          => 0,
+    'HTTP::Engine::Middleware'          => '0.02',
     'HTTP::Router'                      => 0,
     'HTTP::Session'                     => 0,
     'Module::Pluggable::Object'         => 0,
@@ -50,8 +51,8 @@ requires(
     'IO::Pager'                         => 0,
     'Class::Singleton'                  => 0,
     'Params::Validate'                  => 0,
-    'Class::Method::Modifiers::Fast'    => 0,
     'Data::Util'                        => 0,
+    'Class::Method::Modifiers::Fast'    => 0,
 
     # Config
     'Kwalify'                 => 0,

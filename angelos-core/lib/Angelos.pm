@@ -5,6 +5,7 @@ use Angelos::Class;
 use Angelos::BootLoader;
 use Angelos::MIMETypes;
 use Angelos::Registrar;
+use Angelos::Home;
 
 has 'engine' => ( is => 'rw', );
 
@@ -28,6 +29,16 @@ has 'debug' => (
     is      => 'rw',
     isa     => 'Bool',
     default => 0
+);
+
+has 'home' => (
+    is => 'rw',
+    default => sub {
+        my $self = shift;
+        my $home = Angelos::Home->new;
+        $home->detect_home(ref $self);
+        $home;
+    }
 );
 
 # This attribute is used for test only
@@ -54,8 +65,6 @@ sub setup {
 sub run {
     my $self = shift;
 
-    no warnings 'redefine';
-    local *Angelos::Registrar::context = sub { $self };
     $self->engine->run(@_);
 }
 
