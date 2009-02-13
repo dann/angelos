@@ -3,7 +3,6 @@ use Angelos::Class;
 use Angelos::Exceptions;
 with 'Angelos::Class::Loggable';
 
-
 sub wrap {
     my ( $self, $next ) = @_;
     Angelos::Exception::AbstractMethod->throw(

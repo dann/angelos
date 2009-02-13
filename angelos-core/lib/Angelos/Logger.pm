@@ -1,22 +1,24 @@
 package Angelos::Logger;
-use strict;
-use warnings;
+use Angelos::Class;
 use Log::Dispatch::Config;
 use Log::Dispatch::Configurator::YAML;
 use Angelos::Config;
 use Angelos::Exceptions;
-use base 'Class::Singleton';
 
-$Log::Dispatch::Config::CallerDepth = 2;
+#$Log::Dispatch::Config::CallerDepth = 2;
 
-sub _new_instance {
-    my $class = shift;
-    my $self = bless {}, $class;
+has 'logger' => (
+    is      => 'rw',
+    lazy    => 1,
+    builder => 'build_logger',
+);
+
+sub build_logger {
+    my $self = shift;
     my $config
         = Log::Dispatch::Configurator::YAML->new( $self->_logger_conf_path );
     Log::Dispatch::Config->configure($config);
-    $self->{logger} = Log::Dispatch::Config->instance();
-    return $self;
+    Log::Dispatch::Config->instance();
 }
 
 sub debug {
@@ -25,7 +27,7 @@ sub debug {
         message => $message,
         level   => 'debug',
     };
-    $self->{logger}->log(%$log);
+    $self->logger->log(%$log);
 }
 
 sub warn {
@@ -34,7 +36,7 @@ sub warn {
         message => $message,
         level   => 'warn',
     };
-    $self->{logger}->log(%$log);
+    $self->logger->log(%$log);
 }
 
 sub info {
@@ -43,7 +45,7 @@ sub info {
         message => $message,
         level   => 'info',
     };
-    $self->{logger}->log(%$log);
+    $self->logger->log(%$log);
 }
 
 sub critical {
@@ -52,7 +54,7 @@ sub critical {
         message => $message,
         level   => 'critical',
     };
-    $self->{logger}->log(%$log);
+    $self->logger->log(%$log);
 }
 
 sub notice {
@@ -61,7 +63,7 @@ sub notice {
         message => $message,
         level   => 'notice',
     };
-    $self->{logger}->log(%$log);
+    $self->logger->log(%$log);
 }
 
 sub error {
@@ -70,11 +72,11 @@ sub error {
         message => $message,
         level   => 'error',
     };
-    $self->{logger}->log(%$log);
+    $self->logger->log(%$log);
 }
 
 sub _logger_conf_path {
     Angelos::Config->logger_conf_path;
 }
 
-1;
+__END_OF_CLASS__

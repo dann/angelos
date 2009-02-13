@@ -14,9 +14,9 @@ components:
 #   - module: MobileAgent 
 
 middlewares:
-  - module: DebugScreen
   - module: Static
   - module: Unicode
+  - module: DebugScreen
 #  - module: DebugRequest
 #  - module: Session
 

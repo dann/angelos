@@ -51,7 +51,7 @@ sub handle_request {
 
     # TODO
     no warnings 'redefine';
-    local *Angelos::Registrar::context = sub { $self };
+    local *Angelos::Registrar::context = sub { $self->app };
 
     my $c   = Angelos::Context->new(
         request  => $req,

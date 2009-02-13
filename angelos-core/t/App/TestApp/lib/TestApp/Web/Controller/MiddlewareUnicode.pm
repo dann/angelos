@@ -7,7 +7,6 @@ no Mouse;
 sub index {
     my ( $self, $c, $params ) = @_;
     my $name = $c->req->param('name');
-    $c->log( level => 'debug', message => $name );
     die "this isn't utf8 flagged" unless utf8::is_utf8($name);
 
     # must not reach here because we use Unicode middleware

@@ -13,8 +13,9 @@ has 'logger' => (
     default => sub {
         sub {
             my ( $level, $message ) = @_;
-            my $logger = Angelos::Logger->instance->$level($message);
-            }
+            # TODO: Logger
+            warn $message;
+        }
     }
 );
 

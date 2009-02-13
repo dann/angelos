@@ -50,13 +50,13 @@ sub setup {
     no warnings 'redefine';
     local *Angelos::Registrar::context = sub { $self };
     my $bootloader = Angelos::BootLoader->new(
-        appclass => ref $self,
         host     => $self->host,
         port     => $self->port,
         server   => $self->server,
         debug    => $self->debug,
     );
     my $engine = $bootloader->run;
+    $engine->app($self);
     $engine->request_handler( $self->request_handler )
         if $self->request_handler;
     $self->engine($engine);

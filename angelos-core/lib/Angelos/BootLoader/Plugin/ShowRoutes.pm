@@ -2,8 +2,6 @@ package Angelos::BootLoader::Plugin::ShowRoutes;
 use Angelos::Plugin;
 use Text::SimpleTable;
 
-with 'Angelos::Class::Loggable';
-
 around 'build_routeset' => sub {
     my ( $next, $self ) = @_;
     my $routes = $self->$next();
@@ -14,7 +12,7 @@ around 'build_routeset' => sub {
 sub __show_dispatch_table {
     my ( $self, $routes ) = @_;
     my $report = $self->__make_dispatch_table_report($routes);
-    $self->log->info($report);
+    $self->logger->info($report);
 }
 
 sub __make_dispatch_table_report {

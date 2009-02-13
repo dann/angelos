@@ -2,6 +2,7 @@ package Angelos::BootLoader;
 use Angelos::Class;
 use Angelos::Engine;
 use Angelos::Config;
+use Angelos::Logger;
 use Angelos::Utils;
 use Angelos::Request;
 use Angelos::Response;
@@ -9,9 +10,9 @@ use Angelos::Dispatcher::Routes::Builder;
 use Angelos::Exceptions qw(rethrow_exception);
 use Exception::Class;
 
-with 'Angelos::Class::Loggable';
 with 'Angelos::Class::Pluggable';
 with 'Angelos::Class::HomeAware';
+with 'Angelos::Class::ApplicationClassAware';
 
 has _plugin_app_ns => (
     +default => sub {
@@ -21,7 +22,7 @@ has _plugin_app_ns => (
 
 has 'config' => ( is => 'rw', );
 
-has 'appclass' => ( is => 'rw', );
+has 'logger' => ( is => 'rw', );
 
 has 'root' => (
     is       => 'rw',
@@ -63,11 +64,11 @@ sub SETUP {
     my $self = shift;
     eval {
         $self->setup_config;
-        $self->setup_engine;
+        $self->setup_logger;
         $self->setup_bootloader_plugins;
         $self->setup_request;
         $self->setup_response;
-        $self->setup_logger;
+        $self->setup_engine;
         $self->setup_components;
         $self->setup_dispatcher;
     };
@@ -75,6 +76,20 @@ sub SETUP {
         rethrow_exception($e);
     }
     return $self->engine;
+}
+
+sub setup_config {
+    my $self   = shift;
+    my $config = Angelos::Config->new;
+    $self->config($config);
+    $config;
+}
+
+sub setup_logger {
+    my $self   = shift;
+    my $logger = Angelos::Logger->new;
+    $self->logger($logger);
+    $logger;
 }
 
 sub setup_bootloader_plugins {
@@ -103,28 +118,18 @@ sub setup_engine {
         host   => $self->host,
         port   => $self->port,
         server => $self->server,
-        conf   => $self->config,
+        config => $self->config,
+        logger => $self->logger,
     );
     $engine->load_plugin( $_->{module} ) for $self->config->plugins('engine');
     $self->engine($engine);
     $engine;
 }
 
-sub setup_logger {
-    Angelos::Logger->instance;
-}
-
-sub setup_config {
-    my $self   = shift;
-    my $config = Angelos::Config->new;
-    $self->config($config);
-    $config;
-}
-
 sub setup_components {
     my $self = shift;
     my $components
-        = $self->engine->component_manager->setup( $self->appclass );
+        = $self->engine->component_manager->setup( $self->app_class );
     $components;
 }
 

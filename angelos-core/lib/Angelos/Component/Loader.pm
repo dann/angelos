@@ -17,7 +17,7 @@ with 'Angelos::Class::Configurable';
 with 'Angelos::Class::ApplicationClassAware';
 
 sub setup {
-    my $self = shift;
+    my $self       = shift;
     my $components = $self->load_components;
 }
 
@@ -26,7 +26,7 @@ sub load_components {
 
     my @paths   = qw( ::Web::Controller ::Model ::Web::View  );
     my $locator = Module::Pluggable::Object->new(
-        search_path => [ map { $self->app_class. $_ } @paths ], );
+        search_path => [ map { $self->app_class . $_ } @paths ], );
 
     my @comps = sort { length $a <=> length $b } $locator->plugins;
     my %comps = map { $_ => 1 } @comps;
@@ -81,7 +81,6 @@ sub get_component {
 sub load_component {
     my ( $self, $component ) = @_;
     my $config = $self->_get_component_config($component);
-    warn $component;
     my $instance = eval { $component->new( %{$config} ) };
 
     if ( my $error = $@ ) {

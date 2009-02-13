@@ -12,7 +12,7 @@ around 'setup_components' => sub {
 sub __show_components {
     my ( $self, $components ) = @_;
     my $report = $self->__make_components_report($components);
-    $self->log->info($report);
+    $self->logger->info($report);
 }
 
 sub __make_components_report {

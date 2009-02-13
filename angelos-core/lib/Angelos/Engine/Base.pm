@@ -49,6 +49,15 @@ has 'request_handler' => (
 
 has 'config' => ( is => 'rw', );
 
+has 'logger' => (
+    is       => 'rw',
+    required => 1,
+);
+
+has 'app' => (
+    is => 'rw',
+);
+
 sub BUILD {
     my $self = shift;
     $self->engine( $self->build_engine );
