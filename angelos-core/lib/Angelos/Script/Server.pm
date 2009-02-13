@@ -57,7 +57,6 @@ sub run {
         server => $self->server,
         debug  => $self->debug,
     );
-    $app->setup;
     $app->run;
 }
 

@@ -31,6 +31,13 @@ has 'debug' => (
     default => 0
 );
 
+has 'available_mimetypes' => (
+    is => 'rw',
+    default => sub {
+    Angelos::MIMETypes->new;
+    }
+);
+
 has 'home' => (
     is => 'rw',
     default => sub {
@@ -43,6 +50,11 @@ has 'home' => (
 
 # This attribute is used for test only
 has 'request_handler' => ( is => 'rw', );
+
+sub BUILD {
+    my $self = shift;
+    $self->setup;
+}
 
 sub setup {
     my $self       = shift;
@@ -64,14 +76,7 @@ sub setup {
 
 sub run {
     my $self = shift;
-
     $self->engine->run(@_);
-}
-
-our $MIMETYPES;
-sub available_mimetypes {
-    $MIMETYPES = Angelos::MIMETypes->new;
-    $MIMETYPES;
 }
 
 __END_OF_CLASS__
@@ -92,7 +97,6 @@ Angelos -
 
   use MyApp;
   my $app = MyApp->new;
-  $app->setup;
   $app->run;
   1;
 
