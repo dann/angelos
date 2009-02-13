@@ -49,7 +49,6 @@ requires(
     'Exception::Class'                  => 0,
     'File::Spec'                        => 0,
     'IO::Pager'                         => 0,
-    'Class::Singleton'                  => 0,
     'Params::Validate'                  => 0,
     'Data::Util'                        => 0,
     'Class::Method::Modifiers::Fast'    => 0,
