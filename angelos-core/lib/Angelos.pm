@@ -11,6 +11,7 @@ use Angelos::Config;
 use Angelos::Logger;
 use Angelos::Utils;
 use Angelos::Dispatcher::Routes::Builder;
+use Angelos::Registrar;
 use Angelos::Exceptions qw(rethrow_exception);
 use Exception::Class;
 
@@ -114,16 +115,10 @@ sub setup {
     if ( my $e = Exception::Class->caught() ) {
         rethrow_exception($e);
     }
-
-    my $engine = $self->engine;
-    $engine->app($self);
-    $engine->request_handler( $self->request_handler )
-        if $self->request_handler;
-    $self->engine($engine);
 }
 
 sub run {
-    my $self = shift;
+    my $self = shift; 
     $self->engine->run(@_);
 }
 
@@ -173,7 +168,9 @@ sub setup_engine {
         logger => $self->logger,
         root   => $self->project_structure->root_dir,
     );
-    # $engine->load_plugin( $_->{module} ) for $self->config->plugins('engine');
+    $engine->app($self);
+    $engine->request_handler( $self->request_handler )
+        if $self->request_handler;
     $self->engine($engine);
     $engine;
 }
