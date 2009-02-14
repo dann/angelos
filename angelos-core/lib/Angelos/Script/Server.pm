@@ -5,7 +5,6 @@ use UNIVERSAL::require;
 use Angelos::Home;
 
 with 'MouseX::Getopt';
-with 'Angelos::Class::HomeAware';
 
 has 'host' => (
     is      => 'rw',

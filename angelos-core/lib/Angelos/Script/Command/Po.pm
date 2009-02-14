@@ -10,12 +10,11 @@ use Angelos::Home;
 use Path::Class;
 use Angelos::Exceptions;
 use JSON::XS;
+use Angelos::Utils;
 
 our $MIME      = MIME::Types->new();
 our $LMExtract = Locale::Maketext::Extract->new;
 use constant USE_GETTEXT_STYLE => 1;
-
-with 'Angelos::Class::ConetxtAware';
 
 =head1 NAME
 
@@ -191,7 +190,7 @@ sub extract_messages {
     # find all the .pm files in @INC
     my @files
         = File::Find::Rule->file->in(
-        $self->home->path_to( 'share', 'root', 'templates' ),
+        $self->context->project_structure->templates_dir,
         'lib', 'bin', @{ $opt->{search_path} || [] } );
 
     foreach my $file (@files) {
@@ -201,6 +200,10 @@ sub extract_messages {
         $LMExtract->extract_file($file);
     }
 
+}
+
+sub context {
+    Angelos::Utils::context();
 }
 
 1;
