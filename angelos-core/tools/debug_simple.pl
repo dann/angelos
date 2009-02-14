@@ -5,9 +5,7 @@ use lib 'lib', 't/lib';
 use lib glob 't/App/*/lib';
 use Test::TCP;
 use TestApp;
-use HTTP::Engine;
 use LWP::UserAgent;
-#use Carp::Always;
 
 my $module = shift || 'ServerSimple';
 my $port = shift || empty_port();
@@ -17,11 +15,10 @@ test_tcp(
     client => sub {
         my $port = shift;
         my $ua   = LWP::UserAgent->new;
-        $ua->get("http://localhost:$port/");
-
-        $ua->get("http://localhost:$port/forward");
-
-        $ua->get("http://localhost:$port/detach");
+        $ua->get("http://localhost:$port/root/index");
+        $ua->get("http://localhost:$port/root/tt");
+        $ua->get("http://localhost:$port/root/forward_test");
+        $ua->get("http://localhost:$port/root/detach_test");
     },
     server => sub {
         my $port = shift;

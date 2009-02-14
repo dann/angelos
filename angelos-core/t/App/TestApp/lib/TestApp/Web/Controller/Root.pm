@@ -1,6 +1,6 @@
 package TestApp::Web::Controller::Root;
 use Angelos::Class;
-use Angelos::Utils;
+use Data::Dumper;
 extends 'Angelos::Controller';
 
 sub index {
@@ -11,7 +11,6 @@ sub index {
 sub tt {
     my ( $self, $params ) = @_;
     $self->render( params => { name => 'Yamada Taro' } );
-    #$self->view('TT')->render( { name => 'Yamada Taro' } );
 }
 
 sub japanese {

@@ -51,7 +51,7 @@ has 'home' => (
 
 has 'engine' => (
     is      => 'rw',
-    handles => [qw(controller model forward detach)],
+    handles => [qw(controller model view forward detach full_forward full_detach)],
 );
 
 has 'config' => ( is => 'rw', );

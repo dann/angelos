@@ -13,6 +13,8 @@ has 'logger' => (
     builder => 'build_logger',
 );
 
+$Log::Dispatch::Config::CallerDepth = 2;
+
 sub build_logger {
     my $self = shift;
 

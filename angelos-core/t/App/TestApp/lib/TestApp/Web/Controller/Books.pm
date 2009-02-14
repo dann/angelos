@@ -1,14 +1,11 @@
 package TestApp::Web::Controller::Books;
-use Mouse;
+use Angelos::Class;
 extends 'Angelos::Controller';
 
 sub index {
-    my ($self, $c) = @_;
-    $self->log(level=>'info', message=> 'index method in Books controller');
-    $c->res->body('Hello world in Book controller');
-    $c->res->code(200);
+    my ($self, $params) = @_;
+    $self->res->body('Hello world in Book controller');
+    $self->res->code(200);
 }
 
-__PACKAGE__->meta->make_immutable;
-
-1;
+__END_OF_CLASS__

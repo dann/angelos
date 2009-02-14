@@ -13,8 +13,6 @@ has 'router' => (
     },
 );
 
-has 'app' => ( is => 'rw', );
-
 sub dispatch_class {
     'Angelos::Dispatcher::Dispatch';
 }
@@ -40,35 +38,44 @@ sub forward {
             params     => { optional => 1, type => HASHREF },
         }
     );
-    my $controller ||= $forward_to{controller};
-    $controller    ||= caller;
-    my $short_controller_name
-        = Angelos::Utils::class2classsuffix($controller);
-    my $controller_instance = $self->app->controller($short_controller_name);
-    my $action              = $forward_to{action};
-    my $params              = $forward_to{params};
-    $controller_instance->$action( $self, $self->request, $params );
+    my $controller          = $forward_to{controller};
+    my $controller_instance = $self->find_controller($controller);
+
+    my $action = $forward_to{action};
+    my $params = $forward_to{params};
+
+    die "No such action: $action" unless $controller_instance->can($action);
+    $controller_instance->$action( $self, $params );
 }
 
-# forward with filters 
+# forward with filters
 sub full_forward {
     my $self       = shift;
     my %forward_to = Params::Validate::validate(
         @_,
-        {   action => 1,
+        {   action     => 1,
             controller => { type => SCALAR },
 
             params => { optional => 1, type => HASHREF },
         }
     );
-    my $controller ||= $forward_to{controller};
-    $controller    ||= caller;
-    my $short_controller_name
-        = Angelos::Utils::class2classsuffix($controller);
-    my $controller_instance = $self->app->controller($short_controller_name);
+    my $controller          = $forward_to{controller};
+    my $controller_instance = $self->find_controller($controller);
     my $action              = $forward_to{action};
     my $params              = $forward_to{params};
-    $controller_instance->_do_action( $self, $action, $params );
+
+    die "No such action: $action" unless $controller_instance->can($action);
+    $controller_instance->_dispatch_action( $self, $action, $params );
+}
+
+sub find_controller {
+    my ( $self, $controller ) = @_;
+    my $short_controller_name
+        = Angelos::Utils::class2classsuffix($controller);
+    my $controller_instance
+        = $self->context->controller($short_controller_name);
+    $controller_instance->context($self->context);
+    $controller_instance;
 }
 
 sub detach {
@@ -82,6 +89,10 @@ sub full_detach {
     my ( $self, %forward_to ) = @_;
     $self->forward_with_filters(%forward_to);
     Angelos::Exception::Detach->throw( message => 'DETACH' );
+}
+
+sub context {
+    Angelos::Utils::context();
 }
 
 __END_OF_CLASS__

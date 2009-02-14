@@ -18,7 +18,14 @@ has 'dispatcher' => (
     default => sub {
         shift->build_dispatcher;
     },
-    handles => [qw(set_routeset forward detach)],
+    handles => [
+        qw(
+            set_routeset
+            forward detach
+            full_forward
+            full_detach
+            )
+    ],
 );
 
 has 'component_manager' => (
@@ -94,6 +101,7 @@ sub HANDLE_EXCEPTION {
     $c->res->body( 'Internal Error:' . $error );
 }
 
+# TODO
 sub context {
     Angelos::Utils::context();
 }

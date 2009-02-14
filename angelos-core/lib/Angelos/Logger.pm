@@ -18,15 +18,12 @@ sub build_logger {
 
 sub debug {
     my ( $self, $message ) = @_;
-    my $log = {
-        message => $message,
-        level   => 'debug',
-    };
-    $self->logger->log(%$log);
+    $self->logger->log('debug' => $message);
 }
 
 sub warn {
     my ( $self, $message ) = @_;
+    warn $message;
     $self->logger->log('warn' => $message);
 }
 
