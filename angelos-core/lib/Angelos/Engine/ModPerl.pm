@@ -12,7 +12,7 @@ sub create_engine {
 
 sub _load_app_class {
     my $app_class = $ENV{ANGELOS_APP_CLASS};
-    Any::Moose::load_class($app_class);
+    Mouse::load_class($app_class);
     $app_class;
 }
 

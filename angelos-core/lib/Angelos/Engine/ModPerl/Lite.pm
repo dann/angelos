@@ -2,8 +2,6 @@ package Angelos::Engine::ModPerl::Lite;
 use Angelos::Class;
 extends 'HTTP::Engine::Interface::ModPerl';
 
-no Mouse;
-
 sub create_engine {
     my ( $class, $r, $context_key ) = @_;
     $class->_setup_home;
@@ -14,7 +12,7 @@ sub create_engine {
 
 sub _load_handler_class {
     my $handler_class = $ENV{ANGELOS_HANDLER_CLASS};
-    Any::Moose::load_class($handler_class);
+    Mouse::load_class($handler_class);
     $handler_class;
 }
 

@@ -32,7 +32,6 @@ requires(
     # Basics
     'Mouse'                             => '0.16',
     'MouseX::Types'                     => '0.01',
-    'Any::Moose'                        => '0.03',
     'HTTP::Engine'                      => '0.1.2',
     'HTTP::Engine::Middleware'          => '0.02',
     'HTTP::Router'                      => 0,
