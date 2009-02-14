@@ -110,12 +110,8 @@ template: |
     controller:
       - module: A
   
-  #plugins:
-  #  engine:
-  #   - module: Session
-  
   middlewares:
-    - module: Angelos::Middleware::DebugRequest
+    - module: DebugRequest
 ---
 file: conf/routes.pl
 template: |+
