@@ -6,7 +6,6 @@ use Angelos::BootLoader;
 use Angelos::MIMETypes;
 use Angelos::Registrar;
 use Angelos::Home;
-use Angelos::Context;
 use Angelos::ProjectStructure;
 use Angelos::Engine;
 use Angelos::Config;
@@ -54,7 +53,7 @@ has 'home' => (
 
 has 'engine' => (
     is      => 'rw',
-    handles => [qw(controller model)],
+    handles => [qw(controller model forward detach)],
 );
 
 has 'config' => ( is => 'rw', );
@@ -69,6 +68,28 @@ has 'available_mimetypes' => (
         Angelos::MIMETypes->new;
     }
 );
+
+has 'request' => (
+    is      => 'rw',
+    handles => [qw(params)],
+);
+
+has 'response' => ( is => 'rw', );
+
+has 'stash' => (
+    is      => 'rw',
+    default => sub {
+        +{};
+    }
+);
+
+has 'finished' => (
+    is      => 'rw',
+    isa     => 'Int',
+    default => 0,
+);
+
+has '_match' => ( is => 'rw', );
 
 # This attribute is used for test only
 has 'request_handler' => ( is => 'rw', );
@@ -215,6 +236,18 @@ sub app_class {
 sub p {
     require Data::Dumper;
     warn Data::Dumper::Dumper @_;
+}
+
+sub req {
+    shift->request;
+}
+
+sub res {
+    shift->response;
+}
+
+sub session {
+    shift->request->session;
 }
 
 __END_OF_CLASS__

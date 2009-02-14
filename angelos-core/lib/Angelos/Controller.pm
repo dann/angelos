@@ -103,11 +103,6 @@ sub ACTION {
     $self->$action($params);
 }
 
-sub is_plugin_loaded {
-    my ( $self, $short_plugin_name ) = @_;
-    Angelos::Utils::is_plugin_loaded( 'controller', $short_plugin_name );
-}
-
 __END_OF_CLASS__
 
 __END__

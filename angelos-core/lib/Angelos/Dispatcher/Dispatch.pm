@@ -8,26 +8,27 @@ has 'match' => (
 );
 
 sub run {
-    my ($self, $context)  = @_;
-    $self->dispatch( $context );
+    my $self = shift;
+    $self->dispatch;
 }
 
 sub dispatch {
-    my ( $self, $context ) = @_;
+    my $self = shift;
+
+    my $c = Angelos::Utils::context();
 
     my $match      = $self->match;
     my $controller = $match->params->{controller};
     my $action     = $match->params->{action};
     my $params     = $match->params;
-    $context->_match($match);
+    $c->_match($match);
 
     my $controller_instance = $self->find_controller_instance(
-        {
-            context => $context,
+        {   context    => $c,
             controller => $controller,
         }
     );
-    $controller_instance->context($context);;
+    $controller_instance->context($c);
     $controller_instance->_dispatch_action( $action, $params );
 }
 

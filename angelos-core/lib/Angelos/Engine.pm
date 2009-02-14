@@ -9,15 +9,17 @@ use Angelos::Middleware::Builder;
 use Angelos::Exceptions;
 use Exception::Class;
 use Angelos::Component::Loader;
-extends 'Angelos::Engine::Base';
+use Angelos::Utils;
+
 with 'Angelos::Class::Pluggable';
+extends 'Angelos::Engine::Base';
 
 has 'dispatcher' => (
     is      => 'rw',
     default => sub {
         shift->build_dispatcher;
     },
-    handles => [qw(set_routeset)],
+    handles => [qw(set_routeset forward detach)],
 );
 
 has 'component_manager' => (
@@ -48,43 +50,46 @@ sub handle_request {
     my ( $self, $req ) = @_;
     my $res = HTTP::Engine::Response->new;
 
-    my $c = Angelos::Context->new(
-        timing   => 'runtime',
-        request  => $req,
-        response => $res,
-        home     => $self->app->home,
-
-        # TODO we need application?
-        app      => $self->app,
-    );
-
+    my $c = $self->create_context( $req, $res );
     no warnings 'redefine';
-    local *Angelos::Registrar::context = sub {$self->app};
+    local *Angelos::Registrar::context = sub {$c};
 
-    eval { $self->DISPATCH( $c, $req ); };
+    eval { $self->DISPATCH($req); };
     if ( my $e = Exception::Class->caught() ) {
-        $self->HANDLE_EXCEPTION( $c, $e );
+        $self->HANDLE_EXCEPTION($e);
     }
+
     return $c->res;
 }
 
+sub create_context {
+    my ( $self, $request, $response ) = @_;
+    my $c = $self->app;
+    $c->request($request);
+    $c->response($response);
+    $c;
+}
+
 sub DISPATCH {
-    my ( $self, $c, $req ) = @_;
+    my ( $self, $req ) = @_;
     my $dispatch = $self->dispatcher->dispatch($req);
 
+    my $c = Angelos::Utils::context();
     unless ( $dispatch->has_matches ) {
         $self->log->info( "404 Not Found. path: " . $req->path );
         $c->res->status(404);
         $c->res->body("404 Not Found.");
         return $c->res;
     }
-    $dispatch->run($c);
+    $dispatch->run;
     $c->res;
 }
 
 sub HANDLE_EXCEPTION {
-    my ( $self, $c, $error ) = @_;
+    my ( $self, $error ) = @_;
     $self->log->error( "404 Not Found. path: " . $error );
+
+    my $c = Angelos::Utils::context();
     $c->res->content_type('text/html; charset=utf-8');
     $c->res->status(500);
     $c->res->body( 'Internal Error:' . $error );
