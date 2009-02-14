@@ -222,11 +222,6 @@ sub res {
     shift->response;
 }
 
-sub p {
-    require Data::Dumper;
-    warn Data::Dumper::Dumper @_;
-}
-
 __END_OF_CLASS__
 
 __END__
