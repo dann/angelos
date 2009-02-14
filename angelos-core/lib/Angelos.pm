@@ -2,7 +2,6 @@ package Angelos;
 use 5.00800;
 our $VERSION = '0.01';
 use Angelos::Class;
-use Angelos::BootLoader;
 use Angelos::MIMETypes;
 use Angelos::Registrar;
 use Angelos::Home;

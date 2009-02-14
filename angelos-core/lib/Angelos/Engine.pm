@@ -4,7 +4,6 @@ use Carp         ();
 use Scalar::Util ();
 use HTTP::Engine::Response;
 use Angelos::Dispatcher;
-use Angelos::Context;
 use Angelos::Middleware::Builder;
 use Angelos::Exceptions;
 use Exception::Class;
