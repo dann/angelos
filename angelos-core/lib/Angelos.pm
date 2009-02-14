@@ -105,14 +105,11 @@ sub setup {
     no warnings 'redefine';
     local *Angelos::Registrar::context = sub {$self};
     eval {
-
         $self->setup_home;
         $self->setup_config;
-        $self->setup_bootloader_plugins;
         $self->setup_project_structure;
         $self->setup_logger;
-        $self->setup_request;
-        $self->setup_response;
+        $self->setup_bootloader_plugins;
         $self->setup_engine;
         $self->setup_components;
         $self->setup_dispatcher;
@@ -147,17 +144,17 @@ sub setup_config {
     $config;
 }
 
-sub setup_project_structure {
-    my $self = shift;
-    $self->project_structure(
-        Angelos::ProjectStructure->new( home => $self->home ) );
-}
-
 sub setup_logger {
     my $self   = shift;
     my $logger = Angelos::Logger->new;
     $self->logger($logger);
     $logger;
+}
+
+sub setup_project_structure {
+    my $self = shift;
+    $self->project_structure(
+        Angelos::ProjectStructure->new( home => $self->home ) );
 }
 
 sub setup_bootloader_plugins {
@@ -167,16 +164,6 @@ sub setup_bootloader_plugins {
             = ( { module => 'ShowComponents' }, { module => 'ShowRoutes' } );
         $self->load_plugin( $_->{module} ) for @plugins;
     }
-}
-
-sub setup_request {
-    my $self = shift;
-    Angelos::Request->setup;
-}
-
-sub setup_response {
-    my $self = shift;
-    Angelos::Response->setup;
 }
 
 sub setup_engine {
@@ -233,11 +220,6 @@ sub app_class {
     ref $self;
 }
 
-sub p {
-    require Data::Dumper;
-    warn Data::Dumper::Dumper @_;
-}
-
 sub req {
     shift->request;
 }
@@ -246,8 +228,9 @@ sub res {
     shift->response;
 }
 
-sub session {
-    shift->request->session;
+sub p {
+    require Data::Dumper;
+    warn Data::Dumper::Dumper @_;
 }
 
 __END_OF_CLASS__
