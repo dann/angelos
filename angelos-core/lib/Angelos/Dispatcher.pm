@@ -50,7 +50,8 @@ sub forward {
     $controller_instance->$action( $self, $self->request, $params );
 }
 
-sub forward_with_filters {
+# forward with filters 
+sub full_forward {
     my $self       = shift;
     my %forward_to = Params::Validate::validate(
         @_,
@@ -76,7 +77,8 @@ sub detach {
     Angelos::Exception::Detach->throw( message => 'DETACH' );
 }
 
-sub detach_with_filter {
+# detach with filters
+sub full_detach {
     my ( $self, %forward_to ) = @_;
     $self->forward_with_filters(%forward_to);
     Angelos::Exception::Detach->throw( message => 'DETACH' );
