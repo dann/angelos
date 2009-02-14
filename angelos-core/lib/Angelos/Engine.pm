@@ -74,7 +74,7 @@ sub DISPATCH {
     my ( $self, $req ) = @_;
     my $dispatch = $self->dispatcher->dispatch($req);
 
-    my $c = Angelos::Utils::context();
+    my $c = $self->context;
     unless ( $dispatch->has_matches ) {
         $self->log->info( "404 Not Found. path: " . $req->path );
         $c->res->status(404);
@@ -89,10 +89,14 @@ sub HANDLE_EXCEPTION {
     my ( $self, $error ) = @_;
     $self->log->error( "404 Not Found. path: " . $error );
 
-    my $c = Angelos::Utils::context();
+    my $c = $self->context;
     $c->res->content_type('text/html; charset=utf-8');
     $c->res->status(500);
     $c->res->body( 'Internal Error:' . $error );
+}
+
+sub context {
+    Angelos::Utils::context();
 }
 
 __END_OF_CLASS__

@@ -11,8 +11,6 @@ use Angelos::Engine;
 use Angelos::Config;
 use Angelos::Logger;
 use Angelos::Utils;
-use Angelos::Request;
-use Angelos::Response;
 use Angelos::Dispatcher::Routes::Builder;
 use Angelos::Exceptions qw(rethrow_exception);
 use Exception::Class;
