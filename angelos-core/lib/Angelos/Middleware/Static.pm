@@ -3,9 +3,7 @@ use HTTP::Engine::Middleware;
 use HTTP::Engine::Response;
 use MIME::Types;
 use Path::Class;
-use Angelos::Home;
-
-with 'Angelos::Class::HomeAware';
+use Angelos::Utils;
 
 has 'types' => (
     is      => 'rw',
@@ -27,7 +25,7 @@ has 'root' => (
 
 sub build_root {
     my $self = shift;
-    $self->home->path_to( 'share', 'root' );
+    Angelos::Utils::context->path_to( 'share', 'root' );
 }
 
 before_handle {

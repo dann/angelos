@@ -15,7 +15,7 @@ our $MIME      = MIME::Types->new();
 our $LMExtract = Locale::Maketext::Extract->new;
 use constant USE_GETTEXT_STYLE => 1;
 
-with 'Angelos::Class::HomeAware';
+with 'Angelos::Class::ConetxtAware';
 
 =head1 NAME
 
@@ -74,7 +74,7 @@ sub generate_javascript_resources {
     my ( $self, $opt ) = @_;
     my $js_po_path
         = File::Spec->catfile(
-        $self->home->path_to( 'share', 'root', 'static', 'js', 'po' ),
+        $self->context->path_to( 'share', 'root', 'static', 'js', 'po' ),
         $opt->{lang} . ".po" );
     $self->_extract_messages_from_js($js_po_path);
     $self->_generate_javascript_dictionary($js_po_path);
@@ -84,7 +84,7 @@ sub _extract_messages_from_js {
     my $self       = shift;
     my $js_po_path = shift;
     my @js_files   = File::Find::Rule->file->in(
-        $self->home->path_to( 'share', 'root', 'static', 'js' ) );
+        $self->context->path_to( 'share', 'root', 'static', 'js' ) );
 
     for my $file (@js_files) {
         next if $file =~ m/^ext/;
@@ -97,7 +97,7 @@ sub _extract_messages_from_js {
     $LMExtract->set_compiled_entries;
     $LMExtract->compile(USE_GETTEXT_STYLE);
     mkpath [
-        $self->home->path_to( 'share', 'root', 'static', 'js', 'po' ) ];
+        $self->context->path_to( 'share', 'root', 'static', 'js', 'po' ) ];
     $self->update_catalog($js_po_path);
 
 }
@@ -108,7 +108,7 @@ sub _generate_javascript_dictionary {
     $LMExtract->set_compiled_entries;
     my %lexicon = $LMExtract->compile(USE_GETTEXT_STYLE);
     my $file
-        = $self->home->path_to( 'share', 'root', 'static', 'js', 'dict',
+        = $self->context->path_to( 'share', 'root', 'static', 'js', 'dict',
         $self->language . ".json" );
     open my $fh, '>', $file or die "$file: $!";
     print $fh encode_json \%lexicon;
@@ -155,7 +155,7 @@ sub update_catalogs {
 
 sub _po_dir {
     my $self = shift;
-    $self->home->path_to( 'share', 'po' );
+    $self->context->path_to( 'share', 'po' );
 }
 
 =head2 update_catalog FILENAME

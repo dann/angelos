@@ -5,23 +5,30 @@ use Path::Class qw(dir file);
 use File::Spec;
 use Cwd ();
 
-with 'Angelos::Class::ApplicationClassAware';
+has 'home' => ( is => 'rw', );
 
-has '_home' => ( is => 'rw', );
+has 'app_class' => (
+    is  => 'rw',
+    isa => 'Str',
+);
 
-sub detect_home {
+sub BUILD {
+    my $self = shift;
+    $self->detect( $self->app_class );
+}
+
+sub detect {
     my ( $self, $app_class ) = @_;
-    return $self->_home if $self->_home;
-
-    # $app_class ||= $self->app_class;
+    return $self->home if $self->home;
 
     my $home;
     $home ||= $self->_get_home_from_angelos_env;
     $home ||= $self->_get_home_from_application_env($app_class) if $app_class;
     $home ||= $self->_document_root;
-    $home ||= $self->_search_home_from_module_file_path($app_class) if $app_class;
+    $home ||= $self->_search_home_from_module_file_path($app_class)
+        if $app_class;
     $home ||= $self->_current_dir;
-    $self->_home($home);
+    $self->home($home);
     $home;
 }
 
@@ -104,12 +111,12 @@ sub _document_root {
 
 sub path_to {
     my ( $self, @path ) = @_;
-    my $path = File::Spec->catfile( $self->_home, @path );
+    my $path = File::Spec->catfile( $self->home, @path );
     if ( -f $path ) {
-        return file( $self->_home, @path );
+        return file( $self->home, @path );
     }
     else {
-        return dir( $self->_home, @path );
+        return dir( $self->home, @path );
     }
 }
 

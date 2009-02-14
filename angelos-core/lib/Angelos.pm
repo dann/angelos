@@ -6,10 +6,25 @@ use Angelos::BootLoader;
 use Angelos::MIMETypes;
 use Angelos::Registrar;
 use Angelos::Home;
+use Angelos::Context;
+use Angelos::ProjectStructure;
+use Angelos::Engine;
+use Angelos::Config;
+use Angelos::Logger;
+use Angelos::Utils;
+use Angelos::Request;
+use Angelos::Response;
+use Angelos::Dispatcher::Routes::Builder;
+use Angelos::Exceptions qw(rethrow_exception);
+use Exception::Class;
 
-has 'engine' => ( is => 'rw', );
+with 'Angelos::Class::Pluggable';
 
-has 'appclass' => ( is => 'rw', );
+has _plugin_app_ns => (
+    +default => sub {
+        ['Angelos'];
+    }
+);
 
 has 'host' => (
     is      => 'rw',
@@ -31,20 +46,27 @@ has 'debug' => (
     default => 0
 );
 
-has 'available_mimetypes' => (
-    is => 'rw',
-    default => sub {
-    Angelos::MIMETypes->new;
-    }
+has 'home' => (
+    is  => 'rw',
+    isa => 'Angelos::Home',
+    handles => [qw(path_to)],
 );
 
-has 'home' => (
-    is => 'rw',
+has 'engine' => (
+    is      => 'rw',
+    handles => [qw(controller model)],
+);
+
+has 'config' => ( is => 'rw', );
+
+has 'logger' => ( is => 'rw', );
+
+has 'project_structure' => ( is => 'rw', );
+
+has 'available_mimetypes' => (
+    is      => 'rw',
     default => sub {
-        my $self = shift;
-        my $home = Angelos::Home->new;
-        $home->detect_home(ref $self);
-        $home;
+        Angelos::MIMETypes->new;
     }
 );
 
@@ -57,17 +79,28 @@ sub BUILD {
 }
 
 sub setup {
-    my $self       = shift;
+    my $self = shift;
 
     no warnings 'redefine';
-    local *Angelos::Registrar::context = sub { $self };
-    my $bootloader = Angelos::BootLoader->new(
-        host     => $self->host,
-        port     => $self->port,
-        server   => $self->server,
-        debug    => $self->debug,
-    );
-    my $engine = $bootloader->run;
+    local *Angelos::Registrar::context = sub {$self};
+    eval {
+
+        $self->setup_home;
+        $self->setup_config;
+        $self->setup_bootloader_plugins;
+        $self->setup_project_structure;
+        $self->setup_logger;
+        $self->setup_request;
+        $self->setup_response;
+        $self->setup_engine;
+        $self->setup_components;
+        $self->setup_dispatcher;
+    };
+    if ( my $e = Exception::Class->caught() ) {
+        rethrow_exception($e);
+    }
+
+    my $engine = $self->engine;
     $engine->app($self);
     $engine->request_handler( $self->request_handler )
         if $self->request_handler;
@@ -77,6 +110,111 @@ sub setup {
 sub run {
     my $self = shift;
     $self->engine->run(@_);
+}
+
+sub setup_home {
+    my $self = shift;
+    my $home = Angelos::Home->new( app_class => ref $self );
+    $self->home($home);
+    $home;
+}
+
+sub setup_config {
+    my $self   = shift;
+    my $config = Angelos::Config->new;
+    $self->config($config);
+    $config;
+}
+
+sub setup_project_structure {
+    my $self = shift;
+    $self->project_structure(
+        Angelos::ProjectStructure->new( home => $self->home ) );
+}
+
+sub setup_logger {
+    my $self   = shift;
+    my $logger = Angelos::Logger->new;
+    $self->logger($logger);
+    $logger;
+}
+
+sub setup_bootloader_plugins {
+    my $self = shift;
+    if ( $self->is_debug ) {
+        my @plugins
+            = ( { module => 'ShowComponents' }, { module => 'ShowRoutes' } );
+        $self->load_plugin( $_->{module} ) for @plugins;
+    }
+}
+
+sub setup_request {
+    my $self = shift;
+    Angelos::Request->setup;
+}
+
+sub setup_response {
+    my $self = shift;
+    Angelos::Response->setup;
+}
+
+sub setup_engine {
+    my $self   = shift;
+    my $engine = Angelos::Engine->new(
+        host   => $self->host,
+        port   => $self->port,
+        server => $self->server,
+        config => $self->config,
+        logger => $self->logger,
+        root   => $self->project_structure->root_dir,
+    );
+    # $engine->load_plugin( $_->{module} ) for $self->config->plugins('engine');
+    $self->engine($engine);
+    $engine;
+}
+
+sub setup_components {
+    my $self       = shift;
+    my $components = $self->engine->component_manager->setup;
+    $components;
+}
+
+sub setup_dispatcher {
+    my $self = shift;
+    $self->_setup_dispatch_rules;
+}
+
+sub _setup_dispatch_rules {
+    my $self     = shift;
+    my $routeset = $self->build_routeset;
+    $self->engine->set_routeset($routeset);
+    $routeset;
+}
+
+sub build_routeset {
+    my $self = shift;
+    my $routeset
+        = Angelos::Dispatcher::Routes::Builder->new->build_from_config;
+    $routeset->[0];
+}
+
+sub is_debug {
+    my $self = shift;
+    my $is_debug;
+    $is_debug ||= $ENV{ANGELOS_DEBUG};
+    $is_debug ||= Angelos::Utils::env_value( ref $self, 'DEBUG' );
+    $is_debug ||= $self->debug;
+    return $is_debug;
+}
+
+sub app_class {
+    my $self = shift;
+    ref $self;
+}
+
+sub p {
+    require Data::Dumper;
+    warn Data::Dumper::Dumper @_;
 }
 
 __END_OF_CLASS__

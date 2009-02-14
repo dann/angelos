@@ -7,23 +7,22 @@ use Params::Validate qw(SCALAR HASHREF);
 with 'Angelos::Class::Pluggable';
 with 'Angelos::Class::Loggable';
 
+has 'app_class' => (
+    is  => 'rw',
+    isa => 'Str',
+);
+
 has 'app' => (
     is       => 'rw',
-    isa      => 'Angelos::Engine',
-    required => 1,
     handles  => [qw(controller model)],
 );
 
 has 'request' => (
-    is       => 'rw',
-    required => 1,
-    handles  => [qw(params)],
+    is      => 'rw',
+    handles => [qw(params)],
 );
 
-has 'response' => (
-    is       => 'rw',
-    required => 1
-);
+has 'response' => ( is => 'rw', );
 
 has 'stash' => (
     is      => 'rw',
@@ -38,7 +37,24 @@ has 'finished' => (
     default => 0,
 );
 
+has 'timing' => ( 
+    is => 'rw',
+    isa => 'Str',
+);
+
 has '_match' => ( is => 'rw', );
+
+#has 'config' => ( is => 'rw', );
+
+has 'home' => (
+    is      => 'rw',
+    handles => [qw(path_to)],
+);
+
+has 'project_structure' => (
+    is => 'rw',
+    isa => 'Angelos::ProjectStructure',
+);
 
 sub req {
     shift->request;
@@ -54,7 +70,7 @@ sub session {
 
 sub view {
     my ( $self, $view ) = @_;
-    my $v = $self->app->view($view);
+    my $v = $self->engine->view($view);
     Angelos::Exception::ComponentNotFound->throw(
         level   => 'error',
         message => "view $view doesn't exist"

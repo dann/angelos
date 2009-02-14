@@ -48,16 +48,18 @@ sub handle_request {
     my ( $self, $req ) = @_;
     my $res = HTTP::Engine::Response->new;
 
-
-    # TODO
-    no warnings 'redefine';
-    local *Angelos::Registrar::context = sub { $self->app };
-
-    my $c   = Angelos::Context->new(
+    my $c = Angelos::Context->new(
+        timing   => 'runtime',
         request  => $req,
         response => $res,
-        app      => $self
+        home     => $self->app->home,
+
+        # TODO we need application?
+        app      => $self->app,
     );
+
+    no warnings 'redefine';
+    local *Angelos::Registrar::context = sub {$self->app};
 
     eval { $self->DISPATCH( $c, $req ); };
     if ( my $e = Exception::Class->caught() ) {

@@ -1,17 +1,14 @@
 package Angelos::View;
 use Angelos::Class;
-use Angelos::Home;
 use Angelos::MIMETypes;
 use Path::Class qw(file dir);
 use Angelos::Exceptions;
 use Params::Validate qw(SCALAR);
+use Angelos::Utils;
 
 with 'Angelos::Component';
-with 'Angelos::Class::HomeAware';
 
 has _plugin_app_ns => ( +default => sub { ['Angelos::View'] }, );
-
-has 'context' => ( is => 'rw', );
 
 has 'types' => (
     is      => 'rw',
@@ -24,7 +21,7 @@ has 'root' => (
     is      => 'rw',
     default => sub {
         my $self = shift;
-        $self->home->path_to( 'share', 'root', 'templates' );
+        Angelos::Utils::context->project_structure->templates_dir;
     },
 );
 
@@ -44,6 +41,10 @@ sub BUILD {
     my $self            = shift;
     my $template_engine = $self->_build_engine;
     $self->engine($template_engine) if $template_engine;
+}
+
+sub context {
+    Angelos::Registrar::context();
 }
 
 sub SETUP { }

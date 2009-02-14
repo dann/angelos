@@ -1,11 +1,8 @@
 package Angelos::Logger;
 use Angelos::Class;
-use Log::Dispatch::Config;
-use Log::Dispatch::Configurator::YAML;
-use Angelos::Config;
 use Angelos::Exceptions;
-
-#$Log::Dispatch::Config::CallerDepth = 2;
+use Angelos::Utils;
+use UNIVERSAL::require;
 
 has 'logger' => (
     is      => 'rw',
@@ -15,10 +12,8 @@ has 'logger' => (
 
 sub build_logger {
     my $self = shift;
-    my $config
-        = Log::Dispatch::Configurator::YAML->new( $self->_logger_conf_path );
-    Log::Dispatch::Config->configure($config);
-    Log::Dispatch::Config->instance();
+    require Angelos::Logger::Dispatch;
+    Angelos::Logger::Dispatch->new;
 }
 
 sub debug {
@@ -32,51 +27,28 @@ sub debug {
 
 sub warn {
     my ( $self, $message ) = @_;
-    my $log = {
-        message => $message,
-        level   => 'warn',
-    };
-    $self->logger->log(%$log);
+    $self->logger->log('warn' => $message);
 }
 
 sub info {
     my ( $self, $message ) = @_;
-    my $log = {
-        message => $message,
-        level   => 'info',
-    };
-    $self->logger->log(%$log);
+    $self->logger->log('info'=> $message);
 }
 
 sub critical {
     my ( $self, $message ) = @_;
-    my $log = {
-        message => $message,
-        level   => 'critical',
-    };
-    $self->logger->log(%$log);
+    $self->logger->log('critical' => $message );
 }
 
 sub notice {
     my ( $self, $message ) = @_;
-    my $log = {
-        message => $message,
-        level   => 'notice',
-    };
-    $self->logger->log(%$log);
+    $self->logger->log('notice' => $message );
 }
 
 sub error {
     my ( $self, $message ) = @_;
-    my $log = {
-        message => $message,
-        level   => 'error',
-    };
-    $self->logger->log(%$log);
+    $self->logger->log('error', $message);
 }
 
-sub _logger_conf_path {
-    Angelos::Config->logger_conf_path;
-}
 
 __END_OF_CLASS__

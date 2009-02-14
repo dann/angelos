@@ -16,7 +16,8 @@ components:
 middlewares:
   - module: Static
   - module: Unicode
-  - module: DebugScreen
+
+#  - module: DebugScreen
 #  - module: DebugRequest
 #  - module: Session
 

@@ -1,12 +1,10 @@
 package Angelos::Class::Configurable;
 use Angelos::Role;
 use Angelos::Config;
-# use Angelos::Config;
-use Angelos::Registrar;
+use Angelos::Utils;
 
 sub config {
-    my $config = Angelos::Config->new unless Angelos::Registrar::context()->engine;
-    $config ||= Angelos::Registrar::context()->engine->config;
+    my $config = Angelos::Utils::context()->config;
     $config;
 }
 

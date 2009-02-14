@@ -2,9 +2,7 @@ package Angelos::Class::Pluggable;
 use Carp ();
 use Angelos::Role;
 use Module::Pluggable::Object;
-use Any::Moose (
-    '::Util' => [qw/apply_all_roles/],
-);
+use Mouse::Util;
 
 has _plugin_ns => (
     is       => 'rw',
@@ -86,7 +84,7 @@ sub _load_and_apply_role {
     die("You must provide a role name") unless @roles;
 
     foreach my $role (@roles) {
-        eval { Any::Moose::load_class($role) };
+        eval { Mouse::load_class($role) };
         confess("Failed to load role: ${role} $@") if $@;
     }
     #apply_all_roles( ref $self, @roles );

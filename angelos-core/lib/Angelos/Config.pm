@@ -4,18 +4,20 @@ use Angelos::Home;
 use Angelos::Config::Loader;
 use Angelos::Config::Schema;
 use Data::Visitor::Callback;
-
-with 'Angelos::Class::HomeAware';
+use Angelos::Utils;
 
 has 'config' => (
     is      => 'rw',
-    default => sub {
-        my $self = shift;
-        Angelos::Config::Loader->load(
-            $self->home->path_to( 'conf', 'config.yaml' ),
-            Angelos::Config::Schema->config );
-    }
+    lazy    => 1,
+    builder => 'build_config',
 );
+
+sub build_config {
+    my $self = shift;
+    Angelos::Config::Loader->load(
+        Angelos::Utils::context()->project_structure->config_file,
+        Angelos::Config::Schema->config );
+}
 
 sub global {
     my $self = shift;
@@ -117,16 +119,6 @@ sub _get {
         return $self->config->{$section};
     }
     return $self->config->{$section}->{$var};
-}
-
-sub logger_conf_path {
-    my $self = shift;
-    $self->home->path_to( 'conf', 'log.yaml' );
-}
-
-sub routes_config_path {
-    my $self = shift;
-    $self->home->path_to( 'conf', 'routes.pl' );
 }
 
 __END_OF_CLASS__

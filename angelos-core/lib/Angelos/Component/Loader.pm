@@ -5,8 +5,7 @@ use Angelos::Utils;
 use Devel::InnerPackage;
 use Angelos::Exceptions;
 use Scalar::Util;
-use Angelos::Config;
-use Angelos::Registrar;
+use Mouse;
 
 has 'components' => (
     is      => 'rw',
@@ -14,7 +13,6 @@ has 'components' => (
 );
 
 with 'Angelos::Class::Configurable';
-with 'Angelos::Class::ApplicationClassAware';
 
 sub setup {
     my $self       = shift;
@@ -22,7 +20,7 @@ sub setup {
 }
 
 sub load_components {
-    my ( $self, ) = @_;
+    my $self = shift;
 
     my @paths   = qw( ::Web::Controller ::Model ::Web::View  );
     my $locator = Module::Pluggable::Object->new(
@@ -32,7 +30,7 @@ sub load_components {
     my %comps = map { $_ => 1 } @comps;
 
     for my $component (@comps) {
-        Any::Moose::load_class($component);
+        Mouse::load_class($component);
 
         my $module = $self->load_component($component);
         $self->_register_plugins_to($module);
@@ -135,6 +133,11 @@ sub search_view {
     my $appclass = $self->app_class;
     return $self->get_component(
         $appclass . "::Web::View::" . $short_view_name );
+}
+
+sub app_class {
+    my $self = shift;
+    Angelos::Utils::context->app_class;
 }
 
 __END_OF_CLASS__

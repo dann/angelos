@@ -29,7 +29,6 @@ test_tcp(
             server => $module,
             port   => $port,
         );
-        $engine->setup;
         $engine->run;
     },
 );

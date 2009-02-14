@@ -1,8 +1,5 @@
 package Angelos::Component;
-use strict;
-use warnings;
 use Angelos::Role;
-
 with 'Angelos::Class::Pluggable';
 with 'Angelos::Class::Configurable';
 with 'Angelos::Class::Loggable';

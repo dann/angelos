@@ -5,6 +5,7 @@ use Carp ();
 use File::Spec;
 use YAML ();
 use Encode;
+use Angelos::Registrar;
 
 # steal from Catalyst
 sub class2appclass {
@@ -64,6 +65,10 @@ sub load_yaml {
             or die "can't open $filename";
     }
     YAML::Load( Encode::decode( 'utf8', YAML::Dump( YAML::LoadFile($IN) ) ) );
+}
+
+sub context {
+    Angelos::Registrar::context();
 }
 
 1;
