@@ -4,6 +4,7 @@ use Carp ();
 use Angelos::Exceptions qw(rethrow_exception);
 use Exception::Class;
 use Angelos::Utils;
+use String::CamelCase;
 
 with  'Angelos::Component';
 with  'Angelos::Controller::Mixin::Responder';

@@ -1,6 +1,7 @@
 package Angelos::Dispatcher::Dispatch;
 use Angelos::Class;
-use Carp ();
+use Angelos::Exceptions;
+use String::CamelCase qw(camelize);
 
 has 'match' => (
     is       => 'rw',
@@ -41,7 +42,9 @@ sub find_controller_instance {
     my ( $self, $args ) = @_;
     my $controller = delete $args->{controller};
     my $context    = $args->{context};
-    $context->controller($controller);
+    my $controller_instance = $context->controller(camelize($controller));
+    Angelos::Exception->throw(message => "$controller isn't found.")  unless $controller_instance;
+    $controller_instance;
 }
 
 __END_OF_CLASS__
