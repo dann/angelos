@@ -31,7 +31,10 @@ has 'port' => (
     default => 3000,
 );
 
-has 'server' => ( is => 'rw', );
+has 'server' => (
+    is  => 'rw',
+    isa => 'Str',
+);
 
 has 'debug' => (
     is      => 'rw',
@@ -128,7 +131,7 @@ sub setup_home {
 
 sub create_home {
     my $self = shift;
-    my $home_class = join '::', (ref $self, 'Home');
+    my $home_class = join '::', ( ref $self, 'Home' );
     $home_class->require;
     $home_class->instance;
 }
@@ -142,7 +145,7 @@ sub setup_config {
 
 sub create_config {
     my $self = shift;
-    my $config_class = join '::', (ref $self, 'Config');
+    my $config_class = join '::', ( ref $self, 'Config' );
     $config_class->require;
     $config_class->instance;
 }
@@ -156,7 +159,7 @@ sub setup_logger {
 
 sub create_logger {
     my $self = shift;
-    my $logger_class = join '::', (ref $self, 'Logger');
+    my $logger_class = join '::', ( ref $self, 'Logger' );
     $logger_class->require;
     $logger_class->instance;
 }
