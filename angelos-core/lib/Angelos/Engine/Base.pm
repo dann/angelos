@@ -2,7 +2,6 @@ package Angelos::Engine::Base;
 use Angelos::Class;
 use Carp ();
 use HTTP::Engine;
-use Angelos::Home;
 use Angelos::Exceptions;
 
 with 'Angelos::Class::Loggable';
@@ -16,7 +15,7 @@ has 'engine' => (
 has 'root' => (
     is       => 'rw',
     required => 1,
-    default  => sub { shift->home->path_to( 'share', 'root' )->absolute },
+#    default  => sub { shift->home->path_to( 'share', 'root' )->absolute },
 );
 
 has 'host' => (

@@ -1,6 +1,5 @@
 package Angelos::CLI;
 use base qw(App::Cmd);
-use Angelos::Home;
 
 =head1 NAME
 

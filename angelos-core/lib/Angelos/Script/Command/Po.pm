@@ -6,7 +6,6 @@ use File::Path 'mkpath';
 use Locale::Maketext::Extract ();
 use File::Find::Rule          ();
 use MIME::Types               ();
-use Angelos::Home;
 use Path::Class;
 use Angelos::Exceptions;
 use JSON::XS;

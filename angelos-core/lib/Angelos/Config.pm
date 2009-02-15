@@ -1,22 +1,26 @@
 package Angelos::Config;
 use Angelos::Class;
-use Angelos::Home;
 use Angelos::Config::Loader;
 use Angelos::Config::Schema;
 use Data::Visitor::Callback;
 use Angelos::Utils;
+use base 'Class::Singleton';
 
-has 'config' => (
-    is      => 'rw',
-    lazy    => 1,
-    builder => 'build_config',
-);
+sub _new_instance {
+    my $class       = shift;
+    my $self        = bless {}, $class;
+    my $config_file = shift;
 
-sub build_config {
-    my $self = shift;
-    Angelos::Config::Loader->load(
-        Angelos::Utils::context()->project_structure->config_file,
+    # Angelos::Utils::context()->project_structure->config_file;
+    $self->{config} = Angelos::Config::Loader->load( $config_file || $self->config_file ,
         Angelos::Config::Schema->config );
+    return $self;
+}
+
+sub config_file {
+    Angelos::Exception::AbstractMethod->throw(
+        message => 'Sub class must implement config_file method' 
+    );
 }
 
 sub global {
@@ -111,14 +115,14 @@ sub _get {
     my $self    = shift;
     my $section = shift;
     my $var     = shift;
-    unless ( $self->config->{$section} ) {
+    unless ( $self->{config}->{$section} ) {
         return undef;
     }
 
     unless ($var) {
-        return $self->config->{$section};
+        return $self->{config}->{$section};
     }
-    return $self->config->{$section}->{$var};
+    return $self->{config}->{$section}->{$var};
 }
 
 __END_OF_CLASS__

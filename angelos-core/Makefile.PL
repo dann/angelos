@@ -51,6 +51,7 @@ requires(
     'Params::Validate'                  => 0,
     'Data::Util'                        => 0,
     'Class::Method::Modifiers::Fast'    => 0,
+    'Class::Singleton'    => 0,
 
     # Config
     'Kwalify'                 => 0,

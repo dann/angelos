@@ -1,7 +1,6 @@
 package TestApp::CLI::Command::echo;
-use base 'Angelos::CLI::Command';
-use Angelos::Config;
-use Data::Dumper;
+use Mouse;
+extends 'Angelos::CLI::Command';
 
 =head1 NAME
  
@@ -28,4 +27,6 @@ sub run {
     print $result . "\n";
 }
 
+no Mouse;
+__PACKAGE__->meta->make_immutable;
 1;

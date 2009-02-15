@@ -15,19 +15,25 @@ has 'logger' => (
 
 $Log::Dispatch::Config::CallerDepth = 2;
 
+has 'logger_conf_file' => ( is => 'rw', );
+
+has 'app_class' => (
+    is  => 'rw',
+    isa => 'Str',
+);
+
 sub build_logger {
     my $self = shift;
-
-    my $logger = join '::', ( $self->_app_class, 'Logger', 'Backend' );
+    my $logger = join '::', ( $self->app_class, 'Logger', 'Backend' );
     $self->_generate_logger_class($logger);
     $logger->require;
     $logger->configure_and_watch(
-        Log::Dispatch::Configurator::YAML->new( $self->_logger_conf_file ) );
+        Log::Dispatch::Configurator::YAML->new( $self->logger_conf_file ) );
     $logger->instance;
 }
 
 sub _generate_logger_class {
-    my ($self, $logger) = @_;
+    my ( $self, $logger ) = @_;
 
     # Log::Dispatch::Config is Singleton class,
     # This causes trobule under mod_perl enviroment,
@@ -45,14 +51,6 @@ sub log {
         message => $message,
     };
     $self->logger->log(%$log);
-}
-
-sub _logger_conf_file {
-    Angelos::Utils::context()->project_structure->logger_conf_file;
-}
-
-sub _app_class {
-    Angelos::Utils::context()->app_class;
 }
 
 __END_OF_CLASS__

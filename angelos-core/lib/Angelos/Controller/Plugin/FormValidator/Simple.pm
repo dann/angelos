@@ -1,7 +1,5 @@
 package Angelos::Controller::Plugin::FormValidator::Simple;
 use Angelos::Plugin;
-
-use Angelos::Home;
 use Angelos::Utils;
 use Angelos::Exceptions;
 

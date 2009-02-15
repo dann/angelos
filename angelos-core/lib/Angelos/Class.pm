@@ -8,7 +8,7 @@ sub init_class {
     my $meta = Mouse::Meta::Class->initialize($klass);
     $meta->superclasses('Mouse::Object') unless $meta->superclasses;
 
-    no strict 'refs';
+    no strict 'refs'; ## no critic (ProhibitNoStrict)
     no warnings 'redefine';
     *{ $klass . '::meta' } = sub {$meta};
 }
@@ -19,7 +19,7 @@ sub import {
     my $caller = caller(0);
     return if $caller eq 'main';
 
-    no strict 'refs';
+    no strict 'refs'; ## no critic (ProhibitNoStrict)
     *{"$caller\::__END_OF_CLASS__"} = sub {
         my $caller = caller(0);
         __END_OF_CLASS__($caller);

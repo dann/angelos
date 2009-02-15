@@ -2,7 +2,6 @@ package Angelos::Script::Server;
 use Angelos::Class;
 use Pod::Usage;
 use UNIVERSAL::require;
-use Angelos::Home;
 
 with 'MouseX::Getopt';
 

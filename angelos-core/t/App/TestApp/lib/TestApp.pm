@@ -1,7 +1,20 @@
 package TestApp;
-use Mouse;
+use Angelos::Class;
+use TestApp::Logger;
+use TestApp::Home;
+use TestApp::Config;
 extends 'Angelos';
 
-__PACKAGE__->meta->make_immutable;
+sub create_config {
+    TestApp::Config->instance;
+}
 
-1;
+sub create_logger {
+    TestApp::Logger->instance;
+}
+
+sub create_home {
+    TestApp::Home->instance;
+}
+
+__END_OF_CLASS__

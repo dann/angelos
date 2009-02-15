@@ -1,26 +1,27 @@
 package Angelos::Home;
-use Angelos::Class;
 use Angelos::Utils;
+use Angelos::Exceptions;
 use Path::Class qw(dir file);
 use File::Spec;
 use Cwd ();
+use base 'Class::Singleton';
 
-has 'home' => ( is => 'rw', );
+sub _new_instance {
+    my $class     = shift;
+    my $self      = bless {}, $class;
+    my $app_class = shift;
+    $self->{home} = $self->detect( $app_class || $self->app_class );
+    return $self;
+}
 
-has 'app_class' => (
-    is  => 'rw',
-    isa => 'Str',
-);
-
-sub BUILD {
-    my $self = shift;
-    $self->detect( $self->app_class );
+sub app_class {
+    Angelos::Exception::AbstractMethod->throw( message =>
+            'Sub class must implement this method and return application class name'
+    );
 }
 
 sub detect {
     my ( $self, $app_class ) = @_;
-    return $self->home if $self->home;
-
     my $home;
     $home ||= $self->_get_home_from_angelos_env;
     $home ||= $self->_get_home_from_application_env($app_class) if $app_class;
@@ -28,7 +29,6 @@ sub detect {
     $home ||= $self->_search_home_from_module_file_path($app_class)
         if $app_class;
     $home ||= $self->_current_dir;
-    $self->home($home);
     $home;
 }
 
@@ -111,13 +111,13 @@ sub _document_root {
 
 sub path_to {
     my ( $self, @path ) = @_;
-    my $path = File::Spec->catfile( $self->home, @path );
+    my $path = File::Spec->catfile( $self->{home}, @path );
     if ( -f $path ) {
-        return file( $self->home, @path );
+        return file( $self->{home}, @path );
     }
     else {
-        return dir( $self->home, @path );
+        return dir( $self->{home}, @path );
     }
 }
 
-__END_OF_CLASS__
+1;

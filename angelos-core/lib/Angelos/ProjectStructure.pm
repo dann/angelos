@@ -6,7 +6,7 @@ has 'home' => (
     isa => 'Angelos::Home',
 );
 
-sub logger_conf_file {
+sub logger_config_file {
     my $self = shift;
     $self->home->path_to( 'conf', 'log.yaml' );
 }

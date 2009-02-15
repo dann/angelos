@@ -1,7 +1,6 @@
 package Angelos::View::TT;
 use Angelos::Class;
 use Template;
-use Angelos::Home;
 use Path::Class;
 extends 'Angelos::View';
 

@@ -44,14 +44,15 @@ has 'debug' => (
 );
 
 has 'home' => (
-    is  => 'rw',
-    isa => 'Angelos::Home',
+    is      => 'rw',
+    isa     => 'Angelos::Home',
     handles => [qw(path_to)],
 );
 
 has 'engine' => (
-    is      => 'rw',
-    handles => [qw(controller model view forward detach full_forward full_detach)],
+    is => 'rw',
+    handles =>
+        [qw(controller model view forward detach full_forward full_detach)],
 );
 
 has 'config' => ( is => 'rw', );
@@ -118,29 +119,47 @@ sub setup {
 }
 
 sub run {
-    my $self = shift; 
+    my $self = shift;
     $self->engine->run(@_);
 }
 
 sub setup_home {
     my $self = shift;
-    my $home = Angelos::Home->new( app_class => ref $self );
+    my $home = $self->create_home;
     $self->home($home);
     $home;
 }
 
+sub create_home {
+    Angelos::Exception::AbstractMethod->throw(
+        message => 'Sub class must implement create_home method' 
+    );
+}
+
 sub setup_config {
     my $self   = shift;
-    my $config = Angelos::Config->new;
+    my $config = $self->create_config;
     $self->config($config);
     $config;
 }
 
+sub create_config {
+    Angelos::Exception::AbstractMethod->throw(
+        message => 'Sub class must implement create_config method' 
+    );
+}
+
 sub setup_logger {
     my $self   = shift;
-    my $logger = Angelos::Logger->new;
+    my $logger = $self->create_logger;
     $self->logger($logger);
     $logger;
+}
+
+sub create_logger {
+    Angelos::Exception::AbstractMethod->throw(
+        message => 'Sub class must implement create_logger method' 
+    );
 }
 
 sub setup_project_structure {
