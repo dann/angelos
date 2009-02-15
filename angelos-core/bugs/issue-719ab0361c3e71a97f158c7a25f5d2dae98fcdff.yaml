@@ -1,0 +1,18 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: Set application classs name in PerlSetEnv and Multiple apps must work in same process
+desc: ""
+type: :task
+component: angelos
+release: "0.01"
+reporter: dann <techmemo@gmail.com>
+status: :unstarted
+disposition: 
+creation_time: 2009-02-15 15:50:01.418944 Z
+references: []
+
+id: 719ab0361c3e71a97f158c7a25f5d2dae98fcdff
+log_events: 
+- - 2009-02-15 15:50:01.721551 Z
+  - dann <techmemo@gmail.com>
+  - created
+  - ""
