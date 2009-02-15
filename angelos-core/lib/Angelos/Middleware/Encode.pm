@@ -1,4 +1,4 @@
-package Angelos::Middleware::Unicode;
+package Angelos::Middleware::Encode;
 use Angelos::Class;
 extends 'HTTP::Engine::Middleware::Encode';
 

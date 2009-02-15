@@ -1,0 +1,7 @@
+#!/bin/sh
+rm -rf MyApp
+angelos flavor --name app --pack 
+angelos generate --name MyApp
+cd MyApp
+perl Makefile.PL
+make test

@@ -19,7 +19,7 @@ __DATA__
 
 ---
 file: .gitignore
-template: |
+template: |+
   cover_db
   META.yml
   Makefile
@@ -27,6 +27,7 @@ template: |
   inc
   pm_to_blib
   Makefile.old
+
 ---
 file: MANIFEST.SKIP
 template: |
@@ -93,10 +94,8 @@ template: |
   name '[% dist %]';
   all_from 'lib/[% module_path %].pm';
   
-  # requires '';
-  
-  tests 't/*.t';
-  author_tests 'xt';
+  tests 't/*.t t/unit/*.t t/integration/*.t';
+  #author_tests 'xt';
   
   build_requires 'Test::More';
   use_test_base;
@@ -111,7 +110,7 @@ template: |
       - module: A
   
   middlewares:
-    - module: DebugRequest
+    - module: Encode
 ---
 file: conf/routes.pl
 template: |+
@@ -146,14 +145,27 @@ template: |
 file: lib/____var-module_path-var____.pm
 template: |
   package [% module %];
-  use Mouse;
+  use Angelos::Class;
+  use [% module %]::Logger;
+  use [% module %]::Home;
+  use [% module %]::Config;
   extends 'Angelos';
   
   our $VERSION = '0.01';
   
-  __PACKAGE__->meta->make_immutable;
+  sub create_config {
+      [% module %]::Config->instance;
+  }
   
-  1;
+  sub create_logger {
+      [% module %]::Logger->instance;
+  }
+  
+  sub create_home {
+      [% module %]::Home->instance;
+  }
+  
+  __END_OF_CLASS__
   
   __END__
   
@@ -189,10 +201,135 @@ template: |
   
   =cut
 ---
+file: lib/____var-module_path-var____/Config.pm
+template: |
+  package [% module %]::Config;
+  use base 'Angelos::Config';
+  use Angelos::ProjectStructure;
+  
+  sub config_file {
+      Angelos::ProjectStructure->new( home => [% module %]::Home->instance )
+          ->config_file;
+  }
+  
+  1;
+---
+file: lib/____var-module_path-var____/Logger.pm
+template: |
+  package [% module %]::Logger;
+  use base 'Angelos::Logger';
+  use Angelos::ProjectStructure;
+  use [% module %]::Home;
+  
+  sub app_class { '[% module %]'; }
+  
+  sub logger_config_file {
+      Angelos::ProjectStructure->new( home => [% module %]::Home->instance )
+          ->logger_config_file;
+  }
+  
+  1;
+---
+file: lib/____var-module_path-var____/Schema.pm
+template: |
+  package [% module %]::Schema;
+  use Mouse;
+  use [% module %]::Config;
+  extends qw(DBIx::Class::Schema);
+  
+  sub master {
+      my $class        = shift;
+      my $connect_info = $class->config->{'Model::DBIC'}{'connect_info'};
+      my $schema       = $class->connect( @{$connect_info} );
+      return $schema;
+  }
+  
+  sub slave {
+      my $class = shift;
+      return unless $class->config->{'Model::DBIC::Slave'};
+      my $connect_info = $class->config->{'Model::DBIC::Slave'}{'connect_info'};
+      my $schema       = $class->connect( @{$connect_info} );
+      return $schema;
+  }
+  
+  sub config {
+      [% module %]::Config->instance;
+  }
+  
+  no Mouse;
+  __PACKAGE__->meta->make_immutable;
+  1;
+---
+file: lib/____var-module_path-var____/Home.pm
+template: |
+  package [% module %]::Home;
+  use base 'Angelos::Home';
+  
+  sub app_class { '[% module %]'; }
+  
+  1;
+---
 file: lib/____var-module_path-var____/CLI.pm
 template: |
   package [% module %]::CLI;
   use base qw(Angelos::CLI);
+  
+  1;
+---
+file: lib/____var-module_path-var____/Role/HomeAware.pm
+template: |
+  package [% module %]::Role::HomeAware;
+  use Mouse::Role;
+  use [% module %]::Home;
+  
+  sub home {
+      [% module %]::Home->instance;
+  }
+  
+  1;
+---
+file: lib/____var-module_path-var____/Role/SchemaAware.pm
+template: |
+  package [% module %]::Role::SchemaAware;
+  use Mouse::Role;
+  
+  has 'schema' => (
+      is      => 'rw',
+      default => sub {
+          [% module %]::Schema->master;
+      },
+  );
+  
+  has 'slave_schema' => (
+      is      => 'rw',
+      default => sub {
+          [% module %]::Schema->slave;
+      },
+  );
+  
+  1;
+---
+file: lib/____var-module_path-var____/Role/Configurable.pm
+template: |
+  package [% module %]::Role::Configurable;
+  use Mouse::Role;
+  use [% module %]::Config;
+  
+  sub config {
+      [% module %]::Config->instance;
+  }
+  
+  1;
+---
+file: lib/____var-module_path-var____/Role/Loggable.pm
+template: |
+  package TestApp::Role::Loggable;
+  use Mouse::Role;
+  use [% module %]::Logger;
+  
+  sub log {
+      [% module %]::Logger->instance;
+  }
   
   1;
 ---
@@ -223,6 +360,8 @@ template: |+
   
   __END__
 
+---
+dir: lib/____var-module_path-var____/Service/Base
 ---
 file: lib/____var-module_path-var____/CLI/Command/Echo.pm
 template: |
@@ -263,14 +402,59 @@ template: |
   
   1;
 ---
-dir: lib/____var-module_path-var____/Model
----
-file: t/00_compile.t
-template: |
+file: t/00_load_all.t
+template: |+
   use strict;
-  use Test::More tests => 1;
+  use warnings;
+  use Test::More ();
   
-  BEGIN { use_ok '[% module %]' }
+  Test::More::plan('no_plan');
+  
+  use Module::Pluggable::Object;
+  
+  my $finder = Module::Pluggable::Object->new( search_path => ['[% module %]'], );
+  
+  foreach my $class (
+      grep !
+      /\.ToDo|[% module %]::Role/,
+      sort do { local @INC = ('lib'); $finder->plugins }
+      )
+  {
+      Test::More::use_ok($class);
+  }
+
+---
+dir: t/unit
+---
+file: t/integration/01_basic.t
+template: |+
+  use strict;
+  use warnings;
+  use FindBin::libs;
+  use Angelos::Test::Base;
+  
+  plan tests => 1 * blocks;
+  
+  run_tests;
+  
+  sub check_response {
+      my ($response, $expected_response) = @_; 
+      is $response->code, $expected_response->code;
+  }
+  
+  sub test_application_class {
+      '[% module %]';
+  }
+  
+  __END__
+  
+  === one
+  --- request
+  method: GET
+  path: /
+  --- response
+  code: 200
+
 ---
 file: share/root/templates/root/index.tt
 template: |
@@ -475,6 +659,490 @@ template: |+
   Takatoshi Kitano
   
   =cut
+
+---
+dir: inc/.author
+---
+file: inc/Module/Install.pm
+template: |
+  #line 1
+  package Module::Install;
+  
+  # For any maintainers:
+  # The load order for Module::Install is a bit magic.
+  # It goes something like this...
+  #
+  # IF ( host has Module::Install installed, creating author mode ) {
+  #     1. Makefile.PL calls "use inc::Module::Install"
+  #     2. $INC{inc/Module/Install.pm} set to installed version of inc::Module::Install
+  #     3. The installed version of inc::Module::Install loads
+  #     4. inc::Module::Install calls "require Module::Install"
+  #     5. The ./inc/ version of Module::Install loads
+  # } ELSE {
+  #     1. Makefile.PL calls "use inc::Module::Install"
+  #     2. $INC{inc/Module/Install.pm} set to ./inc/ version of Module::Install
+  #     3. The ./inc/ version of Module::Install loads
+  # }
+  
+  BEGIN {
+  	require 5.004;
+  }
+  use strict 'vars';
+  
+  use vars qw{$VERSION};
+  BEGIN {
+  	# All Module::Install core packages now require synchronised versions.
+  	# This will be used to ensure we don't accidentally load old or
+  	# different versions of modules.
+  	# This is not enforced yet, but will be some time in the next few
+  	# releases once we can make sure it won't clash with custom
+  	# Module::Install extensions.
+  	$VERSION = '0.77';
+  
+  	*inc::Module::Install::VERSION = *VERSION;
+  	@inc::Module::Install::ISA     = __PACKAGE__;
+  
+  }
+  
+  
+  
+  
+  
+  # Whether or not inc::Module::Install is actually loaded, the
+  # $INC{inc/Module/Install.pm} is what will still get set as long as
+  # the caller loaded module this in the documented manner.
+  # If not set, the caller may NOT have loaded the bundled version, and thus
+  # they may not have a MI version that works with the Makefile.PL. This would
+  # result in false errors or unexpected behaviour. And we don't want that.
+  my $file = join( '/', 'inc', split /::/, __PACKAGE__ ) . '.pm';
+  unless ( $INC{$file} ) { die <<"END_DIE" }
+  
+  Please invoke ${\__PACKAGE__} with:
+  
+  	use inc::${\__PACKAGE__};
+  
+  not:
+  
+  	use ${\__PACKAGE__};
+  
+  END_DIE
+  
+  
+  
+  
+  
+  # If the script that is loading Module::Install is from the future,
+  # then make will detect this and cause it to re-run over and over
+  # again. This is bad. Rather than taking action to touch it (which
+  # is unreliable on some platforms and requires write permissions)
+  # for now we should catch this and refuse to run.
+  if ( -f $0 and (stat($0))[9] > time ) { die <<"END_DIE" }
+  
+  Your installer $0 has a modification time in the future.
+  
+  This is known to create infinite loops in make.
+  
+  Please correct this, then run $0 again.
+  
+  END_DIE
+  
+  
+  
+  
+  
+  # Build.PL was formerly supported, but no longer is due to excessive
+  # difficulty in implementing every single feature twice.
+  if ( $0 =~ /Build.PL$/i ) { die <<"END_DIE" }
+  
+  Module::Install no longer supports Build.PL.
+  
+  It was impossible to maintain duel backends, and has been deprecated.
+  
+  Please remove all Build.PL files and only use the Makefile.PL installer.
+  
+  END_DIE
+  
+  
+  
+  
+  
+  # To save some more typing in Module::Install installers, every...
+  # use inc::Module::Install
+  # ...also acts as an implicit use strict.
+  $^H |= strict::bits(qw(refs subs vars));
+  
+  
+  
+  
+  
+  use Cwd        ();
+  use File::Find ();
+  use File::Path ();
+  use FindBin;
+  
+  sub autoload {
+  	my $self = shift;
+  	my $who  = $self->_caller;
+  	my $cwd  = Cwd::cwd();
+  	my $sym  = "${who}::AUTOLOAD";
+  	$sym->{$cwd} = sub {
+  		my $pwd = Cwd::cwd();
+  		if ( my $code = $sym->{$pwd} ) {
+  			# delegate back to parent dirs
+  			goto &$code unless $cwd eq $pwd;
+  		}
+  		$$sym =~ /([^:]+)$/ or die "Cannot autoload $who - $sym";
+  		unless ( uc($1) eq $1 ) {
+  			unshift @_, ( $self, $1 );
+  			goto &{$self->can('call')};
+  		}
+  	};
+  }
+  
+  sub import {
+  	my $class = shift;
+  	my $self  = $class->new(@_);
+  	my $who   = $self->_caller;
+  
+  	unless ( -f $self->{file} ) {
+  		require "$self->{path}/$self->{dispatch}.pm";
+  		File::Path::mkpath("$self->{prefix}/$self->{author}");
+  		$self->{admin} = "$self->{name}::$self->{dispatch}"->new( _top => $self );
+  		$self->{admin}->init;
+  		@_ = ($class, _self => $self);
+  		goto &{"$self->{name}::import"};
+  	}
+  
+  	*{"${who}::AUTOLOAD"} = $self->autoload;
+  	$self->preload;
+  
+  	# Unregister loader and worker packages so subdirs can use them again
+  	delete $INC{"$self->{file}"};
+  	delete $INC{"$self->{path}.pm"};
+  
+  	return 1;
+  }
+  
+  sub preload {
+  	my $self = shift;
+  	unless ( $self->{extensions} ) {
+  		$self->load_extensions(
+  			"$self->{prefix}/$self->{path}", $self
+  		);
+  	}
+  
+  	my @exts = @{$self->{extensions}};
+  	unless ( @exts ) {
+  		my $admin = $self->{admin};
+  		@exts = $admin->load_all_extensions;
+  	}
+  
+  	my %seen;
+  	foreach my $obj ( @exts ) {
+  		while (my ($method, $glob) = each %{ref($obj) . '::'}) {
+  			next unless $obj->can($method);
+  			next if $method =~ /^_/;
+  			next if $method eq uc($method);
+  			$seen{$method}++;
+  		}
+  	}
+  
+  	my $who = $self->_caller;
+  	foreach my $name ( sort keys %seen ) {
+  		*{"${who}::$name"} = sub {
+  			${"${who}::AUTOLOAD"} = "${who}::$name";
+  			goto &{"${who}::AUTOLOAD"};
+  		};
+  	}
+  }
+  
+  sub new {
+  	my ($class, %args) = @_;
+  
+  	# ignore the prefix on extension modules built from top level.
+  	my $base_path = Cwd::abs_path($FindBin::Bin);
+  	unless ( Cwd::abs_path(Cwd::cwd()) eq $base_path ) {
+  		delete $args{prefix};
+  	}
+  
+  	return $args{_self} if $args{_self};
+  
+  	$args{dispatch} ||= 'Admin';
+  	$args{prefix}   ||= 'inc';
+  	$args{author}   ||= ($^O eq 'VMS' ? '_author' : '.author');
+  	$args{bundle}   ||= 'inc/BUNDLES';
+  	$args{base}     ||= $base_path;
+  	$class =~ s/^\Q$args{prefix}\E:://;
+  	$args{name}     ||= $class;
+  	$args{version}  ||= $class->VERSION;
+  	unless ( $args{path} ) {
+  		$args{path}  = $args{name};
+  		$args{path}  =~ s!::!/!g;
+  	}
+  	$args{file}     ||= "$args{base}/$args{prefix}/$args{path}.pm";
+  	$args{wrote}      = 0;
+  
+  	bless( \%args, $class );
+  }
+  
+  sub call {
+  	my ($self, $method) = @_;
+  	my $obj = $self->load($method) or return;
+          splice(@_, 0, 2, $obj);
+  	goto &{$obj->can($method)};
+  }
+  
+  sub load {
+  	my ($self, $method) = @_;
+  
+  	$self->load_extensions(
+  		"$self->{prefix}/$self->{path}", $self
+  	) unless $self->{extensions};
+  
+  	foreach my $obj (@{$self->{extensions}}) {
+  		return $obj if $obj->can($method);
+  	}
+  
+  	my $admin = $self->{admin} or die <<"END_DIE";
+  The '$method' method does not exist in the '$self->{prefix}' path!
+  Please remove the '$self->{prefix}' directory and run $0 again to load it.
+  END_DIE
+  
+  	my $obj = $admin->load($method, 1);
+  	push @{$self->{extensions}}, $obj;
+  
+  	$obj;
+  }
+  
+  sub load_extensions {
+  	my ($self, $path, $top) = @_;
+  
+  	unless ( grep { lc $_ eq lc $self->{prefix} } @INC ) {
+  		unshift @INC, $self->{prefix};
+  	}
+  
+  	foreach my $rv ( $self->find_extensions($path) ) {
+  		my ($file, $pkg) = @{$rv};
+  		next if $self->{pathnames}{$pkg};
+  
+  		local $@;
+  		my $new = eval { require $file; $pkg->can('new') };
+  		unless ( $new ) {
+  			warn $@ if $@;
+  			next;
+  		}
+  		$self->{pathnames}{$pkg} = delete $INC{$file};
+  		push @{$self->{extensions}}, &{$new}($pkg, _top => $top );
+  	}
+  
+  	$self->{extensions} ||= [];
+  }
+  
+  sub find_extensions {
+  	my ($self, $path) = @_;
+  
+  	my @found;
+  	File::Find::find( sub {
+  		my $file = $File::Find::name;
+  		return unless $file =~ m!^\Q$path\E/(.+)\.pm\Z!is;
+  		my $subpath = $1;
+  		return if lc($subpath) eq lc($self->{dispatch});
+  
+  		$file = "$self->{path}/$subpath.pm";
+  		my $pkg = "$self->{name}::$subpath";
+  		$pkg =~ s!/!::!g;
+  
+  		# If we have a mixed-case package name, assume case has been preserved
+  		# correctly.  Otherwise, root through the file to locate the case-preserved
+  		# version of the package name.
+  		if ( $subpath eq lc($subpath) || $subpath eq uc($subpath) ) {
+  			my $content = Module::Install::_read($subpath . '.pm');
+  			my $in_pod  = 0;
+  			foreach ( split //, $content ) {
+  				$in_pod = 1 if /^=\w/;
+  				$in_pod = 0 if /^=cut/;
+  				next if ($in_pod || /^=cut/);  # skip pod text
+  				next if /^\s*#/;               # and comments
+  				if ( m/^\s*package\s+($pkg)\s*;/i ) {
+  					$pkg = $1;
+  					last;
+  				}
+  			}
+  		}
+  
+  		push @found, [ $file, $pkg ];
+  	}, $path ) if -d $path;
+  
+  	@found;
+  }
+  
+  
+  
+  
+  
+  #####################################################################
+  # Utility Functions
+  
+  sub _caller {
+  	my $depth = 0;
+  	my $call  = caller($depth);
+  	while ( $call eq __PACKAGE__ ) {
+  		$depth++;
+  		$call = caller($depth);
+  	}
+  	return $call;
+  }
+  
+  sub _read {
+  	local *FH;
+  	open FH, "< $_[0]" or die "open($_[0]): $!";
+  	my $str = do { local $/; <FH> };
+  	close FH or die "close($_[0]): $!";
+  	return $str;
+  }
+  
+  sub _write {
+  	local *FH;
+  	open FH, "> $_[0]" or die "open($_[0]): $!";
+  	foreach ( 1 .. $#_ ) { print FH $_[$_] or die "print($_[0]): $!" }
+  	close FH or die "close($_[0]): $!";
+  }
+  
+  # _version is for processing module versions (eg, 1.03_05) not
+  # Perl versions (eg, 5.8.1).
+  
+  sub _version ($) {
+  	my $s = shift || 0;
+  	   $s =~ s/^(\d+)\.?//;
+  	my $l = $1 || 0;
+  	my @v = map { $_ . '0' x (3 - length $_) } $s =~ /(\d{1,3})\D?/g;
+  	   $l = $l . '.' . join '', @v if @v;
+  	return $l + 0;
+  }
+  
+  # Cloned from Params::Util::_CLASS
+  sub _CLASS ($) {
+  	(
+  		defined $_[0]
+  		and
+  		! ref $_[0]
+  		and
+  		$_[0] =~ m/^[^\W\d]\w*(?:::\w+)*$/s
+  	) ? $_[0] : undef;
+  }
+  
+  1;
+  
+  # Copyright 2008 Adam Kennedy.
+---
+file: tools/test_it
+template: |
+  #!/bin/sh
+  prove -lv t/integration/serversimple/*.t
+---
+file: tools/test_pt_simple.pl
+template: |+
+  #!/usr/bin/env perl
+  use strict;
+  use warnings;
+  use lib 'lib';
+  use Test::TCP;
+  use [% module %];
+  use LWP::UserAgent;
+  use Benchmark qw/countit timethese timeit timestr/;
+  use IO::Scalar;
+  
+  my $module = shift || 'ServerSimple';
+  my $port   = shift || empty_port();
+  my $loop   = shift || 100;
+  
+  test_tcp(
+      client => sub {
+  
+          my $port = shift;
+          tie *STDOUT, 'IO::Scalar', \my $out;
+          my $t = countit 2 => sub {
+              my $ua = LWP::UserAgent->new;
+              $ua->get("http://localhost:$port/");
+          };
+          untie *STDOUT;
+          print timestr($t), "\n";
+  
+      },
+      server => sub {
+          my $port   = shift;
+          my $engine = [% module %]->new(
+              server => $module,
+              port   => $port,
+          );
+          $engine->run;
+      },
+  );
+
+---
+file: tools/profile_module_memory.pl
+template: |
+  #!/usr/bin/env perl
+  use strict;
+  use warnings;
+  use Devel::MemUsed;
+  use Module::Depends;
+  use Number::Bytes::Human qw(format_bytes);
+  
+  main();
+  
+  sub main {
+      my $memory_record = record_memory_usage();
+  }
+  
+  sub record_memory_usage {
+      my $deps = Module::Depends->new->dist_dir('.')->find_modules;
+      foreach my $module ( keys %{ $deps->requires } ) {
+          my $pid = fork();
+          if ($pid) {
+  
+              # parent
+              wait();
+          }
+          elsif ( defined $pid ) {
+              my $memused = Devel::MemUsed->new;
+              eval "use $module";
+              print sprintf( "%35s %08s", $module, $memused ) . "\n";
+              exit();
+          }
+          else {
+              die "fork error : $!";
+          }
+      }
+  }
+---
+file: tools/test_coverage
+template: |+
+  #!/bin/zsh
+  rm -rf cover_db
+  perl Makefile.PL
+  HARNESS_PERL_SWITCHES=-MDevel::Cover=+ignore,inc,-coverage,statement,branch,condition,path,subroutine make test
+  cover
+  rm -rf cover_db_view
+  mv cover_db cover_db_view
+  open cover_db_view/coverage.html
+
+---
+file: tools/test_ut
+template: |
+  #!/bin/sh
+  prove -lv t/*.t
+  prove -lv t/unit/*/*.t
+---
+file: tools/profile_module_memory
+template: |
+  #!/bin/sh
+  perl tools/profile_module_memory.pl | sort -k 2
+---
+file: tools/autotest
+template: |+
+  #!/bin/sh
+  perl -MTest::Continuous -e runtests t/*.t t/unit/*/*.t xt/*.t t/integration/*.t
 
 ---
 config:
