@@ -4,14 +4,10 @@ our $VERSION = '0.01';
 use Angelos::Class;
 use Angelos::MIMETypes;
 use Angelos::Registrar;
-use Angelos::Home;
 use Angelos::ProjectStructure;
 use Angelos::Engine;
-use Angelos::Config;
-use Angelos::Logger;
 use Angelos::Utils;
 use Angelos::Dispatcher::Routes::Builder;
-use Angelos::Registrar;
 use Angelos::Exceptions qw(rethrow_exception);
 use Exception::Class;
 
@@ -131,9 +127,10 @@ sub setup_home {
 }
 
 sub create_home {
-    Angelos::Exception::AbstractMethod->throw(
-        message => 'Sub class must implement create_home method' 
-    );
+    my $self = shift;
+    my $home_class = join '::', (ref $self, 'Home');
+    $home_class->require;
+    $home_class->instance;
 }
 
 sub setup_config {
@@ -144,9 +141,10 @@ sub setup_config {
 }
 
 sub create_config {
-    Angelos::Exception::AbstractMethod->throw(
-        message => 'Sub class must implement create_config method' 
-    );
+    my $self = shift;
+    my $config_class = join '::', (ref $self, 'Config');
+    $config_class->require;
+    $config_class->instance;
 }
 
 sub setup_logger {
@@ -157,9 +155,10 @@ sub setup_logger {
 }
 
 sub create_logger {
-    Angelos::Exception::AbstractMethod->throw(
-        message => 'Sub class must implement create_logger method' 
-    );
+    my $self = shift;
+    my $logger_class = join '::', (ref $self, 'Logger');
+    $logger_class->require;
+    $logger_class->instance;
 }
 
 sub setup_project_structure {

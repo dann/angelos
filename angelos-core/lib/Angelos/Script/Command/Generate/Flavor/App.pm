@@ -146,24 +146,9 @@ file: lib/____var-module_path-var____.pm
 template: |
   package [% module %];
   use Angelos::Class;
-  use [% module %]::Logger;
-  use [% module %]::Home;
-  use [% module %]::Config;
   extends 'Angelos';
   
   our $VERSION = '0.01';
-  
-  sub create_config {
-      [% module %]::Config->instance;
-  }
-  
-  sub create_logger {
-      [% module %]::Logger->instance;
-  }
-  
-  sub create_home {
-      [% module %]::Home->instance;
-  }
   
   __END_OF_CLASS__
   
