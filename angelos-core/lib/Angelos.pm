@@ -58,6 +58,8 @@ has 'config' => ( is => 'rw', );
 
 has 'logger' => ( is => 'rw', );
 
+has 'localizer' => ( is => 'rw', );
+
 has 'project_structure' => ( is => 'rw', );
 
 has 'available_mimetypes' => (
@@ -107,6 +109,7 @@ sub setup {
         $self->setup_config;
         $self->setup_project_structure;
         $self->setup_logger;
+        $self->setup_localizer;
         $self->setup_bootloader_plugins;
         $self->setup_engine;
         $self->setup_components;
@@ -162,6 +165,21 @@ sub create_logger {
     my $logger_class = join '::', ( ref $self, 'Logger' );
     $logger_class->require;
     $logger_class->instance;
+}
+
+sub setup_localizer {
+    my $self   = shift;
+    my $localizer = $self->create_localizer;
+    $self->localizer($localizer);
+    $localizer;
+}
+
+sub create_localizer {
+    my $self = shift;
+    my $localizer_class = join '::', ( ref $self, 'I18N' );
+    $localizer_class->require;
+    return if $@;
+    $localizer_class->instance;
 }
 
 sub setup_project_structure {

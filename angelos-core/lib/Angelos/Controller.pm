@@ -6,8 +6,8 @@ use Exception::Class;
 use Angelos::Utils;
 use String::CamelCase;
 
-with  'Angelos::Component';
-with  'Angelos::Controller::Mixin::Responder';
+with 'Angelos::Component';
+with 'Angelos::Controller::Mixin::Responder';
 
 has _plugin_app_ns => ( +default => sub { ['Angelos::Controller'] }, );
 
@@ -42,7 +42,7 @@ has 'context' => (
             model
             view
             controller
-            session 
+            session
             )
     ],
 );
