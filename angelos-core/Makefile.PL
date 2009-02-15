@@ -105,9 +105,7 @@ else {
 }
 
 test_requires(
-    'Test::More'                   => 0,
-    'Test::Differences'            => 0,
-    'Test::Deep'                   => 0,
+    'Test::Most'                   => 0,
     'Test::Exception'              => 0,
     'Test::MockObject'             => 0,
     'Test::Class'                  => 0,
