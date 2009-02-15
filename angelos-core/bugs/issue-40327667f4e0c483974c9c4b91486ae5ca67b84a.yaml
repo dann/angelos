@@ -5,8 +5,8 @@ type: :task
 component: middleware
 release: TODO
 reporter: dann <techmemo@gmail.com>
-status: :unstarted
-disposition: 
+status: :closed
+disposition: :fixed
 creation_time: 2008-12-21 07:42:23.146639 Z
 references: []
 
@@ -23,4 +23,8 @@ log_events:
 - - 2009-01-18 18:43:16.584931 Z
   - dann <techmemo@gmail.com>
   - assigned to release TODO from 777
+  - ""
+- - 2009-02-15 15:45:02.433577 Z
+  - dann <techmemo@gmail.com>
+  - closed with disposition fixed
   - ""
