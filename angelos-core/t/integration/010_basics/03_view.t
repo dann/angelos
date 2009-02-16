@@ -19,38 +19,11 @@ sub test_application_class {
 
 __END__
 
-=== simple
---- request
-method: GET
-path: /root/index
---- response
-code: 200
-
 === view tt
 --- request
 method: GET
-path: /root/tt
+path: /view/tt
 --- response
 code: 200
 
-=== view tt
---- request
-method: GET
-path: /root/tt
---- response
-code: 200
-
-=== forward_test
---- request
-method: GET
-path: /root/forward_test
---- response
-code: 200
-
-=== detach_test
---- request
-method: GET
-path: /root/detach_test
---- response
-code: 200
 

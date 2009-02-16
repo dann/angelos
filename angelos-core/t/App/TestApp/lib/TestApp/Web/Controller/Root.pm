@@ -1,6 +1,5 @@
 package TestApp::Web::Controller::Root;
 use Angelos::Class;
-use Data::Dumper;
 extends 'Angelos::Controller';
 
 sub index {
@@ -8,24 +7,9 @@ sub index {
     $self->res->body('HelloWorld');
 }
 
-sub tt {
-    my ( $self, $params ) = @_;
-    $self->render( params => { name => 'Yamada Taro' } );
-}
-
 sub japanese {
     my ($self, $params) = @_;
     warn $self->loc('Hello') . "\n";
-}
-
-sub forward_test {
-    my ($self, $params) = @_;
-    $self->forward(controller => 'Books', action => 'index');
-}
-
-sub detach_test {
-    my ($self, $params) = @_;
-    $self->detach(controller => 'Books', action => 'index');
 }
 
 sub error {
