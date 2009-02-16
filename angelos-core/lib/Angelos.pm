@@ -39,7 +39,14 @@ has 'server' => (
 has 'debug' => (
     is      => 'rw',
     isa     => 'Bool',
-    default => 0
+    default => sub {
+        my $self = shift;
+        my $is_debug;
+        $is_debug ||= $ENV{ANGELOS_DEBUG};
+        $is_debug ||= Angelos::Utils::env_value( ref $self, 'DEBUG' );
+        $is_debug ||= $self->debug;
+        $is_debug;
+    }
 );
 
 has 'home' => (
@@ -168,7 +175,7 @@ sub create_logger {
 }
 
 sub setup_localizer {
-    my $self   = shift;
+    my $self      = shift;
     my $localizer = $self->create_localizer;
     $self->localizer($localizer);
     $localizer;
@@ -205,6 +212,7 @@ sub setup_engine {
         server => $self->server,
         config => $self->config,
         logger => $self->logger,
+        debug  => $self->debug,
         root   => $self->project_structure->root_dir,
     );
     $engine->app($self);
@@ -240,12 +248,7 @@ sub build_routeset {
 }
 
 sub is_debug {
-    my $self = shift;
-    my $is_debug;
-    $is_debug ||= $ENV{ANGELOS_DEBUG};
-    $is_debug ||= Angelos::Utils::env_value( ref $self, 'DEBUG' );
-    $is_debug ||= $self->debug;
-    return $is_debug;
+    shift->debug;
 }
 
 sub app_class {

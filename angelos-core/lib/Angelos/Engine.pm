@@ -82,7 +82,9 @@ sub DISPATCH {
 
     my $c = $self->context;
     unless ( $dispatch->has_matches ) {
-        $self->log->info( "404 Not Found. path: " . $req->path );
+        if($self->debug) {
+            $self->log->info( "404 Not Found. path: " . $req->path );
+        }
         $c->res->status(404);
         $c->res->body("404 Not Found.");
         return $c->res;

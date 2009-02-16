@@ -13,9 +13,9 @@ components:
 #  request:
 #   - module: MobileAgent 
 
-middlewares:
-  - module: Static
-  - module: Encode 
+#middlewares:
+#  - module: Static
+#  - module: Encode 
 
 #  - module: DebugScreen
 #  - module: DebugRequest

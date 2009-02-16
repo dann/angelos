@@ -21,7 +21,7 @@ test_tcp(
         tie *STDOUT, 'IO::Scalar', \my $out;
         my $t = countit 2 => sub {
             my $ua = LWP::UserAgent->new;
-            $ua->get("http://localhost:$port/");
+            $ua->get("http://localhost:$port/root/index");
         };
         untie *STDOUT;
         print timestr($t), "\n";

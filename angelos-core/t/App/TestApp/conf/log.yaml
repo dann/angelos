@@ -1,7 +1,7 @@
 ---
 dispatchers:
   - screen
- 
+
 screen:
   class: Log::Dispatch::Colorful
   min_level: debug
