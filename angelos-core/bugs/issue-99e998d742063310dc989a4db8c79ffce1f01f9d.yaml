@@ -1,0 +1,18 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: "Test::Base\xE3\x81\xA7\xE3\x83\xAA\xE3\x82\xAF\xE3\x82\xA8\xE3\x82\xB9\xE3\x83\x88\xE3\x83\x91\xE3\x83\xA9\xE3\x83\xA1\xE3\x83\xBC\xE3\x82\xBF\xE3\x82\x92\xE6\xB8\xA1\xE3\x81\x9B\xE3\x82\x8B\xE3\x82\x88\xE3\x81\x86\xE3\x81\xAB\xE3\x81\x99\xE3\x82\x8B(GET, POST etc)"
+desc: ""
+type: :task
+component: angelos
+release: "0.01"
+reporter: dann <techmemo@gmail.com>
+status: :unstarted
+disposition: 
+creation_time: 2009-02-27 06:43:37.762471 Z
+references: []
+
+id: 99e998d742063310dc989a4db8c79ffce1f01f9d
+log_events: 
+- - 2009-02-27 06:43:38.593520 Z
+  - dann <techmemo@gmail.com>
+  - created
+  - ""
