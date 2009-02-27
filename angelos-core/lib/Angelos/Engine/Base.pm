@@ -15,7 +15,6 @@ has 'engine' => (
 has 'root' => (
     is       => 'rw',
     required => 1,
-#    default  => sub { shift->home->path_to( 'share', 'root' )->absolute },
 );
 
 has 'host' => (
@@ -53,9 +52,7 @@ has 'logger' => (
     required => 1,
 );
 
-has 'app' => (
-    is => 'rw',
-);
+has 'app' => ( is => 'rw', );
 
 sub BUILD {
     my $self = shift;
@@ -84,9 +81,18 @@ sub build_engine {
 
 sub build_request_handler {
     my $self = shift;
-    my $request_handler
-        = sub { my $req = shift; $self->handle_request($req) };
-    $request_handler;
+
+    my $request_handler = Angelos::Middleware::Builder->new->build(
+        sub { my $req = shift; $self->handle_request($req) } );
+    my $request_handler_with_context = sub {
+        my $req = shift;
+        my $res = HTTP::Engine::Response->new;
+        my $c   = $self->create_context( $req, $res );
+        no warnings 'redefine';
+        local *Angelos::Registrar::context = sub {$c};
+        $request_handler->($req);
+    };
+    $request_handler_with_context;
 }
 
 sub handle_request {

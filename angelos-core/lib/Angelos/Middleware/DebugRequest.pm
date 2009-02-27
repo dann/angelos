@@ -1,12 +1,12 @@
 package Angelos::Middleware::DebugRequest;
 use Angelos::Class;
+use Angelos::Utils;
 extends 'HTTP::Engine::Middleware::DebugRequest';
 
-has 'logger' => (
-    +default => sub {
-        sub { warn @_ };
-    }
-);
+sub log {
+    my ($self, $message) = @_;
+    Angelos::Utils::context()->logger->info($message);
+}
 
 __END_OF_CLASS__
 

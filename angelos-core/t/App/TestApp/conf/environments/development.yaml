@@ -17,6 +17,7 @@ middlewares:
   - module: MethodOverride 
   - module: Static
   - module: DebugRequest
+  - module: Profile 
 
 #  - module: DebugScreen
 #  - module: Session

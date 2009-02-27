@@ -40,13 +40,6 @@ has 'component_manager' => (
     }
 );
 
-sub build_request_handler {
-    my $self            = shift;
-    my $request_handler = Angelos::Middleware::Builder->new->build(
-        sub { my $req = shift; $self->handle_request($req) } );
-    $request_handler;
-}
-
 sub build_dispatcher {
     my $self = shift;
     return Angelos::Dispatcher->new;
@@ -54,18 +47,11 @@ sub build_dispatcher {
 
 sub handle_request {
     my ( $self, $req ) = @_;
-    my $res = HTTP::Engine::Response->new;
-
-    my $c = $self->create_context( $req, $res );
-    no warnings 'redefine';
-    local *Angelos::Registrar::context = sub {$c};
-
     eval { $self->DISPATCH($req); };
     if ( my $e = Exception::Class->caught() ) {
         $self->HANDLE_EXCEPTION($e);
     }
-
-    return $c->res;
+    return $self->app->res;
 }
 
 sub create_context {
@@ -82,7 +68,7 @@ sub DISPATCH {
 
     my $c = $self->context;
     unless ( $dispatch->has_matches ) {
-        if($self->debug) {
+        if ( $self->debug ) {
             $self->log->info( "404 Not Found. path: " . $req->path );
         }
         $c->res->status(404);
