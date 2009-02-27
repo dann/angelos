@@ -7,9 +7,9 @@ sub app_class {
     'TestApp';
 }
 
-sub logger_config_file {
+sub logger_config_file_path {
     Angelos::ProjectStructure->new( home => TestApp::Home->instance )
-        ->logger_config_file;
+        ->logger_config_file_path;
 }
 
 1;

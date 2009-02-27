@@ -1,4 +1,4 @@
 use Test::Dependencies
-	exclude => [qw/Test::Dependencies Test::Base Test::Perl::Critic Angelos/],
-	style   => 'light';
+    exclude => [qw/Test::Dependencies Test::Base Test::Perl::Critic MyApp/],
+    style   => 'light';
 ok_dependencies();

@@ -1,4 +1,6 @@
 package Angelos::Home;
+use strict;
+use warnings;
 use Angelos::Utils;
 use Angelos::Exceptions;
 use Path::Class qw(dir file);

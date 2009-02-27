@@ -18,7 +18,7 @@ sub create_logger {
     require Angelos::Logger::Dispatch;
     Angelos::Logger::Dispatch->new(
         app_class        => $self->app_class,
-        logger_conf_file => $self->logger_config_file
+        logger_conf_file => $self->logger_config_file_path
     );
 }
 
@@ -27,7 +27,7 @@ sub app_class {
         message => 'Sub class must implement app_class method' );
 }
 
-sub logger_config_file {
+sub logger_config_file_path {
     Angelos::Exception::AbstractMethod->throw(
         message => 'Sub class must implement logger_conf_file method' );
 }

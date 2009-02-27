@@ -6,17 +6,17 @@ has 'home' => (
     isa => 'Angelos::Home',
 );
 
-sub logger_config_file {
+sub logger_config_file_path {
     my $self = shift;
     $self->home->path_to( 'conf', 'log.yaml' );
 }
 
-sub routes_config_file {
+sub routes_config_file_path {
     my $self = shift;
     $self->home->path_to( 'conf', 'routes.pl' );
 }
 
-sub config_file {
+sub config_file_path {
     my ( $self, $environment ) = @_;
     my $extension = '.yaml';
     $environment ||= $self->environment;

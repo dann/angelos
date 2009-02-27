@@ -27,7 +27,7 @@ sub build {
 }
 
 sub _route_config {
-    Angelos::Utils::context->project_structure->routes_config_file;
+    Angelos::Utils::context->project_structure->routes_config_file_path;
 }
 
 __END_OF_CLASS__

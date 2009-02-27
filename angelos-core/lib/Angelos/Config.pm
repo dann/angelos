@@ -1,5 +1,6 @@
 package Angelos::Config;
-use Angelos::Class;
+use strict;
+use warnings;
 use Angelos::Config::Loader;
 use Angelos::Config::Schema;
 use Data::Visitor::Callback;
@@ -10,12 +11,12 @@ sub _new_instance {
     my $class       = shift;
     my $self        = bless {}, $class;
 
-    $self->{config} = Angelos::Config::Loader->load( $self->config_file ,
+    $self->{config} = Angelos::Config::Loader->load( $self->config_file_path ,
         Angelos::Config::Schema->config );
     return $self;
 }
 
-sub config_file {
+sub config_file_path {
     my ($self, $environment) = @_;
     Angelos::Exception::AbstractMethod->throw(
         message => 'Sub class must implement config_file method' 
@@ -124,4 +125,4 @@ sub _get {
     return $self->{config}->{$section}->{$var};
 }
 
-__END_OF_CLASS__
+1;

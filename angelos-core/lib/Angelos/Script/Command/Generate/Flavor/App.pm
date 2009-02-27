@@ -216,10 +216,10 @@ template: |
   use base 'Angelos::Config';
   use Angelos::ProjectStructure;
   
-  sub config_file {
+  sub config_file_path {
       my $self = shift;
       Angelos::ProjectStructure->new( home => [% module %]::Home->instance )
-          ->config_file($self->env);
+          ->config_file_path;
   }
   
   1;
@@ -233,9 +233,9 @@ template: |
   
   sub app_class { '[% module %]'; }
   
-  sub logger_config_file {
+  sub logger_config_file_path {
       Angelos::ProjectStructure->new( home => [% module %]::Home->instance )
-          ->logger_config_file;
+          ->logger_config_file_path;
   }
   
   1;
