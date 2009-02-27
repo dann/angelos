@@ -1,0 +1,22 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: "MyApp::Config\xE3\x81\xAEgenerate. \xE3\x82\xA4\xE3\x83\xB3\xE3\x82\xB9\xE3\x82\xBF\xE3\x83\xB3\xE3\x82\xB9\xE3\x82\x92\xE4\xB8\x8A\xE6\x9B\xB8\xE3\x81\x8D\xE3\x81\x99\xE3\x82\x8B\xE4\xBB\x95\xE7\xB5\x84\xE3\x81\xBF\xE3\x81\xAF\xE7\x94\xA8\xE6\x84\x8F"
+desc: ""
+type: :task
+component: angelos
+release: "0.01"
+reporter: dann <techmemo@gmail.com>
+status: :closed
+disposition: :fixed
+creation_time: 2009-02-27 05:39:40.510069 Z
+references: []
+
+id: b7d8b6f52c4694d3ba516ec566d24071b8aca286
+log_events: 
+- - 2009-02-27 05:39:41.606160 Z
+  - dann <techmemo@gmail.com>
+  - created
+  - ""
+- - 2009-02-27 06:13:03.433038 Z
+  - dann <techmemo@gmail.com>
+  - closed with disposition fixed
+  - ""

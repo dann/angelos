@@ -30,10 +30,12 @@ all_from 'lib/Angelos.pm';
 requires(
 
     # Basics
-    'Mouse'                             => '0.16',
+    'Class::Method::Modifiers'          => 0,
+    'Class::Method::Modifiers::Fast'    => 0,
+    'Mouse'                             => '0.17',
     'MouseX::Types'                     => '0.01',
-    'HTTP::Engine'                      => '0.1.3',
-    'HTTP::Engine::Middleware'          => '0.04',
+    'HTTP::Engine'                      => '0.1.4',
+    'HTTP::Engine::Middleware'          => '0.09',
     'HTTP::Router'                      => 0,
     'HTTP::Session'                     => 0,
     'Module::Pluggable::Object'         => 0,
@@ -50,8 +52,7 @@ requires(
     'IO::Pager'                         => 0,
     'Params::Validate'                  => 0,
     'Data::Util'                        => 0,
-    'Class::Method::Modifiers::Fast'    => 0,
-    'Class::Singleton'    => 0,
+    'Class::Singleton'                  => 0,
 
     # Config
     'Kwalify'                 => 0,
@@ -62,7 +63,7 @@ requires(
     'Pod::Simple::Text'   => 0,
     'MouseX::Getopt'      => '0.04',
     'IPC::System::Simple' => 0,
-    'App::Cmd'            => 0,
+    'App::Cmd'            => '0.202',
     'Module::Setup'       => 0,
     'FindBin::libs'       => 0,
     'File::Slurp'         => 0,
@@ -86,6 +87,11 @@ requires(
     'HTML::FillInForm'      => 0,
     'FormValidator::Simple' => 0,
 
+    # testing
+    'HTTP::Request::Common' => 0,
+    'Test::Class'           => 0,
+    'Test::Base'            => 0,
+
     # View Plugins (remove from core)
 
     # Middleware
@@ -105,10 +111,11 @@ else {
 }
 
 test_requires(
+    'Test::LoadAllModules'         => 0,
     'Test::Most'                   => 0,
+    'Test::Class'                  => 0,
     'Test::Exception'              => 0,
     'Test::MockObject'             => 0,
-    'Test::Class'                  => 0,
     'Test::TCP'                    => 0,
     'LWP::UserAgent'               => 0,
     'Module::Load::Conditional'    => 0,

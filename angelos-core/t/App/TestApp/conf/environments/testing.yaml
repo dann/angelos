@@ -1,0 +1,35 @@
+---
+components:
+  controller:
+    - module: A
+
+#plugins:
+#  controller:
+#   - module: ActionProfiler
+#
+#   - module: DebugHook 
+
+#mixins:
+#  request:
+#   - module: MobileAgent 
+
+#middlewares:
+#  - module: Static
+#  - module: Encode 
+
+#  - module: DebugScreen
+#  - module: DebugRequest
+#  - module: Session
+
+#  - module: Session
+#    config:
+#      store:
+#        class: HTTP::Session::Store::File
+#        config:
+#           dir: /tmp/session
+#      state:
+#        class: HTTP::Session::State::URI
+#        config:
+#          session_id_name: hoge
+#      id: HTTP::Session::ID::SHA1
+ 

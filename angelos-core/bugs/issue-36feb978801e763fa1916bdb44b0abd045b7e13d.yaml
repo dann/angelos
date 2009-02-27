@@ -1,0 +1,18 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: Implement the feature to use some plugins when debug mode is enabled
+desc: ""
+type: :task
+component: angelos
+release: "0.01"
+reporter: dann <techmemo@gmail.com>
+status: :unstarted
+disposition: 
+creation_time: 2009-02-15 16:10:38.689082 Z
+references: []
+
+id: 36feb978801e763fa1916bdb44b0abd045b7e13d
+log_events: 
+- - 2009-02-15 16:10:39.488476 Z
+  - dann <techmemo@gmail.com>
+  - created
+  - ""

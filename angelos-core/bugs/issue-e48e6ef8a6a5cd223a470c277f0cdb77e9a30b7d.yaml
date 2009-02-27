@@ -1,0 +1,18 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: "ModPerl\xE3\x81\xA7\xE3\x81\xAE\xE3\x82\xA2\xE3\x83\x97\xE3\x83\xAA\xE3\x82\xB1\xE3\x83\xBC\xE3\x82\xB7\xE3\x83\xA7\xE3\x83\xB3\xE5\x90\x8D\xE3\x81\xAE\xE6\xB8\xA1\xE3\x81\x97\xE6\x96\xB9"
+desc: ""
+type: :task
+component: angelos
+release: "0.01"
+reporter: dann <techmemo@gmail.com>
+status: :unstarted
+disposition: 
+creation_time: 2009-02-27 06:13:41.882829 Z
+references: []
+
+id: e48e6ef8a6a5cd223a470c277f0cdb77e9a30b7d
+log_events: 
+- - 2009-02-27 06:13:42.242258 Z
+  - dann <techmemo@gmail.com>
+  - created
+  - ""

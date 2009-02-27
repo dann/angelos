@@ -9,15 +9,14 @@ use base 'Class::Singleton';
 sub _new_instance {
     my $class       = shift;
     my $self        = bless {}, $class;
-    my $config_file = shift;
 
-    # Angelos::Utils::context()->project_structure->config_file;
-    $self->{config} = Angelos::Config::Loader->load( $config_file || $self->config_file ,
+    $self->{config} = Angelos::Config::Loader->load( $self->config_file ,
         Angelos::Config::Schema->config );
     return $self;
 }
 
 sub config_file {
+    my ($self, $environment) = @_;
     Angelos::Exception::AbstractMethod->throw(
         message => 'Sub class must implement config_file method' 
     );

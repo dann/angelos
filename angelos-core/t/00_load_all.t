@@ -1,19 +1,15 @@
 use strict;
 use warnings;
-use Test::More ();
+use Test::LoadAllModules;
 
-Test::More::plan('no_plan');
-
-use Module::Pluggable::Object;
-
-my $finder = Module::Pluggable::Object->new( search_path => ['Angelos'], );
-
-foreach my $class (
-    grep !
-    /\.ToDo|Angelos::Engine::ModPerl|Angelos::Component|HTPro|JobQueue|Angelos::Middleware::|Angelos::Plugin|Angelos::Role|Angelos::Test/,
-    sort do { local @INC = ('lib'); $finder->plugins }
-    )
-{
-    Test::More::use_ok($class);
+BEGIN {
+    all_uses_ok(
+        search_path => 'Angelos',
+        except      => [
+            'Angelos::Engine::ModPerl', 'Angelos::Component',
+            'Angelos::Middleware::.*',  'Angelos::Plugin',
+            'Angelos::Test',
+        ]
+    );
 }
 

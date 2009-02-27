@@ -102,16 +102,6 @@ template: |
   auto_include;
   WriteAll;
 ---
-file: conf/config.yaml
-template: |
-  ---
-  components:
-    controller:
-      - module: A
-  
-  middlewares:
-    - module: Encode
----
 file: conf/routes.pl
 template: |+
   HTTP::Router->define(
@@ -141,6 +131,40 @@ template: |
       error:
         text: yellow
         background: red
+---
+file: conf/environments/production.yaml
+template: |
+  ---
+  components:
+    controller:
+      - module: A
+  
+  middlewares:
+    - module: Encode
+---
+file: conf/environments/testing.yaml
+template: |
+  ---
+  components:
+    controller:
+      - module: A
+  
+  middlewares:
+    - module: Encode
+---
+file: conf/environments/development.yaml
+template: |+
+  ---
+  components:
+    controller:
+      - module: A
+  
+  middlewares:
+    - module: DebugScreen
+    - module: Static
+    - module: DebugRequest
+    - module: Encode
+
 ---
 file: lib/____var-module_path-var____.pm
 template: |
@@ -193,8 +217,9 @@ template: |
   use Angelos::ProjectStructure;
   
   sub config_file {
+      my $self = shift;
       Angelos::ProjectStructure->new( home => [% module %]::Home->instance )
-          ->config_file;
+          ->config_file($self->env);
   }
   
   1;

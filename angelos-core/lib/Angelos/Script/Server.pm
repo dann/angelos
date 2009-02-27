@@ -42,6 +42,12 @@ has 'help' => (
     default => 0
 );
 
+has 'env' => (
+    is      => 'rw',
+    isa     => 'Str',
+    default => 'development',
+);
+
 sub run {
     my $self = shift;
     if ( $self->help ) {

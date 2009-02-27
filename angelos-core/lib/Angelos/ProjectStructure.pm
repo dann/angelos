@@ -1,8 +1,8 @@
 package Angelos::ProjectStructure;
 use Angelos::Class;
 
-has 'home' => ( 
-    is => 'rw',
+has 'home' => (
+    is  => 'rw',
     isa => 'Angelos::Home',
 );
 
@@ -17,8 +17,10 @@ sub routes_config_file {
 }
 
 sub config_file {
-    my $self = shift;
-    $self->home->path_to( 'conf', 'config.yaml' ),;
+    my ( $self, $environment ) = @_;
+    my $extension = '.yaml';
+    my $config_filename = $environment . $extension;
+    $self->home->path_to( 'conf', 'environments', $config_filename ),;
 }
 
 sub root_dir {

@@ -1,5 +1,5 @@
 package Angelos;
-use 5.00800;
+use 5.008_001;
 our $VERSION = '0.01';
 use Angelos::Class;
 use Angelos::MIMETypes;
@@ -61,9 +61,15 @@ has 'engine' => (
         [qw(controller model view forward detach full_forward full_detach)],
 );
 
-has 'config' => ( is => 'rw', );
+has 'config' => (
+    is  => 'rw',
+    isa => 'Angelos::Config'
+);
 
-has 'logger' => ( is => 'rw', );
+has 'logger' => (
+    is  => 'rw',
+    isa => 'Angelos::Logger'
+);
 
 has 'localizer' => ( is => 'rw', );
 
@@ -100,6 +106,11 @@ has '_match' => ( is => 'rw', );
 
 # This attribute is used for test only
 has 'request_handler' => ( is => 'rw', );
+
+has 'env' => (
+    is  => 'rw',
+    isa => 'Str',
+);
 
 sub BUILD {
     my $self = shift;
@@ -149,7 +160,7 @@ sub create_home {
 sub setup_config {
     my $self   = shift;
     my $config = $self->create_config;
-    $self->config($config);
+    $self->config($config) if $config;
     $config;
 }
 
@@ -157,13 +168,23 @@ sub create_config {
     my $self = shift;
     my $config_class = join '::', ( ref $self, 'Config' );
     $config_class->require;
-    $config_class->instance;
+    $config_class->instance( $self->environment );
+}
+
+sub environment {
+    my $self = shift;
+    my $environment;
+    $environment ||= $ENV{ANGELOS_ENV};
+    $environment ||= Angelos::Utils::env_value( ref $self, 'ENV' );
+    $environment ||= 'development' if $ENV{ANGELOS_DEBUG};
+    $environment ||= 'production';
+    $environment;
 }
 
 sub setup_logger {
     my $self   = shift;
     my $logger = $self->create_logger;
-    $self->logger($logger);
+    $self->logger($logger) if $logger;
     $logger;
 }
 
@@ -177,7 +198,7 @@ sub create_logger {
 sub setup_localizer {
     my $self      = shift;
     my $localizer = $self->create_localizer;
-    $self->localizer($localizer);
+    $self->localizer($localizer) if $localizer;
     $localizer;
 }
 
