@@ -4,7 +4,7 @@ extends 'HTTP::Engine::Middleware::DebugScreen';
 
 has 'powered_by' => (
     +default => sub {
-        'Angelos ' . $Angelos::VERSION;
+        'Angelos ';
     }
 );
 

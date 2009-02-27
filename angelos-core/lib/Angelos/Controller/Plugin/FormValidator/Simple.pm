@@ -108,8 +108,6 @@ sub form {
     return $self->__validator->results;
 }
 
-
-
 1;
 
 =head1 NAME 

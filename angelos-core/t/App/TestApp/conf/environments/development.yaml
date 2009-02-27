@@ -3,10 +3,9 @@ components:
   controller:
     - module: A
 
-#plugins:
-#  controller:
-#   - module: ActionProfiler
-#
+plugins:
+  controller:
+   - module: ActionProfiler
 #   - module: DebugHook 
 
 #mixins:

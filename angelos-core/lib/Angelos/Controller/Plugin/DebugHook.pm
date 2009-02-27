@@ -1,5 +1,6 @@
 package Angelos::Controller::Plugin::DebugHook;
 use Angelos::Plugin;
+with 'Angelos::Class::Loggable';
 
 after 'SETUP' => sub {
     my $self = shift;

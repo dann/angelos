@@ -1,5 +1,6 @@
 package Angelos::Controller::Plugin::ActionProfiler;
 use Angelos::Plugin;
+with 'Angelos::Class::Loggable';
 use Time::HiRes qw(time);
 
 has '__action_start_time' => ( is => 'rw', );
