@@ -13,12 +13,13 @@ components:
 #  request:
 #   - module: MobileAgent 
 
-#middlewares:
-#  - module: Static
-#  - module: Encode 
+middlewares:
+  - module: Encode 
+  - module: MethodOverride 
+  - module: Static
+  - module: DebugRequest
 
 #  - module: DebugScreen
-#  - module: DebugRequest
 #  - module: Session
 
 #  - module: Session

@@ -141,6 +141,7 @@ template: |
   
   middlewares:
     - module: Encode
+    - module: MethodOverride
 ---
 file: conf/environments/testing.yaml
 template: |
@@ -160,10 +161,9 @@ template: |+
       - module: A
   
   middlewares:
-    - module: DebugScreen
-    - module: Static
-    - module: DebugRequest
     - module: Encode
+    - module: MethodOverride
+    - module: Static
 
 ---
 file: lib/____var-module_path-var____.pm

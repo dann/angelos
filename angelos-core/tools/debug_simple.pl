@@ -16,9 +16,9 @@ test_tcp(
         my $port = shift;
         my $ua   = LWP::UserAgent->new;
         $ua->get("http://localhost:$port/root/index");
-        $ua->get("http://localhost:$port/root/tt");
-        $ua->get("http://localhost:$port/root/forward_test");
-        $ua->get("http://localhost:$port/root/detach_test");
+        $ua->get("http://localhost:$port/view/tt");
+        $ua->get("http://localhost:$port/forward/forward_test");
+        $ua->get("http://localhost:$port/forward/detach_test");
     },
     server => sub {
         my $port = shift;
