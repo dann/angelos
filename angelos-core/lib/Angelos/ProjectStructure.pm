@@ -19,8 +19,18 @@ sub routes_config_file {
 sub config_file {
     my ( $self, $environment ) = @_;
     my $extension = '.yaml';
+    $environment ||= $self->environment;
     my $config_filename = $environment . $extension;
     $self->home->path_to( 'conf', 'environments', $config_filename ),;
+}
+
+sub environment {
+    my $self = shift;
+    my $environment;
+    $environment ||= $ENV{ANGELOS_ENV};
+    $environment ||= 'development' if $ENV{ANGELOS_DEBUG};
+    $environment ||= 'production';
+    $environment;
 }
 
 sub root_dir {

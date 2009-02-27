@@ -107,11 +107,6 @@ has '_match' => ( is => 'rw', );
 # This attribute is used for test only
 has 'request_handler' => ( is => 'rw', );
 
-has 'env' => (
-    is  => 'rw',
-    isa => 'Str',
-);
-
 sub BUILD {
     my $self = shift;
     $self->setup;
@@ -168,17 +163,7 @@ sub create_config {
     my $self = shift;
     my $config_class = join '::', ( ref $self, 'Config' );
     $config_class->require;
-    $config_class->instance( $self->environment );
-}
-
-sub environment {
-    my $self = shift;
-    my $environment;
-    $environment ||= $ENV{ANGELOS_ENV};
-    $environment ||= Angelos::Utils::env_value( ref $self, 'ENV' );
-    $environment ||= 'development' if $ENV{ANGELOS_DEBUG};
-    $environment ||= 'production';
-    $environment;
+    $config_class->instance;
 }
 
 sub setup_logger {
