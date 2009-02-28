@@ -25,7 +25,7 @@ if (HAVE_MP) {
 }
 
 name 'Angelos';
-all_from 'lib/Angelos.pm';
+all_from 'lib/Angelos/Core.pm';
 
 requires(
 
@@ -54,6 +54,10 @@ requires(
     'Data::Util'                        => 0,
     'Class::Singleton'                  => 0,
 
+    # Angelos Plugins
+    'Text::SimpleTable' => 0,
+    'File::Find::Rule'  => 0,
+
     # Config
     'Kwalify'                 => 0,
     'YAML'                    => 0,
@@ -69,12 +73,8 @@ requires(
     'File::Slurp'         => 0,
     'File::HomeDir'       => 0,
     'Devel::EvalContext'  => 0,
-
-    # BootLoader Plugins
-    'Text::SimpleTable' => 0,
-    'File::Find::Rule'  => 0,
-    'Term::ReadLine'    => 0,
     'JSON::XS'          => 0,
+    'Term::ReadLine'    => 0,
 
     # Components
     'Template' => 0,

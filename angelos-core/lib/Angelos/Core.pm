@@ -1,11 +1,14 @@
 package Angelos::Core;
-
 use strict;
 use warnings;
 
 BEGIN { require 5.008001; }
 
 our $VERSION='0.01';
+
+1;
+
+__END__
 
 =head1 NAME
 
@@ -29,4 +32,3 @@ the same terms as Perl itself.
 
 =cut
 
-1;
