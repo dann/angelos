@@ -37,7 +37,7 @@ requires(
     'HTTP::Engine'                      => '0.1.4',
     'HTTP::Engine::Middleware'          => '0.09',
     'HTTP::Router'                      => 0,
-    'HTTP::Session'                     => 0,
+    'HTTP::Session'                     => '0.30',
     'Module::Pluggable::Object'         => 0,
     'UNIVERSAL::require'                => 0,
     'Log::Dispatch::Config'             => 0,
@@ -73,8 +73,8 @@ requires(
     'File::Slurp'         => 0,
     'File::HomeDir'       => 0,
     'Devel::EvalContext'  => 0,
-    'JSON::XS'          => 0,
-    'Term::ReadLine'    => 0,
+    'JSON::XS'            => 0,
+    'Term::ReadLine'      => 0,
 
     # Components
     'Template' => 0,
@@ -107,8 +107,8 @@ else {
 }
 
 test_requires(
-    'Test::LoadAllModules'         => 0,
-    'Test::Most'                   => 0,
+    'Test::LoadAllModules'         => '0.02',
+    'Test::Most'                   => '0.21',
     'Test::Class'                  => 0,
     'Test::MockObject'             => 0,
     'Test::TCP'                    => 0,
