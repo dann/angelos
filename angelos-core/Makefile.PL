@@ -83,10 +83,6 @@ requires(
     'Locale::Maketext::Simple'  => 0,
     'Locale::Maketext::Extract' => 0,
 
-    # Controller Plugins (remove from core)
-    'HTML::FillInForm'      => 0,
-    'FormValidator::Simple' => 0,
-
     # testing
     'HTTP::Request::Common' => 0,
     'Test::Class'           => 0,
@@ -94,7 +90,7 @@ requires(
 
     # View Plugins (remove from core)
 
-    # Middleware
+    # Core Middleware
     'MIME::Types' => 0,
 );
 
@@ -114,7 +110,6 @@ test_requires(
     'Test::LoadAllModules'         => 0,
     'Test::Most'                   => 0,
     'Test::Class'                  => 0,
-    'Test::Exception'              => 0,
     'Test::MockObject'             => 0,
     'Test::TCP'                    => 0,
     'LWP::UserAgent'               => 0,
