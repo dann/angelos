@@ -77,7 +77,11 @@ requires(
     'Term::ReadLine'      => 0,
 
     # Components
-    'Template' => 0,
+    'Template'            => '2.20',
+    'DBIx::Class::Schema' => '0.08012',
+
+    # Controller plugins
+    'Time::HiRes' => 0,
 
     # I18N
     'Locale::Maketext::Simple'  => 0,

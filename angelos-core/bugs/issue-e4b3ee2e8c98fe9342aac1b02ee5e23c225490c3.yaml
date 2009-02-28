@@ -1,0 +1,18 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: "ServiceLocator\xE3\x81\xAE\xE8\xBF\xBD\xE5\x8A\xA0"
+desc: ""
+type: :task
+component: angelos
+release: "0.01"
+reporter: dann <techmemo@gmail.com>
+status: :unstarted
+disposition: 
+creation_time: 2009-02-28 03:08:16.709370 Z
+references: []
+
+id: e4b3ee2e8c98fe9342aac1b02ee5e23c225490c3
+log_events: 
+- - 2009-02-28 03:08:16.998581 Z
+  - dann <techmemo@gmail.com>
+  - created
+  - ""

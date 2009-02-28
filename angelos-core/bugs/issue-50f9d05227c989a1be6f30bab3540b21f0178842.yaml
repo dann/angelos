@@ -1,0 +1,18 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: "Cache\xE6\xA9\x9F\xE6\xA7\x8B\xE3\x81\xAE\xE7\xB5\x84\xE3\x81\xBF\xE8\xBE\xBC\xE3\x81\xBF"
+desc: ""
+type: :task
+component: angelos
+release: "0.01"
+reporter: dann <techmemo@gmail.com>
+status: :unstarted
+disposition: 
+creation_time: 2009-02-28 08:56:12.042294 Z
+references: []
+
+id: 50f9d05227c989a1be6f30bab3540b21f0178842
+log_events: 
+- - 2009-02-28 08:56:27.215282 Z
+  - dann <techmemo@gmail.com>
+  - created
+  - "CHI\xE3\x82\x92\xE4\xBD\xBF\xE3\x81\xA3\xE3\x81\x9F\xE3\x82\xAD\xE3\x83\xA3\xE3\x83\x83\xE3\x82\xB7\xE3\x83\xA5\xE6\xA9\x9F\xE6\xA7\x8B\xE3\x81\xAE\xE7\xB5\x84\xE3\x81\xBF\xE8\xBE\xBC\xE3\x81\xBF"
