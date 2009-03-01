@@ -10,7 +10,7 @@ AngelosTest->runtests;
 package AngelosTest;
 use strict;
 use warnings;
-use Angelos::Test;
+use Test::Most;
 use base qw(Angelos::Test::Class);
 
 sub use_test : Tests {

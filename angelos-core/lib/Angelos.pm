@@ -71,6 +71,11 @@ has 'logger' => (
     isa => 'Angelos::Logger'
 );
 
+has 'cache' => (
+    is  => 'rw',
+    isa => 'Angelos::Cache'
+);
+
 has 'localizer' => ( is => 'rw', );
 
 has 'project_structure' => ( is => 'rw', );
@@ -176,8 +181,22 @@ sub setup_logger {
 sub create_logger {
     my $self = shift;
     my $logger_class = join '::', ( ref $self, 'Logger' );
-    $logger_class->require;
+    $logger_class->require or return;
     $logger_class->instance;
+}
+
+sub setup_cache {
+    my $self   = shift;
+    my $cache = $self->create_cache;
+    $self->cache($cache) if $cache;
+    $cache;
+}
+
+sub create_cache {
+    my $self = shift;
+    my $cache_class = join '::', ( ref $self, 'Cache' );
+    $cache_class->require or return;
+    $cache_class->instance;
 }
 
 sub setup_localizer {
@@ -190,8 +209,7 @@ sub setup_localizer {
 sub create_localizer {
     my $self = shift;
     my $localizer_class = join '::', ( ref $self, 'I18N' );
-    $localizer_class->require;
-    return if $@;
+    $localizer_class->require or return;
     $localizer_class->instance;
 }
 

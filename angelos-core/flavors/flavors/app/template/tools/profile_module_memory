@@ -1,0 +1,2 @@
+#!/bin/sh
+perl tools/profile_module_memory.pl | sort -k 2

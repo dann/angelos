@@ -1,0 +1,6 @@
+---
+author: Your Name
+class: Angelos::Script::Command::Generate::Flavor::App
+email: 'default {at} example.com'
+plugins:
+  - Template

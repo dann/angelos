@@ -270,6 +270,20 @@ template: |
   __PACKAGE__->meta->make_immutable;
   1;
 ---
+file: lib/____var-module_path-var____/Cache.pm
+template: |
+  package [% module %]::Cache;
+  use strict;
+  use warnings;
+  use [% module %]::Config;
+  use base 'Angelos::Cache';
+  
+  sub config {
+      [% module %]::Config->instance->global('cache') || { driver => 'Memory' };
+  }
+  
+  1;
+---
 file: lib/____var-module_path-var____/Home.pm
 template: |
   package [% module %]::Home;
@@ -416,21 +430,14 @@ file: t/00_load_all.t
 template: |+
   use strict;
   use warnings;
-  use Test::More ();
+  use Test::LoadAllModules;
   
-  Test::More::plan('no_plan');
-  
-  use Module::Pluggable::Object;
-  
-  my $finder = Module::Pluggable::Object->new( search_path => ['[% module %]'], );
-  
-  foreach my $class (
-      grep !
-      /\.ToDo|[% module %]::Role/,
-      sort do { local @INC = ('lib'); $finder->plugins }
-      )
-  {
-      Test::More::use_ok($class);
+  BEGIN {
+      all_uses_ok(
+          search_path => '[% module %]',
+          except      => [
+          ]
+      );
   }
 
 ---

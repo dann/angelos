@@ -1,0 +1,25 @@
+#!/usr/bin/perl
+use strict;
+use warnings;
+use FindBin::libs;
+use Angelos::Script::Server;
+
+my $app = Angelos::Script::Server->new_with_options(app=> "[% module %]");
+$app->run;
+
+__END__
+
+=head1 NAME 
+
+bin/server - a command-line interface to angelos
+
+=head1 SYNOPSIS
+
+  bin/server [--host=192.168.0.100] [--port 3001] [--server ServerSimple] [--debug]
+
+=head1 AUTHOR
+
+Takatoshi Kitano
+
+=cut
+

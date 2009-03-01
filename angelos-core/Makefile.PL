@@ -53,6 +53,7 @@ requires(
     'Params::Validate'                  => 0,
     'Data::Util'                        => 0,
     'Class::Singleton'                  => 0,
+    'CHI'                               => '0.10',
 
     # Angelos Plugins
     'Text::SimpleTable' => 0,
