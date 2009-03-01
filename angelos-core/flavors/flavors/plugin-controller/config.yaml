@@ -1,7 +1,0 @@
----
-author: Your Name
-class: Angelos::Script::Command::Generate::Flavor::PluginController
-email: 'default {at} example.com'
-plugins:
-  - Template
-#  - +Angelos::Script::Command::Generate::Plugin::MakeScriptsExecutable
