@@ -5,7 +5,7 @@ use [% module %]::Config;
 use base 'Angelos::Cache';
 
 sub config {
-    [% module %]::Config->instance->global('cache') || { driver => 'Memory' };
+    [% module %]::Config->instance->global('cache');
 }
 
 1;
