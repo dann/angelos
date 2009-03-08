@@ -4,7 +4,7 @@ use warnings;
 use lib 'lib', 't/lib';
 use lib glob 't/App/*/lib';
 use Test::TCP;
-use TestApp;
+use PerfTestApp;
 use HTTP::Engine;
 use LWP::UserAgent;
 use Getopt::Long;
@@ -35,7 +35,7 @@ test_tcp(
         my $port = shift;
         my $ua   = LWP::UserAgent->new;
         for ( 0 .. $loop ) {
-            $ua->get("http://localhost:$port/");
+            $ua->get("http://localhost:$port/root/index");
         }
     },
     server => sub {
@@ -47,11 +47,10 @@ test_tcp(
             DB::enable_profile();
             $SIG{TERM} = sub { DB::_finish(); exit; };
         }
-        my $engine = TestApp->new(
+        my $engine = PerfTestApp->new(
             server => $module,
             port   => $port,
         );
-        $engine->setup;
         $engine->run;
 
     },

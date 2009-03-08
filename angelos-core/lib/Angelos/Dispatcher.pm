@@ -3,6 +3,7 @@ use Angelos::Class;
 use Angelos::Utils;
 use Angelos::Dispatcher::Dispatch;
 use HTTP::Router;
+use Carp ();
 use Params::Validate qw(SCALAR HASHREF);
 use Angelos::Exceptions;
 
@@ -44,7 +45,7 @@ sub forward {
     my $action = $forward_to{action};
     my $params = $forward_to{params};
 
-    die "No such action: $action" unless $controller_instance->can($action);
+    Carp::croak "No such action: $action" unless $controller_instance->can($action);
     $controller_instance->$action( $self, $params );
 }
 
@@ -64,7 +65,7 @@ sub full_forward {
     my $action              = $forward_to{action};
     my $params              = $forward_to{params};
 
-    die "No such action: $action" unless $controller_instance->can($action);
+    Carp::croak "No such action: $action" unless $controller_instance->can($action);
     $controller_instance->_dispatch_action( $self, $action, $params );
 }
 

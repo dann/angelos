@@ -32,7 +32,7 @@ requires(
     # Basics
     'Class::Method::Modifiers'          => 0,
     'Class::Method::Modifiers::Fast'    => 0,
-    'Mouse'                             => '0.17',
+    'Mouse'                             => '0.18',
     'MouseX::Types'                     => '0.01',
     'HTTP::Engine'                      => '0.1.4',
     'HTTP::Engine::Middleware'          => '0.09',
@@ -85,6 +85,7 @@ requires(
     'Time::HiRes' => 0,
 
     # I18N
+    'Data::Localize'            => 0,
     'Locale::Maketext::Simple'  => 0,
     'Locale::Maketext::Extract' => 0,
 
@@ -104,7 +105,7 @@ if (HAVE_MP) {
 
     #Apache::TestMM::generate_script('t/integration/modperl/TEST');
     Apache::TestMM::generate_script('t/TEST');
-    tests('t/integration/modperl/*.t t/performance/020_modperl/*.t');
+    tests('t/performance/020_modperl/*.t');
 }
 else {
     tests('t/*.t t/unit/*.t t/unit/*/*.t');

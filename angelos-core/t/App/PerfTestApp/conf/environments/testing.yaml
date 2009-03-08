@@ -1,0 +1,7 @@
+---
+components:
+  controller:
+    - module: A
+
+middlewares:
+  - module: Encode

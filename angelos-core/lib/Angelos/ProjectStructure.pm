@@ -38,10 +38,17 @@ sub root_dir {
     $self->home->path_to( 'share', 'root' );
 }
 
+sub  po_dir {
+    my $self = shift;
+    $self->home->path_to( 'share', 'po' );
+}
+
 sub templates_dir {
     my $self = shift;
-    $self->home->path_to( 'share', 'root', 'templates' );
+    $self->home->path_to( $self->root_dir, 'templates' );
 }
 
 __END_OF_CLASS__
+
+__END__
 

@@ -128,7 +128,7 @@ sub setup {
         $self->setup_project_structure;
         $self->setup_logger;
         $self->setup_localizer;
-        $self->setup_bootloader_plugins;
+        $self->setup_plugins;
         $self->setup_engine;
         $self->setup_components;
         $self->setup_dispatcher;
@@ -219,7 +219,7 @@ sub setup_project_structure {
         Angelos::ProjectStructure->new( home => $self->home ) );
 }
 
-sub setup_bootloader_plugins {
+sub setup_plugins {
     my $self = shift;
     if ( $self->is_debug ) {
         my @plugins

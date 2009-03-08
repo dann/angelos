@@ -2,7 +2,7 @@ use strict;
 use warnings;
 use Apache::Test qw(ok :withtestmore);
 use Apache::TestRequest qw(GET POST);
-use Angelos::Test;
+use Test::Most;
 
 plan skip_all => "set TEST_MODPERL to enable this test" unless $ENV{TEST_MODPERL};
 plan tests => 1;

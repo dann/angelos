@@ -43,6 +43,8 @@ has 'context' => (
             view
             controller
             session
+            response
+            request
             )
     ],
 );

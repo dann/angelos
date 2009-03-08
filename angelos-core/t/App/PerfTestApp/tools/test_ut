@@ -1,0 +1,3 @@
+#!/bin/sh
+prove -lv t/*.t
+prove -lv t/unit/*/*.t

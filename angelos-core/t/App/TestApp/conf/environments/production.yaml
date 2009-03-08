@@ -13,14 +13,13 @@ components:
 #  request:
 #   - module: MobileAgent 
 
-#middlewares:
-#  - module: Static
-#  - module: Encode 
+middlewares:
+  - module: Static
+  - module: Encode 
+  - module: Session
 
 #  - module: DebugScreen
 #  - module: DebugRequest
-#  - module: Session
-
 #  - module: Session
 #    config:
 #      store:

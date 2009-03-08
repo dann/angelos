@@ -1,6 +1,8 @@
 package Angelos::I18N;
 use strict;
 use warnings;
+use UNIVERSAL::require;
+use Carp ();
 use Angelos::Exceptions;
 use base 'Class::Singleton';
 
@@ -15,56 +17,48 @@ Angelos::I18N - Provides internationalization function
  
 =head2 loc("string [_1]", $arg)
  
-See Locale::Maketext::Simple.
- 
 =cut
 
 =head2 loc_lang
  
 Set the locale.
-See Locale::Maketext::Simple.
  
 =head1 Localization Files
- 
-The .po files are kept in conf/locales.
  
 =cut
 
 sub _new_instance {
     my $class = shift;
     my $self = bless {}, $class;
-
-    require Locale::Maketext::Simple;
-    my $config = {
-        Path     => $self->po_dir,
-        Style    => 'maketext',
-        Export   => 'loc',
-        Subclass => 'I18N',
-    };
-    my ( $loc, $loc_lang ) = Locale::Maketext::Simple->load_loc(%$config);
-    $loc ||= Locale::Maketext::Simple->default_loc(%$config);
-    $self->{loc}      = $loc;
-    $self->{loc_lang} = $loc_lang;
-
+    $self->{localizer} = $self->setup_localizer;
     return $self;
+}
+
+sub setup_localizer {
+    my $self            = shift;
+    my $localizer_class = 'Angelos::I18N::Localizer::' . $self->localizer;
+    $localizer_class->require
+        or Carp::croak "$localizer_class must be installed";
+    $localizer_class->new( po_dir => $self->po_dir );
+}
+
+sub localizer {
+    'DataLocalize';
 }
 
 sub po_dir {
     Angelos::Exception::AbstractMethod->throw(
-        message => 'Sub class must implement config_file method' 
-    );
+        message => 'Sub class must implement po_dir method' );
 }
 
 sub loc {
-    my ( $self, $message, $arg ) = @_;
-    my $loc = $self->{loc};
-    $loc->( $message, $arg );
+    my ( $self, $key, @args ) = @_;
+    $self->{localizer}->loc( $key, @args );
 }
 
 sub loc_lang {
-    my ( $self, $lang ) = @_;
-    my $loc_lang = $self->{loc_lang};
-    $loc_lang->($lang);
+    my ( $self, @langs ) = @_;
+    $self->{localizer}->loc_lang(@langs);
 }
 
 1;
