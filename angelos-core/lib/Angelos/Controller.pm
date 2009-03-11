@@ -5,6 +5,7 @@ use Angelos::Exceptions qw(rethrow_exception);
 use Exception::Class;
 use Angelos::Utils;
 use String::CamelCase;
+use MouseX::AttributeHelpers;
 
 with 'Angelos::Component';
 with 'Angelos::Controller::Mixin::Responder';
@@ -12,21 +13,33 @@ with 'Angelos::Controller::Mixin::Responder';
 has _plugin_app_ns => ( +default => sub { ['Angelos::Controller'] }, );
 
 has 'before_filters' => (
-    is       => 'rw',
-    required => 1,
-    isa      => 'ArrayRef',
-    default  => sub {
+    metaclass => 'Collection::Array',
+    is        => 'rw',
+    required  => 1,
+    isa       => 'ArrayRef',
+    default   => sub {
         [];
-    }
+    },
+    provides => {
+        count => 'num_before_filters',
+        empty => 'has_before_filter',
+        push  => 'add_before_filter',
+    },
 );
 
 has 'after_filters' => (
-    is       => 'rw',
-    required => 1,
-    isa      => 'ArrayRef',
-    default  => sub {
+    metaclass => 'Collection::Array',
+    is        => 'rw',
+    required  => 1,
+    isa       => 'ArrayRef',
+    default   => sub {
         [];
-    }
+    },
+    provides => {
+        count => 'num_after_filters',
+        empty => 'has_after_filter',
+        push  => 'add_after_filter',
+    },
 );
 
 has 'context' => (
@@ -70,7 +83,7 @@ sub add_before_filter {
     Angelos::Exception::InvalidArgumentError->throw(
         message => "name key is required" )
         unless $filter->{name};
-    push @{ $self->before_filters }, $filter;
+    $self->add_before_filter($filter);
 }
 
 sub add_after_filter {
@@ -78,7 +91,7 @@ sub add_after_filter {
     Angelos::Exception::InvalidArgumentError->throw(
         message => "name key is required" )
         unless $filter->{name};
-    push @{ $self->after_filters }, $filter;
+    $self->add_after_filter($filter);
 }
 
 sub _dispatch_action {
