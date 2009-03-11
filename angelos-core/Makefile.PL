@@ -67,7 +67,7 @@ requires(
 
     # Script
     'Pod::Simple::Text'   => 0,
-    'MouseX::Getopt'      => '0.04',
+    'MouseX::Getopt'      => '0.05',
     'IPC::System::Simple' => 0,
     'App::Cmd'            => '0.202',
     'Module::Setup'       => 0,

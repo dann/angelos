@@ -6,40 +6,50 @@ use UNIVERSAL::require;
 with 'MouseX::Getopt';
 
 has 'host' => (
+    metaclass => 'Getopt',
     is      => 'rw',
     isa     => 'Str',
     default => 0,
+    cmd_aliases => [qw(h)],
 );
 
 has 'server' => (
+    metaclass => 'Getopt',
     is      => 'rw',
     isa     => 'Str',
     default => 'ServerSimple',
+    cmd_aliases => [qw(s)],
 );
 
 has 'port' => (
+    metaclass => 'Getopt',
     is       => 'rw',
     isa      => 'Int',
     default  => 3000,
     required => 1,
+    cmd_aliases => [qw(h)],
 );
 
 has 'debug' => (
+    metaclass => 'Getopt',
     is      => 'rw',
     isa     => 'Bool',
-    default => 0
+    default => 0,
+    cmd_aliases => [qw(d)],
 );
 
 has 'app' => (
+    metaclass => 'Getopt',
     is       => 'rw',
     isa      => 'Str',
     required => 1,
 );
 
 has 'help' => (
+    metaclass => 'Getopt',
     is      => 'rw',
     isa     => 'Bool',
-    default => 0
+    default => 0,
 );
 
 sub run {

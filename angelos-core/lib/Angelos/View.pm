@@ -19,10 +19,8 @@ has 'types' => (
 
 has 'root' => (
     is      => 'rw',
-    default => sub {
-        my $self = shift;
-        Angelos::Utils::context->project_structure->templates_dir;
-    },
+    lazy    => 1,
+    builder => 'build_root',
 );
 
 has 'CONTENT_TYPE' => (
@@ -41,6 +39,11 @@ sub BUILD {
     my $self            = shift;
     my $template_engine = $self->_build_engine;
     $self->engine($template_engine) if $template_engine;
+}
+
+sub build_root {
+    my $self = shift;
+    $self->context->project_structure->templates_dir;
 }
 
 sub context {
@@ -76,12 +79,12 @@ sub RENDER {
     my $c             = $self->context;
     my $template      = $self->_template( $c, $opts->{template} );
     my $template_path = $self->_template_path( $c, $opts->{template} );
-    return undef unless $template || $template_path;
+    return unless $template || $template_path;
 
     $self->_build_stash($c);
     my $vars   = $self->_build_template_vars( $c, $opts->{params} );
     my $output = $self->_do_render( $c,           $vars );
-    return undef unless $output;
+    return unless $output;
 
     $self->_build_response( $c, $output );
     return 1;

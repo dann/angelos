@@ -1,19 +1,25 @@
 package Angelos::ProjectStructure;
 use Angelos::Class;
+use Path::Class;
 
 has 'home' => (
     is  => 'rw',
     isa => 'Angelos::Home',
 );
 
+sub conf_dir {
+    my $self = shift;
+    $self->home->path_to('conf');
+}
+
 sub logger_config_file_path {
     my $self = shift;
-    $self->home->path_to( 'conf', 'log.yaml' );
+    file( $self->conf_dir, 'log.yaml' );
 }
 
 sub routes_config_file_path {
     my $self = shift;
-    $self->home->path_to( 'conf', 'routes.pl' );
+    file( $self->conf_dir, 'routes.pl' );
 }
 
 sub config_file_path {
@@ -21,7 +27,7 @@ sub config_file_path {
     my $extension = '.yaml';
     $environment ||= $self->environment;
     my $config_filename = $environment . $extension;
-    $self->home->path_to( 'conf', 'environments', $config_filename ),;
+    file( $self->conf_dir, 'environments', $config_filename );
 }
 
 sub environment {
@@ -38,14 +44,14 @@ sub root_dir {
     $self->home->path_to( 'share', 'root' );
 }
 
-sub  po_dir {
+sub po_dir {
     my $self = shift;
     $self->home->path_to( 'share', 'po' );
 }
 
 sub templates_dir {
     my $self = shift;
-    $self->home->path_to( $self->root_dir, 'templates' );
+    dir( $self->root_dir, 'templates' );
 }
 
 __END_OF_CLASS__

@@ -43,7 +43,7 @@ sub plugins {
                 return $plugin;
             }
         }
-        return undef;
+        return;
     }
     return wantarray ? @{$plugins} : $plugins;
 }
@@ -62,7 +62,7 @@ sub mixins {
                 return $mixin;
             }
         }
-        return undef;
+        return;
     }
     return wantarray ? @{$mixins} : $mixins;
 }
@@ -116,7 +116,7 @@ sub _get {
     my $section = shift;
     my $var     = shift;
     unless ( $self->{config}->{$section} ) {
-        return undef;
+        return;
     }
 
     unless ($var) {
