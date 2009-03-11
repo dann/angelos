@@ -5,11 +5,18 @@ use Angelos::Utils;
 use Devel::InnerPackage;
 use Angelos::Exceptions;
 use Scalar::Util;
-use Mouse;
+use MouseX::AttributeHelpers;
 
 has 'components' => (
-    is      => 'rw',
-    default => sub { +{} },
+    metaclass => 'Collection::Hash',
+    is        => 'rw',
+    isa       => 'HashRef',
+    default   => sub { +{} },
+    provides => {
+        exists => 'has_components',
+        get    => 'get_component',
+        set    => 'set_component',
+    },
 );
 
 with 'Angelos::Class::Configurable';
@@ -64,16 +71,6 @@ sub _register_plugins_to {
         $component->load_plugin( $_->{module} )
             for $self->config->plugins('model');
     }
-}
-
-sub set_component {
-    my ( $self, $key, $component ) = @_;
-    $self->components->{$key} = $component;
-}
-
-sub get_component {
-    my ( $self, $key ) = @_;
-    $self->components->{$key};
 }
 
 sub load_component {
