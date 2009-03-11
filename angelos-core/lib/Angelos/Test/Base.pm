@@ -18,7 +18,7 @@ sub run_tests {
 
 sub make_application {
     my $application_class = main::test_application_class();
-    $application_class->require;
+    $application_class->require or die "Can't load $application_class";
     my $app = $application_class->new( server => 'Test', );
     $app;
 }

@@ -1,10 +1,12 @@
 package Angelos::MIMETypes;
 use Angelos::Class;
+use MouseX::AttributeHelpers;
 
 has 'types' => (
-    is      => 'rw',
-    isa     => 'HashRef',
-    default => sub {
+    metaclass => 'Collection::Hash',
+    is        => 'rw',
+    isa       => 'HashRef',
+    default   => sub {
         {   css  => 'text/css',
             gif  => 'image/gif',
             jpeg => 'image/jpeg',
@@ -18,18 +20,12 @@ has 'types' => (
             rss  => 'application/xml',
             atom => 'application/xml',
         };
+    },
+    provides => {
+        'set' => 'add_type',
+        'get' => 'mime_type_of',
     }
 );
-
-sub mime_type_of {
-    my ( $self, $ext ) = @_;
-    $self->types->{$ext};
-}
-
-sub add_type {
-    my ( $self, $ext, $mime_type ) = @_;
-    $self->types->{$ext} = $mime_type;
-}
 
 __END_OF_CLASS__
 

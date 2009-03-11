@@ -32,7 +32,8 @@ requires(
     # Basics
     'Class::Method::Modifiers'          => 0,
     'Class::Method::Modifiers::Fast'    => 0,
-    'Mouse'                             => '0.18',
+    'Mouse'                             => '0.19',
+    'MouseX::AttributeHelpers'          => '0.01',
     'MouseX::Types'                     => '0.01',
     'HTTP::Engine'                      => '0.1.4',
     'HTTP::Engine::Middleware'          => '0.09',
