@@ -279,7 +279,7 @@ template: |
   use base 'Angelos::Cache';
   
   sub config {
-      [% module %]::Config->instance->global('cache') || { driver => 'Memory' };
+      [% module %]::Config->instance->global('cache');
   }
   
   1;
@@ -1051,6 +1051,10 @@ template: |
   1;
   
   # Copyright 2008 Adam Kennedy.
+---
+file: db/schema.sql
+is_binary: 1
+template: ''
 ---
 file: tools/test_it
 template: |

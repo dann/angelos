@@ -11,8 +11,7 @@ use base 'Class::Singleton';
 sub _new_instance {
     my $class     = shift;
     my $self      = bless {}, $class;
-    my $app_class = shift;
-    $self->{home} = $self->detect( $app_class || $self->app_class );
+    $self->{home} = $self->detect( ref $self );
     return $self;
 }
 

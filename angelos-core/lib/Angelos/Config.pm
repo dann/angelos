@@ -8,19 +8,17 @@ use Angelos::Utils;
 use base 'Class::Singleton';
 
 sub _new_instance {
-    my $class       = shift;
-    my $self        = bless {}, $class;
-
-    $self->{config} = Angelos::Config::Loader->load( $self->config_file_path ,
+    my $class = shift;
+    my $self = bless {}, $class;
+    $self->{config} = Angelos::Config::Loader->load( $self->config_file_path,
         Angelos::Config::Schema->config );
     return $self;
 }
 
 sub config_file_path {
-    my ($self, $environment) = @_;
+    my ( $self, $environment ) = @_;
     Angelos::Exception::AbstractMethod->throw(
-        message => 'Sub class must implement config_file method' 
-    );
+        message => 'Sub class must implement config_file method' );
 }
 
 sub global {
@@ -109,6 +107,11 @@ sub middlewares {
         return wantarray ? () : [];
     }
     return wantarray ? @{$middlewares} : $middlewares;
+}
+
+sub database {
+    my $self   = shift;
+    $self->_get('database');
 }
 
 sub _get {

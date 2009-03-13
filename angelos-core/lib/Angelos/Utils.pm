@@ -71,5 +71,10 @@ sub context {
     Angelos::Registrar::context();
 }
 
+sub path_to {
+    my $class = shift || '';
+    $class->context()->path_to(@_);
+}
+
 1;
 

@@ -6,6 +6,7 @@ use Angelos::Config::Validator;
 use Angelos::Exceptions;
 use Data::Visitor::Callback;
 use Angelos::Utils;
+use Angelos::Registrar;
 
 sub load {
     my ( $class, $stuff, $schema ) = @_;
@@ -32,7 +33,7 @@ sub _substitute_config {
 
 sub validate_config {
     my ($class, $config, $schema) = @_;
-    Angelos::Config::Validator->validate_config( $config, $schema );
+    # Angelos::Config::Validator->validate_config( $config, $schema );
 }
 
 =head2 _config_substitutions( $value )
@@ -53,10 +54,8 @@ default macros:
 sub _config_substitutions {
     my $class = shift;
     my $subs  = {};
-    $subs->{HOME}    ||= sub { shift->HOME; };
     $subs->{path_to} ||= sub { shift->path_to(@_); };
     my $subsre = join( '|', keys %$subs );
-
     for (@_) {
         s{__($subsre)(?:\((.+?)\))?__}{ $subs->{ $1 }->( "Angelos::Utils", $2 ? split( /,/, $2 ) : () ) }eg;
     }

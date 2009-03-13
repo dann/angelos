@@ -19,7 +19,8 @@ sub config {
 
 sub create_cache {
     my $self = shift;
-    CHI->new( %{ $self->config } || { driver => 'Memory' } );
+    my $default_config = { driver => 'Memory' };
+    CHI->new( %{ $self->config || $default_config } );
 }
 
 sub get {
@@ -27,7 +28,6 @@ sub get {
 }
 
 sub set {
-    my $self = shift;
     shift->{cache}->set(@_);
 }
 

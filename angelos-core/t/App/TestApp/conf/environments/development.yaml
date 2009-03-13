@@ -19,6 +19,11 @@ middlewares:
   - module: DebugRequest
   - module: Profile 
 
+database:
+  master:
+    connect_info:
+      - dbi:SQLite:dbname=etc/testapp.db
+
 #  - module: DebugScreen
 #  - module: Session
 

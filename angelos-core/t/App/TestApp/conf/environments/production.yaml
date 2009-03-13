@@ -18,6 +18,11 @@ middlewares:
   - module: Encode 
   - module: Session
 
+database:
+  master:
+    connect_info:
+      - dbi:SQLite:dbname=__path_to(db/testapp.db)__
+
 #  - module: DebugScreen
 #  - module: DebugRequest
 #  - module: Session
