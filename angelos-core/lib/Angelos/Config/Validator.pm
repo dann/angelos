@@ -1,4 +1,6 @@
 package Angelos::Config::Validator;
+use strict;
+use warnings;
 
 our $HasKwalify;
 eval {

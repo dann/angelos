@@ -1,5 +1,6 @@
 package Angelos;
 use 5.008_001;
+use strict;
 our $VERSION = '0.01';
 use Angelos::Class;
 use Angelos::MIMETypes;
@@ -294,7 +295,7 @@ __END__
 
 =head1 NAME
 
-Angelos -
+Angelos - MVC Web Application Framework
 
 =head1 SYNOPSIS
 
@@ -309,7 +310,7 @@ Angelos -
   $app->run;
   1;
 
-Edit conf/routes.yaml to make dispatch rules and create an application class like below.
+Edit conf/routes.pl to make dispatch rules and create an application class like below.
 
 =head1 DESCRIPTION
 
@@ -325,7 +326,7 @@ Many people have contributed ideas, inspiration, fixes and features to
 the Angelos.  Their efforts continue to be very much appreciated.
 Please let me know if you think anyone is missing from this list.
 
-Lyo Kato, Tomyhero Teranishi, vkgtaro, hideden, bonnu
+Lyo Kato, vkgtaro, hideden, bonnu, Tomyhero Teranishi
 
 =head1 SEE ALSO
 

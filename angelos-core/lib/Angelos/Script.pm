@@ -1,4 +1,6 @@
 package Angelos::Script;
+use strict;
+use warnings;
 use base qw(App::Cmd);
 
 1;

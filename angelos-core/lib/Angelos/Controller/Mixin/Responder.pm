@@ -1,4 +1,5 @@
 package Angelos::Controller::Mixin::Responder;
+use strict;
 use Mouse::Role;
 
 has '__contenttype_to_view_mappings' => (
@@ -7,7 +8,7 @@ has '__contenttype_to_view_mappings' => (
         {   'text/html'        => 'TT',
             'application/json' => 'JSON',
         },
-        ;
+            ;
     }
 );
 
@@ -22,8 +23,9 @@ sub __content_type {
 sub __content_type_from_format {
     my $self   = shift;
     my $format = $self->context->_match->{format};
-    my $content_type
-        = $self->context->available_mimetypes->mime_type_of($format)
+    my $content_type;
+    $content_type
+        ||= $self->context->available_mimetypes->mime_type_of($format)
         if $format;
     $content_type;
 }

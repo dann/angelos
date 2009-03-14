@@ -17,7 +17,7 @@ sub build_from_config {
 sub build {
     my ( $self, $conf ) = @_;
     my $content = $conf->slurp;
-    my $router  = eval $content;
+    my $router  = eval $content; ##no critic
     if ( my $e = $@ ) {
         Angelos::Exception->throw(
             message => "Can't load routes.pl: $conf. error: $e" );

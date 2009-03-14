@@ -2,4 +2,4 @@
 allow=refs
 
 [TestingAndDebugging::RequireUseStrict]
-equivalent_modules = Mouse Mouse::Role Angelos::Class Angelos::Role Angelos::Plugin HTTP::Engine::Middleware Test::Base
+equivalent_modules = Mouse Mouse::Role Angelos::Class Angelos::Role Angelos::Plugin HTTP::Engine::Middleware Test::Base Angelos::Controller::Mixin::Responder Angelos::Manual

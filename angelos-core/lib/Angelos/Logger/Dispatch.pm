@@ -38,6 +38,7 @@ sub _generate_logger_class {
     # Log::Dispatch::Config is Singleton class,
     # This causes trobule under mod_perl enviroment,
     # So, we generate application specific logger class
+    ## no critic
     eval <<"";
         package $logger;
         use base qw/Log\::Dispatch\::Config/;

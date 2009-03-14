@@ -1,4 +1,6 @@
 package Angelos::Config::Schema;
+use strict;
+use warnings;
 
 sub config {
     my $schema = {

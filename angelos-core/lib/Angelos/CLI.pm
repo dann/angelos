@@ -1,4 +1,6 @@
 package Angelos::CLI;
+use strict;
+use warnings;
 use base qw(App::Cmd);
 
 =head1 NAME
