@@ -2,7 +2,6 @@ package Angelos::Service::Role::DBIC;
 use Angelos::Role;
 use List::MoreUtils;
 
-
 has 'resultset_moniker' => (
     is       => 'rw',
     required => 1,
@@ -19,11 +18,17 @@ has 'cache' => (
     required => 1
 );
 
+has 'primary_key' => (
+    is       => 'rw',
+    required => 1,
+    default  => 'id',
+);
+
 sub find {
     my ( $self, $id ) = @_;
 
     my $cache_key = $self->cache_key($id);
-    my $obj = $self->get_from_cache($cache_key);
+    my $obj       = $self->get_from_cache($cache_key);
     if ( !$obj ) {
         $obj = $self->_resultset->find($id);
         if ($obj) {
@@ -34,8 +39,8 @@ sub find {
 }
 
 sub get_from_cache {
-    my ($self, $cache_key) = @_;
-    my $obj       = $self->cache->get($cache_key);
+    my ( $self, $cache_key ) = @_;
+    my $obj = $self->cache->get($cache_key);
     $obj;
 }
 
@@ -46,25 +51,26 @@ sub get_multi_from_cache {
 }
 
 sub find_multi {
-    my($self, @ids) = @_;
+    my ( $self, @ids ) = @_;
 
-    my %id2key = map { $_ => $self->cache_key($_) } grep { defined } @ids;
-    my $got = $self->get_multi_from_cache(values %id2key);
+    my %id2key = map { $_ => $self->cache_key($_) } grep {defined} @ids;
+    my $got = $self->get_multi_from_cache( values %id2key );
 
     ## If we got back all of the objects from the cache, return immediately.
-    if (List::MoreUtils::all {defined $_} values %$got) {
+    if ( List::MoreUtils::all { defined $_ } values %$got ) {
         my @objs = values %{$got};
         return \@objs;
     }
 
     ## Otherwise, look through the list of IDs to see what we're missing,
     ## and fall back to the backend to look up those objects.
-    my($i, @got, @need, %need2got) = (0);
+    my ( $i, @got, @need, %need2got ) = (0);
     for my $id (@ids) {
-        if (defined $id && (my $obj = $got->{ $id2key{$id} })) {
+        if ( defined $id && ( my $obj = $got->{ $id2key{$id} } ) ) {
             push @got, $obj;
-        } else {
-            push @got, undef;
+        }
+        else {
+            push @got,  undef;
             push @need, $id;
             $need2got{$#need} = $i;
         }
@@ -74,7 +80,7 @@ sub find_multi {
     if (@need) {
         for my $id (@need) {
             my $obj = $self->find($id);
-            $got[ $need2got{$i++} ] = $obj;
+            $got[ $need2got{ $i++ } ] = $obj;
         }
     }
 
@@ -124,6 +130,17 @@ sub first {
 
 sub update {
     my ( $self, $args ) = @_;
+
+    my $pk  = $self->primary_key();
+    my $rs  = $self->resultset();
+    my $key = delete $args->{$pk};
+    my $row = $self->find($key);
+    if ($row) {
+        while ( my ( $field, $value ) = each %$args ) {
+            $row->$field($value);
+        }
+        $row->update;
+    }
     $self->_resultset->update($args);
 }
 

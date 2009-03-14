@@ -78,9 +78,11 @@ requires(
     'JSON::XS'            => 0,
     'Term::ReadLine'      => 0,
 
-    # Components
-    'Template'            => '2.20',
-    'DBIx::Class::Schema' => '0.08012',
+    # Components (remove from core)
+    'Template'                 => '2.20',
+    'DBIx::Class::Schema'      => '0.08012',
+    'DBIx::Class::AsFdat'      => 0,
+    'DBIx::Class::UTF8Columns' => 0,
 
     # Controller plugins
     'Time::HiRes' => 0,

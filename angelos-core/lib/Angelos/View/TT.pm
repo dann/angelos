@@ -33,13 +33,24 @@ has 'TIMER' => (
     isa => 'Str',
 );
 
+has 'EVAL_PERL' => (
+    is => 'rw',
+    default => 0,
+);
+
+has 'ENCODING' => (
+    is      => 'rw',
+    default => 'utf8',
+);
+
 sub _build_engine {
     my $self = shift;
     my $include_path ||= $self->INCLUDE_PATH;
     $include_path    ||= $self->root;
 
     my $config = {
-        EVAL_PERL    => 0,
+        EVAL_PERL    => $self->EVAL_PERL,
+        ENCODING=> $self->ENCODING,
         INCLUDE_PATH => $include_path,
     };
 
@@ -54,7 +65,7 @@ sub _render {
             = "Couldn't render template "
             . $c->stash->{template} . ": "
             . $self->engine->error;
-        $c->logger->error( $error );
+        $c->logger->error($error);
     }
     $out;
 }

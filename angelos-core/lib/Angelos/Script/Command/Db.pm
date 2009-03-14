@@ -51,7 +51,7 @@ sub generate_schema {
     my $connect_info = $self->_get_connect_info($app_class);
     make_schema_at(
         "${app_class}::Schema",
-        {   components => [ 'ResultSetManager', 'UTF8Columns' ],
+        {   components => [ ],
             dump_directory        => dir( 'lib' ),
             really_erase_my_files => $erase,
             debug                 => 1,
