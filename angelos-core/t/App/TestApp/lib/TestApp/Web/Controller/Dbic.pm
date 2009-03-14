@@ -10,12 +10,21 @@ has 'artist' => (
     },
 );
 
-sub find_artist {
+sub find {
     my ( $self, $params ) = @_;
     my $artist = $self->artist->find(1);
     use Data::Dumper;
     warn Dumper $artist;
 }
+
+sub find_multi {
+    my ( $self, $params ) = @_;
+    my @artists = $self->artist->find_multi(1, 2);
+    use Data::Dumper;
+    warn Dumper @artists;
+}
+
+
 
 sub delete_artist {
 

@@ -1,5 +1,7 @@
 package Angelos::Service::Role::DBIC;
 use Angelos::Role;
+use List::MoreUtils;
+
 
 has 'resultset_moniker' => (
     is       => 'rw',
@@ -19,31 +21,67 @@ has 'cache' => (
 
 sub find {
     my ( $self, $id ) = @_;
-    my $cache_key = $self->_create_cache_key($id);
-    my $obj       = $self->cache->get($cache_key);
+
+    my $cache_key = $self->cache_key($id);
+    my $obj = $self->get_from_cache($cache_key);
     if ( !$obj ) {
-        warn 'aa';
         $obj = $self->_resultset->find($id);
-        warn 'bb';
         if ($obj) {
-            warn 'cc';
-            warn $cache_key;
             $self->cache->set( $cache_key, $obj );
         }
     }
     return $obj;
 }
 
-sub get_multi {
-    my ( $self, @ids ) = @_;
-    my $rs   = $self->_resultset();
-    my $objs = $self->cache->get_multi_arrayref(
-        map { [ $self->_create_cache_key($_) ] } @ids );
-    my @ret = $objs ? @$objs : ();
-    return wantarray ? @ret : \@ret;
+sub get_from_cache {
+    my ($self, $cache_key) = @_;
+    my $obj       = $self->cache->get($cache_key);
+    $obj;
 }
 
-sub _create_cache_key {
+sub get_multi_from_cache {
+    my ( $self, @keys ) = @_;
+    my $objs = $self->cache->get_multi_hashref( \@keys );
+    $objs;
+}
+
+sub find_multi {
+    my($self, @ids) = @_;
+
+    my %id2key = map { $_ => $self->cache_key($_) } grep { defined } @ids;
+    my $got = $self->get_multi_from_cache(values %id2key);
+
+    ## If we got back all of the objects from the cache, return immediately.
+    if (List::MoreUtils::all {defined $_} values %$got) {
+        my @objs = values %{$got};
+        return \@objs;
+    }
+
+    ## Otherwise, look through the list of IDs to see what we're missing,
+    ## and fall back to the backend to look up those objects.
+    my($i, @got, @need, %need2got) = (0);
+    for my $id (@ids) {
+        if (defined $id && (my $obj = $got->{ $id2key{$id} })) {
+            push @got, $obj;
+        } else {
+            push @got, undef;
+            push @need, $id;
+            $need2got{$#need} = $i;
+        }
+        $i++;
+    }
+
+    if (@need) {
+        for my $id (@need) {
+            my $obj = $self->find($id);
+            $got[ $need2got{$i++} ] = $obj;
+        }
+    }
+
+    \@got;
+}
+
+sub cache_key {
     my ( $self, $id ) = @_;
     my $cache_key = join '-', ( __PACKAGE__, ref $self, $id );
     return $cache_key;
@@ -101,7 +139,7 @@ sub delete {
         $obj->delete;
     }
 
-    my $cache_key = $self->_create_cache_key($id);
+    my $cache_key = $self->cache_key($id);
     $self->cache->delete($cache_key);
 
 }
