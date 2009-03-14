@@ -1,0 +1,13 @@
+---
+components:
+  controller:
+    - module: A
+
+middlewares:
+  - module: Encode
+
+database:
+  master:
+    connect_info:
+      - dbi:SQLite:dbname=__path_to(db/testing.db)__
+

@@ -6,3 +6,10 @@ components:
 middlewares:
   - module: Encode
   - module: MethodOverride
+
+database:
+  master:
+    connect_info:
+      - dbi:SQLite:dbname=__path_to(db/production.db)__
+
+

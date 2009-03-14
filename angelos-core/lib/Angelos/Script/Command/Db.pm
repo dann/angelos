@@ -52,7 +52,7 @@ sub generate_schema {
     make_schema_at(
         "${app_class}::Schema",
         {   components => [ 'ResultSetManager', 'UTF8Columns' ],
-            dump_directory        => dir( $FindBin::Bin, '..', 'lib' ),
+            dump_directory        => dir( 'lib' ),
             really_erase_my_files => $erase,
             debug                 => 1,
         },

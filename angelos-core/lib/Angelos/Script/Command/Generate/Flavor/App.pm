@@ -111,7 +111,26 @@ template: |+
   );
 
 ---
-file: conf/log.yaml
+file: conf/environments/development/config.yaml
+template: |+
+  ---
+  components:
+    controller:
+      - module: A
+  
+  middlewares:
+    - module: Encode
+    - module: MethodOverride
+    - module: Static
+  
+  database:
+    master:
+      connect_info:
+        - dbi:SQLite:dbname=__path_to(db/development.db)__
+  
+
+---
+file: conf/environments/development/log.yaml
 template: |
   ---
   dispatchers:
@@ -132,8 +151,8 @@ template: |
         text: yellow
         background: red
 ---
-file: conf/environments/production.yaml
-template: |
+file: conf/environments/testing/config.yaml
+template: |+
   ---
   components:
     controller:
@@ -141,19 +160,35 @@ template: |
   
   middlewares:
     - module: Encode
-    - module: MethodOverride
+  
+  database:
+    master:
+      connect_info:
+        - dbi:SQLite:dbname=__path_to(db/testing.db)__
+
 ---
-file: conf/environments/testing.yaml
+file: conf/environments/testing/log.yaml
 template: |
   ---
-  components:
-    controller:
-      - module: A
-  
-  middlewares:
-    - module: Encode
+  dispatchers:
+    - screen
+   
+  screen:
+    class: Log::Dispatch::Colorful
+    min_level: debug
+    stderr: 1
+    format: '[%d] [%p] %m at %F line %L%n'
+    color:
+      info:
+        text: green
+      debug:
+        text: red
+        background: black
+      error:
+        text: yellow
+        background: red
 ---
-file: conf/environments/development.yaml
+file: conf/environments/production/config.yaml
 template: |+
   ---
   components:
@@ -163,8 +198,34 @@ template: |+
   middlewares:
     - module: Encode
     - module: MethodOverride
-    - module: Static
+  
+  database:
+    master:
+      connect_info:
+        - dbi:SQLite:dbname=__path_to(db/production.db)__
+  
 
+---
+file: conf/environments/production/log.yaml
+template: |
+  ---
+  dispatchers:
+    - screen
+   
+  screen:
+    class: Log::Dispatch::Colorful
+    min_level: debug
+    stderr: 1
+    format: '[%d] [%p] %m at %F line %L%n'
+    color:
+      info:
+        text: green
+      debug:
+        text: red
+        background: black
+      error:
+        text: yellow
+        background: red
 ---
 file: lib/____var-module_path-var____.pm
 template: |

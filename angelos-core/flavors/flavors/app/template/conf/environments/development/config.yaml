@@ -8,3 +8,9 @@ middlewares:
   - module: MethodOverride
   - module: Static
 
+database:
+  master:
+    connect_info:
+      - dbi:SQLite:dbname=__path_to(db/development.db)__
+
+
