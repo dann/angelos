@@ -1,0 +1,18 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: "Controller\xE5\x8D\x98\xE4\xBD\x8D\xE3\x81\xA7\xE3\x81\xAELayout\xE3\x81\xAE\xE5\x88\x87\xE3\x82\x8A\xE6\x8F\x9B\xE3\x81\x88"
+desc: ""
+type: :task
+component: controller
+release: "0.01"
+reporter: dann <techmemo@gmail.com>
+status: :unstarted
+disposition: 
+creation_time: 2009-03-14 21:19:44.326179 Z
+references: []
+
+id: e4d22b06086d892b1d779cc58a93b81a10b29282
+log_events: 
+- - 2009-03-14 21:19:44.598472 Z
+  - dann <techmemo@gmail.com>
+  - created
+  - ""
