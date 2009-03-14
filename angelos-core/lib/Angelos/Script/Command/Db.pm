@@ -30,6 +30,10 @@ sub opt_spec {
     );
 }
 
+sub validate_args {
+    my ( $self, $opt, $arg ) = @_;
+}
+
 sub run {
     my ( $self, $opt, $arg ) = @_;
 
@@ -43,15 +47,8 @@ sub generate_schema {
     Carp::croak 'app_class option must be set to generate schema'
         unless $app_class;
 
-    my $config = $self->_create_config($app_class);
-    Carp::croak 'database section must be set in config'
-        unless $config->database;
-    Carp::croak 'master config is needed' unless $config->database->{master};
-    my $connect_info = $config->database->{master}->{connect_info};
-    Carp::croak 'connect_info must be set to generate schema'
-        unless $connect_info;
-
     my $erase = $opt->{erase} || 0;
+    my $connect_info = $self->_get_connect_info($app_class);
     make_schema_at(
         "${app_class}::Schema",
         {   components => [ 'ResultSetManager', 'UTF8Columns' ],
@@ -59,9 +56,25 @@ sub generate_schema {
             really_erase_my_files => $erase,
             debug                 => 1,
         },
-
+        $connect_info,
     );
 
+}
+
+sub setup_database {
+    die 'Implement me';
+}
+
+sub _get_connect_info {
+    my ( $self, $app_class ) = @_;
+    my $config = $self->_create_config($app_class);
+    Carp::croak 'database section must be set in config'
+        unless $config->database;
+    Carp::croak 'master config is needed' unless $config->database->{master};
+    my $connect_info = $config->database->{master}->{connect_info};
+    Carp::croak 'connect_info must be set to generate schema'
+        unless $connect_info;
+    $connect_info;
 }
 
 sub _create_config {
@@ -69,14 +82,6 @@ sub _create_config {
     my $config_class = "${app_class}::Config";
     Mouse::load_class($config_class);
     $config_class->instance;
-}
-
-sub setup_database {
-
-}
-
-sub validate_args {
-    my ( $self, $opt, $arg ) = @_;
 }
 
 1;
