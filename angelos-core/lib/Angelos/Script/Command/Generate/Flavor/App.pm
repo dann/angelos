@@ -214,6 +214,7 @@ file: lib/____var-module_path-var____/Config.pm
 template: |
   package [% module %]::Config;
   use base 'Angelos::Config';
+  use [% module %]::Home;
   use Angelos::ProjectStructure;
   
   sub config_file_path {

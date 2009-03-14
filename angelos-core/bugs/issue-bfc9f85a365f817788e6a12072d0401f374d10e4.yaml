@@ -1,0 +1,18 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: "MouseX::App::Cmd\xE3\x82\x92\xE3\x81\xA4\xE3\x81\x8F\xE3\x81\xA3\xE3\x81\xA6\xE3\x80\x81CLI\xE3\x82\x92Mouse\xE5\x8C\x96"
+desc: ""
+type: :task
+component: angelos
+release: "0.01"
+reporter: dann <techmemo@gmail.com>
+status: :unstarted
+disposition: 
+creation_time: 2009-03-13 23:10:08.515254 Z
+references: []
+
+id: bfc9f85a365f817788e6a12072d0401f374d10e4
+log_events: 
+- - 2009-03-13 23:10:08.858086 Z
+  - dann <techmemo@gmail.com>
+  - created
+  - ""
