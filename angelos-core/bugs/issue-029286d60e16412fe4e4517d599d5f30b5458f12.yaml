@@ -1,0 +1,18 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: "View\xE3\x81\xAEHelper"
+desc: ""
+type: :task
+component: angelos
+release: "0.01"
+reporter: dann <techmemo@gmail.com>
+status: :unstarted
+disposition: 
+creation_time: 2009-03-14 19:25:04.005636 Z
+references: []
+
+id: 029286d60e16412fe4e4517d599d5f30b5458f12
+log_events: 
+- - 2009-03-14 19:25:04.669740 Z
+  - dann <techmemo@gmail.com>
+  - created
+  - ""

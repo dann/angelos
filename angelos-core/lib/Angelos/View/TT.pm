@@ -43,6 +43,17 @@ has 'ENCODING' => (
     default => 'utf8',
 );
 
+has 'FILTERS' => (
+    is      => 'rw',
+    builder => 'build_filters',
+    lazy => 1,
+);
+
+sub build_filters {
+    # load filters 
+    die 'Implement me';
+}
+
 sub _build_engine {
     my $self = shift;
     my $include_path ||= $self->INCLUDE_PATH;
@@ -51,6 +62,7 @@ sub _build_engine {
     my $config = {
         EVAL_PERL    => $self->EVAL_PERL,
         ENCODING=> $self->ENCODING,
+#        FILTERS => $self->FILTERS,
         INCLUDE_PATH => $include_path,
     };
 

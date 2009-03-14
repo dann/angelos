@@ -1,0 +1,18 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: "Layout\xE3\x83\x95\xE3\x82\xA1\xE3\x82\xA4\xE3\x83\xAB with WRAPPER"
+desc: ""
+type: :task
+component: angelos
+release: "0.01"
+reporter: dann <techmemo@gmail.com>
+status: :unstarted
+disposition: 
+creation_time: 2009-03-14 19:25:29.407227 Z
+references: []
+
+id: 9635ad0e98b3743eeff5e2e321874cef162ab323
+log_events: 
+- - 2009-03-14 19:25:30.767386 Z
+  - dann <techmemo@gmail.com>
+  - created
+  - ""
