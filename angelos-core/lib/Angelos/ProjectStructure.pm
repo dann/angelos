@@ -50,7 +50,12 @@ sub po_dir {
 
 sub templates_dir {
     my $self = shift;
-    dir( $self->root_dir, 'templates' );
+    dir( $self->root_dir, 'views' );
+}
+
+sub layouts_dir {
+    my $self = shift;
+    dir( $self->templates_dir, 'layouts');
 }
 
 sub db_dir {

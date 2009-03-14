@@ -2,6 +2,7 @@ package Angelos::View::TT;
 use Angelos::Class;
 use Template;
 use Path::Class;
+use Angelos::Registrar;
 extends 'Angelos::View';
 
 has 'INCLUDE_PATH'       => ( is       => 'rw', );
@@ -24,7 +25,7 @@ has 'PRE_PROCESS' => (
 # TODO: Implement at _build_engine
 has 'WRAPPER' => (
     is  => 'rw',
-    isa => 'Str',
+    builder => 'build_wrapper',
 );
 
 # TODO: Implement at _build_engine
@@ -48,6 +49,15 @@ has 'FILTERS' => (
     builder => 'build_filters',
     lazy => 1,
 );
+
+sub build_wrapper {
+    my $self = shift;
+    file($self->context->project_structure->layouts_dir, 'application.tt');
+}
+
+sub context {
+    Angelos::Registrar::context();
+}
 
 sub build_filters {
     # load filters 

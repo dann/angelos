@@ -1,0 +1,32 @@
+<html>
+[%-
+    DEFAULT header_tt = 'header.tt';
+    DEFAULT footer_tt = 'footer.tt';
+    DEFAULT library_scripts = [ '/static/js/jquery-1.2.6.js' ];
+    DEFAULT scripts = [];
+    DEFAULT library_styles = [ '/static/css/base.css' ];
+    DEFAULT styles = [];
+-%]
+<head>
+    <title>[% title %]</title>
+[% FOREACH script IN library_scripts %]
+    <script src="[% script %]" type="text/javascript"></script>
+[% END %]
+[% FOREACH script IN scripts %]
+    <script src="[% script %]" type="text/javascript"></script>
+[% END %]
+[% FOREACH style IN library_styles %]
+    <link rel="stylesheet" type="text/css" href="[% style %]">
+[% END %]
+[% FOREACH style IN styles %]
+    <link rel="stylesheet" type="text/css" href="[% style %]">
+[% END %]
+</head>
+<body>
+<div id="container">
+  <div id="content">
+[% content %]
+  </div>
+</div>
+</body>
+</html>

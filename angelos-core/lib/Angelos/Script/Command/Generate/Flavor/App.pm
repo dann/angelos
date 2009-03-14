@@ -535,20 +535,6 @@ template: |+
   code: 200
 
 ---
-file: share/root/templates/root/index.tt
-template: |
-  <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-  <html xmlns="http://www.w3.org/1999/xhtml">
-      <head>
-          <title>Welcome to the Angelos Web Framework!</title>
-      </head>
-      <body>
-          <h2>Welcome to the Angelos Web Framework!</h2>
-          <p> Hi [% name %] </p>
-          <p> This page was generated from the template "templates/root/index.tt" </p>
-      </body>
-  </html>
----
 dir: share/root/static/images
 ---
 file: share/root/static/css/layout-1col.css
@@ -655,6 +641,55 @@ template: |-
   s.push(encodeURIComponent(j)+"="+encodeURIComponent(jQuery.isFunction(a[j])?a[j]():a[j]));return s.join("&").replace(/%20/g,"+");}});jQuery.fn.extend({show:function(speed,callback){return speed?this.animate({height:"show",width:"show",opacity:"show"},speed,callback):this.filter(":hidden").each(function(){this.style.display=this.oldblock||"";if(jQuery.css(this,"display")=="none"){var elem=jQuery("<"+this.tagName+" />").appendTo("body");this.style.display=elem.css("display");if(this.style.display=="none")this.style.display="block";elem.remove();}}).end();},hide:function(speed,callback){return speed?this.animate({height:"hide",width:"hide",opacity:"hide"},speed,callback):this.filter(":visible").each(function(){this.oldblock=this.oldblock||jQuery.css(this,"display");this.style.display="none";}).end();},_toggle:jQuery.fn.toggle,toggle:function(fn,fn2){return jQuery.isFunction(fn)&&jQuery.isFunction(fn2)?this._toggle.apply(this,arguments):fn?this.animate({height:"toggle",width:"toggle",opacity:"toggle"},fn,fn2):this.each(function(){jQuery(this)[jQuery(this).is(":hidden")?"show":"hide"]();});},slideDown:function(speed,callback){return this.animate({height:"show"},speed,callback);},slideUp:function(speed,callback){return this.animate({height:"hide"},speed,callback);},slideToggle:function(speed,callback){return this.animate({height:"toggle"},speed,callback);},fadeIn:function(speed,callback){return this.animate({opacity:"show"},speed,callback);},fadeOut:function(speed,callback){return this.animate({opacity:"hide"},speed,callback);},fadeTo:function(speed,to,callback){return this.animate({opacity:to},speed,callback);},animate:function(prop,speed,easing,callback){var optall=jQuery.speed(speed,easing,callback);return this[optall.queue===false?"each":"queue"](function(){if(this.nodeType!=1)return false;var opt=jQuery.extend({},optall),p,hidden=jQuery(this).is(":hidden"),self=this;for(p in prop){if(prop[p]=="hide"&&hidden||prop[p]=="show"&&!hidden)return opt.complete.call(this);if(p=="height"||p=="width"){opt.display=jQuery.css(this,"display");opt.overflow=this.style.overflow;}}if(opt.overflow!=null)this.style.overflow="hidden";opt.curAnim=jQuery.extend({},prop);jQuery.each(prop,function(name,val){var e=new jQuery.fx(self,opt,name);if(/toggle|show|hide/.test(val))e[val=="toggle"?hidden?"show":"hide":val](prop);else{var parts=val.toString().match(/^([+-]=)?([\d+-.]+)(.*)$/),start=e.cur(true)||0;if(parts){var end=parseFloat(parts[2]),unit=parts[3]||"px";if(unit!="px"){self.style[name]=(end||1)+unit;start=((end||1)/e.cur(true))*start;self.style[name]=start+unit;}if(parts[1])end=((parts[1]=="-="?-1:1)*end)+start;e.custom(start,end,unit);}else
   e.custom(start,val,"");}});return true;});},queue:function(type,fn){if(jQuery.isFunction(type)||(type&&type.constructor==Array)){fn=type;type="fx";}if(!type||(typeof type=="string"&&!fn))return queue(this[0],type);return this.each(function(){if(fn.constructor==Array)queue(this,type,fn);else{queue(this,type).push(fn);if(queue(this,type).length==1)fn.call(this);}});},stop:function(clearQueue,gotoEnd){var timers=jQuery.timers;if(clearQueue)this.queue([]);this.each(function(){for(var i=timers.length-1;i>=0;i--)if(timers[i].elem==this){if(gotoEnd)timers[i](true);timers.splice(i,1);}});if(!gotoEnd)this.dequeue();return this;}});var queue=function(elem,type,array){if(elem){type=type||"fx";var q=jQuery.data(elem,type+"queue");if(!q||array)q=jQuery.data(elem,type+"queue",jQuery.makeArray(array));}return q;};jQuery.fn.dequeue=function(type){type=type||"fx";return this.each(function(){var q=queue(this,type);q.shift();if(q.length)q[0].call(this);});};jQuery.extend({speed:function(speed,easing,fn){var opt=speed&&speed.constructor==Object?speed:{complete:fn||!fn&&easing||jQuery.isFunction(speed)&&speed,duration:speed,easing:fn&&easing||easing&&easing.constructor!=Function&&easing};opt.duration=(opt.duration&&opt.duration.constructor==Number?opt.duration:jQuery.fx.speeds[opt.duration])||jQuery.fx.speeds.def;opt.old=opt.complete;opt.complete=function(){if(opt.queue!==false)jQuery(this).dequeue();if(jQuery.isFunction(opt.old))opt.old.call(this);};return opt;},easing:{linear:function(p,n,firstNum,diff){return firstNum+diff*p;},swing:function(p,n,firstNum,diff){return((-Math.cos(p*Math.PI)/2)+0.5)*diff+firstNum;}},timers:[],timerId:null,fx:function(elem,options,prop){this.options=options;this.elem=elem;this.prop=prop;if(!options.orig)options.orig={};}});jQuery.fx.prototype={update:function(){if(this.options.step)this.options.step.call(this.elem,this.now,this);(jQuery.fx.step[this.prop]||jQuery.fx.step._default)(this);if(this.prop=="height"||this.prop=="width")this.elem.style.display="block";},cur:function(force){if(this.elem[this.prop]!=null&&this.elem.style[this.prop]==null)return this.elem[this.prop];var r=parseFloat(jQuery.css(this.elem,this.prop,force));return r&&r>-10000?r:parseFloat(jQuery.curCSS(this.elem,this.prop))||0;},custom:function(from,to,unit){this.startTime=now();this.start=from;this.end=to;this.unit=unit||this.unit||"px";this.now=this.start;this.pos=this.state=0;this.update();var self=this;function t(gotoEnd){return self.step(gotoEnd);}t.elem=this.elem;jQuery.timers.push(t);if(jQuery.timerId==null){jQuery.timerId=setInterval(function(){var timers=jQuery.timers;for(var i=0;i<timers.length;i++)if(!timers[i]())timers.splice(i--,1);if(!timers.length){clearInterval(jQuery.timerId);jQuery.timerId=null;}},13);}},show:function(){this.options.orig[this.prop]=jQuery.attr(this.elem.style,this.prop);this.options.show=true;this.custom(0,this.cur());if(this.prop=="width"||this.prop=="height")this.elem.style[this.prop]="1px";jQuery(this.elem).show();},hide:function(){this.options.orig[this.prop]=jQuery.attr(this.elem.style,this.prop);this.options.hide=true;this.custom(this.cur(),0);},step:function(gotoEnd){var t=now();if(gotoEnd||t>this.options.duration+this.startTime){this.now=this.end;this.pos=this.state=1;this.update();this.options.curAnim[this.prop]=true;var done=true;for(var i in this.options.curAnim)if(this.options.curAnim[i]!==true)done=false;if(done){if(this.options.display!=null){this.elem.style.overflow=this.options.overflow;this.elem.style.display=this.options.display;if(jQuery.css(this.elem,"display")=="none")this.elem.style.display="block";}if(this.options.hide)this.elem.style.display="none";if(this.options.hide||this.options.show)for(var p in this.options.curAnim)jQuery.attr(this.elem.style,p,this.options.orig[p]);}if(done)this.options.complete.call(this.elem);return false;}else{var n=t-this.startTime;this.state=n/this.options.duration;this.pos=jQuery.easing[this.options.easing||(jQuery.easing.swing?"swing":"linear")](this.state,n,0,1,this.options.duration);this.now=this.start+((this.end-this.start)*this.pos);this.update();}return true;}};jQuery.extend(jQuery.fx,{speeds:{slow:600,fast:200,def:400},step:{scrollLeft:function(fx){fx.elem.scrollLeft=fx.now;},scrollTop:function(fx){fx.elem.scrollTop=fx.now;},opacity:function(fx){jQuery.attr(fx.elem.style,"opacity",fx.now);},_default:function(fx){fx.elem.style[fx.prop]=fx.now+fx.unit;}}});jQuery.fn.offset=function(){var left=0,top=0,elem=this[0],results;if(elem)with(jQuery.browser){var parent=elem.parentNode,offsetChild=elem,offsetParent=elem.offsetParent,doc=elem.ownerDocument,safari2=safari&&parseInt(version)<522&&!/adobeair/i.test(userAgent),css=jQuery.curCSS,fixed=css(elem,"position")=="fixed";if(elem.getBoundingClientRect){var box=elem.getBoundingClientRect();add(box.left+Math.max(doc.documentElement.scrollLeft,doc.body.scrollLeft),box.top+Math.max(doc.documentElement.scrollTop,doc.body.scrollTop));add(-doc.documentElement.clientLeft,-doc.documentElement.clientTop);}else{add(elem.offsetLeft,elem.offsetTop);while(offsetParent){add(offsetParent.offsetLeft,offsetParent.offsetTop);if(mozilla&&!/^t(able|d|h)$/i.test(offsetParent.tagName)||safari&&!safari2)border(offsetParent);if(!fixed&&css(offsetParent,"position")=="fixed")fixed=true;offsetChild=/^body$/i.test(offsetParent.tagName)?offsetChild:offsetParent;offsetParent=offsetParent.offsetParent;}while(parent&&parent.tagName&&!/^body|html$/i.test(parent.tagName)){if(!/^inline|table.*$/i.test(css(parent,"display")))add(-parent.scrollLeft,-parent.scrollTop);if(mozilla&&css(parent,"overflow")!="visible")border(parent);parent=parent.parentNode;}if((safari2&&(fixed||css(offsetChild,"position")=="absolute"))||(mozilla&&css(offsetChild,"position")!="absolute"))add(-doc.body.offsetLeft,-doc.body.offsetTop);if(fixed)add(Math.max(doc.documentElement.scrollLeft,doc.body.scrollLeft),Math.max(doc.documentElement.scrollTop,doc.body.scrollTop));}results={top:top,left:left};}function border(elem){add(jQuery.curCSS(elem,"borderLeftWidth",true),jQuery.curCSS(elem,"borderTopWidth",true));}function add(l,t){left+=parseInt(l,10)||0;top+=parseInt(t,10)||0;}return results;};jQuery.fn.extend({position:function(){var left=0,top=0,results;if(this[0]){var offsetParent=this.offsetParent(),offset=this.offset(),parentOffset=/^body|html$/i.test(offsetParent[0].tagName)?{top:0,left:0}:offsetParent.offset();offset.top-=num(this,'marginTop');offset.left-=num(this,'marginLeft');parentOffset.top+=num(offsetParent,'borderTopWidth');parentOffset.left+=num(offsetParent,'borderLeftWidth');results={top:offset.top-parentOffset.top,left:offset.left-parentOffset.left};}return results;},offsetParent:function(){var offsetParent=this[0].offsetParent;while(offsetParent&&(!/^body|html$/i.test(offsetParent.tagName)&&jQuery.css(offsetParent,'position')=='static'))offsetParent=offsetParent.offsetParent;return jQuery(offsetParent);}});jQuery.each(['Left','Top'],function(i,name){var method='scroll'+name;jQuery.fn[method]=function(val){if(!this[0])return;return val!=undefined?this.each(function(){this==window||this==document?window.scrollTo(!i?val:jQuery(window).scrollLeft(),i?val:jQuery(window).scrollTop()):this[method]=val;}):this[0]==window||this[0]==document?self[i?'pageYOffset':'pageXOffset']||jQuery.boxModel&&document.documentElement[method]||document.body[method]:this[0][method];};});jQuery.each(["Height","Width"],function(i,name){var tl=i?"Left":"Top",br=i?"Right":"Bottom";jQuery.fn["inner"+name]=function(){return this[name.toLowerCase()]()+num(this,"padding"+tl)+num(this,"padding"+br);};jQuery.fn["outer"+name]=function(margin){return this["inner"+name]()+num(this,"border"+tl+"Width")+num(this,"border"+br+"Width")+(margin?num(this,"margin"+tl)+num(this,"margin"+br):0);};});})();
 ---
+file: share/root/views/root/index.tt
+template: |
+  <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+      <head>
+          <title>Welcome to the Angelos Web Framework!</title>
+      </head>
+      <body>
+          <h2>Welcome to the Angelos Web Framework!</h2>
+          <p> Hi [% name %] </p>
+          <p> This page was generated from the template "templates/root/index.tt" </p>
+      </body>
+  </html>
+---
+file: share/root/views/layouts/application.tt
+template: |
+  <html>
+  [%-
+      DEFAULT header_tt = 'header.tt';
+      DEFAULT footer_tt = 'footer.tt';
+      DEFAULT library_scripts = [ '/static/js/jquery-1.2.6.js' ];
+      DEFAULT scripts = [];
+      DEFAULT library_styles = [ '/static/css/base.css' ];
+      DEFAULT styles = [];
+  -%]
+  <head>
+      <title>[% title %]</title>
+  [% FOREACH script IN library_scripts %]
+      <script src="[% script %]" type="text/javascript"></script>
+  [% END %]
+  [% FOREACH script IN scripts %]
+      <script src="[% script %]" type="text/javascript"></script>
+  [% END %]
+  [% FOREACH style IN library_styles %]
+      <link rel="stylesheet" type="text/css" href="[% style %]">
+  [% END %]
+  [% FOREACH style IN styles %]
+      <link rel="stylesheet" type="text/css" href="[% style %]">
+  [% END %]
+  </head>
+  <body>
+  <div id="container">
+    <div id="content">
+  [% content %]
+    </div>
+  </div>
+  </body>
+  </html>
+---
 dir: share/po
 ---
 file: xt/02_perlcritic.t
@@ -739,380 +774,6 @@ template: |+
   
   =cut
 
----
-dir: inc/.author
----
-file: inc/Module/Install.pm
-template: |
-  #line 1
-  package Module::Install;
-  
-  # For any maintainers:
-  # The load order for Module::Install is a bit magic.
-  # It goes something like this...
-  #
-  # IF ( host has Module::Install installed, creating author mode ) {
-  #     1. Makefile.PL calls "use inc::Module::Install"
-  #     2. $INC{inc/Module/Install.pm} set to installed version of inc::Module::Install
-  #     3. The installed version of inc::Module::Install loads
-  #     4. inc::Module::Install calls "require Module::Install"
-  #     5. The ./inc/ version of Module::Install loads
-  # } ELSE {
-  #     1. Makefile.PL calls "use inc::Module::Install"
-  #     2. $INC{inc/Module/Install.pm} set to ./inc/ version of Module::Install
-  #     3. The ./inc/ version of Module::Install loads
-  # }
-  
-  BEGIN {
-  	require 5.004;
-  }
-  use strict 'vars';
-  
-  use vars qw{$VERSION};
-  BEGIN {
-  	# All Module::Install core packages now require synchronised versions.
-  	# This will be used to ensure we don't accidentally load old or
-  	# different versions of modules.
-  	# This is not enforced yet, but will be some time in the next few
-  	# releases once we can make sure it won't clash with custom
-  	# Module::Install extensions.
-  	$VERSION = '0.77';
-  
-  	*inc::Module::Install::VERSION = *VERSION;
-  	@inc::Module::Install::ISA     = __PACKAGE__;
-  
-  }
-  
-  
-  
-  
-  
-  # Whether or not inc::Module::Install is actually loaded, the
-  # $INC{inc/Module/Install.pm} is what will still get set as long as
-  # the caller loaded module this in the documented manner.
-  # If not set, the caller may NOT have loaded the bundled version, and thus
-  # they may not have a MI version that works with the Makefile.PL. This would
-  # result in false errors or unexpected behaviour. And we don't want that.
-  my $file = join( '/', 'inc', split /::/, __PACKAGE__ ) . '.pm';
-  unless ( $INC{$file} ) { die <<"END_DIE" }
-  
-  Please invoke ${\__PACKAGE__} with:
-  
-  	use inc::${\__PACKAGE__};
-  
-  not:
-  
-  	use ${\__PACKAGE__};
-  
-  END_DIE
-  
-  
-  
-  
-  
-  # If the script that is loading Module::Install is from the future,
-  # then make will detect this and cause it to re-run over and over
-  # again. This is bad. Rather than taking action to touch it (which
-  # is unreliable on some platforms and requires write permissions)
-  # for now we should catch this and refuse to run.
-  if ( -f $0 and (stat($0))[9] > time ) { die <<"END_DIE" }
-  
-  Your installer $0 has a modification time in the future.
-  
-  This is known to create infinite loops in make.
-  
-  Please correct this, then run $0 again.
-  
-  END_DIE
-  
-  
-  
-  
-  
-  # Build.PL was formerly supported, but no longer is due to excessive
-  # difficulty in implementing every single feature twice.
-  if ( $0 =~ /Build.PL$/i ) { die <<"END_DIE" }
-  
-  Module::Install no longer supports Build.PL.
-  
-  It was impossible to maintain duel backends, and has been deprecated.
-  
-  Please remove all Build.PL files and only use the Makefile.PL installer.
-  
-  END_DIE
-  
-  
-  
-  
-  
-  # To save some more typing in Module::Install installers, every...
-  # use inc::Module::Install
-  # ...also acts as an implicit use strict.
-  $^H |= strict::bits(qw(refs subs vars));
-  
-  
-  
-  
-  
-  use Cwd        ();
-  use File::Find ();
-  use File::Path ();
-  use FindBin;
-  
-  sub autoload {
-  	my $self = shift;
-  	my $who  = $self->_caller;
-  	my $cwd  = Cwd::cwd();
-  	my $sym  = "${who}::AUTOLOAD";
-  	$sym->{$cwd} = sub {
-  		my $pwd = Cwd::cwd();
-  		if ( my $code = $sym->{$pwd} ) {
-  			# delegate back to parent dirs
-  			goto &$code unless $cwd eq $pwd;
-  		}
-  		$$sym =~ /([^:]+)$/ or die "Cannot autoload $who - $sym";
-  		unless ( uc($1) eq $1 ) {
-  			unshift @_, ( $self, $1 );
-  			goto &{$self->can('call')};
-  		}
-  	};
-  }
-  
-  sub import {
-  	my $class = shift;
-  	my $self  = $class->new(@_);
-  	my $who   = $self->_caller;
-  
-  	unless ( -f $self->{file} ) {
-  		require "$self->{path}/$self->{dispatch}.pm";
-  		File::Path::mkpath("$self->{prefix}/$self->{author}");
-  		$self->{admin} = "$self->{name}::$self->{dispatch}"->new( _top => $self );
-  		$self->{admin}->init;
-  		@_ = ($class, _self => $self);
-  		goto &{"$self->{name}::import"};
-  	}
-  
-  	*{"${who}::AUTOLOAD"} = $self->autoload;
-  	$self->preload;
-  
-  	# Unregister loader and worker packages so subdirs can use them again
-  	delete $INC{"$self->{file}"};
-  	delete $INC{"$self->{path}.pm"};
-  
-  	return 1;
-  }
-  
-  sub preload {
-  	my $self = shift;
-  	unless ( $self->{extensions} ) {
-  		$self->load_extensions(
-  			"$self->{prefix}/$self->{path}", $self
-  		);
-  	}
-  
-  	my @exts = @{$self->{extensions}};
-  	unless ( @exts ) {
-  		my $admin = $self->{admin};
-  		@exts = $admin->load_all_extensions;
-  	}
-  
-  	my %seen;
-  	foreach my $obj ( @exts ) {
-  		while (my ($method, $glob) = each %{ref($obj) . '::'}) {
-  			next unless $obj->can($method);
-  			next if $method =~ /^_/;
-  			next if $method eq uc($method);
-  			$seen{$method}++;
-  		}
-  	}
-  
-  	my $who = $self->_caller;
-  	foreach my $name ( sort keys %seen ) {
-  		*{"${who}::$name"} = sub {
-  			${"${who}::AUTOLOAD"} = "${who}::$name";
-  			goto &{"${who}::AUTOLOAD"};
-  		};
-  	}
-  }
-  
-  sub new {
-  	my ($class, %args) = @_;
-  
-  	# ignore the prefix on extension modules built from top level.
-  	my $base_path = Cwd::abs_path($FindBin::Bin);
-  	unless ( Cwd::abs_path(Cwd::cwd()) eq $base_path ) {
-  		delete $args{prefix};
-  	}
-  
-  	return $args{_self} if $args{_self};
-  
-  	$args{dispatch} ||= 'Admin';
-  	$args{prefix}   ||= 'inc';
-  	$args{author}   ||= ($^O eq 'VMS' ? '_author' : '.author');
-  	$args{bundle}   ||= 'inc/BUNDLES';
-  	$args{base}     ||= $base_path;
-  	$class =~ s/^\Q$args{prefix}\E:://;
-  	$args{name}     ||= $class;
-  	$args{version}  ||= $class->VERSION;
-  	unless ( $args{path} ) {
-  		$args{path}  = $args{name};
-  		$args{path}  =~ s!::!/!g;
-  	}
-  	$args{file}     ||= "$args{base}/$args{prefix}/$args{path}.pm";
-  	$args{wrote}      = 0;
-  
-  	bless( \%args, $class );
-  }
-  
-  sub call {
-  	my ($self, $method) = @_;
-  	my $obj = $self->load($method) or return;
-          splice(@_, 0, 2, $obj);
-  	goto &{$obj->can($method)};
-  }
-  
-  sub load {
-  	my ($self, $method) = @_;
-  
-  	$self->load_extensions(
-  		"$self->{prefix}/$self->{path}", $self
-  	) unless $self->{extensions};
-  
-  	foreach my $obj (@{$self->{extensions}}) {
-  		return $obj if $obj->can($method);
-  	}
-  
-  	my $admin = $self->{admin} or die <<"END_DIE";
-  The '$method' method does not exist in the '$self->{prefix}' path!
-  Please remove the '$self->{prefix}' directory and run $0 again to load it.
-  END_DIE
-  
-  	my $obj = $admin->load($method, 1);
-  	push @{$self->{extensions}}, $obj;
-  
-  	$obj;
-  }
-  
-  sub load_extensions {
-  	my ($self, $path, $top) = @_;
-  
-  	unless ( grep { lc $_ eq lc $self->{prefix} } @INC ) {
-  		unshift @INC, $self->{prefix};
-  	}
-  
-  	foreach my $rv ( $self->find_extensions($path) ) {
-  		my ($file, $pkg) = @{$rv};
-  		next if $self->{pathnames}{$pkg};
-  
-  		local $@;
-  		my $new = eval { require $file; $pkg->can('new') };
-  		unless ( $new ) {
-  			warn $@ if $@;
-  			next;
-  		}
-  		$self->{pathnames}{$pkg} = delete $INC{$file};
-  		push @{$self->{extensions}}, &{$new}($pkg, _top => $top );
-  	}
-  
-  	$self->{extensions} ||= [];
-  }
-  
-  sub find_extensions {
-  	my ($self, $path) = @_;
-  
-  	my @found;
-  	File::Find::find( sub {
-  		my $file = $File::Find::name;
-  		return unless $file =~ m!^\Q$path\E/(.+)\.pm\Z!is;
-  		my $subpath = $1;
-  		return if lc($subpath) eq lc($self->{dispatch});
-  
-  		$file = "$self->{path}/$subpath.pm";
-  		my $pkg = "$self->{name}::$subpath";
-  		$pkg =~ s!/!::!g;
-  
-  		# If we have a mixed-case package name, assume case has been preserved
-  		# correctly.  Otherwise, root through the file to locate the case-preserved
-  		# version of the package name.
-  		if ( $subpath eq lc($subpath) || $subpath eq uc($subpath) ) {
-  			my $content = Module::Install::_read($subpath . '.pm');
-  			my $in_pod  = 0;
-  			foreach ( split //, $content ) {
-  				$in_pod = 1 if /^=\w/;
-  				$in_pod = 0 if /^=cut/;
-  				next if ($in_pod || /^=cut/);  # skip pod text
-  				next if /^\s*#/;               # and comments
-  				if ( m/^\s*package\s+($pkg)\s*;/i ) {
-  					$pkg = $1;
-  					last;
-  				}
-  			}
-  		}
-  
-  		push @found, [ $file, $pkg ];
-  	}, $path ) if -d $path;
-  
-  	@found;
-  }
-  
-  
-  
-  
-  
-  #####################################################################
-  # Utility Functions
-  
-  sub _caller {
-  	my $depth = 0;
-  	my $call  = caller($depth);
-  	while ( $call eq __PACKAGE__ ) {
-  		$depth++;
-  		$call = caller($depth);
-  	}
-  	return $call;
-  }
-  
-  sub _read {
-  	local *FH;
-  	open FH, "< $_[0]" or die "open($_[0]): $!";
-  	my $str = do { local $/; <FH> };
-  	close FH or die "close($_[0]): $!";
-  	return $str;
-  }
-  
-  sub _write {
-  	local *FH;
-  	open FH, "> $_[0]" or die "open($_[0]): $!";
-  	foreach ( 1 .. $#_ ) { print FH $_[$_] or die "print($_[0]): $!" }
-  	close FH or die "close($_[0]): $!";
-  }
-  
-  # _version is for processing module versions (eg, 1.03_05) not
-  # Perl versions (eg, 5.8.1).
-  
-  sub _version ($) {
-  	my $s = shift || 0;
-  	   $s =~ s/^(\d+)\.?//;
-  	my $l = $1 || 0;
-  	my @v = map { $_ . '0' x (3 - length $_) } $s =~ /(\d{1,3})\D?/g;
-  	   $l = $l . '.' . join '', @v if @v;
-  	return $l + 0;
-  }
-  
-  # Cloned from Params::Util::_CLASS
-  sub _CLASS ($) {
-  	(
-  		defined $_[0]
-  		and
-  		! ref $_[0]
-  		and
-  		$_[0] =~ m/^[^\W\d]\w*(?:::\w+)*$/s
-  	) ? $_[0] : undef;
-  }
-  
-  1;
-  
-  # Copyright 2008 Adam Kennedy.
 ---
 file: db/schema.sql
 is_binary: 1
