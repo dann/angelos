@@ -28,15 +28,14 @@ name 'Angelos';
 all_from 'lib/Angelos/Core.pm';
 
 requires(
-
     # Basics
     'Class::Method::Modifiers'          => 0,
     'Class::Method::Modifiers::Fast'    => 0,
-    'Mouse'                             => '0.19',
+    'Mouse'                             => '0.21',
     'MouseX::AttributeHelpers'          => '0.01',
     'MouseX::Types'                     => '0.01',
-    'HTTP::Engine'                      => '0.1.4',
-    'HTTP::Engine::Middleware'          => '0.09',
+    'HTTP::Engine'                      => '0.1.6',
+    'HTTP::Engine::Middleware'          => '0.11',
     'HTTP::Router'                      => 0,
     'HTTP::Session'                     => '0.30',
     'Module::Pluggable::Object'         => 0,
