@@ -5,7 +5,7 @@ components:
 
 plugins:
   controller:
-    - module: HTML::Shakan 
+#    - module: HTML::Shakan 
 #   - module: ActionProfiler
 #   - module: DebugHook 
 
