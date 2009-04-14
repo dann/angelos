@@ -1,6 +1,7 @@
 use strict;
 use warnings;
 use Test::LoadAllModules;
+use TAP::Harness::JUnit;
 
 BEGIN {
     all_uses_ok(
