@@ -25,10 +25,6 @@ sub _build_request_handler {
         my $middleware_name
             = $class->resovle_middleware_name( $middleware->{module} );
         my $config = $middleware->{config} || {};
-
-        #$middleware_name->require;
-        #Angelos::Exception->throw( message => "Can't load middleware:$@" )
-        #    if $@;
         $mw->install( $middleware_name => $config );
     }
 
@@ -37,7 +33,13 @@ sub _build_request_handler {
 
 sub resovle_middleware_name {
     my ( $class, $name ) = @_;
-    my $middleeware_name ||= 'Angelos::Middleware::' . $name;
+    my $middleeware_name;
+    if ( index( $name, '+' ) == 0 ) {
+        $middleeware_name = $name;
+    }
+    else {
+        $middleeware_name = 'Angelos::Middleware::' . $name;
+    }
     return $middleeware_name;
 }
 

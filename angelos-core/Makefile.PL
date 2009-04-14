@@ -85,10 +85,11 @@ requires(
     'DBIx::Class::UTF8Columns' => 0,
 
     # Controller plugins
-    'Time::HiRes' => 0,
+    'Time::HiRes'  => 0,
+    'HTML::Shakan' => 0,
 
     # I18N
-    'Data::Localize'            => 0,
+    'Data::Localize'            => '0.00005',
     'Locale::Maketext::Simple'  => 0,
     'Locale::Maketext::Extract' => 0,
 

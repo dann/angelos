@@ -3,10 +3,10 @@ components:
   controller:
     - module: A
 
-#plugins:
-#  controller:
+plugins:
+  controller:
+    - module: HTML::Shakan 
 #   - module: ActionProfiler
-#
 #   - module: DebugHook 
 
 #mixins:
