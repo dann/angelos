@@ -40,10 +40,9 @@ sub master {
 
 sub slave {
     my $class = shift;
-    return unless $class->config->{'database'};
-    return unless $class->config->{'database'}->{'slave'};
+    return unless $class->config->database->{slave}; 
     my $connect_info
-        = $class->config->{'database'}->{'slave'}->{'connect_info'};
+        = $class->config->database->{'slave'}->{'connect_info'};
     $class->slave_schema($class->connect( @{$connect_info} )) unless $class->slave_schema;
     $class->slave_schema;
 }
