@@ -79,6 +79,7 @@ sub build_engine {
     );
 }
 
+
 sub build_request_handler {
     my $self = shift;
 
@@ -88,8 +89,14 @@ sub build_request_handler {
         my $req = shift;
         my $res = HTTP::Engine::Response->new;
         my $c   = $self->create_context( $req, $res );
+
+        use Devel::MemUsed;
+            my $memused = Devel::MemUsed->new;
+
         no warnings 'redefine';
         local *Angelos::Registrar::context = sub {$c};
+
+        $self->log->info(sprintf( "MEMORY: %08s", $memused ) . "\n");
         $request_handler->($req);
     };
     $request_handler_with_context;
