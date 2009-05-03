@@ -198,7 +198,8 @@ sub count_literal {
 
 sub _resultset {
     my $self = shift;
-    $self->schema->resultset( $self->resultset_moniker );
+    my $rs = $self->schema->resultset( $self->resultset_moniker );
+    $rs;
 }
 
 sub build_resultset_moniker {

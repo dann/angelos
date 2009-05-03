@@ -64,6 +64,8 @@ sub generate_schema {
         $connect_info,
     );
 
+    $self->overwrite_schema_file($app_class);
+
 }
 
 sub setup_database {
@@ -107,6 +109,29 @@ sub setup_context {
     my ($self, $app_class) = @_;
     my $app = $self->_create_app($app_class);
     local *Angelos::Registrar::context = sub {$app};
+}
+
+sub overwrite_schema_file {
+    my($self, $app_class) = @_;
+    $app_class =~ s/::/\//;
+    my $fh = file('lib', $app_class, 'Schema.pm')->openw or die "Schema file doesn't exist...";
+    my $schema_template = << "END";
+package ${app_class}::Schema;
+use strict;
+use warnings;
+use ${app_class}::Config;
+use base 'Angelos::ORM::DBIC::Schema';
+
+sub config {
+    ${app_class}::Config->instance;
+}
+
+__PACKAGE__->load_classes;
+1;
+END
+
+    print $fh $schema_template;
+    $fh->close;
 }
 
 1;

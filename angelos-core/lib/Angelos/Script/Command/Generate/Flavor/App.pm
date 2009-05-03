@@ -424,7 +424,27 @@ template: |+
   __END__
 
 ---
-dir: lib/____var-module_path-var____/Service/Base
+file: lib/____var-module_path-var____/Service/Base/DBIC.pm
+template: |
+  package [% module %]::Service::Base::DBIC;
+  use Mouse;
+  use [% module %]::Schema;
+  use [% module %]::Cache;
+  with 'Angelos::Service::Role::DBIC';
+  
+  has schema => (
+      +default => sub {
+          [% module %]::Schema->master;
+      }
+  );
+  
+  has 'cache' => (
+      +default => sub {
+          [% module %]::Cache->instance;
+      }
+  );
+  
+  1;
 ---
 file: lib/____var-module_path-var____/CLI/Command/Echo.pm
 template: |
@@ -753,8 +773,13 @@ template: |+
 
 ---
 file: db/schema.sql
-is_binary: 1
-template: ''
+template: |+
+  CREATE TABLE user (
+          id         INTEGER PRIMARY KEY,
+          name       VARCHAR(255) NOT NULL
+  );
+  
+
 ---
 file: tools/test_it
 template: |
