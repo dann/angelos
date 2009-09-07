@@ -168,6 +168,8 @@ sub setup_config {
 sub create_config {
     my $self = shift;
     my $config_class = join '::', ( ref $self, 'Config' );
+    use Data::Dumper;
+    warn Dumper $config_class;
     $config_class->require;
     $config_class->instance;
 }

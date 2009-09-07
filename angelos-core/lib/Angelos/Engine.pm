@@ -2,7 +2,6 @@ package Angelos::Engine;
 use Angelos::Class;
 use Carp         ();
 use Scalar::Util ();
-use HTTP::Engine::Response;
 use Angelos::Dispatcher;
 use Angelos::Middleware::Builder;
 use Angelos::Exceptions;
@@ -51,6 +50,8 @@ sub handle_request {
     if ( my $e = Exception::Class->caught() ) {
         $self->HANDLE_EXCEPTION($e);
     }
+    use Data::Dumper;
+    warn Dumper $self->app->res;
     return $self->app->res;
 }
 

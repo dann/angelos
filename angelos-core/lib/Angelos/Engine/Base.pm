@@ -1,14 +1,14 @@
 package Angelos::Engine::Base;
 use Angelos::Class;
 use Carp ();
-use HTTP::Engine;
 use Angelos::Exceptions;
+use Angelos::PSGI::Engine;
+use Angelos::Request;
 
 with 'Angelos::Class::Loggable';
 
 has 'engine' => (
     is      => 'rw',
-    isa     => 'HTTP::Engine',
     handles => [qw(run)],
 );
 
@@ -66,7 +66,7 @@ sub build_engine {
     my $request_handler = $self->request_handler;
     $request_handler ||= $self->build_request_handler;
 
-    return HTTP::Engine->new(
+    return Angelos::PSGI::Engine->new(
         interface => {
             module => $self->server,
             args   => {
@@ -74,32 +74,34 @@ sub build_engine {
                 port => $self->port,
                 root => $self->root,
             },
-            request_handler => $request_handler,
+            psgi_handler => $request_handler,
         },
+
     );
 }
-
 
 sub build_request_handler {
     my $self = shift;
 
-    my $request_handler = Angelos::Middleware::Builder->new->build(
-        sub { my $req = shift; $self->handle_request($req) } );
-    my $request_handler_with_context = sub {
-        my $req = shift;
-        my $res = HTTP::Engine::Response->new;
+    # FIXME implement Angelos::Middleware::Builder
+    my $request_handler = sub {
+        my $env = shift;
+        my $req = Angelos::Request->new($env);
+        my $res = Angelos::Response->new;
         my $c   = $self->create_context( $req, $res );
-
-        use Devel::MemUsed;
-            my $memused = Devel::MemUsed->new;
-
         no warnings 'redefine';
         local *Angelos::Registrar::context = sub {$c};
 
-        $self->log->info(sprintf( "MEMORY: %08s", $memused ) . "\n");
-        $request_handler->($req);
+        $res = $self->handle_request($req);
+        my $psgi_res = $res->finalize;
+
+        # hmmmmmmm
+        $psgi_res->[1] = [ %{ $psgi_res->[1] } ]
+            if ref( $psgi_res->[1] ) eq 'HASH';
+        $psgi_res->[2] = [ $psgi_res->[2] ] unless ref( $psgi_res->[2] );
+        return $psgi_res;
     };
-    $request_handler_with_context;
+    return $request_handler;
 }
 
 sub handle_request {

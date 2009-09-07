@@ -54,6 +54,7 @@ requires(
     'Data::Util'                        => 0,
     'Class::Singleton'                  => 0,
     'CHI'                               => '0.10',
+    'Plack'                             => 0,
 
     # Angelos Plugins
     'Text::SimpleTable' => 0,
@@ -91,11 +92,6 @@ requires(
     'Data::Localize'            => '0.00005',
     'Locale::Maketext::Simple'  => 0,
     'Locale::Maketext::Extract' => 0,
-
-    # testing
-    'HTTP::Request::Common' => 0,
-    'Test::Class'           => 0,
-    'Test::Base'            => 0,
 
     # View Plugins (remove from core)
 
