@@ -10,8 +10,6 @@ use base 'Class::Singleton';
 sub _new_instance {
     my $class = shift;
     my $self = bless {}, $class;
-    use Data::Dumper;
-    warn $class;
     $self->{config} = Angelos::Config::Loader->load( $self->config_file_path,
         Angelos::Config::Schema->config );
     return $self;

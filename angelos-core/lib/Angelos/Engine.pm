@@ -50,8 +50,6 @@ sub handle_request {
     if ( my $e = Exception::Class->caught() ) {
         $self->HANDLE_EXCEPTION($e);
     }
-    use Data::Dumper;
-    warn Dumper $self->app->res;
     return $self->app->res;
 }
 
