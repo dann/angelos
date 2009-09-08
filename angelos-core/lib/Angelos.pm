@@ -187,7 +187,7 @@ sub create_logger {
 }
 
 sub setup_cache {
-    my $self   = shift;
+    my $self  = shift;
     my $cache = $self->create_cache;
     $self->cache($cache) if $cache;
     $cache;
@@ -287,6 +287,10 @@ sub req {
 
 sub res {
     shift->response;
+}
+
+sub psgi_adapter {
+    'Angelos::PSGI::Adapter';
 }
 
 __END_OF_CLASS__
