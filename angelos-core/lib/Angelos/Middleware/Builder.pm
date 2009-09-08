@@ -24,6 +24,7 @@ sub _build_request_handler {
             = $class->resovle_middleware_name( $middleware->{module} );
         my $config = $middleware->{config} || {};
         Mouse::load_class($middleware_name);
+        # FIXME Later
         $middleware_name->new($config);
     }
 
