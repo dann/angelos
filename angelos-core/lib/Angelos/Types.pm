@@ -3,17 +3,16 @@ use Mouse;
 use Angelos::PSGI::ServerGatewayBuilder;
 use MouseX::Types - declare => [
     qw(
-        Interface
+        ServerGateway
         )
 ];
 use MouseX::Types::Mouse qw(HashRef);
 
-subtype Interface;
+subtype ServerGateway;
 
-coerce Interface, from HashRef, via {
+coerce ServerGateway, from HashRef, via {
     my $module = $_->{module};
     my $args   = $_->{args};
-    $args->{psgi_handler} = $_->{psgi_handler};
     my $server = Angelos::PSGI::ServerGatewayBuilder->build( $module, $args );
     return $server;
 };

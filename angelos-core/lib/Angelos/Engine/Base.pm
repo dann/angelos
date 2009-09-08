@@ -74,17 +74,22 @@ sub build_engine {
                 port => $self->port,
                 root => $self->root,
             },
-            psgi_handler => $request_handler,
         },
-
+        psgi_handler => $request_handler,
     );
 }
 
 sub build_request_handler {
     my $self = shift;
 
-    # FIXME implement Angelos::Middleware::Builder
-    my $request_handler = sub {
+    # FIXME wrap application handler Angelos::Middleware::Builder
+    my $app_handler = $self->create_application_handler;
+    return $app_handler;
+}
+
+sub create_application_handler {
+    my $self = shift;
+    return sub {
         my $env = shift;
         my $req = Angelos::Request->new($env);
         my $res = Angelos::Response->new;
@@ -93,15 +98,18 @@ sub build_request_handler {
         local *Angelos::Registrar::context = sub {$c};
 
         $res = $self->handle_request($req);
-        my $psgi_res = $res->finalize;
-
-        # hmmmmmmm
-        $psgi_res->[1] = [ %{ $psgi_res->[1] } ]
-            if ref( $psgi_res->[1] ) eq 'HASH';
-        $psgi_res->[2] = [ $psgi_res->[2] ] unless ref( $psgi_res->[2] );
+        my $psgi_res = $self->finalize_response($res);
         return $psgi_res;
     };
-    return $request_handler;
+}
+
+sub finalize_response {
+    my ( $self, $res ) = @_;
+    my $psgi_res = $res->finalize;
+    $psgi_res->[1] = [ %{ $psgi_res->[1] } ]
+        if ref( $psgi_res->[1] ) eq 'HASH';
+    $psgi_res->[2] = [ $psgi_res->[2] ] unless ref( $psgi_res->[2] );
+    $psgi_res;
 }
 
 sub handle_request {
