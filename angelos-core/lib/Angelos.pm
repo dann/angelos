@@ -290,7 +290,7 @@ sub res {
 }
 
 sub psgi_adapter {
-    'Angelos::PSGI::Adapter';
+    '+Angelos::PSGI::Adapter';
 }
 
 __END_OF_CLASS__

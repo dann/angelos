@@ -1,6 +1,5 @@
 package Angelos::Middleware::Builder;
-use Angelos::Class;
-use HTTP::Engine::Middleware;
+use Mouse;
 use UNIVERSAL::require;
 use Angelos::Config;
 use Angelos::Exceptions;
@@ -19,16 +18,15 @@ sub build {
 
 sub _build_request_handler {
     my ( $class, $application_request_handler, $middlewares ) = @_;
-    my $mw = HTTP::Engine::Middleware->new;
 
     for my $middleware ( @{$middlewares} ) {
         my $middleware_name
             = $class->resovle_middleware_name( $middleware->{module} );
         my $config = $middleware->{config} || {};
-        $mw->install( $middleware_name => $config );
+        Mouse::load_class($middleware_name);
+        $middleware_name->new($config);
     }
 
-    $mw->handler($application_request_handler);
 }
 
 sub resovle_middleware_name {
@@ -48,7 +46,7 @@ sub _get_middlewares {
     $self->config->middlewares;
 }
 
-__END_OF_CLASS__
+1;
 
 __END__
 
