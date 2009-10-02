@@ -64,9 +64,8 @@ sub SETUP { }
 
 sub build_engine {
     my $self = shift;
-    my $request_handler ||= $self->request_handler;
-    $request_handler ||= $self->build_request_handler;
 
+    my $request_handler = $self->build_request_handler;
     my $engine = PlackX::Engine->new(
         {   server => {
                 module => $self->server,
@@ -83,6 +82,7 @@ sub build_engine {
 
 sub build_request_handler {
     my $self = shift;
+    return $self->request_handler if $self->request_handler;
     return sub { my $req = shift; $self->handle_request($req) }
 }
 
