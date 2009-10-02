@@ -46,6 +46,10 @@ sub build_dispatcher {
 
 sub handle_request {
     my ( $self, $req ) = @_;
+    my $c   = $self->create_context( $req, $res );
+    no warnings 'redefine';
+    local *Angelos::Registrar::context = sub {$c};
+
     eval { $self->DISPATCH($req); };
     if ( my $e = Exception::Class->caught() ) {
         $self->HANDLE_EXCEPTION($e);

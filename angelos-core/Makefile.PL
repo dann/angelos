@@ -55,6 +55,7 @@ requires(
     'Class::Singleton'                  => 0,
     'CHI'                               => '0.10',
     'Plack'                             => 0,
+    'PlackX::Engine'                    => 0,
 
     # Angelos Plugins
     'Text::SimpleTable' => 0,

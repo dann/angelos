@@ -4,6 +4,7 @@ use Carp ();
 use Angelos::Exceptions;
 use Angelos::PSGI::Engine;
 use Angelos::Request;
+use PlackX::Engine;
 
 with 'Angelos::Class::Loggable';
 
@@ -62,54 +63,27 @@ sub BUILD {
 sub SETUP { }
 
 sub build_engine {
-    my $self            = shift;
-    my $request_handler = $self->request_handler;
+    my $self = shift;
+    my $request_handler ||= $self->request_handler;
     $request_handler ||= $self->build_request_handler;
 
-    return Angelos::PSGI::Engine->new(
-        interface => {
-            module => $self->server,
-            args   => {
-                host => $self->host,
-                port => $self->port,
-                root => $self->root,
+    my $engine = PlackX::Engine->new(
+        {   server => {
+                module => $self->server,
+                args   => {
+                    port => $self->port,
+                    host => $self->host,
+                },
             },
-        },
-        psgi_handler => $request_handler,
+            request_handler => $request_handler,
+        }
     );
+
 }
 
 sub build_request_handler {
     my $self = shift;
-
-    # FIXME wrap application handler Angelos::Middleware::Builder
-    my $app_handler = $self->create_application_handler;
-    return $app_handler;
-}
-
-sub create_application_handler {
-    my $self = shift;
-    return sub {
-        my $env = shift;
-        my $req = Angelos::Request->new($env);
-        my $res = Angelos::Response->new;
-        my $c   = $self->create_context( $req, $res );
-        no warnings 'redefine';
-        local *Angelos::Registrar::context = sub {$c};
-
-        $res = $self->handle_request($req);
-        my $psgi_res = $self->finalize_response($res);
-        return $psgi_res;
-    };
-}
-
-sub finalize_response {
-    my ( $self, $res ) = @_;
-    my $psgi_res = $res->finalize;
-    $psgi_res->[1] = [ %{ $psgi_res->[1] } ]
-        if ref( $psgi_res->[1] ) eq 'HASH';
-    $psgi_res->[2] = [ $psgi_res->[2] ] unless ref( $psgi_res->[2] );
-    $psgi_res;
+    return sub { my $req = shift; $self->handle_request($req) }
 }
 
 sub handle_request {
