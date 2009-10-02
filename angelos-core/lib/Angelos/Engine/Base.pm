@@ -78,7 +78,7 @@ sub build_engine {
             request_handler => $request_handler,
         }
     );
-
+    return $engine;
 }
 
 sub build_request_handler {
