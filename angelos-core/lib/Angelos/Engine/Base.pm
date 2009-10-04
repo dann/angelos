@@ -76,6 +76,7 @@ sub build_engine {
             },
             request_handler => $request_handler,
             request_class   => 'Angelos::Request',
+            middlewares => [],
         }
     );
     return $engine;
