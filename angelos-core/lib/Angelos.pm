@@ -289,8 +289,10 @@ sub res {
     shift->response;
 }
 
-sub psgi_adapter {
-    '+Angelos::PSGI::Adapter';
+sub psgi_handler {
+    my $self = shift;
+    die 'you need to create instanse before you get psgi_handler' unless $self->engine;
+    $self->engine->engine->psgi_handler;
 }
 
 __END_OF_CLASS__

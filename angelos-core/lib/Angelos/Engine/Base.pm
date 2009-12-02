@@ -2,7 +2,6 @@ package Angelos::Engine::Base;
 use Angelos::Class;
 use Carp ();
 use Angelos::Exceptions;
-use Angelos::PSGI::Engine;
 use Angelos::Request;
 use PlackX::Engine;
 
